@@ -3,9 +3,27 @@ import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "AGENN",
-  description: "Academia Guatemalteca de Estudios Numismáticos y Notafílicos",
+  description:
+    "Academia Guatemalteca de Estudios Numismáticos y Notafílicos",
+
+  openGraph: {
+    title: "AGENN",
+    description:
+      "Academia Guatemalteca de Estudios Numismáticos y Notafílicos",
+    url: "https://agenn-web.vercel.app",
+    siteName: "AGENN",
+    images: [
+      {
+        url: "/preview.jpg",
+        width: 512,
+        height: 512,
+      },
+    ],
+    locale: "es_GT",
+    type: "website",
+  },
 };
 
 export const viewport: Viewport = {
