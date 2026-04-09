@@ -53,4 +53,45 @@ export const publicaciones = [
     enlace:
       "https://tienda.sophosenlinea.com/libro/exonumia-e-historia-dictadura-y-medallistica-manuel-estrada-cabrera-1898-1920_310280",
   },
+  {
+    slug: "símbolo-transatlántico",
+    titulo:
+      "El símbolo transatlántico: la anomalía iconográfica del billete de 5 pesos del banco de Guatemala de 1922 en clave poscolonial.",
+    autores: ["Gerónimo Estuardo Pérez Irungaray"],
+    anio: 2025,
+    serie: "Artículo",
+    editorial: "Revista Numismática Hécate. 12(2025), 136-151",
+    descripcion: "Este artículo analiza el billete de 5 pesos de 1922 del Banco de Guatemala, impreso por Waterlow & Sons, como una anomalía iconográfica que sustituye una locomotora por un vapor transatlántico, rompiendo con los diseños del banco. Mediante un análisis semiótico (Lotman, 1990) y codificación iconográfica de 10 billetes guatemaltecos (1874–1945), se explora su simbolismo poscolonial. Basado en teorías de dinero (Helleiner, 2003) y poscolonialidad (Mignolo, 2011), el estudio contrasta el billete con otros diseños guatemaltecos y regionales, resaltando su proyección transnacional. Los resultados contribuyen a la numismática e historia económica, iluminando tensiones entre lo local y lo global.",
+    portada: "/publicaciones/portadas/port5.jpg",
+    enlace:
+      "https://revista-hecate.org/wp-content/uploads/2025/12/perez.irungaray.pdf",
+  },
+  {
+    slug: "primeros-billetes",
+    titulo:
+      "Primeros billetes de banco en Guatemala: BancoNacional de Guatemala (1874-1876).",
+    autores: ["Edgar Daniel Quisquinay Rojas"],
+    anio: 2022,
+    serie: "Artículo",
+    editorial: "Revista de Investigación Proyección CientíficaCentro Universitario de San Marcos. 4(1), 141-153",
+    descripcion: 
+	  "El uso de papel moneda en Guatemalano es tan antiguo como el de monedametálica. Aunque se dieron varios intentospara su instauración y circulación, sobretodo durante la fase de independenciatemprana, no es sino hasta 1874, duranteel gobierno de Justo Rufino Barrios, quese logra, no solo poner en circulaciónbilletes, sino fundar el Banco Nacional,institución que los respaldaba. La crisis decirculante, la caída de los precios de losproductos de exportación y el inicio delcultivo del café dan pie a este fenómenoque, a su vez, iniciará la apertura de bancosprivados."
+	portada: "/publicaciones/portadas/port6.jpg",
+    enlace:
+      "https://www.researchgate.net/publication/365248966_Primeros_billetes_de_banco_en_Guatemala_Banco_Nacional_de_Guatemala_1874-1876",
+  },
+    {
+    slug: "evolucion-moneda-25c",
+    titulo:
+      "Evolución del diseño de la moneda de 25 centavos de Guatemala (1925-presente).",
+    autores: ["Cristian A. Vargas C."],
+    anio: 2018,
+    serie: "Artículo Web",
+    editorial: "Círculo Numismático de Occidente",
+    descripcion: 
+	  "Este artículo traza la evolución del diseño de la moneda de 25 centavos de Guatemala desde 1925 hasta la actualidad. Comienza con el nacimiento del Quetzal como unidad monetaria en 1924 y la emisión de la primera moneda con el diseño del "Quetzal sobre pedestal" (1925-1949), obra del escultor estadounidense William Clark Noble. Incluye una mención especial a la moneda conmemorativa de 1943 por la inauguración del Palacio Nacional. Luego explica el cambio radical de 1950, cuando se introdujo por primera vez el perfil de una mujer indígena en el reverso, diseño del artista Antonio Tejeda Fonseca. Finalmente, detalla el proceso de renovación de 1959-1960 que derivó en el diseño actual, creado por el dibujante Ovidio Villeda, quien combinó rasgos de tres modelos fotografiadas en Santiago Atitlán. El artículo desmiente la creencia popular de que el rostro pertenece a doña Concepción 'Chonita' Ramírez, demostrando que el diseño fue una composición artística basada en características étnicas mayas, no en una persona específica."
+	portada: "/publicaciones/portadas/port7.jpg",
+    enlace:
+      "https://numisguatemala.blogspot.com/2018/05/evolucion-del-diseno-de-la-moneda-de-25.html",
+  },
 ];
