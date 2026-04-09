@@ -1,7 +1,13 @@
 import { publicaciones } from "../data";
 import { notFound } from "next/navigation";
 
-export default async function PublicacionDetalle({ params }) {
+type PublicacionDetalleProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export default async function PublicacionDetalle({
+  params,
+}: PublicacionDetalleProps) {
   const { slug } = await params;
   const pub = publicaciones.find((p) => p.slug === slug);
 
@@ -26,7 +32,6 @@ export default async function PublicacionDetalle({ params }) {
             marginTop: "1.5rem",
           }}
         >
-          {/* PORTADA CENTRADA VERTICALMENTE */}
           <div
             style={{
               minHeight: "420px",
@@ -51,7 +56,6 @@ export default async function PublicacionDetalle({ params }) {
             />
           </div>
 
-          {/* INFORMACIÓN */}
           <div>
             <p
               style={{
@@ -102,7 +106,6 @@ export default async function PublicacionDetalle({ params }) {
                     flexWrap: "wrap",
                   }}
                 >
-                  {/* Email */}
                   <a
                     href={`mailto:?subject=${encodeURIComponent(
                       pub.titulo
@@ -119,7 +122,6 @@ export default async function PublicacionDetalle({ params }) {
                     />
                   </a>
 
-                  {/* Facebook */}
                   <a
                     href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
                       publicUrl
@@ -136,7 +138,6 @@ export default async function PublicacionDetalle({ params }) {
                     />
                   </a>
 
-                  {/* X */}
                   <a
                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
                       pub.titulo
@@ -153,7 +154,6 @@ export default async function PublicacionDetalle({ params }) {
                     />
                   </a>
 
-                  {/* WhatsApp */}
                   <a
                     href={`https://wa.me/?text=${encodeURIComponent(
                       `${pub.titulo} - ${publicUrl}`
