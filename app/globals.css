@@ -183,3 +183,149 @@ p {
     justify-content: center;
   }
 }
+/* ===== HEADER RESPONSIVE DEFINITIVO ===== */
+
+.site-header-custom {
+  background-color: #4f5f2f;
+  border-bottom: 1px solid #3e4b24;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 1.2rem 0;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 72px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.75));
+}
+
+.brand-name {
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  letter-spacing: 0.06em;
+}
+
+.desktop-nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.header-link {
+  color: white;
+  text-decoration: none;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.header-link:hover {
+  border-bottom-color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+}
+
+.hamburger-button {
+  display: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.hamburger-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 24px;
+}
+
+.hamburger-lines span {
+  display: block;
+  height: 2.5px;
+  background: white;
+}
+
+/* ===== MÓVIL ===== */
+@media (max-width: 768px) {
+  .site-header-custom {
+    padding: 1rem 0;
+  }
+
+  .header-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .brand-link {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .brand-logo {
+    width: 100px;
+  }
+
+  .brand-name {
+    font-size: 1.1rem;
+  }
+
+  .hamburger-button {
+    display: flex;
+  }
+
+  .desktop-nav {
+    display: none;
+    width: 100%;
+  }
+
+  .desktop-nav.mobile-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    background-color: #4f5f2f;
+    border: 1px solid #3e4b24;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    z-index: 1001;
+  }
+
+  .desktop-nav.mobile-open .header-link {
+    display: block;
+    text-align: center;
+    padding: 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .desktop-nav.mobile-open .header-link:last-child {
+    border-bottom: none;
+  }
+}
