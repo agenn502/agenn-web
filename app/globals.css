@@ -347,3 +347,7 @@ p {
     border-bottom: none;
   }
 }
+.crop-area-hidden {
+  border: none !important;
+  box-shadow: none !important;
+}

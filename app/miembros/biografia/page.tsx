@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Cropper from "react-easy-crop";
 import { getCroppedImg, Area } from "@/app/lib/cropImage";
@@ -33,6 +33,9 @@ export default function BiografiaPage() {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+
+  const editorRef = useRef<HTMLDivElement | null>(null);
+  const [cropSize, setCropSize] = useState<{ width: number; height: number } | null>(null);
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -107,6 +110,31 @@ export default function BiografiaPage() {
     cargarDatos();
   }, []);
 
+  useEffect(() => {
+    if (!mostrarEditor || !editorRef.current) return;
+
+    const updateSize = () => {
+      if (!editorRef.current) return;
+      const rect = editorRef.current.getBoundingClientRect();
+      setCropSize({
+        width: Math.round(rect.width),
+        height: Math.round(rect.height),
+      });
+    };
+
+    updateSize();
+
+    const observer = new ResizeObserver(() => updateSize());
+    observer.observe(editorRef.current);
+
+    window.addEventListener("resize", updateSize);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateSize);
+    };
+  }, [mostrarEditor]);
+
   const guardarCambios = async () => {
     if (!user) return;
 
@@ -148,6 +176,7 @@ export default function BiografiaPage() {
     setImagenTemporal(imageUrl);
     setCrop({ x: 0, y: 0 });
     setZoom(1);
+    setCropSize(null);
     setMostrarEditor(true);
   };
 
@@ -283,6 +312,7 @@ export default function BiografiaPage() {
           <h2 style={{ marginTop: 0 }}>Ajustar fotografía</h2>
 
           <div
+            ref={editorRef}
             style={{
               position: "relative",
               width: "100%",
@@ -305,13 +335,27 @@ export default function BiografiaPage() {
                 crop={crop}
                 zoom={zoom}
                 aspect={818 / 1082}
+                cropSize={cropSize ?? undefined}
                 onCropChange={setCrop}
                 onZoomChange={setZoom}
                 onCropComplete={onCropComplete}
                 showGrid={false}
                 restrictPosition={false}
+                classes={{
+                  cropAreaClassName: "crop-area-hidden",
+                }}
               />
             </div>
+
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                boxShadow: "inset 0 0 40px rgba(0,0,0,0.45)",
+                pointerEvents: "none",
+                zIndex: 15,
+              }}
+            />
 
             <img
               src="/marcos/marco-miembro.png"
