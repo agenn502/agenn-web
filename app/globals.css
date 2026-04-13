@@ -228,6 +228,9 @@ p {
   display: flex;
   gap: 1rem;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
 }
 
 .header-link {
@@ -236,6 +239,7 @@ p {
   padding-bottom: 4px;
   border-bottom: 2px solid transparent;
   transition: border-color 0.2s ease, opacity 0.2s ease;
+  text-align: center;
 }
 
 .header-link:hover {
@@ -267,6 +271,20 @@ p {
   display: block;
   height: 2.5px;
   background: white;
+}
+
+/* ===== TABLET / ANCHO INTERMEDIO ===== */
+@media (max-width: 980px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .desktop-nav {
+    justify-content: center;
+    width: 100%;
+  }
 }
 
 /* ===== MÓVIL ===== */

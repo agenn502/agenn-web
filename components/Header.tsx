@@ -14,6 +14,7 @@ export default function Header() {
     { href: "/miembro", label: "Afiliación", key: "afiliacion" },
     { href: "/diagnostico", label: "Perfil numismático", key: "perfil" },
     { href: "/contacto", label: "Contacto", key: "contacto" },
+    { href: "/login", label: "🔒 Ingreso miembros", key: "login" },
   ];
 
   return (

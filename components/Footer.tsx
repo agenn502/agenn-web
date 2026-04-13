@@ -1,4 +1,6 @@
 export default function Footer() {
+  const year = new Date().getFullYear();
+
   return (
     <footer
       style={{
@@ -26,7 +28,6 @@ export default function Footer() {
           Guatemala, Centro América.
         </p>
 
-        {/* 🇬🇹 Bandera */}
         <div style={{ marginTop: "6px" }}>
           <img
             src="https://flagcdn.com/w80/gt.png"
@@ -38,6 +39,18 @@ export default function Footer() {
             }}
           />
         </div>
+
+        <p
+          style={{
+            marginTop: "10px",
+            marginBottom: 0,
+            fontStyle: "italic",
+            fontSize: "0.72rem",
+            opacity: 0.9,
+          }}
+        >
+          Derechos reservados {year}, Elaborado por: MAREONTE GRUSODIO 3.1416
+        </p>
       </div>
     </footer>
   );
