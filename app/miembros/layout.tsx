@@ -52,6 +52,7 @@ export default function MiembrosLayout({
         const baseMenu: MenuItem[] = [
           { label: "Directorio", href: "/miembros/directorio" },
           { label: "Biografía personal", href: "/miembros/biografia" },
+          { label: "AGENN Logo de miembro", href: "/miembros/logo" },
           { label: "Eventos", href: "/miembros/eventos" },
           { label: "Biblioteca", href: "/miembros/biblioteca" },
           { label: "Documentos oficiales", href: "/miembros/documentos" },
@@ -72,6 +73,7 @@ export default function MiembrosLayout({
         return [
           { label: "Directorio", href: "/miembros/directorio" },
           { label: "Biografía personal", href: "/miembros/biografia" },
+          { label: "AGENN Logo de miembro", href: "/miembros/logo" },
           { label: "Eventos", href: "/miembros/eventos" },
           { label: "Documentos oficiales", href: "/miembros/documentos" },
           { label: "Proceso de ascenso", href: "/miembros/proceso" },
@@ -80,6 +82,7 @@ export default function MiembrosLayout({
       case "ASP":
         return [
           { label: "Biografía personal", href: "/miembros/biografia" },
+          { label: "AGENN Logo de miembro", href: "/miembros/logo" },
           { label: "Proceso de ingreso", href: "/miembros/proceso" },
         ];
 
