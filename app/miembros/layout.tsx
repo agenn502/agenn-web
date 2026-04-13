@@ -22,6 +22,7 @@ export default function MiembrosLayout({
 }) {
   const [user, setUser] = useState<User | null>(null);
   const [esConsejo, setEsConsejo] = useState(false);
+  const [menuAbierto, setMenuAbierto] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("user");
@@ -43,9 +44,7 @@ export default function MiembrosLayout({
     setEsConsejo(consejoNormalizado);
   }, []);
 
-  if (!user) {
-    return <p style={{ padding: 40 }}>Cargando...</p>;
-  }
+  if (!user) return <p style={{ padding: 40 }}>Cargando...</p>;
 
   const getMenu = (): MenuItem[] => {
     switch (user.nivel) {
@@ -69,14 +68,6 @@ export default function MiembrosLayout({
       }
 
       case "INV":
-        return [
-          { label: "Directorio", href: "/miembros/directorio" },
-          { label: "Biografía personal", href: "/miembros/biografia" },
-          { label: "Eventos", href: "/miembros/eventos" },
-          { label: "Documentos oficiales", href: "/miembros/documentos" },
-          { label: "Proceso de ascenso", href: "/miembros/proceso" },
-        ];
-
       case "NOV":
         return [
           { label: "Directorio", href: "/miembros/directorio" },
@@ -100,26 +91,14 @@ export default function MiembrosLayout({
   const menu = getMenu();
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
-      <aside
-        style={{
-          width: "260px",
-          background: "#6f8760",
-          color: "white",
-          padding: "1.5rem",
-          flexShrink: 0,
-        }}
-      >
+    <div className="miembros-layout">
+      <aside className={`menu-lateral ${menuAbierto ? "abierto" : ""}`}>
         <h2 style={{ marginBottom: "1rem" }}>Área de miembros</h2>
 
         <p style={{ fontSize: "0.9rem", marginBottom: "1rem" }}>
           {user.nombre}
           <br />
           {user.codigo}
-        </p>
-
-        <p style={{ fontSize: "0.85rem", marginBottom: "1rem", opacity: 0.9 }}>
-          Consejo Académico: {esConsejo ? "Sí" : "No"}
         </p>
 
         <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
@@ -132,6 +111,7 @@ export default function MiembrosLayout({
             >
               <Link
                 href={item.href}
+                onClick={() => setMenuAbierto(false)}
                 style={{
                   display: "block",
                   padding: "0.8rem 0",
@@ -165,9 +145,110 @@ export default function MiembrosLayout({
         </button>
       </aside>
 
-      <main style={{ flex: 1, padding: "2rem", background: "#faf8f2" }}>
+      {menuAbierto && (
+        <div
+          className="menu-overlay"
+          onClick={() => setMenuAbierto(false)}
+        />
+      )}
+
+      <main className="contenido-miembros">
+        <div className="barra-movil-miembros">
+          <button
+            onClick={() => setMenuAbierto(true)}
+            className="menu-toggle-btn"
+            aria-label="Abrir menú de miembros"
+          >
+            ☰
+          </button>
+        </div>
+
         {children}
       </main>
+
+      <style jsx>{`
+        .miembros-layout {
+          display: flex;
+          min-height: 100vh;
+        }
+
+        .menu-lateral {
+          width: 260px;
+          background: #6f8760;
+          color: white;
+          padding: 1.5rem;
+          flex-shrink: 0;
+        }
+
+        .contenido-miembros {
+          flex: 1;
+          padding: 2rem;
+          background: #faf8f2;
+        }
+
+        .barra-movil-miembros {
+          display: none;
+        }
+
+        .menu-toggle-btn {
+          display: none;
+        }
+
+        .menu-overlay {
+          display: none;
+        }
+
+        @media (max-width: 768px) {
+          .barra-movil-miembros {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 1rem;
+          }
+
+          .menu-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #6f8760;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 42px;
+            height: 42px;
+            font-size: 1.2rem;
+            cursor: pointer;
+          }
+
+          .menu-overlay {
+            display: block;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 1100;
+          }
+
+          .menu-lateral {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            height: 100%;
+            z-index: 1201;
+            transition: left 0.25s ease;
+            box-shadow: none;
+            overflow-y: auto;
+          }
+
+          .menu-lateral.abierto {
+            left: 0;
+            box-shadow: 4px 0 16px rgba(0, 0, 0, 0.2);
+          }
+
+          .contenido-miembros {
+            width: 100%;
+            padding: 1rem;
+          }
+        }
+      `}</style>
     </div>
   );
 }

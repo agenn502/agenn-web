@@ -42,7 +42,11 @@ export default function MiembroDetallePage() {
       const encontrado =
         data?.find(
           (item) =>
-            String(item.codigo || "").trim().toUpperCase() === codigoRuta
+            String(item.codigo || "")
+              .replace(/\s+/g, "")
+              .trim()
+              .toUpperCase() ===
+            codigoRuta.replace(/\s+/g, "").trim().toUpperCase()
         ) || null;
 
       if (!encontrado) {
@@ -59,6 +63,13 @@ export default function MiembroDetallePage() {
     }
   }, [codigoRuta]);
 
+  const nombreNivel: Record<string, string> = {
+    NUM: "Académico Numerario",
+    INV: "Académico Investigador",
+    NOV: "Académico Novicio",
+    ASP: "Aspirante",
+  };
+
   if (loading) {
     return <div>Cargando perfil...</div>;
   }
@@ -71,56 +82,19 @@ export default function MiembroDetallePage() {
     return <div>No hay datos del miembro.</div>;
   }
 
-const nombreNivel: Record<string, string> = {
-  NUM: "Académico Numerario",
-  INV: "Académico Investigador",
-  NOV: "Académico Novicio",
-  ASP: "Aspirante",
-};
   return (
-    <div style={{ maxWidth: 1000 }}>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "300px 1fr",
-          gap: "32px",
-          alignItems: "start",
-        }}
-      >
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            aspectRatio: "818 / 1082",
-            background: "#f3f3f3",
-            borderRadius: "12px",
-            overflow: "hidden",
-          }}
-        >
+    <div className="detalle-miembro">
+      <div className="detalle-grid">
+        <div className="foto-box">
           <img
             src={miembro.foto_url || "/placeholder-miembro.jpg"}
             alt={miembro.nombre}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-            }}
+            className="foto-miembro"
           />
           <img
             src="/marcos/marco-miembro.png"
             alt="Marco"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-              pointerEvents: "none",
-            }}
+            className="marco-miembro"
           />
         </div>
 
@@ -134,8 +108,8 @@ const nombreNivel: Record<string, string> = {
           </p>
 
           <p>
-		    <strong>Nivel:</strong> {nombreNivel[miembro.nivel] || miembro.nivel}
-		  </p>
+            <strong>Nivel:</strong> {nombreNivel[miembro.nivel] || miembro.nivel}
+          </p>
 
           {miembro.fecha_nacimiento && (
             <p>
@@ -159,6 +133,59 @@ const nombreNivel: Record<string, string> = {
           )}
         </div>
       </div>
+
+      <style jsx>{`
+        .detalle-miembro {
+          max-width: 1000px;
+        }
+
+        .detalle-grid {
+          display: grid;
+          grid-template-columns: 300px 1fr;
+          gap: 32px;
+          align-items: start;
+        }
+
+        .foto-box {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 818 / 1082;
+          background: #f3f3f3;
+          border-radius: 12px;
+          overflow: hidden;
+        }
+
+        .foto-miembro {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+
+        .marco-miembro {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+          .detalle-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+          }
+
+          .foto-box {
+            max-width: 280px;
+            margin: 0 auto;
+          }
+        }
+      `}</style>
     </div>
   );
 }
