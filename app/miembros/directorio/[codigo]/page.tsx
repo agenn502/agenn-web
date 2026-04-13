@@ -13,6 +13,7 @@ type Miembro = {
   fecha_nacimiento: string | null;
   profesion: string | null;
   bio: string | null;
+  publicaciones: string | null;
 };
 
 export default function MiembroDetallePage() {
@@ -129,6 +130,22 @@ export default function MiembroDetallePage() {
               <p style={{ lineHeight: 1.7, whiteSpace: "pre-line" }}>
                 {miembro.bio}
               </p>
+            </div>
+          )}
+
+          {miembro.publicaciones && (
+            <div style={{ marginTop: "1.5rem" }}>
+              <h2 style={{ marginBottom: "0.5rem" }}>Publicaciones</h2>
+              <ul style={{ paddingLeft: "1.2rem", lineHeight: 1.7 }}>
+                {miembro.publicaciones
+                  .split("\n")
+                  .filter((p) => p.trim() !== "")
+                  .map((pub, i) => (
+                    <li key={i} style={{ marginBottom: "0.4rem" }}>
+                      {pub}
+                    </li>
+                  ))}
+              </ul>
             </div>
           )}
         </div>

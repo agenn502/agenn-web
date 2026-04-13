@@ -20,6 +20,7 @@ export default function BiografiaPage() {
   const [nivel, setNivel] = useState("");
   const [profesion, setProfesion] = useState("");
   const [bio, setBio] = useState("");
+  const [publicaciones, setPublicaciones] = useState("");
   const [fotoUrl, setFotoUrl] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
 
@@ -65,6 +66,7 @@ export default function BiografiaPage() {
         setNivel(data.nivel || "");
         setProfesion(data.profesion || "");
         setBio(data.bio || "");
+        setPublicaciones(data.publicaciones || "");
         setFotoUrl(data.foto_url || "");
         setFechaNacimiento(data.fecha_nacimiento || "");
       } else {
@@ -74,6 +76,7 @@ export default function BiografiaPage() {
           nivel: String(usuario.nivel || "").trim().toUpperCase(),
           profesion: "",
           bio: "",
+          publicaciones: "",
           foto_url: "",
           fecha_nacimiento: null,
         };
@@ -93,6 +96,7 @@ export default function BiografiaPage() {
         setNivel(String(usuario.nivel || "").trim().toUpperCase());
         setProfesion("");
         setBio("");
+        setPublicaciones("");
         setFotoUrl("");
         setFechaNacimiento("");
       }
@@ -114,6 +118,7 @@ export default function BiografiaPage() {
         nombre,
         profesion,
         bio,
+        publicaciones,
         foto_url: fotoUrl,
         fecha_nacimiento: fechaNacimiento || null,
       })
@@ -182,7 +187,10 @@ export default function BiografiaPage() {
         .eq("codigo", user.codigo);
 
       if (updateError) {
-        alert("La foto subió, pero no se pudo guardar en la base de datos: " + updateError.message);
+        alert(
+          "La foto subió, pero no se pudo guardar en la base de datos: " +
+            updateError.message
+        );
       } else {
         alert("Foto guardada correctamente");
         setMostrarEditor(false);
@@ -404,6 +412,15 @@ export default function BiografiaPage() {
         <textarea
           value={bio}
           onChange={(e) => setBio(e.target.value)}
+          style={{ width: "100%", padding: 8, minHeight: 120, marginTop: 4 }}
+        />
+      </div>
+
+      <div style={{ marginBottom: 20 }}>
+        <label>Publicaciones (una por línea)</label>
+        <textarea
+          value={publicaciones}
+          onChange={(e) => setPublicaciones(e.target.value)}
           style={{ width: "100%", padding: 8, minHeight: 120, marginTop: 4 }}
         />
       </div>

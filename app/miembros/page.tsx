@@ -27,6 +27,13 @@ export default function MiembrosPage() {
     return <p>Cargando...</p>;
   }
 
+  const nombreNivel: Record<string, string> = {
+    NUM: "Académico Numerario",
+    INV: "Académico Investigador",
+    NOV: "Académico Novicio",
+    ASP: "Aspirante",
+  };
+
   return (
     <div>
       <h1>Bienvenido {user.nombre}</h1>
@@ -34,13 +41,20 @@ export default function MiembrosPage() {
       <p>
         <strong>Código:</strong> {user.codigo}
       </p>
+
       <p>
-        <strong>Nivel:</strong> {user.nivel}
+        <strong>Nivel:</strong> {nombreNivel[user.nivel] || user.nivel}
       </p>
 
       {user.consejo === true && (
         <p>
           <strong>Consejo Académico:</strong> Sí
+        </p>
+      )}
+
+      {user.consejo !== true && (
+        <p>
+          <strong>Consejo Académico:</strong> No
         </p>
       )}
 
