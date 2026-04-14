@@ -71,6 +71,13 @@ export default function DirectorioPage() {
     ASP: ["ASP"],
   };
 
+  const nombreNivel: Record<string, string> = {
+    NUM: "Académico Numerario",
+    INV: "Académico Investigador",
+    NOV: "Académico Novicio",
+    ASP: "Aspirante",
+  };
+
   const visibles = nivelesVisibles[user.nivel] || [];
 
   const miembrosFiltrados = miembros.filter((m) => visibles.includes(m.nivel));
@@ -182,7 +189,7 @@ export default function DirectorioPage() {
                   fontSize: "0.88rem",
                 }}
               >
-                {miembro.nivel}
+                {nombreNivel[miembro.nivel] || miembro.nivel}
               </p>
             </Link>
           ))}
