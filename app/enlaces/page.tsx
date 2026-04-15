@@ -5,7 +5,7 @@ export default function EnlacesPage() {
         <h1>Enlaces de interés</h1>
 
         <p>
-          En esta sección se reúnen algunos sitios, museos virtuales, revistas,
+          En esta sección se reúnen algunos sitios nacionales o internacionales con interesante información numismática y notafílica tales como museos y colecciones virtuales, revistas,
           asociaciones y espacios de intercambio vinculados con la numismática y
           la notafilia, seleccionados por su valor informativo, académico o
           formativo.
@@ -49,7 +49,7 @@ export default function EnlacesPage() {
           </article>
 
           <article className="card">
-            <h2>Museos virtuales</h2>
+            <h2>Museos y colecciones virtuales</h2>
 
             <p>
               Espacios digitales que permiten conocer colecciones, piezas y
