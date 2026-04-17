@@ -59,16 +59,35 @@ export default function MiembrosLayout({
         ];
 
         if (esConsejo) {
-          baseMenu.push({
-            label: "Aprobación de miembros",
-            href: "/miembros/aprobaciones",
-          });
+          baseMenu.push(
+            {
+              label: "Proceso de Ascenso NOV",
+              href: "/miembros/proceso_nov",
+            },
+            {
+              label: "Proceso de Ascenso INV",
+              href: "/miembros/proceso_inv",
+            },
+            {
+              label: "Aprobación de miembros",
+              href: "/miembros/aprobaciones",
+            }
+          );
         }
 
         return baseMenu;
       }
 
       case "INV":
+        return [
+          { label: "Directorio", href: "/miembros/directorio" },
+          { label: "Biografía personal", href: "/miembros/biografia" },
+          { label: "AGENN Logo de miembro", href: "/miembros/logo" },
+          { label: "Eventos", href: "/miembros/eventos" },
+          { label: "Documentos oficiales", href: "/miembros/documentos" },
+          { label: "Proceso de ascenso", href: "/miembros/proceso_inv" },
+        ];
+
       case "NOV":
         return [
           { label: "Directorio", href: "/miembros/directorio" },
@@ -76,7 +95,7 @@ export default function MiembrosLayout({
           { label: "AGENN Logo de miembro", href: "/miembros/logo" },
           { label: "Eventos", href: "/miembros/eventos" },
           { label: "Documentos oficiales", href: "/miembros/documentos" },
-          { label: "Proceso de ascenso", href: "/miembros/proceso" },
+          { label: "Proceso de ascenso", href: "/miembros/proceso_nov" },
         ];
 
       case "ASP":
@@ -149,10 +168,7 @@ export default function MiembrosLayout({
       </aside>
 
       {menuAbierto && (
-        <div
-          className="menu-overlay"
-          onClick={() => setMenuAbierto(false)}
-        />
+        <div className="menu-overlay" onClick={() => setMenuAbierto(false)} />
       )}
 
       <main className="contenido-miembros">
