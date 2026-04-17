@@ -1,8 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
+
+type LoginResponse =
+  | {
+      ok: true;
+      user: {
+        codigo: string;
+        nivel: string;
+        nombre: string;
+        consejo: boolean;
+      };
+    }
+  | {
+      ok: false;
+      error: string;
+    };
 
 export default function LoginPage() {
   const [codigo, setCodigo] = useState("");
@@ -22,57 +36,30 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      console.log("Intentando login con código:", codigoLimpio);
-      console.log("Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          codigo: codigoLimpio,
+          password: passwordLimpia,
+        }),
+      });
 
-      // 1) Buscar usuario solo por código
-      const { data: userData, error: userError } = await supabase
-        .from("users")
-        .select("*")
-        .eq("codigo", codigoLimpio)
-        .maybeSingle();
+      const result: LoginResponse = await res.json();
 
-      console.log("Resultado búsqueda por código:", { userData, userError });
-
-      if (userError) {
-        alert("Error al consultar usuarios: " + userError.message);
+      if (!res.ok || !result.ok) {
+        alert(result.ok ? "No se pudo iniciar sesión" : result.error);
         setLoading(false);
         return;
       }
 
-      if (!userData) {
-        alert("No existe un usuario con ese código");
-        setLoading(false);
-        return;
-      }
-
-      // 2) Comparar contraseña
-      const passwordGuardada = String(userData.password ?? "").trim();
-
-      if (passwordGuardada !== passwordLimpia) {
-        alert("Contraseña incorrecta");
-        setLoading(false);
-        return;
-      }
-
-      const valorConsejo = userData.consejo ?? userData.Consejo ?? false;
-
-      const userToStore = {
-        codigo: String(userData.codigo || "").trim().toUpperCase(),
-        nivel: String(userData.nivel || "").trim().toUpperCase(),
-        nombre: String(userData.nombre || "").trim(),
-        consejo:
-          valorConsejo === true ||
-          valorConsejo === "true" ||
-          valorConsejo === "TRUE" ||
-          valorConsejo === 1,
-      };
-
-      localStorage.setItem("user", JSON.stringify(userToStore));
+      localStorage.setItem("user", JSON.stringify(result.user));
       router.push("/miembros");
-    } catch (err: any) {
-      console.error("Error inesperado en login:", err);
-      alert("Ocurrió un error inesperado al iniciar sesión");
+    } catch (err) {
+      console.error("Error en login:", err);
+      alert("No se pudo conectar con el servidor.");
     } finally {
       setLoading(false);
     }
