@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
 
 type User = {
   codigo: string;
@@ -75,20 +74,27 @@ export default function BibliotecaPage() {
   }, []);
 
   const cargarBiblioteca = async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const { data, error } = await supabase
-      .from("biblioteca")
-      .select("*")
-      .order("anio", { ascending: false, nullsFirst: false });
+      const res = await fetch("/api/biblioteca", {
+        cache: "no-store",
+      });
 
-    if (error) {
-      alert("Error al cargar biblioteca: " + error.message);
-    } else {
-      setItems((data as ItemBiblioteca[]) || []);
+      const result = await res.json();
+
+      if (!res.ok || !result.ok) {
+        alert(result.error || "Error al cargar biblioteca");
+        setItems([]);
+      } else {
+        setItems((result.items as ItemBiblioteca[]) || []);
+      }
+    } catch (err) {
+      console.error("Error al cargar biblioteca:", err);
+      alert("No se pudo cargar la biblioteca.");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   const tiposDisponibles = Array.from(
@@ -138,36 +144,10 @@ export default function BibliotecaPage() {
       .sort((a, b) => (b.anio || 0) - (a.anio || 0));
   }, [items, busqueda, tipoFiltro, anioFiltro, autorFiltro]);
 
-  const generarSlug = (texto: string) =>
-    texto
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9\s-]/g, "")
-      .trim()
-      .replace(/\s+/g, "-");
-
   const resetForm = () => {
     setForm(initialForm);
     setEditingId(null);
     setPortadaFile(null);
-  };
-
-  const subirPortada = async (file: File) => {
-    const ext = file.name.split(".").pop();
-    const nombre = `portada-biblio-${Date.now()}.${ext}`;
-
-    const { error } = await supabase.storage
-      .from("portadas-biblioteca")
-      .upload(nombre, file, { upsert: true });
-
-    if (error) throw new Error(error.message);
-
-    const { data } = supabase.storage
-      .from("portadas-biblioteca")
-      .getPublicUrl(nombre);
-
-    return data.publicUrl;
   };
 
   const guardarItem = async () => {
@@ -179,50 +159,39 @@ export default function BibliotecaPage() {
     try {
       setSubiendo(true);
 
-      let portadaUrl: string | null = null;
-
-      if (editingId) {
-        const actual = items.find((i) => i.id === editingId);
-        portadaUrl = actual?.portada_url || null;
-      }
+      const formData = new FormData();
+      formData.append("titulo", form.titulo.trim());
+      formData.append("autores", form.autores);
+      formData.append("anio", form.anio);
+      formData.append("tipo", form.tipo);
+      formData.append("editorial", form.editorial);
+      formData.append("descripcion", form.descripcion);
+      formData.append("slug", form.slug);
+      formData.append("enlace_url", form.enlace_url.trim());
 
       if (portadaFile) {
-        portadaUrl = await subirPortada(portadaFile);
+        formData.append("portada", portadaFile);
       }
 
-      const payload = {
-        slug: form.slug.trim()
-          ? generarSlug(form.slug)
-          : generarSlug(form.titulo),
-        titulo: form.titulo.trim(),
-        autores: form.autores
-          .split(",")
-          .map((a) => a.trim())
-          .filter(Boolean),
-        anio: form.anio ? Number(form.anio) : null,
-        tipo: form.tipo.trim() || null,
-        editorial: form.editorial.trim() || null,
-        descripcion: form.descripcion.trim() || null,
-        portada_url: portadaUrl,
-        enlace_url: form.enlace_url.trim(),
-      };
+      const res = await fetch(
+        editingId ? `/api/biblioteca/${editingId}` : "/api/biblioteca",
+        {
+          method: editingId ? "PUT" : "POST",
+          body: formData,
+        }
+      );
 
-      if (editingId) {
-        const { error } = await supabase
-          .from("biblioteca")
-          .update(payload)
-          .eq("id", editingId);
+      const result = await res.json();
 
-        if (error) throw new Error(error.message);
-
-        alert("Material actualizado correctamente.");
-      } else {
-        const { error } = await supabase.from("biblioteca").insert([payload]);
-
-        if (error) throw new Error(error.message);
-
-        alert("Material agregado correctamente.");
+      if (!res.ok || !result.ok) {
+        throw new Error(result.error || "No se pudo guardar el material.");
       }
+
+      alert(
+        editingId
+          ? "Material actualizado correctamente."
+          : "Material agregado correctamente."
+      );
 
       resetForm();
       await cargarBiblioteca();
@@ -253,18 +222,28 @@ export default function BibliotecaPage() {
     const ok = window.confirm("¿Deseas eliminar este material de la biblioteca?");
     if (!ok) return;
 
-    const { error } = await supabase.from("biblioteca").delete().eq("id", id);
+    try {
+      const res = await fetch(`/api/biblioteca/${id}`, {
+        method: "DELETE",
+      });
 
-    if (error) {
-      alert("Error al eliminar: " + error.message);
-      return;
+      const result = await res.json();
+
+      if (!res.ok || !result.ok) {
+        alert("Error al eliminar: " + (result.error || "Error desconocido"));
+        return;
+      }
+
+      alert("Material eliminado.");
+      await cargarBiblioteca();
+    } catch (err) {
+      console.error("Error al eliminar material:", err);
+      alert("No se pudo eliminar el material.");
     }
-
-    alert("Material eliminado.");
-    await cargarBiblioteca();
   };
 
   if (loading) return <div>Cargando biblioteca...</div>;
+  if (!user) return <div>Cargando usuario...</div>;
 
   return (
     <section>

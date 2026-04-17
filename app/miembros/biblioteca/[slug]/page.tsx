@@ -1,5 +1,14 @@
-import { supabase } from "@/lib/supabaseClient";
-import { notFound } from "next/navigation";
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
+type User = {
+  codigo: string;
+  nivel: string;
+  nombre: string;
+  consejo?: boolean | string | number;
+};
 
 type ItemBiblioteca = {
   id: string;
@@ -18,26 +27,74 @@ type BibliotecaDetalleProps = {
   params: Promise<{ slug: string }>;
 };
 
-export default async function BibliotecaDetalle({
+export default function BibliotecaDetalle({
   params,
 }: BibliotecaDetalleProps) {
-  const { slug } = await params;
+  const [user, setUser] = useState<User | null>(null);
+  const [item, setItem] = useState<ItemBiblioteca | null>(null);
+  const [slug, setSlug] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const { data, error } = await supabase
-    .from("biblioteca")
-    .select("*")
-    .eq("slug", slug)
-    .maybeSingle();
+  useEffect(() => {
+    const cargar = async () => {
+      const stored = localStorage.getItem("user");
 
-  if (error || !data) return notFound();
+      if (!stored) {
+        window.location.href = "/login";
+        return;
+      }
 
-  const item = data as ItemBiblioteca;
+      const parsed = JSON.parse(stored) as User;
+      setUser(parsed);
+
+      const resolved = await params;
+      setSlug(resolved.slug);
+
+      try {
+        const res = await fetch(`/api/biblioteca/slug/${resolved.slug}`, {
+          cache: "no-store",
+        });
+
+        const result = await res.json();
+
+        if (!res.ok || !result.ok) {
+          setItem(null);
+        } else {
+          setItem(result.item as ItemBiblioteca);
+        }
+      } catch (err) {
+        console.error("Error al cargar material:", err);
+        setItem(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    cargar();
+  }, [params]);
+
+  if (loading) return <div>Cargando material...</div>;
+  if (!user) return <div>Cargando usuario...</div>;
+
+  if (!item) {
+    return (
+      <section>
+        <div>
+          <p>
+            ← <Link href="/miembros/biblioteca">Volver a la biblioteca</Link>
+          </p>
+          <h1>Material no encontrado</h1>
+          <p>No se encontró un registro para el slug: {slug}</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section>
       <div>
         <p>
-          ← <a href="/miembros/biblioteca">Volver a la biblioteca</a>
+          ← <Link href="/miembros/biblioteca">Volver a la biblioteca</Link>
         </p>
 
         <div
@@ -89,22 +146,43 @@ export default async function BibliotecaDetalle({
             <h1 style={{ marginTop: 0 }}>{item.titulo}</h1>
 
             {(item.autores || []).length > 0 && (
-              <p><strong>Autor(es):</strong> {item.autores.join(", ")}</p>
+              <p>
+                <strong>Autor(es):</strong> {item.autores.join(", ")}
+              </p>
             )}
 
             {item.editorial && (
-              <p><strong>Editorial / fuente:</strong> {item.editorial}</p>
+              <p>
+                <strong>Editorial / fuente:</strong> {item.editorial}
+              </p>
             )}
 
             {item.anio && (
-              <p><strong>Año:</strong> {item.anio}</p>
+              <p>
+                <strong>Año:</strong> {item.anio}
+              </p>
             )}
 
             {item.descripcion && (
-              <p style={{ marginTop: "1rem", lineHeight: 1.8 }}>
+              <p style={{ marginTop: "1rem", lineHeight: 1.8, whiteSpace: "pre-line" }}>
                 {item.descripcion}
               </p>
             )}
+
+            <div
+              style={{
+                background: "#f7f3ea",
+                border: "1px solid #ddd4c7",
+                borderRadius: "12px",
+                padding: "1rem",
+                margin: "1rem 0",
+                lineHeight: 1.8,
+              }}
+            >
+              Uso exclusivo de miembros. Este material puede estar protegido por
+              derechos de autor y no debe ser redistribuido fuera del ámbito interno
+              de la Academia.
+            </div>
 
             <div style={{ marginTop: "1.5rem" }}>
               <a
