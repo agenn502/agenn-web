@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
 
 type User = {
   codigo: string;
@@ -63,20 +62,27 @@ export default function DocumentosOficialesPage() {
   }, []);
 
   const cargarDocumentos = async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const { data, error } = await supabase
-      .from("documentos_oficiales")
-      .select("*")
-      .order("created_at", { ascending: false });
+      const res = await fetch("/api/documentos", {
+        cache: "no-store",
+      });
 
-    if (error) {
-      alert("Error al cargar documentos: " + error.message);
-    } else {
-      setDocumentos((data as Documento[]) || []);
+      const result = await res.json();
+
+      if (!res.ok || !result.ok) {
+        alert(result.error || "Error al cargar documentos");
+        setDocumentos([]);
+      } else {
+        setDocumentos(result.documentos || []);
+      }
+    } catch (err) {
+      console.error("Error al cargar documentos:", err);
+      alert("No se pudieron cargar los documentos.");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   const resultados = useMemo(() => {
@@ -88,40 +94,11 @@ export default function DocumentosOficialesPage() {
     });
   }, [documentos, busqueda]);
 
-  const generarSlug = (texto: string) =>
-    texto
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9\s-]/g, "")
-      .trim()
-      .replace(/\s+/g, "-");
-
   const resetForm = () => {
     setForm(initialForm);
     setEditingId(null);
     setPortadaFile(null);
     setDocumentoFile(null);
-  };
-
-  const subirArchivo = async (
-    bucket: string,
-    file: File,
-    prefijo: string
-  ) => {
-    const ext = file.name.split(".").pop();
-    const nombre = `${prefijo}-${Date.now()}.${ext}`;
-
-    const { error } = await supabase.storage
-      .from(bucket)
-      .upload(nombre, file, {
-        upsert: true,
-      });
-
-    if (error) throw new Error(error.message);
-
-    const { data } = supabase.storage.from(bucket).getPublicUrl(nombre);
-    return data.publicUrl;
   };
 
   const handleSubmit = async () => {
@@ -138,61 +115,38 @@ export default function DocumentosOficialesPage() {
     try {
       setSubiendo(true);
 
-      let portadaUrl: string | null = null;
-      let documentoUrl = "";
-
-      if (editingId) {
-        const actual = documentos.find((d) => d.id === editingId);
-        portadaUrl = actual?.portada_url || null;
-        documentoUrl = actual?.documento_url || "";
-      }
+      const formData = new FormData();
+      formData.append("titulo", form.titulo.trim());
+      formData.append("slug", form.slug.trim());
+      formData.append("descripcion", form.descripcion.trim());
 
       if (portadaFile) {
-        portadaUrl = await subirArchivo(
-          "portadas-documentos",
-          portadaFile,
-          "portada"
-        );
+        formData.append("portada", portadaFile);
       }
 
       if (documentoFile) {
-        documentoUrl = await subirArchivo(
-          "documentos-oficiales",
-          documentoFile,
-          "documento"
-        );
+        formData.append("documento", documentoFile);
       }
 
-      const slugFinal = form.slug.trim()
-        ? generarSlug(form.slug)
-        : generarSlug(form.titulo);
+      const res = await fetch(
+        editingId ? `/api/documentos/${editingId}` : "/api/documentos",
+        {
+          method: editingId ? "PUT" : "POST",
+          body: formData,
+        }
+      );
 
-      const payload = {
-        slug: slugFinal,
-        titulo: form.titulo.trim(),
-        portada_url: portadaUrl,
-        documento_url: documentoUrl,
-        descripcion: form.descripcion.trim(),
-      };
+      const result = await res.json();
 
-      if (editingId) {
-        const { error } = await supabase
-          .from("documentos_oficiales")
-          .update(payload)
-          .eq("id", editingId);
-
-        if (error) throw new Error(error.message);
-
-        alert("Documento actualizado correctamente.");
-      } else {
-        const { error } = await supabase
-          .from("documentos_oficiales")
-          .insert([payload]);
-
-        if (error) throw new Error(error.message);
-
-        alert("Documento creado correctamente.");
+      if (!res.ok || !result.ok) {
+        throw new Error(result.error || "No se pudo guardar el documento.");
       }
+
+      alert(
+        editingId
+          ? "Documento actualizado correctamente."
+          : "Documento creado correctamente."
+      );
 
       resetForm();
       await cargarDocumentos();
@@ -219,21 +173,28 @@ export default function DocumentosOficialesPage() {
     const ok = window.confirm("¿Deseas eliminar este documento?");
     if (!ok) return;
 
-    const { error } = await supabase
-      .from("documentos_oficiales")
-      .delete()
-      .eq("id", id);
+    try {
+      const res = await fetch(`/api/documentos/${id}`, {
+        method: "DELETE",
+      });
 
-    if (error) {
-      alert("Error al eliminar: " + error.message);
-      return;
+      const result = await res.json();
+
+      if (!res.ok || !result.ok) {
+        alert("Error al eliminar: " + (result.error || "Error desconocido"));
+        return;
+      }
+
+      alert("Documento eliminado.");
+      await cargarDocumentos();
+    } catch (err) {
+      console.error("Error al eliminar documento:", err);
+      alert("No se pudo eliminar el documento.");
     }
-
-    alert("Documento eliminado.");
-    await cargarDocumentos();
   };
 
   if (loading) return <div>Cargando documentos oficiales...</div>;
+  if (!user) return <div>Cargando usuario...</div>;
 
   return (
     <section>
@@ -418,7 +379,7 @@ export default function DocumentosOficialesPage() {
         >
           {resultados.map((doc) => (
             <article
-              key={doc.slug}
+              key={doc.id}
               style={{
                 width: "320px",
                 minHeight: "250px",
