@@ -1,10 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = "https://ppjgsiwjwugspgwqljsb.supabase.co";
-const supabaseKey = "sb_publishable_GdfOoWUpdQVbHth-qboRsg_q6cVN8D2";
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabaseServer } from "@/lib/supabaseServer";
 
 export async function POST(req: Request) {
   try {
@@ -19,7 +14,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseServer
       .from("users")
       .select("*")
       .eq("codigo", codigo)
