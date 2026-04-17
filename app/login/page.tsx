@@ -11,44 +11,71 @@ export default function LoginPage() {
   const router = useRouter();
 
   const handleLogin = async () => {
-    if (!codigo.trim() || !password.trim()) {
+    const codigoLimpio = codigo.trim().toUpperCase();
+    const passwordLimpia = password.trim();
+
+    if (!codigoLimpio || !passwordLimpia) {
       alert("Ingresa tu código y contraseña");
       return;
     }
 
     setLoading(true);
 
-    const codigoLimpio = codigo.trim().toUpperCase();
+    try {
+      console.log("Intentando login con código:", codigoLimpio);
+      console.log("Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
 
-    const { data, error } = await supabase
-      .from("users")
-      .select("*")
-      .eq("codigo", codigoLimpio)
-      .eq("password", password)
-      .maybeSingle();
+      // 1) Buscar usuario solo por código
+      const { data: userData, error: userError } = await supabase
+        .from("users")
+        .select("*")
+        .eq("codigo", codigoLimpio)
+        .maybeSingle();
 
-    if (error || !data) {
-      alert("Credenciales incorrectas");
+      console.log("Resultado búsqueda por código:", { userData, userError });
+
+      if (userError) {
+        alert("Error al consultar usuarios: " + userError.message);
+        setLoading(false);
+        return;
+      }
+
+      if (!userData) {
+        alert("No existe un usuario con ese código");
+        setLoading(false);
+        return;
+      }
+
+      // 2) Comparar contraseña
+      const passwordGuardada = String(userData.password ?? "").trim();
+
+      if (passwordGuardada !== passwordLimpia) {
+        alert("Contraseña incorrecta");
+        setLoading(false);
+        return;
+      }
+
+      const valorConsejo = userData.consejo ?? userData.Consejo ?? false;
+
+      const userToStore = {
+        codigo: String(userData.codigo || "").trim().toUpperCase(),
+        nivel: String(userData.nivel || "").trim().toUpperCase(),
+        nombre: String(userData.nombre || "").trim(),
+        consejo:
+          valorConsejo === true ||
+          valorConsejo === "true" ||
+          valorConsejo === "TRUE" ||
+          valorConsejo === 1,
+      };
+
+      localStorage.setItem("user", JSON.stringify(userToStore));
+      router.push("/miembros");
+    } catch (err: any) {
+      console.error("Error inesperado en login:", err);
+      alert("Ocurrió un error inesperado al iniciar sesión");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    const valorConsejo = data.consejo ?? data.Consejo ?? false;
-
-    const userToStore = {
-      codigo: String(data.codigo || "").trim().toUpperCase(),
-      nivel: String(data.nivel || "").trim().toUpperCase(),
-      nombre: String(data.nombre || "").trim(),
-      consejo:
-        valorConsejo === true ||
-        valorConsejo === "true" ||
-        valorConsejo === "TRUE" ||
-        valorConsejo === 1,
-    };
-
-    localStorage.setItem("user", JSON.stringify(userToStore));
-    setLoading(false);
-    router.push("/miembros");
   };
 
   return (
