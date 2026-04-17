@@ -183,8 +183,11 @@ Las plumas como bien de intercambio: Las plumas de quetzal fueron comercializada
 Servían como medio de cambio o trueque en varias regiones productoras. El control de su comercio era un privilegio de las élites, que las utilizaban para:
 
 👉 Marcar estatus: solo los gobernantes y altos dignatarios podían portar tocados y espaldares de plumas de quetzal.
+
 👉 Establecer alianzas: las plumas eran regalos diplomáticos de alto valor.
+
 👉 Realizar ofrendas rituales: se depositaban en contextos ceremoniales y funerarios.
+
 👉 Pagar tributo: regiones productoras de plumas las entregaban a centros hegemónicos.
 
 Control y prohibición: Según fray Bartolomé de las Casas, en la Provincia de la Verapaz "tenía pena de muerte el que matase al pájaro de plumas ricas, porque no los había en otra parte y era cosa de mucho valor, porque usaban ellas como de moneda". Esta prohibición revela no solo el valor económico de las plumas, sino también un control consciente de su reproducción y distribución. No se mataba al quetzal; se le capturaba, se le arrancaban las plumas largas de la cola, y se le liberaba para que volviera a crecerlas. Este manejo sostenible del recurso es evidencia de una planificación económica sofisticada.
@@ -227,8 +230,11 @@ Para el numismático avanzado:
 Ejemplos documentados:
 
 👉 La obsidiana de San Martín Jilotepeque era más valiosa en Petén que en el altiplano, donde era más accesible.
+
 👉 El cacao era más valioso en el altiplano que en la costa sur, donde se producía.
+
 👉 Las conchas marinas (Spondylus) alcanzaban gran valor en el interior, lejos de las costas del Pacífico y Atlántico.
+
 👉 La sal producida en Belice y en la costa sur era un bien de intercambio fundamental para regiones sin acceso directo a fuentes salinas.
 
 Este patrón de variación geográfica del valor se observa consistentemente en el registro arqueológico. La presencia de obsidiana de Pachuca (centro de México) en contextos del Clásico Tardío en Petén y Kaminaljuyú indica contactos a muy larga distancia, y su valor era sin duda mucho mayor que el de las fuentes locales.
