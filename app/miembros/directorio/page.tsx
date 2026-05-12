@@ -13,6 +13,8 @@ type Miembro = {
   fecha_nacimiento: string | null;
   profesion: string | null;
   bio: string | null;
+
+  avanceAcademico?: number;
 };
 
 type User = {
@@ -40,22 +42,73 @@ export default function DirectorioPage() {
     setUser(parsedUser);
 
     const cargarMiembros = async () => {
-      setLoading(true);
-      setError(null);
+	  setLoading(true);
+	  setError(null);
 
-      const { data, error } = await supabase
-        .from("miembros")
-        .select("*")
-        .order("codigo", { ascending: true });
+	  const { data, error } = await supabase
+		.from("miembros")
+		.select("*")
+		.order("codigo", { ascending: true });
 
-      if (error) {
-        setError(error.message);
-      } else {
-        setMiembros(data || []);
-      }
+	  if (error) {
+		setError(error.message);
+		setLoading(false);
+		return;
+	  }
 
-      setLoading(false);
-    };
+	  const miembrosBase = data || [];
+
+	  const miembrosConAvance = await Promise.all(
+		miembrosBase.map(async (miembro) => {
+		  let avance = 0;
+
+		  try {
+			if (miembro.nivel === "ASP") {
+			  const { data: progreso } = await supabase
+				.from("progreso_aspirante")
+				.select("porcentaje")
+				.eq("user_codigo", miembro.codigo)
+				.eq("unidad_slug", "introductorio")
+				.maybeSingle();
+
+			  avance = progreso?.porcentaje || 0;
+			}
+
+			if (miembro.nivel === "NOV") {
+			  const { data: progreso } = await supabase
+				.from("progreso_novicio")
+				.select("porcentaje")
+				.eq("user_codigo", miembro.codigo)
+				.eq("unidad_slug", "introductorio")
+				.maybeSingle();
+
+			  avance = progreso?.porcentaje || 0;
+			}
+
+			if (miembro.nivel === "INV") {
+			  const { data: progreso } = await supabase
+				.from("progreso_inv")
+				.select("porcentaje")
+				.eq("user_codigo", miembro.codigo)
+				.eq("unidad_slug", "unidad-1")
+				.maybeSingle();
+
+			  avance = progreso?.porcentaje || 0;
+			}
+		  } catch {
+			avance = 0;
+		  }
+
+		  return {
+			...miembro,
+			avanceAcademico: avance,
+		  };
+		})
+	  );
+
+	  setMiembros(miembrosConAvance);
+	  setLoading(false);
+	};
 
     cargarMiembros();
   }, []);
@@ -183,14 +236,49 @@ export default function DirectorioPage() {
               </p>
 
               <p
-                style={{
-                  margin: 0,
-                  color: "#444",
-                  fontSize: "0.88rem",
-                }}
-              >
-                {nombreNivel[miembro.nivel] || miembro.nivel}
-              </p>
+			  style={{
+				margin: 0,
+				color: "#444",
+				fontSize: "0.88rem",
+			  }}
+			>
+			  {nombreNivel[miembro.nivel] || miembro.nivel}
+			</p>
+
+			{["ASP", "NOV", "INV"].includes(miembro.nivel) && (
+			  <div style={{ marginTop: "10px" }}>
+				<div
+				  style={{
+					display: "flex",
+					justifyContent: "space-between",
+					marginBottom: "4px",
+					fontSize: "0.78rem",
+					color: "#666",
+				  }}
+				>
+				  <span>Avance académico</span>
+				  <span>{miembro.avanceAcademico || 0}%</span>
+				</div>
+
+				<div
+				  style={{
+					width: "100%",
+					height: "8px",
+					background: "#e5e5e5",
+					borderRadius: "999px",
+					overflow: "hidden",
+				  }}
+				>
+				  <div
+					style={{
+					  width: `${miembro.avanceAcademico || 0}%`,
+					  height: "100%",
+					  background: "#6f8760",
+					}}
+				  />
+				</div>
+			  </div>
+			)}
             </Link>
           ))}
         </div>

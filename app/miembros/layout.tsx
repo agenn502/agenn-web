@@ -61,6 +61,10 @@ export default function MiembrosLayout({
         if (esConsejo) {
           baseMenu.push(
             {
+              label: "Proceso de formación ASP",
+              href: "/miembros/proceso_asp",
+            },
+            {
               label: "Proceso de Ascenso NOV",
               href: "/miembros/proceso_nov",
             },
@@ -102,7 +106,7 @@ export default function MiembrosLayout({
         return [
           { label: "Biografía personal", href: "/miembros/biografia" },
           { label: "AGENN Logo de miembro", href: "/miembros/logo" },
-          { label: "Proceso de ingreso", href: "/miembros/proceso" },
+          { label: "Proceso de formación", href: "/miembros/proceso_asp" },
         ];
 
       default:
