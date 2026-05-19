@@ -94,4 +94,17 @@ export const publicaciones = [
     enlace:
       "https://numisguatemala.blogspot.com/2018/05/evolucion-del-diseno-de-la-moneda-de-25.html",
   },
+    {
+    slug: "clasificacion_billetes",
+    titulo:
+      "Un sistema de clasificación para los billetes de Guatemala, 1874-2023: una propuesta metodológica",
+    autores: ["Gerónimo Estuardo Pérez Irungaray"],
+    anio: 2026,
+    serie: "Artículo",
+    editorial: "América Latina En La Historia Económica. 33(2), e1603",
+    descripcion: "Este artículo presenta un sistema de clasificación para los 299 billetes emitidos en Guatemala entre 1874 y 2023, incluyendo diseños, variantes y subvariantes de las emisiones monetarias del país. Desarrollado tras tres años de investigación, propone una metodología flexible y escalable que organiza sistemáticamente la historia numismática guatemalteca. El sistema integra análisis histórico y notafílico para examinar cómo los billetes reflejan transformaciones institucionales, económicas y simbólicas a lo largo de siglo y medio. Ilustrado con piezas provenientes de colecciones privadas y del Museo Numismático del Banco de Guatemala, ofrece una herramienta práctica para investigadores, numismáticos y coleccionistas interesados en la historia monetaria latinoamericana. El estudio subraya el valor del papel moneda como documento histórico y propone un modelo replicable para contextos monetarios comparables en América Latina.",
+    portada: "/publicaciones/portadas/port8.jpg",
+    enlace:
+      "https://alhe.mora.edu.mx/index.php/ALHE/article/view/1603",
+  },
 ];

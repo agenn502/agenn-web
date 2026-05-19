@@ -14,6 +14,8 @@ type Miembro = {
   profesion: string | null;
   bio: string | null;
   publicaciones: string | null;
+
+  avanceAcademico?: number;
 };
 
 export default function MiembroDetallePage() {
@@ -41,20 +43,62 @@ export default function MiembroDetallePage() {
       }
 
       const encontrado =
-        data?.find(
-          (item) =>
-            String(item.codigo || "")
-              .replace(/\s+/g, "")
-              .trim()
-              .toUpperCase() ===
-            codigoRuta.replace(/\s+/g, "").trim().toUpperCase()
-        ) || null;
+		  data?.find(
+			(item) =>
+			  String(item.codigo || "")
+				.replace(/\s+/g, "")
+				.trim()
+				.toUpperCase() ===
+			  codigoRuta.replace(/\s+/g, "").trim().toUpperCase()
+		  ) || null;
 
-      if (!encontrado) {
-        setError("No se encontró el miembro.");
-      } else {
-        setMiembro(encontrado);
-      }
+		if (!encontrado) {
+		  setError("No se encontró el miembro.");
+		} else {
+		  let avance = 0;
+
+		  try {
+			if (encontrado.nivel === "ASP") {
+			  const { data: progreso } = await supabase
+				.from("progreso_aspirante")
+				.select("porcentaje")
+				.eq("user_codigo", encontrado.codigo)
+				.eq("unidad_slug", "introductorio")
+				.maybeSingle();
+
+			  avance = progreso?.porcentaje || 0;
+			}
+
+			if (encontrado.nivel === "NOV") {
+			  const { data: progreso } = await supabase
+				.from("progreso_novicio")
+				.select("porcentaje")
+				.eq("user_codigo", encontrado.codigo)
+				.eq("unidad_slug", "introductorio")
+				.maybeSingle();
+
+			  avance = progreso?.porcentaje || 0;
+			}
+
+			if (encontrado.nivel === "INV") {
+			  const { data: progreso } = await supabase
+				.from("progreso_inv")
+				.select("porcentaje")
+				.eq("user_codigo", encontrado.codigo)
+				.eq("unidad_slug", "unidad-1")
+				.maybeSingle();
+
+			  avance = progreso?.porcentaje || 0;
+			}
+		  } catch {
+			avance = 0;
+		  }
+
+		  setMiembro({
+			...encontrado,
+			avanceAcademico: avance,
+		  });
+		}
 
       setLoading(false);
     };
@@ -109,8 +153,49 @@ export default function MiembroDetallePage() {
           </p>
 
           <p>
-            <strong>Nivel:</strong> {nombreNivel[miembro.nivel] || miembro.nivel}
-          </p>
+			  <strong>Nivel:</strong> {nombreNivel[miembro.nivel] || miembro.nivel}
+			</p>
+
+			{["ASP", "NOV", "INV"].includes(miembro.nivel) && (
+			  <div
+				style={{
+				  marginTop: "1rem",
+				  marginBottom: "1.2rem",
+				  maxWidth: "340px",
+				}}
+			  >
+				<div
+				  style={{
+					display: "flex",
+					justifyContent: "space-between",
+					marginBottom: "6px",
+					fontSize: "0.9rem",
+					color: "#666",
+				  }}
+				>
+				  <span>Avance académico</span>
+				  <span>{miembro.avanceAcademico || 0}%</span>
+				</div>
+
+				<div
+				  style={{
+					width: "100%",
+					height: "12px",
+					background: "#e5e5e5",
+					borderRadius: "999px",
+					overflow: "hidden",
+				  }}
+				>
+				  <div
+					style={{
+					  width: `${miembro.avanceAcademico || 0}%`,
+					  height: "100%",
+					  background: "#6f8760",
+					}}
+				  />
+				</div>
+			  </div>
+			)}
 
           {miembro.fecha_nacimiento && (
             <p>
