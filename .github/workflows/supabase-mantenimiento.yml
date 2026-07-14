@@ -1,0 +1,30 @@
+name: Mantener activo Supabase
+
+on:
+  schedule:
+    # Todos los días a las 11:17 UTC.
+    # En Guatemala corresponde aproximadamente a las 5:17 a. m.
+    - cron: "17 11 * * *"
+
+  # Permite ejecutarlo manualmente desde GitHub.
+  workflow_dispatch:
+
+jobs:
+  mantener-activo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Actualizar registro de mantenimiento
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+        run: |
+          NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          curl --fail-with-body \
+            --request POST \
+            "${SUPABASE_URL}/rest/v1/mantenimiento_ping?on_conflict=id" \
+            --header "apikey: ${SUPABASE_SECRET_KEY}" \
+            --header "Content-Type: application/json" \
+            --header "Prefer: resolution=merge-duplicates,return=representation" \
+            --data "{\"id\":1,\"ultimo_ping\":\"${NOW}\",\"origen\":\"github-actions\"}"
