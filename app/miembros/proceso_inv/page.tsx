@@ -19,6 +19,15 @@ type ProgresoRow = {
   respuestas: any;
 };
 
+type EnsayoRevision = {
+  unidad_slug: string;
+  estado_revision: string | null;
+  observaciones_revision?: string | null;
+  fecha_evidencia?: string | null;
+  fecha_revision?: string | null;
+  slug?: string | null;
+};
+
 type Unidad = {
   slug: string;
   titulo: string;
@@ -30,8 +39,10 @@ export default function ProcesoInvPage() {
   const [user, setUser] = useState<User | null>(null);
   const [esConsejo, setEsConsejo] = useState(false);
   const [progreso, setProgreso] = useState<ProgresoRow[]>([]);
+  const [ensayosRevision, setEnsayosRevision] = useState<EnsayoRevision[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  
 
   const unidades: Unidad[] = useMemo(
     () => [
@@ -135,6 +146,19 @@ export default function ProcesoInvPage() {
         .select("*")
         .eq("user_codigo", parsed.codigo);
 
+	  const { data: ensayosData } = await supabase
+		  .from("ensayos")
+		  .select(
+			"unidad_slug, estado_revision, observaciones_revision, fecha_evidencia, fecha_revision, slug"
+		  )
+		  .eq("autor_codigo", parsed.codigo)
+		  .eq("proceso", "INV")
+		  .eq("estado", "publicado")
+		  .in("estado_revision", ["pendiente", "rechazado", "aprobado"])
+		  .order("updated_at", { ascending: false });
+
+		setEnsayosRevision((ensayosData as EnsayoRevision[]) || []);
+		
       if (error) {
         setError(error.message);
       } else {
@@ -152,6 +176,18 @@ export default function ProcesoInvPage() {
     progreso.forEach((row) => map.set(row.unidad_slug, row));
     return map;
   }, [progreso]);
+  
+  const ensayoRevisionMap = useMemo(() => {
+	  const map = new Map<string, EnsayoRevision>();
+
+	  ensayosRevision.forEach((row) => {
+		if (!map.has(row.unidad_slug)) {
+		  map.set(row.unidad_slug, row);
+		}
+	  });
+
+	  return map;
+	}, [ensayosRevision]);
 
   const porcentajeGeneral = useMemo(() => {
     const unidadesEvaluables = unidades.filter((u) => u.slug !== "tarea-final");
@@ -300,7 +336,8 @@ export default function ProcesoInvPage() {
         {unidades.map((unidad, index) => {
           const desbloqueada = estaDesbloqueada(index);
           const estado = estadoUnidad(unidad.slug);
-
+		  const revision = ensayoRevisionMap.get(unidad.slug);
+		  
           return (
             <div
               key={unidad.slug}
@@ -360,12 +397,68 @@ export default function ProcesoInvPage() {
               </div>
 
               <p style={{ marginTop: 0, marginBottom: "1rem", color: "#555" }}>
-                {estado.completada
-                  ? "Unidad completada."
-                  : desbloqueada
-                  ? "Unidad disponible."
-                  : "Debes completar la unidad anterior para desbloquear esta sección."}
-              </p>
+				  {estado.completada
+					? "Unidad completada."
+					: desbloqueada
+					? "Unidad disponible."
+					: "Debes completar la unidad anterior para desbloquear esta sección."}
+				</p>
+
+				{revision?.estado_revision === "pendiente" && !estado.completada && (
+				  <div
+					style={{
+					  background: "#fff8e5",
+					  border: "1px solid #e0c46c",
+					  borderRadius: "10px",
+					  padding: "0.75rem",
+					  marginBottom: "1rem",
+					  color: "#6a5200",
+					  lineHeight: 1.6,
+					}}
+				  >
+					<strong>⏳ Ensayo en revisión</strong>
+					<br />
+					Su evidencia fue enviada al Consejo Académico. Cuando exista una resolución,
+					se actualizará el estado de esta unidad.
+				  </div>
+				)}
+
+				{revision?.estado_revision === "rechazado" && !estado.completada && (
+				  <div
+					style={{
+					  background: "#fff3f3",
+					  border: "1px solid #d28b8b",
+					  borderRadius: "10px",
+					  padding: "0.75rem",
+					  marginBottom: "1rem",
+					  color: "#7a1f1f",
+					  lineHeight: 1.6,
+					}}
+				  >
+					<strong>⚠️ Observaciones pendientes</strong>
+					<br />
+					El Consejo Académico devolvió su ensayo para corrección. Ingrese nuevamente
+					a la unidad para revisar las observaciones.
+				  </div>
+				)}
+
+				{estado.completada && (
+				  <div
+					style={{
+					  background: "#eef7ea",
+					  border: "1px solid #b9d7ad",
+					  borderRadius: "10px",
+					  padding: "0.75rem",
+					  marginBottom: "1rem",
+					  color: "#2f5f24",
+					  lineHeight: 1.6,
+					}}
+				  >
+					<strong>✅ Unidad aprobada</strong>
+					<br />
+					El Consejo Académico aprobó esta unidad. Puede continuar con la siguiente.
+				  </div>
+				)}
 
               {desbloqueada ? (
                 <Link

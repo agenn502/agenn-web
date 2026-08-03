@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import PerfilFinal from "@/components/PerfilFinal";
 
 type OpenState = Record<string, boolean>;
 
@@ -57,21 +59,12 @@ const styles = {
   option: {
     margin: "10px 0",
   },
-  optionLink: {
-    display: "block",
-    background: "#fffdf7",
-    border: "1px solid #ddd4c7",
-    borderLeft: "6px solid #b08a3c",
-    borderRadius: "8px",
-    padding: "10px 12px",
-    lineHeight: 1.6,
-    textDecoration: "none",
-    color: "#1f1f1f",
-  } as React.CSSProperties,
 };
 
 export default function DiagnosticoPage() {
   const [open, setOpen] = useState<OpenState>({});
+  const searchParams = useSearchParams();
+  const modoAdmision = searchParams.get("origen") === "admision";
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -120,10 +113,29 @@ export default function DiagnosticoPage() {
         </p>
 
         <p>
-          No constituye un mecanismo formal de ingreso a la Academia ni una
-          clasificación definitiva, sino una guía de autoorientación basada en
-          una clave dicotómica.
+          No constituye una clasificación definitiva. En el contexto del proceso
+          de admisión, el resultado sirve para conocer el punto de partida del
+          solicitante, pero no determina por sí solo su ingreso ni el nivel que le
+          será asignado.
         </p>
+
+        {modoAdmision && (
+          <div
+            style={{
+              background: "#eef6e9",
+              border: "1px solid #cfe3c4",
+              borderRadius: "10px",
+              padding: "1rem",
+              marginBottom: "1.5rem",
+            }}
+          >
+            <strong>Proceso de admisión</strong>
+            <p style={{ marginBottom: 0, lineHeight: 1.7 }}>
+              Al identificar el perfil con el que más se relaciona, aparecerá la
+              opción para continuar con la solicitud de ingreso a la Academia.
+            </p>
+          </div>
+        )}
 
         <p style={{ fontStyle: "italic", marginBottom: "1.5rem" }}>
           A continuación encontrará pares de opciones. Seleccione, en cada caso,
@@ -138,7 +150,6 @@ export default function DiagnosticoPage() {
         </p>
 
         <div style={styles.treeBox}>
-          {/* NIVEL 1 */}
           <div style={styles.node}>
             <div
               style={styles.question}
@@ -153,7 +164,6 @@ export default function DiagnosticoPage() {
 
             {open["n1"] && (
               <div style={styles.children1}>
-                {/* NIVEL 2 */}
                 <div style={styles.node}>
                   <div
                     style={styles.question}
@@ -168,7 +178,6 @@ export default function DiagnosticoPage() {
 
                   {open["n2"] && (
                     <div style={styles.children2}>
-                      {/* NIVEL 3 */}
                       <div style={styles.node}>
                         <div
                           style={styles.question}
@@ -184,24 +193,23 @@ export default function DiagnosticoPage() {
                         {open["n3"] && (
                           <div style={styles.children2}>
                             <div style={styles.option}>
-                              <a style={styles.optionLink} href="/perfiles/pa-com-pro">
-                                <strong>4.</strong> Actúo con criterios éticos y
-                                transparencia →{" "}
-                                <strong>
-                                  <em>Perfil A:</em> Comerciante Profesional
-                                </strong>
-                              </a>
+                              <PerfilFinal
+                                codigo="A"
+                                nombre="Comerciante Profesional"
+                                href="/perfiles/pa-com-pro"
+                                texto="4. Actúo con criterios éticos y transparencia"
+                                modoAdmision={modoAdmision}
+                              />
                             </div>
 
                             <div style={styles.option}>
-                              <a style={styles.optionLink} href="/perfiles/pb-com-noet">
-                                <strong>4'.</strong> No mantengo criterios éticos
-                                consistentes →{" "}
-                                <strong>
-                                  <em>Perfil B:</em> Operador Comercial No Ético
-                                  de Alto Conocimiento
-                                </strong>
-                              </a>
+                              <PerfilFinal
+                                codigo="B"
+                                nombre="Operador Comercial No Ético de Alto Conocimiento"
+                                href="/perfiles/pb-com-noet"
+                                texto="4'. No mantengo criterios éticos consistentes"
+                                modoAdmision={modoAdmision}
+                              />
                             </div>
                           </div>
                         )}
@@ -223,25 +231,23 @@ export default function DiagnosticoPage() {
                         {open["n5"] && (
                           <div style={styles.children2}>
                             <div style={styles.option}>
-                              <a style={styles.optionLink} href="/perfiles/pa2-com-ac">
-                                <strong>5.</strong> Mantengo coherencia ética
-                                entre actividad comercial y conocimiento →{" "}
-                                <strong>
-                                  <em>Perfil A2:</em> Comerciante con Orientación
-                                  Académica
-                                </strong>
-                              </a>
+                              <PerfilFinal
+                                codigo="A2"
+                                nombre="Comerciante con Orientación Académica"
+                                href="/perfiles/pa2-com-ac"
+                                texto="5. Mantengo coherencia ética entre actividad comercial y conocimiento"
+                                modoAdmision={modoAdmision}
+                              />
                             </div>
 
                             <div style={styles.option}>
-                              <a style={styles.optionLink} href="/perfiles/pb2-com-doble">
-                                <strong>5'.</strong> No mantengo coherencia ética
-                                entre prestigio intelectual y práctica comercial →{" "}
-                                <strong>
-                                  <em>Perfil B2:</em> Operador de Doble Rol
-                                  Académico-Comercial No Ético
-                                </strong>
-                              </a>
+                              <PerfilFinal
+                                codigo="B2"
+                                nombre="Operador de Doble Rol Académico-Comercial No Ético"
+                                href="/perfiles/pb2-com-doble"
+                                texto="5'. No mantengo coherencia ética entre prestigio intelectual y práctica comercial"
+                                modoAdmision={modoAdmision}
+                              />
                             </div>
                           </div>
                         )}
@@ -265,23 +271,23 @@ export default function DiagnosticoPage() {
                   {open["n6"] && (
                     <div style={styles.children2}>
                       <div style={styles.option}>
-                        <a style={styles.optionLink} href="/perfiles/pc-com-form">
-                          <strong>6.</strong> Me encuentro en un proceso genuino
-                          de aprendizaje →{" "}
-                          <strong>
-                            <em>Perfil C:</em> Comerciante en Formación
-                          </strong>
-                        </a>
+                        <PerfilFinal
+                          codigo="C"
+                          nombre="Comerciante en Formación"
+                          href="/perfiles/pc-com-form"
+                          texto="6. Me encuentro en un proceso genuino de aprendizaje"
+                          modoAdmision={modoAdmision}
+                        />
                       </div>
 
                       <div style={styles.option}>
-                        <a style={styles.optionLink} href="/perfiles/pd-com-noesp">
-                          <strong>6'.</strong> No poseo formación ni especialización
-                          en el área →{" "}
-                          <strong>
-                            <em>Perfil D:</em> Vendedor No Especializado
-                          </strong>
-                        </a>
+                        <PerfilFinal
+                          codigo="D"
+                          nombre="Vendedor No Especializado"
+                          href="/perfiles/pd-com-noesp"
+                          texto="6'. No poseo formación ni especialización en el área"
+                          modoAdmision={modoAdmision}
+                        />
                       </div>
                     </div>
                   )}
@@ -290,7 +296,6 @@ export default function DiagnosticoPage() {
             )}
           </div>
 
-          {/* NIVEL 1' */}
           <div style={styles.node}>
             <div
               style={styles.question}
@@ -306,7 +311,6 @@ export default function DiagnosticoPage() {
 
             {open["n7"] && (
               <div style={styles.children1}>
-                {/* NIVEL 7 */}
                 <div style={styles.node}>
                   <div
                     style={styles.question}
@@ -322,29 +326,28 @@ export default function DiagnosticoPage() {
                   {open["n8"] && (
                     <div style={styles.children2}>
                       <div style={styles.option}>
-                        <a style={styles.optionLink} href="/perfiles/pe-acad-esp">
-                          <strong>8.</strong> Trabajo de forma especializada en un
-                          campo delimitado →{" "}
-                          <strong>
-                            <em>Perfil E:</em> Numismático Especializado
-                          </strong>
-                        </a>
+                        <PerfilFinal
+                          codigo="E"
+                          nombre="Numismático Especializado"
+                          href="/perfiles/pe-acad-esp"
+                          texto="8. Trabajo de forma especializada en un campo delimitado"
+                          modoAdmision={modoAdmision}
+                        />
                       </div>
 
                       <div style={styles.option}>
-                        <a style={styles.optionLink} href="/perfiles/pf-acad-amp">
-                          <strong>8'.</strong> Mantengo un interés investigativo
-                          amplio y comparativo →{" "}
-                          <strong>
-                            <em>Perfil F:</em> Investigador de Enfoque Amplio
-                          </strong>
-                        </a>
+                        <PerfilFinal
+                          codigo="F"
+                          nombre="Investigador de Enfoque Amplio"
+                          href="/perfiles/pf-acad-amp"
+                          texto="8'. Mantengo un interés investigativo amplio y comparativo"
+                          modoAdmision={modoAdmision}
+                        />
                       </div>
                     </div>
                   )}
                 </div>
 
-                {/* NIVEL 7' */}
                 <div style={styles.node}>
                   <div
                     style={styles.question}
@@ -359,7 +362,6 @@ export default function DiagnosticoPage() {
 
                   {open["n9"] && (
                     <div style={styles.children2}>
-                      {/* NIVEL 9 */}
                       <div style={styles.node}>
                         <div
                           style={styles.question}
@@ -375,31 +377,28 @@ export default function DiagnosticoPage() {
                         {open["n10"] && (
                           <div style={styles.children2}>
                             <div style={styles.option}>
-                              <a style={styles.optionLink} href="/perfiles/pg-col-cal">
-                                <strong>10.</strong> Valoro especialmente la
-                                calidad y conservación de las piezas →{" "}
-                                <strong>
-                                  <em>Perfil G:</em> Coleccionista Orientado a la
-                                  Calidad
-                                </strong>
-                              </a>
+                              <PerfilFinal
+                                codigo="G"
+                                nombre="Coleccionista Orientado a la Calidad"
+                                href="/perfiles/pg-col-cal"
+                                texto="10. Valoro especialmente la calidad y conservación de las piezas"
+                                modoAdmision={modoAdmision}
+                              />
                             </div>
 
                             <div style={styles.option}>
-                              <a style={styles.optionLink} href="/perfiles/ph-col-comp">
-                                <strong>10'.</strong> Valoro especialmente la
-                                completitud de series o conjuntos →{" "}
-                                <strong>
-                                  <em>Perfil H:</em> Coleccionista Orientado a la
-                                  Completitud
-                                </strong>
-                              </a>
+                              <PerfilFinal
+                                codigo="H"
+                                nombre="Coleccionista Orientado a la Completitud"
+                                href="/perfiles/ph-col-comp"
+                                texto="10'. Valoro especialmente la completitud de series o conjuntos"
+                                modoAdmision={modoAdmision}
+                              />
                             </div>
                           </div>
                         )}
                       </div>
 
-                      {/* NIVEL 9' */}
                       <div style={styles.node}>
                         <div
                           style={styles.question}
@@ -415,23 +414,23 @@ export default function DiagnosticoPage() {
                         {open["n11"] && (
                           <div style={styles.children2}>
                             <div style={styles.option}>
-                              <a style={styles.optionLink} href="/perfiles/pi-trans-des">
-                                <strong>11.</strong> Reconozco que debería ordenar,
-                                orientar o desarrollar mejor mi colección →{" "}
-                                <strong>
-                                  <em>Perfil I:</em> Coleccionista en Desarrollo
-                                </strong>
-                              </a>
+                              <PerfilFinal
+                                codigo="I"
+                                nombre="Coleccionista en Desarrollo"
+                                href="/perfiles/pi-trans-des"
+                                texto="11. Reconozco que debería ordenar, orientar o desarrollar mejor mi colección"
+                                modoAdmision={modoAdmision}
+                              />
                             </div>
 
                             <div style={styles.option}>
-                              <a style={styles.optionLink} href="/perfiles/pj-trans-acum">
-                                <strong>11'.</strong> Mantengo una relación libre,
-                                espontánea y no sistemática con las piezas →{" "}
-                                <strong>
-                                  <em>Perfil J:</em> Acumulador No Sistemático
-                                </strong>
-                              </a>
+                              <PerfilFinal
+                                codigo="J"
+                                nombre="Acumulador No Sistemático"
+                                href="/perfiles/pj-trans-acum"
+                                texto="11'. Mantengo una relación libre, espontánea y no sistemática con las piezas"
+                                modoAdmision={modoAdmision}
+                              />
                             </div>
                           </div>
                         )}
@@ -446,8 +445,7 @@ export default function DiagnosticoPage() {
 
         <div style={{ marginTop: "2rem" }}>
           <p>
-            También podés consultar la{" "}
-            <a href="/perfiles">guía completa de perfiles</a>.
+            También puede consultar la <a href="/perfiles">guía completa de perfiles</a>.
           </p>
         </div>
       </div>

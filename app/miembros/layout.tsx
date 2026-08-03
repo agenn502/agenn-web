@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { supabase } from "@/lib/supabaseClient";
 
 type User = {
   codigo: string;
@@ -23,28 +24,77 @@ export default function MiembrosLayout({
   const [user, setUser] = useState<User | null>(null);
   const [esConsejo, setEsConsejo] = useState(false);
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const [pendientesAprobacion, setPendientesAprobacion] = useState(0);
+  const [alertaAscenso, setAlertaAscenso] = useState("");
 
   useEffect(() => {
-    const stored = localStorage.getItem("user");
+    const cargar = async () => {
+      const stored = localStorage.getItem("user");
 
-    if (!stored) {
-      window.location.href = "/login";
-      return;
-    }
+      if (!stored) {
+        window.location.href = "/login";
+        return;
+      }
 
-    const parsed = JSON.parse(stored);
+      const parsed = JSON.parse(stored);
 
-    const consejoNormalizado =
-      parsed.consejo === true ||
-      parsed.consejo === "true" ||
-      parsed.consejo === "TRUE" ||
-      parsed.consejo === 1;
+      const consejoNormalizado =
+        parsed.consejo === true ||
+        parsed.consejo === "true" ||
+        parsed.consejo === "TRUE" ||
+        parsed.consejo === 1;
 
-    setUser(parsed);
-    setEsConsejo(consejoNormalizado);
+      setUser(parsed);
+      setEsConsejo(consejoNormalizado);
+
+      if (consejoNormalizado) {
+        try {
+          const response = await fetch("/api/aprobacion/pendientes", {
+            headers: { "x-user-codigo": parsed.codigo },
+            cache: "no-store",
+          });
+          const result = await response.json();
+          if (response.ok && result.ok) {
+            setPendientesAprobacion(result.total || 0);
+          }
+        } catch {
+          setPendientesAprobacion(0);
+        }
+      }
+	  if (
+		  parsed.nivel === "INV" ||
+		  parsed.nivel === "NOV" ||
+		  parsed.nivel === "ASP"
+		) {
+		  const { data: revisionData } = await supabase
+			.from("ensayos")
+			.select("estado_revision")
+			.eq("autor_codigo", parsed.codigo)
+			.eq("estado", "publicado")
+			.order("updated_at", { ascending: false });
+
+		  const tieneRechazado = revisionData?.some(
+			(r) => r.estado_revision === "rechazado"
+		  );
+
+		  const tienePendiente = revisionData?.some(
+			(r) => r.estado_revision === "pendiente"
+		  );
+
+		  if (tieneRechazado) {
+			setAlertaAscenso("⚠️");
+		  } else if (tienePendiente) {
+			setAlertaAscenso("⏳");
+		  }
+		}
+    };
+
+    cargar();
   }, []);
 
   if (!user) return <p style={{ padding: 40 }}>Cargando...</p>;
+
+  const esPropietario = user.codigo === "NUM0002";
 
   const getMenu = (): MenuItem[] => {
     switch (user.nivel) {
@@ -55,6 +105,7 @@ export default function MiembrosLayout({
           { label: "AGENN Logo de miembro", href: "/miembros/logo" },
           { label: "Eventos", href: "/miembros/eventos" },
           { label: "Biblioteca", href: "/miembros/biblioteca" },
+          { label: "Ensayos académicos", href: "/miembros/ensayos" },
           { label: "Documentos oficiales", href: "/miembros/documentos" },
         ];
 
@@ -69,14 +120,23 @@ export default function MiembrosLayout({
               href: "/miembros/proceso_nov",
             },
             {
-              label: "Proceso de Ascenso INV",
-              href: "/miembros/proceso_inv",
-            },
+			  label: alertaAscenso
+				? `Proceso de Ascenso INV ${alertaAscenso}`
+				: "Proceso de Ascenso INV",
+			  href: "/miembros/proceso_inv",
+			},
             {
-              label: "Aprobación de miembros",
-              href: "/miembros/aprobaciones",
+              label: "Proceso de aprobación",
+              href: "/miembros/proceso-aprobacion",
             }
           );
+        }
+
+        if (esPropietario) {
+          baseMenu.push({
+            label: "🧭 Estado del proyecto",
+            href: "/miembros/diagnostico",
+          });
         }
 
         return baseMenu;
@@ -90,6 +150,7 @@ export default function MiembrosLayout({
           { label: "Eventos", href: "/miembros/eventos" },
           { label: "Documentos oficiales", href: "/miembros/documentos" },
           { label: "Proceso de ascenso", href: "/miembros/proceso_inv" },
+          { label: "Ensayos académicos", href: "/miembros/ensayos" },
         ];
 
       case "NOV":
@@ -100,6 +161,7 @@ export default function MiembrosLayout({
           { label: "Eventos", href: "/miembros/eventos" },
           { label: "Documentos oficiales", href: "/miembros/documentos" },
           { label: "Proceso de ascenso", href: "/miembros/proceso_nov" },
+          { label: "Ensayos académicos", href: "/miembros/ensayos" },
         ];
 
       case "ASP":
@@ -145,7 +207,27 @@ export default function MiembrosLayout({
                   textDecoration: "none",
                 }}
               >
-                {item.label}
+                <span style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.75rem" }}>
+                  <span>{item.label}</span>
+                  {item.href === "/miembros/proceso-aprobacion" && pendientesAprobacion > 0 && (
+                    <span
+                      style={{
+                        display: "inline-grid",
+                        placeItems: "center",
+                        minWidth: "24px",
+                        height: "24px",
+                        padding: "0 6px",
+                        borderRadius: "999px",
+                        background: "#6b6f1a",
+                        color: "white",
+                        fontSize: "0.78rem",
+                        fontWeight: 700,
+                      }}
+                    >
+                      {pendientesAprobacion}
+                    </span>
+                  )}
+                </span>
               </Link>
             </li>
           ))}
