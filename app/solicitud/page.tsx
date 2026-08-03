@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { Suspense, FormEvent, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   DEPARTAMENTOS,
@@ -126,7 +126,7 @@ const NIVELES_ACADEMICOS = [
   "Otro",
 ];
 
-export default function SolicitudPage() {
+function SolicitudContenido() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -684,5 +684,20 @@ export default function SolicitudPage() {
         </form>
       </div>
     </section>
+  );
+}
+export default function SolicitudPage() {
+  return (
+    <Suspense
+      fallback={
+        <section className="section">
+          <div className="container content-page">
+            <p>Cargando solicitud...</p>
+          </div>
+        </section>
+      }
+    >
+      <SolicitudContenido />
+    </Suspense>
   );
 }

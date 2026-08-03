@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import PerfilFinal from "@/components/PerfilFinal";
 
@@ -61,7 +61,7 @@ const styles = {
   },
 };
 
-export default function DiagnosticoPage() {
+function DiagnosticoContenido() {
   const [open, setOpen] = useState<OpenState>({});
   const searchParams = useSearchParams();
   const modoAdmision = searchParams.get("origen") === "admision";
@@ -450,5 +450,20 @@ export default function DiagnosticoPage() {
         </div>
       </div>
     </section>
+  );
+}
+export default function DiagnosticoPage() {
+  return (
+    <Suspense
+      fallback={
+        <section className="section">
+          <div className="container content-page">
+            <p>Cargando diagnóstico...</p>
+          </div>
+        </section>
+      }
+    >
+      <DiagnosticoContenido />
+    </Suspense>
   );
 }

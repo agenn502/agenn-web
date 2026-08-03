@@ -1,9 +1,10 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-export default function SolicitudRecibidaPage() {
+function SolicitudRecibidaContenido() {
   const searchParams = useSearchParams();
   const codigo = searchParams.get("codigo") || "";
 
@@ -106,5 +107,24 @@ export default function SolicitudRecibidaPage() {
         </div>
       </div>
     </section>
+  );
+}
+
+export default function SolicitudRecibidaPage() {
+  return (
+    <Suspense
+      fallback={
+        <section className="section">
+          <div
+            className="container content-page"
+            style={{ maxWidth: "760px", textAlign: "center" }}
+          >
+            <p>Cargando confirmación...</p>
+          </div>
+        </section>
+      }
+    >
+      <SolicitudRecibidaContenido />
+    </Suspense>
   );
 }
