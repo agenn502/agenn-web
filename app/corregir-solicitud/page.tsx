@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const PERFILES: Record<string, string> = {
@@ -24,7 +24,7 @@ async function comprimirFotografia(file: File): Promise<File> {
   return new File([blob], "fotografia.jpg", { type: "image/jpeg" });
 }
 
-export default function CorregirSolicitudPage() {
+function CorregirSolicitudContenido() {
   const params = useSearchParams(); const router = useRouter(); const token = params.get("token") || "";
   const [datos, setDatos] = useState<any>(null); const [loading, setLoading] = useState(true); const [error, setError] = useState(""); const [enviando, setEnviando] = useState(false);
   const [foto, setFoto] = useState<File | null>(null); const [fotoPreview, setFotoPreview] = useState<string | null>(null); const [intereses, setIntereses] = useState<string[]>([]);
@@ -57,4 +57,22 @@ export default function CorregirSolicitudPage() {
       {[['comunidad_numismatica','Asociación, grupo o comunidad'],['areas_interes','Áreas o piezas de interés'],['como_conocio_agenn','¿Cómo conoció la AGENN?'],['motivacion','¿Por qué desea ingresar?'],['expectativas_aprendizaje','¿Qué espera aprender?']].map(([k,l])=><label key={k} style={{display:"block",marginTop:"1rem"}}>{l}<textarea name={k} value={datos[k]||''} onChange={e=>set(k,e.target.value)} required={['como_conocio_agenn','motivacion'].includes(k)} rows={k==='motivacion'?6:4} style={campo}/></label>)}</div>
       {error&&<p style={{color:"#8b2f2f",fontWeight:700}}>{error}</p>}<button className="button primary" disabled={enviando} style={{marginTop:"1.5rem"}}>{enviando?"Reenviando...":"Reenviar solicitud corregida"}</button>
     </form></div></section>;
+}
+export default function CorregirSolicitudPage() {
+  return (
+    <Suspense
+      fallback={
+        <section className="section">
+          <div
+            className="container content-page"
+            style={{ maxWidth: "980px" }}
+          >
+            <p>Cargando solicitud...</p>
+          </div>
+        </section>
+      }
+    >
+      <CorregirSolicitudContenido />
+    </Suspense>
+  );
 }
