@@ -29,6 +29,8 @@ export async function enviarCorreo(params: {
       },
     });
 
+	await transporter.verify();
+	
     await transporter.sendMail({
       from: `"Academia Guatemalteca de Estudios Numismáticos y Notafílicos" <${usuario}>`,
       to: params.para,
