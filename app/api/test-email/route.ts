@@ -3,7 +3,7 @@ import { enviarCorreo, plantillaCorreo } from "@/lib/email";
 
 export async function GET() {
   const resultado = await enviarCorreo({
-    para: "geperez@url.edu.gt",
+    para: "gero_perez@yahoo.com",
     asunto: "Prueba de correo - Plataforma AGENN",
     html: plantillaCorreo(`
       <p>Estimado Gerónimo:</p>
