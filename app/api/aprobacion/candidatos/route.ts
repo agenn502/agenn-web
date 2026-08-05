@@ -270,6 +270,27 @@ export async function POST(req: NextRequest) {
         consejo: false,
       });
       if (userError) throw new Error(userError.message);
+	  
+	  if (nivel === "ASP") {
+		  const { error: progresoError } = await supabaseServer
+			.from("progreso_aspirante")
+			.upsert(
+			  {
+				user_codigo: codigoMiembro,
+				porcentaje: 0,
+				completada: false,
+			  },
+			  {
+				onConflict: "user_codigo",
+			  }
+			);
+
+		  if (progresoError) {
+			throw new Error(
+			  `No fue posible inicializar el progreso académico: ${progresoError.message}`
+			);
+		  }
+		}
 
       const ahora = new Date().toISOString();
       const { error: updateError } = await supabaseServer.from("candidatos").update({
