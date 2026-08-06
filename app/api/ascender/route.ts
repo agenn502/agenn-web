@@ -238,11 +238,13 @@ export async function POST(req: NextRequest) {
       process.env.NEXT_PUBLIC_SITE_URL ||
       "https://agenn-web.vercel.app";
 
-    let correo = {
-      enviado: false,
-      error:
-        "No se encontró el correo del expediente de admisión.",
-    };
+    let correo: {
+	  enviado: boolean;
+	  error?: string;
+	} = {
+	  enviado: false,
+	  error: "No se encontró el correo del expediente de admisión.",
+	};
 
     if (candidato?.correo) {
       const nombreCompleto =
