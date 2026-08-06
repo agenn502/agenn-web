@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
 
 type User = {
   codigo: string;
@@ -52,20 +51,32 @@ export default function ProcesoAspPage() {
         return;
       }
 
-      const { data, error } = await supabase
-        .from("progreso_aspirante")
-        .select("*")
-        .eq("user_codigo", parsed.codigo)
-        .eq("unidad_slug", "introductorio")
-        .maybeSingle();
+      try {
+		  const response = await fetch(
+			`/api/progreso/aspirante?codigo=${encodeURIComponent(parsed.codigo)}`,
+			{
+			  cache: "no-store",
+			}
+		  );
 
-      if (error) {
-        setError(error.message);
-      } else {
-        setProgreso((data as ProgresoRow) || null);
-      }
+		  const result = await response.json();
 
-      setLoading(false);
+		  if (!response.ok || !result.ok) {
+			throw new Error(
+			  result.error || "No fue posible cargar el progreso."
+			);
+		  }
+
+		  setProgreso(result.progreso || null);
+		} catch (err) {
+		  setError(
+			err instanceof Error
+			  ? err.message
+			  : "No fue posible cargar el progreso."
+		  );
+		}
+
+		setLoading(false);
     };
 
     cargar();

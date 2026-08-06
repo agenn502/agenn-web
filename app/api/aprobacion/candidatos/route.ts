@@ -272,16 +272,28 @@ export async function POST(req: NextRequest) {
       if (userError) throw new Error(userError.message);
 	  
 	  if (nivel === "ASP") {
+		  const progresoInicial = {
+			currentIndex: 0,
+			completedIds: [],
+			selectedAnswers: {},
+			attemptCounts: {},
+			lastWrongQuestionId: null,
+			finished: false,
+		  };
+
 		  const { error: progresoError } = await supabaseServer
 			.from("progreso_aspirante")
 			.upsert(
 			  {
 				user_codigo: codigoMiembro,
-				porcentaje: 0,
+				unidad_slug: "introductorio",
 				completada: false,
+				porcentaje: 0,
+				respuestas: progresoInicial,
+				fecha_actualizacion: new Date().toISOString(),
 			  },
 			  {
-				onConflict: "user_codigo",
+				onConflict: "user_codigo,unidad_slug",
 			  }
 			);
 
