@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
 
 type User = {
   codigo: string;
@@ -683,147 +682,161 @@ export default function IntroductorioPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [nuevoCodigo, setNuevoCodigo] = useState("");
+  const [nuevaPassword, setNuevaPassword] = useState("");
   const [ascensoError, setAscensoError] = useState("");
 
   const currentQuestion = QUESTIONS[payload.currentIndex] || null;
   const progresoQuiz = Math.round((payload.completedIds.length / QUESTIONS.length) * 100);
 
   useEffect(() => {
-    const cargar = async () => {
-      const stored = localStorage.getItem("user");
+	  const cargar = async () => {
+		const stored = localStorage.getItem("user");
 
-      if (!stored) {
-        window.location.href = "/login";
-        return;
-      }
+		if (!stored) {
+		  window.location.href = "/login";
+		  return;
+		}
 
-      const parsed = JSON.parse(stored) as User;
-      const consejoNormalizado =
-        parsed.consejo === true ||
-        parsed.consejo === "true" ||
-        parsed.consejo === "TRUE" ||
-        parsed.consejo === 1;
+		try {
+		  const parsed = JSON.parse(stored) as User;
 
-      setUser(parsed);
-      setEsConsejo(consejoNormalizado);
+		  const consejoNormalizado =
+			parsed.consejo === true ||
+			parsed.consejo === "true" ||
+			parsed.consejo === "TRUE" ||
+			parsed.consejo === 1;
 
-      if (!consejoNormalizado) {
-        const { data } = await supabase
-          .from("progreso_aspirante")
-          .select("*")
-          .eq("user_codigo", parsed.codigo)
-          .eq("unidad_slug", "introductorio")
-          .maybeSingle();
+		  setUser(parsed);
+		  setEsConsejo(consejoNormalizado);
 
-        if (data?.respuestas) {
-          const saved = data.respuestas as ProgressPayload;
-          const hydrated = {
-            ...initialPayload,
-            ...saved,
-          };
-          setPayload(hydrated);
+		  if (!consejoNormalizado) {
+			const response = await fetch(
+			  `/api/progreso/aspirante?codigo=${encodeURIComponent(parsed.codigo)}`,
+			  {
+				method: "GET",
+				cache: "no-store",
+			  }
+			);
 
-          if (hydrated.finished) {
-            setModo("final");
-          }
-        }
-      }
+			const result = await response.json();
 
-      setLoading(false);
-    };
+			if (!response.ok || !result.ok) {
+			  throw new Error(
+				result.error || "No fue posible cargar el avance."
+			  );
+			}
 
-    cargar();
-  }, []);
+			if (result.progreso?.respuestas) {
+			  const saved = result.progreso.respuestas as ProgressPayload;
 
-  const persistir = async (nextPayload: ProgressPayload) => {
-    if (!user || esConsejo) return;
+			  const hydrated: ProgressPayload = {
+				...initialPayload,
+				...saved,
+			  };
 
-    setSaving(true);
+			  setPayload(hydrated);
 
-    const { error } = await supabase.from("progreso_aspirante").upsert(
-      [
-        {
-          user_codigo: user.codigo,
-          unidad_slug: "introductorio",
-          completada: nextPayload.finished,
-          porcentaje: Math.round((nextPayload.completedIds.length / QUESTIONS.length) * 100),
-          respuestas: nextPayload,
-          fecha_actualizacion: new Date().toISOString(),
-        },
-      ],
-      { onConflict: "user_codigo,unidad_slug" }
-    );
+			  if (hydrated.finished) {
+				setModo("final");
+			  }
+			}
+		  }
+		} catch (error) {
+		  console.error("Error cargando el módulo introductorio:", error);
 
-    setSaving(false);
+		  alert(
+			error instanceof Error
+			  ? error.message
+			  : "No fue posible cargar el módulo introductorio."
+		  );
+		} finally {
+		  setLoading(false);
+		}
+	  };
 
-    if (error) {
-      alert("No se pudo guardar el avance: " + error.message);
-    }
-  };
+	  cargar();
+	}, []);
 
-  const generarCodigoNovicioLibre = async () => {
-  const { data: usersData, error: usersError } = await supabase
-    .from("users")
-    .select("codigo")
-    .like("codigo", "NOV%");
+  const persistir = async (
+	  nextPayload: ProgressPayload
+	): Promise<boolean> => {
+	  if (!user || esConsejo) return true;
 
-  if (usersError) throw new Error(usersError.message);
+	  setSaving(true);
 
-  const { data: miembrosData } = await supabase
-    .from("miembros")
-    .select("codigo")
-    .like("codigo", "NOV%");
+	  try {
+		const response = await fetch("/api/progreso/aspirante", {
+		  method: "POST",
+		  headers: {
+			"Content-Type": "application/json",
+		  },
+		  body: JSON.stringify({
+			codigo: user.codigo,
+			payload: nextPayload,
+		  }),
+		});
 
-  const usados = new Set<string>();
+		const result = await response.json();
 
-  (usersData || []).forEach((row: any) => usados.add(row.codigo));
-  (miembrosData || []).forEach((row: any) => usados.add(row.codigo));
+		if (!response.ok || !result.ok) {
+		  throw new Error(
+			result.error || "No fue posible guardar el avance."
+		  );
+		}
 
-  for (let i = 1; i <= 9999; i++) {
-    const codigo = `NOV${String(i).padStart(4, "0")}`;
+		return true;
+	  } catch (error) {
+		alert(
+		  error instanceof Error
+			? `No se pudo guardar el avance: ${error.message}`
+			: "No se pudo guardar el avance."
+		);
 
-    if (!usados.has(codigo)) {
-      return codigo;
-    }
-  }
+		return false;
+	  } finally {
+		setSaving(false);
+	  }
+	};
 
-  throw new Error("No hay códigos NOV disponibles.");
-};
-
-const ascenderAspiranteANovicio = async () => {
-  if (!user || esConsejo) return;
-
-  if (user.nivel !== "ASP") return;
+const ascenderAspiranteANovicio = async (): Promise<boolean> => {
+  if (!user || esConsejo) return false;
+  if (user.nivel !== "ASP") return false;
 
   try {
     setAscensoError("");
 
-    const codigoAnterior = user.codigo;
-    const codigoNuevo = await generarCodigoNovicioLibre();
+    const response = await fetch("/api/ascender", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        codigo: user.codigo,
+      }),
+    });
 
-    const { error: usersError } = await supabase
-      .from("users")
-      .update({
-        codigo: codigoNuevo,
-        nivel: "NOV",
-      })
-      .eq("codigo", codigoAnterior);
+    const result = await response.json();
 
-    if (usersError) throw new Error(usersError.message);
+    if (!response.ok || !result.ok) {
+      throw new Error(
+        result.error || "No se pudo completar el ascenso."
+      );
+    }
 
-    await supabase
-      .from("miembros")
-      .update({
-        codigo: codigoNuevo,
-        nivel: "NOV",
-      })
-      .eq("codigo", codigoAnterior);
-
-    setNuevoCodigo(codigoNuevo);
+    setNuevoCodigo(result.codigoNuevo || "");
+    setNuevaPassword(result.passwordTemporal || "");
 
     localStorage.removeItem("user");
-  } catch (err: any) {
-    setAscensoError(err.message || "No se pudo completar el ascenso.");
+
+    return true;
+  } catch (error) {
+    setAscensoError(
+      error instanceof Error
+        ? error.message
+        : "No se pudo completar el ascenso."
+    );
+
+    return false;
   }
 };
 
@@ -868,9 +881,13 @@ const ascenderAspiranteANovicio = async () => {
       setPayload(nextPayload);
       setSelectedOption("");
       setFeedbackMode(null);
-      await persistir(nextPayload);
+      const guardado = await persistir(nextPayload);
 
-      if (finished) {
+		if (!guardado) {
+		  return;
+		}
+
+		if (finished) {
 		  await ascenderAspiranteANovicio();
 		  setModo("final");
 		}
@@ -915,12 +932,16 @@ const ascenderAspiranteANovicio = async () => {
     setPayload(nextPayload);
     setSelectedOption("");
     setFeedbackMode(null);
-    await persistir(nextPayload);
+    const guardado = await persistir(nextPayload);
 
-    if (finished) {
-	  await ascenderAspiranteANovicio();
-	  setModo("final");
-	}
+		if (!guardado) {
+		  return;
+		}
+
+		if (finished) {
+		  await ascenderAspiranteANovicio();
+		  setModo("final");
+		}
   };
 
   const repetirPregunta = () => {
@@ -1293,9 +1314,15 @@ const ascenderAspiranteANovicio = async () => {
 				  {nuevoCodigo}
 				</p>
 
+				{nuevaPassword && (
+				  <p style={{ marginTop: "0.8rem", lineHeight: 1.7 }}>
+					<strong>Contraseña temporal:</strong> {nuevaPassword}
+				  </p>
+				)}
+
 				<p style={{ marginBottom: 0, marginTop: "0.8rem", lineHeight: 1.7 }}>
-				  Cierra tu sesión e inicia nuevamente con este nuevo código. Tu clave
-				  de acceso continúa siendo la misma.
+				  También enviamos estas credenciales a tu correo electrónico. Cierra
+				  tu sesión e inicia nuevamente con tu nuevo código y contraseña.
 				</p>
 			  </div>
 			)}
@@ -1342,6 +1369,7 @@ const ascenderAspiranteANovicio = async () => {
 					setSelectedOption("");
 					setFeedbackMode(null);
 					setNuevoCodigo("");
+					setNuevaPassword("");
 					setAscensoError("");
 				  }}
 				  style={{
