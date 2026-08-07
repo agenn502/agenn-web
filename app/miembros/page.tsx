@@ -64,7 +64,7 @@ export default function MiembrosPage() {
           background: "#faf8f3",
         }}
       >
-        <h2>📖 Mi biografía</h2>
+        <h2>📖 Biografía Personal</h2>
 
         <p>
           Aquí podrá completar o actualizar su información personal,
@@ -81,7 +81,7 @@ export default function MiembrosPage() {
           background: "#faf8f3",
         }}
       >
-        <h2>🏛 Distintivo institucional</h2>
+        <h2>🏛 AGENN Logo de miembro</h2>
 
         <p>
           Puede descargar una imagen personalizada con su nombre,
