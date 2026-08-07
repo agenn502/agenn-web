@@ -35,32 +35,84 @@ export default function MiembrosPage() {
   };
 
   return (
-    <div>
-      <h1>Bienvenido {user.nombre}</h1>
+  <div style={{ maxWidth: "900px" }}>
+    <h1>Bienvenido(a) a la Academia</h1>
 
-      <p>
-        <strong>Código:</strong> {user.codigo}
-      </p>
+    <p style={{ lineHeight: 1.8 }}>
+      Estimado(a) <strong>{user.nombre}</strong>, le damos la bienvenida a la
+      Academia Guatemalteca de Estudios Numismáticos y Notafílicos.
+    </p>
 
-      <p>
-        <strong>Nivel:</strong> {nombreNivel[user.nivel] || user.nivel}
-      </p>
+    <p style={{ lineHeight: 1.8 }}>
+      Su código institucional es <strong>{user.codigo}</strong> y actualmente
+      pertenece al nivel de{" "}
+      <strong>{nombreNivel[user.nivel] || user.nivel}</strong>.
+    </p>
 
-      {user.consejo === true && (
+    <div
+      style={{
+        marginTop: "2rem",
+        display: "grid",
+        gap: "1.25rem",
+      }}
+    >
+      <div
+        style={{
+          border: "1px solid #d7cfbf",
+          borderRadius: "12px",
+          padding: "1.25rem",
+          background: "#faf8f3",
+        }}
+      >
+        <h2>📖 Mi biografía</h2>
+
         <p>
-          <strong>Consejo Académico:</strong> Sí
+          Aquí podrá completar o actualizar su información personal,
+          modificar su fotografía y mantener actualizado su perfil dentro
+          de la Academia.
         </p>
-      )}
+      </div>
 
-      {user.consejo !== true && (
+      <div
+        style={{
+          border: "1px solid #d7cfbf",
+          borderRadius: "12px",
+          padding: "1.25rem",
+          background: "#faf8f3",
+        }}
+      >
+        <h2>🏛 Distintivo institucional</h2>
+
         <p>
-          <strong>Consejo Académico:</strong> No
+          Puede descargar una imagen personalizada con su nombre,
+          código y nivel académico para utilizarla en redes sociales
+          o como identificación institucional.
         </p>
-      )}
+      </div>
 
-      <p style={{ marginTop: "2rem" }}>
-        Selecciona una opción del menú para continuar.
-      </p>
+      <div
+        style={{
+          border: "1px solid #d7cfbf",
+          borderRadius: "12px",
+          padding: "1.25rem",
+          background: "#faf8f3",
+        }}
+      >
+        <h2>🎓 Proceso de formación</h2>
+
+        <p>
+          Desde esta sección accederá al proceso académico correspondiente
+          a su nivel actual.
+        </p>
+
+        {user.nivel === "ASP" && (
+          <p>
+            Como Aspirante deberá completar el Módulo Introductorio para
+            ascender automáticamente al nivel de Académico Novicio.
+          </p>
+        )}
+      </div>
     </div>
-  );
+  </div>
+);
 }

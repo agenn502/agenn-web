@@ -41,12 +41,13 @@ export default function LogoMiembroPage() {
       canvas.height = img.height;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // 🔹 Fondo blanco (IMPORTANTE para JPG)
-		ctx.fillStyle = "#ffffff";
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-		// 🔹 Imagen base
-		ctx.drawImage(img, 0, 0);
+      // Fondo blanco para exportar correctamente a JPG
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Imagen base
+      ctx.drawImage(img, 0, 0);
 
       const niveles: Record<string, string> = {
         NUM: "ACADÉMICO NUMERARIO",
@@ -57,34 +58,46 @@ export default function LogoMiembroPage() {
 
       const textoNivel = niveles[user.nivel] || user.nivel;
 
-      // Mitad derecha del logo
+      const nombre =
+        user.nombre.length > 32
+          ? user.nombre.substring(0, 32) + "..."
+          : user.nombre;
+
+      // Mitad derecha del distintivo
       const mitadDerechaX = canvas.width / 2;
       const centroTextoX = mitadDerechaX + canvas.width / 4;
 
-      // AGENN
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
+
+      // AGENN
       ctx.fillStyle = "#000000";
-      ctx.font = "900 220px Libre Baskerville, serif";
+      ctx.font = "900 220px 'Libre Baskerville', Georgia, serif";
       ctx.fillText("AGENN", centroTextoX, 210);
 
+      // Nombre del miembro
+      ctx.fillStyle = "#000000";
+      ctx.font = "700 68px 'Libre Baskerville', Georgia, serif";
+      ctx.fillText(nombre, centroTextoX, 330);
+
       // Código
-      ctx.font = "900 90px Libre Baskerville, serif";
-      ctx.fillText(user.codigo, centroTextoX, 410);
+      ctx.fillStyle = "#000000";
+      ctx.font = "900 90px 'Libre Baskerville', Georgia, serif";
+      ctx.fillText(user.codigo, centroTextoX, 445);
 
       // Nivel
       ctx.fillStyle = "#ffffff";
-      ctx.font = "900 60px Libre Baskerville, serif";
+      ctx.font = "900 60px 'Libre Baskerville', Georgia, serif";
       ctx.fillText(textoNivel, centroTextoX, canvas.height - 85);
     };
   }, [user]);
 
   const descargar = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !user) return;
 
     const link = document.createElement("a");
-    link.download = "agenn-logo-miembro.jpg";
+    link.download = `${user.codigo}-distintivo-agenn.jpg`;
     link.href = canvas.toDataURL("image/jpeg", 0.95);
     link.click();
   };
@@ -92,12 +105,19 @@ export default function LogoMiembroPage() {
   if (!user) return <div>Cargando...</div>;
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>AGENN Logo de miembro</h1>
+    <div style={{ padding: "2rem", maxWidth: "1000px" }}>
+      <h1>Distintivo institucional</h1>
 
-      <p style={{ marginBottom: "1rem", lineHeight: 1.6 }}>
-        Generación automática de identificación institucional del miembro en
-        formato JPG.
+      <p style={{ marginBottom: "1rem", lineHeight: 1.7 }}>
+        Esta imagen constituye su distintivo personal dentro de la Academia.
+        Puede descargarla y utilizarla en sus redes sociales o en actividades
+        relacionadas con la AGENN.
+      </p>
+
+      <p style={{ marginBottom: "1.5rem", lineHeight: 1.7 }}>
+        El distintivo muestra su nombre, código institucional y nivel académico
+        actual. Cuando avance dentro del proceso formativo, podrá generar una
+        nueva versión con su categoría actualizada.
       </p>
 
       <canvas
@@ -105,13 +125,14 @@ export default function LogoMiembroPage() {
         style={{
           width: "100%",
           maxWidth: "900px",
-          border: "1px solid #ddd",
+          border: "1px solid #ddd4c7",
           borderRadius: "12px",
           display: "block",
+          background: "white",
         }}
       />
 
-      <div style={{ marginTop: "1rem" }}>
+      <div style={{ marginTop: "1.25rem" }}>
         <button
           onClick={descargar}
           style={{
@@ -121,9 +142,10 @@ export default function LogoMiembroPage() {
             border: "none",
             borderRadius: "8px",
             cursor: "pointer",
+            fontWeight: 700,
           }}
         >
-          Descargar JPG
+          Descargar distintivo JPG
         </button>
       </div>
     </div>
