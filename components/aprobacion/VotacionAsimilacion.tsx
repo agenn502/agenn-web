@@ -29,7 +29,7 @@ export default function VotacionAsimilacion({
 
   async function votar(voto: "favor" | "contra") {
     if (voto === "contra" && comentario.trim() === "") {
-      alert("Debe indicar la razÃ³n del voto en contra.");
+      alert("Debe indicar la razón del voto en contra.");
       return;
     }
 

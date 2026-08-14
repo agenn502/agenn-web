@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type Datos = {
@@ -44,7 +44,7 @@ type Datos = {
   };
 };
 
-export default function AceptarIncorporacionPage() {
+function AceptarIncorporacionContenido() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -482,5 +482,13 @@ export default function AceptarIncorporacionPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function AceptarIncorporacionPage() {
+  return (
+    <Suspense fallback={<div>Validando invitación...</div>}>
+      <AceptarIncorporacionContenido />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type Datos = {
@@ -51,7 +51,7 @@ type ResultadoIncorporacion = {
   fechaVencimientoPassword?: string | null;
 };
 
-export default function CompletarIncorporacionPage() {
+function CompletarIncorporacionContenido() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -1046,5 +1046,13 @@ export default function CompletarIncorporacionPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function CompletarIncorporacionPage() {
+  return (
+    <Suspense fallback={<div>Cargando formulario de incorporación...</div>}>
+      <CompletarIncorporacionContenido />
+    </Suspense>
   );
 }

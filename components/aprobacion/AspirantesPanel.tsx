@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 export default function AspirantesPanel() {
   return (
@@ -11,11 +11,10 @@ export default function AspirantesPanel() {
       }}
     >
       <p style={{ margin: 0 }}>
-        No hay actividades del Nivel Aspirante pendientes de aprobaciÃ³n. El
-        proceso ASP continÃºa funcionando de forma automÃ¡tica mientras no se
-        defina una evaluaciÃ³n que requiera intervenciÃ³n del Consejo AcadÃ©mico.
+        No hay actividades del Nivel Aspirante pendientes de aprobación. El
+        proceso ASP continúa funcionando de forma automática mientras no se
+        defina una evaluación que requiera intervención del Consejo Académico.
       </p>
     </div>
   );
 }
-

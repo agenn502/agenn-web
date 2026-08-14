@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Suspense,
   useState,
 } from "react";
 
@@ -9,7 +10,7 @@ import {
   useSearchParams,
 } from "next/navigation";
 
-export default function CrearPasswordPage() {
+function CrearPasswordContenido() {
   const router =
     useRouter();
 
@@ -760,5 +761,13 @@ export default function CrearPasswordPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function CrearPasswordPage() {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <CrearPasswordContenido />
+    </Suspense>
   );
 }
