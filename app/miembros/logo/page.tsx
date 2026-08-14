@@ -58,11 +58,6 @@ export default function LogoMiembroPage() {
 
       const textoNivel = niveles[user.nivel] || user.nivel;
 
-      const nombre =
-        user.nombre.length > 32
-          ? user.nombre.substring(0, 32) + "..."
-          : user.nombre;
-
       // Mitad derecha del distintivo
       const mitadDerechaX = canvas.width / 2;
       const centroTextoX = mitadDerechaX + canvas.width / 4;
@@ -75,10 +70,25 @@ export default function LogoMiembroPage() {
       ctx.font = "900 220px 'Libre Baskerville', Georgia, serif";
       ctx.fillText("AGENN", centroTextoX, 210);
 
-      // Nombre del miembro
-      ctx.fillStyle = "#000000";
-      ctx.font = "700 68px 'Libre Baskerville', Georgia, serif";
-      ctx.fillText(nombre, centroTextoX, 330);
+      // Nombre del miembro (ajuste automático del tamaño)
+		ctx.fillStyle = "#000000";
+
+		let tamanoFuente = 68;
+		ctx.font = `700 ${tamanoFuente}px 'Libre Baskerville', Georgia, serif`;
+
+		// Ancho disponible para el nombre
+		const anchoMaximo = canvas.width * 0.42;
+
+		// Reducir el tamaño hasta que el nombre quepa
+		while (
+		  ctx.measureText(user.nombre).width > anchoMaximo &&
+		  tamanoFuente > 36
+		) {
+		  tamanoFuente -= 2;
+		  ctx.font = `700 ${tamanoFuente}px 'Libre Baskerville', Georgia, serif`;
+		}
+
+		ctx.fillText(user.nombre, centroTextoX, 330);
 
       // Código
       ctx.fillStyle = "#000000";

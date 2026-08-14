@@ -32,7 +32,7 @@ const TEORIA = [
   {
     titulo: "Presentación del módulo",
     texto:
-      "El presente Módulo Introductorio forma parte del proceso de formación del Nivel Aspirante de la Academia. Su propósito es ofrecer una primera aproximación ordenada, clara y académica a la numismática, la notafilia y la historia del dinero.\n\nEste módulo está dirigido a personas que manifiestan interés por aprender sobre estos temas, aunque no cuenten todavía con conocimientos previos especializados. Por ello, los contenidos se presentan de manera progresiva, partiendo de conceptos básicos hasta llegar a una comprensión inicial del dinero como fenómeno histórico, económico, político y cultural.\n\nEl objetivo no es que el aspirante memorice definiciones, sino que comience a desarrollar una forma de observar, preguntar e interpretar monedas, billetes y otros objetos relacionados con el intercambio económico. Esta base será necesaria para incorporarse posteriormente al Nivel Novicio, donde iniciará una formación más estructurada y profunda.",
+      "El presente Módulo Introductorio forma parte del proceso de formación del Nivel Aspirante de la Academia. Su propósito es ofrecer una primera aproximación ordenada, clara y académica a la numismática, la notafilia y la historia del dinero.\n\nEste módulo está dirigido a personas que manifiestan interés por aprender sobre estos temas, aunque no cuenten todavía con conocimientos previos especializados. Por ello, los contenidos se presentan de manera progresiva, partiendo de conceptos básicos hasta llegar a una comprensión inicial del dinero como fenómeno histórico, económico, político y cultural.\n\nEl objetivo no es que el aspirante memorice definiciones, sino que comience a desarrollar una forma de observar, comparar, preguntar, justificar e interpretar monedas, billetes y otros objetos relacionados con el intercambio económico. Esta base será necesaria para incorporarse posteriormente al Nivel Novicio, donde iniciará una formación más estructurada y profunda.",
   },
   {
     titulo: "Objetivo general",
@@ -57,7 +57,7 @@ const TEORIA = [
   {
     titulo: "Enfoque metodológico",
     texto:
-      "El módulo utiliza un enfoque introductorio, progresivo y formativo. Esto significa que los contenidos no deben verse como conocimientos cerrados, sino como puntos de partida para aprender a observar e interpretar el dinero.\n\nSe recomienda al aspirante leer cuidadosamente cada sección, tomar notas personales, anotar dudas y relacionar los conceptos con ejemplos concretos de monedas o billetes que conozca. El aprendizaje se apoyará en la lectura, la observación, la comparación y la reflexión.\n\nEl cuestionario final no busca castigar el error, sino reforzar el aprendizaje. Por eso cada respuesta incluye retroalimentación. Si una respuesta es incorrecta, el sistema permitirá repetir la pregunta para fortalecer la comprensión.",
+      "El módulo utiliza un enfoque introductorio, progresivo y formativo. Esto significa que los contenidos no deben verse como conocimientos cerrados, sino como puntos de partida para aprender a observar e interpretar el dinero.\n\nSe recomienda al aspirante leer cuidadosamente cada sección, tomar notas personales, anotar dudas y relacionar los conceptos con ejemplos concretos de monedas o billetes que conozca. El aprendizaje se apoyará en la lectura, la observación, la comparación y la reflexión.\n\nEl cuestionario final forma parte del proceso de formación y no busca castigar el error. Sus alternativas exigen comparar conceptos y situaciones plausibles, y cada respuesta incluye una retroalimentación amplia que desarrolla el tema. Si una respuesta es incorrecta, el sistema permitirá repetir la pregunta para fortalecer la comprensión.",
   },
   {
     titulo: "Lineamientos conceptuales",
@@ -90,9 +90,9 @@ const TEORIA = [
       "Para analizar monedas y billetes es necesario conocer algunos conceptos básicos. Estos permiten describir y clasificar las piezas con mayor precisión (Vico Belmonte y De Francisco Olmos, 2016; Banco de Guatemala, 2006).\n\nEl anverso es la cara principal de una moneda o billete. El reverso es la cara opuesta. La denominación indica el valor nominal dentro del sistema monetario (Vico Belmonte y De Francisco Olmos, 2016; Huidobro Moya, 2015).\n\nLa serie agrupa emisiones con características comunes. La fecha permite ubicar la pieza en un momento histórico. El emisor es la institución responsable de producir o poner en circulación el dinero. Las firmas identifican a las autoridades que validan un billete (Asociación Numismática de Guatemala, 2016; Banco de Guatemala, 2006).\n\nEn monedas, la ceca indica el lugar de acuñación. El valor facial es el valor oficial asignado por la autoridad emisora, aunque no siempre coincide con el valor de mercado o de colección (Vico Belmonte y De Francisco Olmos, 2016; Huidobro Moya, 2015).\n\nPara el aspirante, estos conceptos funcionan como un primer vocabulario técnico para comenzar a observar piezas con mayor atención.\n\nLecturas complementarias:\n- Vico Belmonte y De Francisco Olmos (2016), capítulos técnicos.\n- Banco de Guatemala (2012). Billetes de Guatemala.\n\nActividad sugerida:\nSeleccione una moneda o billete y describa sus elementos básicos: anverso, reverso, denominación, emisor, fecha y otros detalles visibles.",
   },
   {
-    titulo: "6. Variantes y clasificación",
+    titulo: "6. Tipo, variante y subvariante: una introducción a la clasificación",
     texto:
-      "En numismática y notafilia, no todas las piezas son idénticas, incluso cuando pertenecen a una misma emisión. Pueden existir variantes producidas por cambios intencionales o por errores en el proceso de fabricación o impresión (Banco de Guatemala, 2006; Asociación Numismática de Guatemala, 2016; Clark, 1971).\n\nLas variantes pueden incluir diferencias en el diseño, firmas, color, tamaño, numeración o errores de impresión. Algunas son evidentes, mientras que otras requieren comparación cuidadosa (Pérez Irungaray, 2025; Clark, 1971).\n\nLa clasificación permite organizar las piezas de manera sistemática. Un sistema de clasificación puede agrupar piezas según emisor, denominación, período histórico, diseño u otros criterios (Contreras Cortés, 1984; Vico Belmonte y De Francisco Olmos, 2016).\n\nPara el aspirante, clasificar no debe entenderse solo como ordenar objetos, sino como una forma inicial de estudiar sus diferencias, relaciones y evolución.\n\nLecturas complementarias:\n- Catálogos numismáticos especializados disponibles en biblioteca.\n- Manuales de clasificación numismática.\n\nActividad sugerida:\nExplique la diferencia entre tipo y variante. Luego indique por qué clasificar puede ayudar a comprender mejor una colección.",
+      "Clasificar no significa únicamente ordenar piezas. Un sistema de clasificación busca reconocer semejanzas, diferencias y relaciones mediante criterios definidos y aplicados de manera coherente. Por ello, encontrar una diferencia visible entre dos billetes no significa automáticamente haber encontrado una variante (Contreras Cortés, 1984; Pérez Irungaray, 2026).\n\nEn el sistema de clasificación propuesto en Notafilia guatemalteca: Un sistema de clasificación para los billetes de Guatemala, 1874-2023, se distinguen niveles jerárquicos como tipo, variante y subvariante. Para este módulo introductorio interesa comprender el principio metodológico: una diferencia debe analizarse según su naturaleza y según el nivel clasificatorio al que corresponde.\n\nLas firmas ofrecen un ejemplo importante. El simple cambio de las personas firmantes, manteniéndose la misma cantidad y disposición de las firmas, no constituye por sí mismo una variante ni una subvariante. Sin embargo, un cambio en la cantidad de firmas modifica la estructura del billete y puede dar lugar a una subvariante. También un cambio en la posición de las firmas puede adquirir relevancia clasificatoria.\n\nEsta distinción enseña una regla fundamental: observar una diferencia y clasificarla son dos operaciones distintas. Primero se documenta qué cambió; después se determina cómo interpreta ese cambio el sistema de clasificación utilizado.\n\nLa comparación sistemática entre ejemplares permite reconocer estas diferencias. También ayuda a distinguir modificaciones intencionales de anomalías o errores de producción, que no deben convertirse automáticamente en categorías clasificatorias.\n\nLectura complementaria:\n- Pérez Irungaray, G. E. (2026). Notafilia guatemalteca: Un sistema de clasificación para los billetes de Guatemala, 1874-2023: una propuesta metodológica.\n\nActividad sugerida:\nCompare hipotéticamente dos billetes. Primero cambie únicamente los nombres de los firmantes; después cambie de dos a tres la cantidad de firmas. Explique por qué ambas diferencias no reciben necesariamente la misma clasificación.",
   },
   {
     titulo: "7. El coleccionismo",
@@ -185,11 +185,16 @@ const QUESTIONS: Question[] = [
   {
     id: 6,
     kind: "mc",
-    prompt: "¿Cuál fue una de las primeras formas de intercambio?",
-    options: ["Tarjetas", "Trueque", "Cheques", "Transferencias"],
-    correct: "Trueque",
+    prompt: "Dos personas desean intercambiar bienes, pero ninguna necesita lo que la otra ofrece. ¿Qué limitación del trueque se manifiesta principalmente?",
+    options: [
+      "La falta de coincidencia de necesidades entre las partes",
+      "La imposibilidad de asignar cualquier valor a los bienes",
+      "La obligación de que exista una autoridad monetaria",
+      "La ausencia necesaria de bienes que puedan intercambiarse",
+    ],
+    correct: "La falta de coincidencia de necesidades entre las partes",
     feedback:
-      "El trueque fue una de las primeras formas de intercambio, basado en el intercambio directo de bienes sin dinero. Sus limitaciones, como la necesidad de coincidencia de intereses entre las partes, impulsaron la creación de sistemas más eficientes como el dinero mercancía y las monedas.",
+      "El intercambio directo puede dificultarse cuando no coinciden las necesidades de quienes participan. Este problema ayuda a comprender por qué distintas sociedades desarrollaron medios de intercambio más aceptados y referencias de valor. La historia monetaria, sin embargo, no debe reducirse a una secuencia universal y perfectamente lineal.",
   },
   {
     id: 7,
@@ -203,16 +208,16 @@ const QUESTIONS: Question[] = [
   {
     id: 8,
     kind: "mc",
-    prompt: "¿Qué es el dinero mercancía?",
+    prompt: "¿Cuál situación describe mejor el funcionamiento del dinero mercancía?",
     options: [
-      "Dinero digital",
-      "Bienes usados como medio de intercambio",
-      "Solo monedas",
-      "Billetes modernos",
+      "Un bien socialmente aceptado que posee utilidad o valor propio y además funciona como medio de intercambio",
+      "Un documento cuyo valor depende exclusivamente de una firma privada",
+      "Una moneda cuyo valor facial siempre supera el valor del metal",
+      "Un registro digital que carece de cualquier relación institucional",
     ],
-    correct: "Bienes usados como medio de intercambio",
+    correct: "Un bien socialmente aceptado que posee utilidad o valor propio y además funciona como medio de intercambio",
     feedback:
-      "El dinero mercancía consiste en bienes con valor propio que también se usan como medio de intercambio. Ejemplos históricos incluyen el cacao, la sal, el ganado o metales preciosos. Representa una etapa intermedia entre el trueque y la moneda acuñada.",
+      "El dinero mercancía utiliza bienes que poseen valor o utilidad y que, al mismo tiempo, son aceptados para facilitar intercambios. Cacao, sal, ganado o ciertos metales han cumplido funciones semejantes en distintos contextos. Su aceptación depende también de prácticas sociales y no únicamente de sus propiedades físicas.",
   },
   {
     id: 9,
@@ -226,16 +231,16 @@ const QUESTIONS: Question[] = [
   {
     id: 10,
     kind: "mc",
-    prompt: "¿Por qué surgió el papel moneda?",
+    prompt: "¿Qué cambio hizo especialmente útil al papel moneda frente al transporte de grandes cantidades de metal?",
     options: [
-      "Por decoración",
-      "Para facilitar el transporte de valor",
-      "Por religión",
-      "Por agricultura",
+      "Permitió representar y transferir valor mediante un soporte más ligero, respaldado por arreglos institucionales",
+      "Eliminó inmediatamente la necesidad de confianza en cualquier autoridad",
+      "Hizo que el valor monetario dependiera exclusivamente del costo del papel",
+      "Sustituyó en todos los países y al mismo tiempo cualquier otra forma de dinero",
     ],
-    correct: "Para facilitar el transporte de valor",
+    correct: "Permitió representar y transferir valor mediante un soporte más ligero, respaldado por arreglos institucionales",
     feedback:
-      "El papel moneda surgió como solución práctica para evitar transportar grandes cantidades de metales preciosos. Los documentos representaban ese valor y estaban respaldados por instituciones. Con el tiempo evolucionó hacia sistemas fiduciarios donde el valor depende de la confianza en el emisor.",
+      "El papel moneda facilitó operaciones que podían resultar incómodas mediante grandes cantidades de metal. Con el desarrollo de sistemas fiduciarios, su aceptación pasó a depender especialmente de la confianza, la autoridad emisora, la regulación y el reconocimiento social. No fue una sustitución instantánea ni universal.",
   },
   {
     id: 11,
@@ -250,11 +255,16 @@ const QUESTIONS: Question[] = [
   {
     id: 12,
     kind: "mc",
-    prompt: "¿Qué elemento indica el valor de una moneda o billete?",
-    options: ["Color", "Denominación", "Tamaño", "Diseño"],
-    correct: "Denominación",
+    prompt: "Un billete indica Q20, pero un ejemplar escaso de esa emisión se vende por una cantidad mucho mayor. ¿Qué concepto explica mejor esa diferencia?",
+    options: [
+      "El valor facial y el valor de colección son conceptos diferentes",
+      "La denominación impresa cambia cuando aumenta la demanda",
+      "El precio de colección sustituye legalmente al valor facial",
+      "Toda pieza antigua debe valer más que su denominación",
+    ],
+    correct: "El valor facial y el valor de colección son conceptos diferentes",
     feedback:
-      "La denominación es el valor nominal asignado a una moneda o billete por la autoridad emisora. Aunque el tamaño o el color ayudan a distinguir diferentes valores, no los determinan. La denominación es clave para entender cómo funciona el sistema monetario.",
+      "El valor facial es el valor oficial asignado por la autoridad emisora. El valor de colección puede depender de rareza, conservación, demanda, autenticidad, procedencia y otras características. Tampoco debe confundirse el precio comercial con el interés histórico de una pieza.",
   },
   {
     id: 13,
@@ -269,11 +279,16 @@ const QUESTIONS: Question[] = [
   {
     id: 14,
     kind: "mc",
-    prompt: "¿Qué indica la fecha en una moneda o billete?",
-    options: ["El peso", "El año de emisión", "El material", "El valor real"],
-    correct: "El año de emisión",
+    prompt: "¿Cuál es la interpretación más prudente de una fecha impresa en una moneda o billete?",
+    options: [
+      "Es un dato temporal importante, pero puede requerir distinguir entre fecha impresa, emisión y circulación",
+      "Demuestra siempre el día exacto en que la pieza comenzó a circular",
+      "Indica necesariamente el momento en que fue retirada de circulación",
+      "Solo tiene utilidad decorativa y no aporta contexto histórico",
+    ],
+    correct: "Es un dato temporal importante, pero puede requerir distinguir entre fecha impresa, emisión y circulación",
     feedback:
-      "La fecha indica el año en que fue emitido o acuñado, permitiendo ubicar la pieza en un contexto histórico específico. Este dato ayuda a relacionarla con eventos históricos, gobiernos o reformas monetarias. En algunos casos puede no coincidir exactamente con el año de circulación.",
+      "La fecha permite situar la pieza temporalmente, pero no debe pedírsele más información de la que realmente demuestra. Según la emisión, puede ser necesario distinguir fecha impresa, producción, autorización, emisión efectiva o circulación y confirmarlo con otras fuentes.",
   },
   {
     id: 15,
@@ -287,11 +302,16 @@ const QUESTIONS: Question[] = [
   {
     id: 16,
     kind: "mc",
-    prompt: "¿Qué elemento identifica a las autoridades responsables en un billete?",
-    options: ["Color", "Firmas", "Tamaño", "Forma"],
-    correct: "Firmas",
+    prompt: "Dos billetes mantienen el mismo diseño, la misma cantidad de firmas y la misma posición de estas, pero cambian las personas firmantes. Según el sistema de clasificación adoptado en este módulo, ¿qué interpretación es correcta?",
+    options: [
+      "El cambio crea necesariamente una variante",
+      "El cambio crea necesariamente una subvariante",
+      "El cambio puede ayudar a identificar una emisión, pero no constituye por sí solo variante ni subvariante",
+      "Las firmas dejan de tener cualquier utilidad para el estudio",
+    ],
+    correct: "El cambio puede ayudar a identificar una emisión, pero no constituye por sí solo variante ni subvariante",
     feedback:
-      "Las firmas en un billete corresponden a funcionarios de la institución emisora y validan el documento. También permiten identificar el período de emisión, ya que sus cambios pueden indicar diferentes emisiones dentro de un mismo diseño, lo cual es clave para clasificar variantes.",
+      "Las firmas identifican autoridades y pueden ser muy útiles para documentar o distinguir emisiones. Sin embargo, en el sistema de clasificación adoptado aquí, el simple cambio de las personas firmantes, manteniéndose la misma estructura de firmas, no constituye por sí mismo una variante ni una subvariante. Esta distinción evita confundir un dato de identificación con un criterio jerárquico de clasificación.",
   },
   {
     id: 17,
@@ -305,16 +325,16 @@ const QUESTIONS: Question[] = [
   {
     id: 18,
     kind: "mc",
-    prompt: "¿Qué es una serie en numismática?",
+    prompt: "Dos billetes conservan sus características principales, pero uno presenta dos firmas y el otro tres. ¿Qué concepto debe considerar el estudiante al clasificar esa diferencia?",
     options: [
-      "Un grupo de billetes o monedas con características comunes",
-      "Un número aleatorio",
-      "Un error de impresión",
-      "Un material específico",
+      "Una subvariante, porque cambió la cantidad de firmas",
+      "Un nuevo emisor, porque toda firma representa una institución distinta",
+      "Una falsificación, porque un billete no puede cambiar la cantidad de firmas",
+      "Ninguna diferencia clasificatoria, porque las firmas nunca son relevantes",
     ],
-    correct: "Un grupo de billetes o monedas con características comunes",
+    correct: "Una subvariante, porque cambió la cantidad de firmas",
     feedback:
-      "Una serie agrupa monedas o billetes que comparten características similares como diseño, período de emisión o firmas. Las series pueden incluir variaciones menores que dan lugar a subseries o variantes, y son fundamentales para estructurar una colección coherente.",
+      "El cambio en la cantidad de firmas modifica la estructura con que estas aparecen en el billete. Dentro del sistema presentado en este módulo, esa diferencia puede dar lugar a una subvariante. No debe confundirse con el simple cambio de nombres de los funcionarios firmantes.",
   },
   {
     id: 19,
@@ -352,36 +372,39 @@ const QUESTIONS: Question[] = [
   {
     id: 22,
     kind: "mc",
-    prompt:
-      "¿Qué criterio permite agrupar billetes según la institución que los emitió?",
-    options: ["Color", "Emisor", "Tamaño", "Material"],
-    correct: "Emisor",
+    prompt: "Un investigador agrupa billetes por la institución responsable de ponerlos en circulación. ¿Qué aspecto histórico puede estudiar especialmente mediante ese criterio?",
+    options: [
+      "Transformaciones en la organización institucional de la emisión monetaria",
+      "Únicamente cambios en el tamaño físico de los billetes",
+      "Solo el grado de conservación de cada ejemplar",
+      "Exclusivamente la cotización comercial de cada denominación",
+    ],
+    correct: "Transformaciones en la organización institucional de la emisión monetaria",
     feedback:
-      "La clasificación por emisor agrupa billetes según la institución responsable de su emisión: bancos privados, bancos centrales o el Estado. Este criterio permite comprender el contexto institucional del dinero y diferenciar períodos históricos como la banca privada y la centralización.",
+      "Clasificar por emisor puede ayudar a estudiar cambios entre bancos privados, instituciones estatales o bancos centrales y a relacionar las piezas con reformas y transformaciones de autoridad monetaria. La clasificación se vuelve así una herramienta de análisis histórico.",
   },
   {
     id: 23,
     kind: "vf",
-    prompt:
-      "Dos billetes con el mismo diseño pueden pertenecer a emisiones diferentes.",
+    prompt: "Observar una diferencia entre dos billetes y decidir qué categoría clasificatoria corresponde a esa diferencia son dos operaciones distintas.",
     options: ["VERDADERO", "FALSO"],
     correct: "VERDADERO",
     feedback:
-      "Es posible que dos billetes con el mismo diseño general pertenezcan a emisiones diferentes. Esto ocurre en reimpresiones con cambios menores como nuevas firmas, modificaciones de color o variaciones en la numeración, diferencias clave en la clasificación notafílica.",
+      "Primero se observa y documenta qué cambia; después se interpreta la diferencia mediante los criterios del sistema de clasificación. No toda diferencia visible merece el mismo rango. Separar observación e interpretación ayuda a evitar categorías arbitrarias.",
   },
   {
     id: 24,
     kind: "mc",
-    prompt: "¿Qué es una variante en notafilia?",
+    prompt: "¿Qué describe mejor una clasificación rigurosa de tipo, variante y subvariante?",
     options: [
-      "Un billete falso",
-      "Una diferencia dentro de un mismo tipo de billete",
-      "Un error sin importancia",
-      "Un billete destruido",
+      "Una jerarquía de diferencias definida mediante criterios que deben aplicarse de forma coherente",
+      "Tres nombres intercambiables para cualquier diferencia visible",
+      "Una escala determinada exclusivamente por el precio de las piezas",
+      "Una clasificación basada en la preferencia estética del coleccionista",
     ],
-    correct: "Una diferencia dentro de un mismo tipo de billete",
+    correct: "Una jerarquía de diferencias definida mediante criterios que deben aplicarse de forma coherente",
     feedback:
-      "Una variante es una diferencia dentro de un mismo tipo de billete, como cambios en firmas, colores, numeración o detalles gráficos. Suelen surgir entre distintas emisiones o reimpresiones e identificarlas requiere observación detallada y comparación entre ejemplares.",
+      "Tipo, variante y subvariante representan niveles de diferenciación. Lo importante no es solo memorizar los términos, sino comprender qué criterio hace que una diferencia corresponda a determinado nivel y aplicar ese criterio de forma consistente.",
   },
   {
     id: 25,
@@ -395,16 +418,16 @@ const QUESTIONS: Question[] = [
   {
     id: 26,
     kind: "mc",
-    prompt: "¿Cuál de los siguientes puede ser un ejemplo de variante?",
+    prompt: "Dos ejemplares conservan la misma cantidad de firmas, pero estas aparecen en posiciones diferentes. ¿Qué procedimiento es más adecuado?",
     options: [
-      "Cambio en firmas",
-      "Cambio en el clima",
-      "Cambio en el idioma del país",
-      "Cambio en la población",
+      "Examinar y documentar el cambio de posición porque puede tener relevancia clasificatoria",
+      "Ignorarlo porque únicamente importan los nombres de quienes firman",
+      "Crear automáticamente un nuevo tipo sin revisar otros rasgos",
+      "Concluir que necesariamente pertenecen a emisores diferentes",
     ],
-    correct: "Cambio en firmas",
+    correct: "Examinar y documentar el cambio de posición porque puede tener relevancia clasificatoria",
     feedback:
-      "Un cambio en las firmas es uno de los ejemplos más comunes de variante. Las firmas corresponden a funcionarios de la institución emisora y pueden cambiar con el tiempo, generando distintas versiones de un mismo diseño e identificando emisiones específicas.",
+      "La posición de las firmas forma parte de la estructura gráfica del billete y puede tener relevancia dentro del sistema de clasificación. Antes de asignar una categoría debe documentarse la diferencia y compararse con otros ejemplares y con los criterios definidos.",
   },
   {
     id: 27,
@@ -418,11 +441,16 @@ const QUESTIONS: Question[] = [
   {
     id: 28,
     kind: "mc",
-    prompt: "¿Qué criterio permite clasificar billetes según su valor?",
-    options: ["Diseño", "Denominación", "Color", "Tamaño"],
-    correct: "Denominación",
+    prompt: "Un coleccionista encuentra una pequeña anomalía de impresión en un solo ejemplar. ¿Qué debería hacer antes de declararla una variante?",
+    options: [
+      "Investigar si es intencional, accidental, repetida y cómo se relaciona con el proceso de impresión",
+      "Crear una categoría nueva porque toda diferencia visible es una variante",
+      "Eliminar la anomalía para comprobar si el diseño original permanece debajo",
+      "Asignarle una categoría según el precio que alcance el ejemplar",
+    ],
+    correct: "Investigar si es intencional, accidental, repetida y cómo se relaciona con el proceso de impresión",
     feedback:
-      "La denominación permite clasificar billetes según su valor nominal dentro del sistema monetario. Refleja la estructura económica de la sociedad al mostrar qué valores eran necesarios para las transacciones en un período determinado.",
+      "Una anomalía aislada puede ser interesante, pero no debe convertirse automáticamente en una categoría. Es necesario estudiar su origen, repetición y relación con el proceso productivo. La clasificación requiere criterios y evidencia, no únicamente una diferencia visual.",
   },
   {
     id: 29,
@@ -431,21 +459,21 @@ const QUESTIONS: Question[] = [
     options: ["VERDADERO", "FALSO"],
     correct: "VERDADERO",
     feedback:
-      "Un billete puede presentar subvariantes: diferencias aún más específicas dentro de una misma categoría, como ligeras variaciones de color, cambios en la numeración o pequeñas modificaciones de diseño. Son importantes para coleccionistas avanzados.",
+      "Un billete puede presentar subvariantes cuando una diferencia corresponde a ese nivel dentro del sistema adoptado. Un ejemplo introducido en este módulo es el cambio en la cantidad de firmas. La categoría debe justificarse mediante criterios y no por la simple existencia de cualquier diferencia.",
   },
   {
     id: 30,
     kind: "mc",
-    prompt: "¿Por qué es importante comparar billetes entre sí?",
+    prompt: "¿Por qué es metodológicamente importante comparar varios ejemplares semejantes?",
     options: [
-      "Para decorar",
-      "Para identificar diferencias y variantes",
-      "Para doblarlos mejor",
-      "Para reducir su valor",
+      "Porque permite reconocer qué permanece constante, qué cambia y evaluar la importancia de esas diferencias",
+      "Porque el ejemplar más atractivo determina la clasificación de todos los demás",
+      "Porque evita tener que consultar cualquier fuente documental",
+      "Porque todas las diferencias encontradas deben convertirse en subvariantes",
     ],
-    correct: "Para identificar diferencias y variantes",
+    correct: "Porque permite reconocer qué permanece constante, qué cambia y evaluar la importancia de esas diferencias",
     feedback:
-      "La comparación es fundamental en la notafilia para detectar variantes, errores de impresión y cambios en las emisiones entre billetes que a simple vista parecen iguales. Desarrolla habilidades de observación y permite comprender la evolución de un diseño.",
+      "La comparación sistemática ayuda a separar características estables de cambios, anomalías o modificaciones. Después, el sistema de clasificación permite interpretar cuáles diferencias son relevantes y en qué nivel deben situarse.",
   },
   {
     id: 31,
@@ -460,12 +488,16 @@ const QUESTIONS: Question[] = [
   {
     id: 32,
     kind: "mc",
-    prompt:
-      "¿Qué tipo de colección se enfoca en un tema específico (por ejemplo, animales o personajes)?",
-    options: ["Geográfica", "Temática", "Aleatoria", "Comercial"],
-    correct: "Temática",
+    prompt: "Un coleccionista organiza billetes de distintos países alrededor de representaciones de fauna. ¿Qué hace que esa colección tenga un criterio y no sea una simple acumulación?",
+    options: [
+      "La existencia de un tema definido que orienta selección, organización y estudio",
+      "Que todos los billetes tengan exactamente el mismo valor facial",
+      "Que las piezas sean necesariamente raras",
+      "Que se excluya cualquier documentación histórica",
+    ],
+    correct: "La existencia de un tema definido que orienta selección, organización y estudio",
     feedback:
-      "La colección temática se organiza en torno a un concepto específico como fauna, personajes históricos, arquitectura o símbolos culturales. Permite analizar cómo un mismo tema aparece representado en diferentes billetes de distintos países o épocas.",
+      "Una colección temática utiliza un asunto común —fauna, arquitectura, personajes, acontecimientos u otros— como criterio de selección. Su valor formativo aumenta cuando las piezas se documentan y se estudia cómo ese tema fue representado en distintos contextos.",
   },
   {
     id: 33,
@@ -479,11 +511,16 @@ const QUESTIONS: Question[] = [
   {
     id: 34,
     kind: "mc",
-    prompt: "¿Qué grado de conservación indica un billete sin uso?",
-    options: ["Fino", "Regular", "Sin circular", "Deteriorado"],
-    correct: "Sin circular",
+    prompt: "Un billete conserva apariencia prácticamente original y no presenta señales de haber circulado. ¿Qué idea expresa mejor su estado?",
+    options: [
+      "Se encuentra en una condición propia de un ejemplar sin circular",
+      "Debe clasificarse como muy fino únicamente por ser antiguo",
+      "Su estado no puede describirse porque la conservación solo se aplica a monedas",
+      "Debe considerarse restaurado aunque no exista evidencia de intervención",
+    ],
+    correct: "Se encuentra en una condición propia de un ejemplar sin circular",
     feedback:
-      "El grado 'sin circular' describe un billete que no ha sido utilizado en transacciones y conserva todas sus características originales: sin dobleces, manchas ni desgaste. Es el nivel más alto de conservación y generalmente el más valorado por coleccionistas.",
+      "La expresión 'sin circular' se aplica a un billete que no muestra señales de uso en circulación y conserva sus características originales. La evaluación precisa del grado puede requerir criterios especializados, que se estudiarán con mayor profundidad posteriormente.",
   },
   {
     id: 35,
@@ -498,16 +535,16 @@ const QUESTIONS: Question[] = [
   {
     id: 36,
     kind: "mc",
-    prompt: "¿Qué material es adecuado para guardar billetes?",
+    prompt: "¿Por qué se prefieren materiales estables y apropiados para almacenar papel moneda?",
     options: [
-      "Papel periódico",
-      "Plástico común",
-      "Protectores libres de ácido",
-      "Cartón reciclado",
+      "Porque reducen el riesgo de reacciones químicas y deterioro del soporte",
+      "Porque convierten una pieza común en una pieza rara",
+      "Porque sustituyen completamente el control de humedad y luz",
+      "Porque restauran automáticamente manchas y dobleces",
     ],
-    correct: "Protectores libres de ácido",
+    correct: "Porque reducen el riesgo de reacciones químicas y deterioro del soporte",
     feedback:
-      "Los protectores libres de ácido son los más adecuados para almacenar billetes, ya que no reaccionan químicamente con el papel y evitan su deterioro a largo plazo. Además, permiten manipular las piezas sin contacto directo, protegiéndolas de grasa y humedad.",
+      "Algunos plásticos, adhesivos, papeles y cartones pueden liberar sustancias o reaccionar con el billete. Un contenedor apropiado forma parte de la conservación preventiva, pero no sustituye el control ambiental ni la manipulación cuidadosa.",
   },
   {
     id: 37,
@@ -522,12 +559,16 @@ const QUESTIONS: Question[] = [
   {
     id: 38,
     kind: "mc",
-    prompt:
-      "¿Qué grado de conservación describe un billete con ligero desgaste pero buena apariencia?",
-    options: ["Sin circular", "Muy fino", "Deteriorado", "Destruido"],
-    correct: "Muy fino",
+    prompt: "Un billete presenta señales leves de circulación, pero conserva buena integridad y apariencia general. ¿Qué debe aprender primero el aspirante de esta observación?",
+    options: [
+      "Que el estado de conservación se evalúa mediante características físicas y no solo por la edad de la pieza",
+      "Que cualquier doblez convierte automáticamente el billete en deteriorado",
+      "Que una pieza antigua siempre debe considerarse sin circular",
+      "Que la conservación depende exclusivamente de la rareza",
+    ],
+    correct: "Que el estado de conservación se evalúa mediante características físicas y no solo por la edad de la pieza",
     feedback:
-      "Un billete en estado 'muy fino' presenta signos leves de uso como pequeños dobleces o desgaste ligero, pero conserva una apariencia general atractiva. Es inferior al 'sin circular' pero sigue siendo altamente valorado en el coleccionismo.",
+      "Los grados de conservación describen el estado físico del ejemplar. Dobleces, desgaste, manchas, roturas, firmeza del papel y otros rasgos deben evaluarse con criterios definidos. La edad, la rareza o el precio no determinan por sí solos el grado.",
   },
   {
     id: 39,
@@ -541,16 +582,16 @@ const QUESTIONS: Question[] = [
   {
     id: 40,
     kind: "mc",
-    prompt: "¿Cuál es una práctica adecuada en el coleccionismo?",
+    prompt: "Recibe un billete antiguo con suciedad y un pequeño desgarro. ¿Cuál sería la primera actuación más responsable?",
     options: [
-      "Doblar billetes para guardarlos",
-      "Mezclar piezas sin orden",
-      "Clasificar y proteger las piezas",
-      "Limpiarlos con agua",
+      "Documentar su estado y evitar intervenciones improvisadas antes de conocer el método adecuado",
+      "Lavarlo para recuperar el color original",
+      "Plancharlo para eliminar cualquier doblez",
+      "Aplicar cinta adhesiva para impedir que el desgarro crezca",
     ],
-    correct: "Clasificar y proteger las piezas",
+    correct: "Documentar su estado y evitar intervenciones improvisadas antes de conocer el método adecuado",
     feedback:
-      "Clasificar y proteger las piezas es fundamental en el coleccionismo. Mantiene la colección organizada, facilita el estudio y evita daños físicos. Doblar, mezclar sin orden o limpiar con agua puede deteriorar los billetes de forma irreversible.",
+      "Conservar no significa embellecer. Agua, calor, presión, adhesivos o químicos pueden alterar irreversiblemente fibras, tintas y superficie. Ante una pieza delicada, documentar y estabilizar es preferible a intervenir sin conocimiento técnico.",
   },
   {
     id: 41,
@@ -565,11 +606,16 @@ const QUESTIONS: Question[] = [
   {
     id: 42,
     kind: "mc",
-    prompt: "¿Cuál de los siguientes factores puede aumentar el valor de un billete?",
-    options: ["Rasgaduras", "Manchas", "Rareza", "Dobleces"],
-    correct: "Rareza",
+    prompt: "Dos billetes tienen la misma denominación. Uno es muy común y el otro pertenece a una emisión escasa. ¿Qué conclusión es más razonable?",
+    options: [
+      "El ejemplar escaso puede alcanzar mayor valor de colección aunque ambos tengan el mismo valor facial",
+      "Ambos deben tener el mismo precio porque comparten denominación",
+      "La rareza solo afecta a monedas metálicas",
+      "El billete común debe valer más porque existen más ejemplares para compararlo",
+    ],
+    correct: "El ejemplar escaso puede alcanzar mayor valor de colección aunque ambos tengan el mismo valor facial",
     feedback:
-      "La rareza es uno de los factores más importantes en la valoración. Una pieza difícil de encontrar en buen estado tendrá mayor demanda y valor. La rareza puede deberse a baja emisión, pérdida de ejemplares o características especiales como errores o variantes.",
+      "La denominación determina el valor facial, no el precio de colección. Rareza, conservación, demanda, autenticidad, procedencia y características particulares pueden modificar considerablemente el valor de mercado.",
   },
   {
     id: 43,
@@ -583,11 +629,16 @@ const QUESTIONS: Question[] = [
   {
     id: 44,
     kind: "mc",
-    prompt: "¿Qué elemento puede reducir el valor de un billete?",
-    options: ["Buen estado", "Rareza", "Deterioro", "Alta demanda"],
-    correct: "Deterioro",
+    prompt: "Una pieza tiene bajo precio comercial, pero documenta una reforma monetaria importante. ¿Qué demuestra este caso?",
+    options: [
+      "Que el interés histórico y el precio de mercado no son equivalentes",
+      "Que toda pieza históricamente importante debe ser rara",
+      "Que el valor facial aumenta cuando una pieza adquiere interés académico",
+      "Que solo las piezas costosas merecen ser estudiadas",
+    ],
+    correct: "Que el interés histórico y el precio de mercado no son equivalentes",
     feedback:
-      "El deterioro reduce significativamente el valor de un billete, afectando su apariencia e integridad física. Rasgaduras, manchas, desgaste o pérdida de color disminuyen el atractivo para los coleccionistas, incluso en piezas raras.",
+      "Una pieza común y económicamente accesible puede ser una fuente excelente para estudiar instituciones, reformas, tecnología o cultura. El mercado responde a factores diferentes de los que determinan el interés de una pieza como documento histórico.",
   },
   {
     id: 45,
@@ -602,16 +653,16 @@ const QUESTIONS: Question[] = [
   {
     id: 46,
     kind: "mc",
-    prompt: "¿Qué elemento permite verificar la autenticidad de un billete?",
+    prompt: "Un billete coincide en color con una imagen de referencia. ¿Es suficiente ese dato para declararlo auténtico?",
     options: [
-      "Color únicamente",
-      "Tamaño",
-      "Elementos de seguridad",
-      "Peso del papel",
+      "No; la autenticidad debe evaluarse mediante múltiples características y fuentes confiables",
+      "Sí; el color es el elemento de seguridad definitivo",
+      "Sí, siempre que el billete tenga una denominación conocida",
+      "No, porque ningún billete puede autenticarse mediante observación",
     ],
-    correct: "Elementos de seguridad",
+    correct: "No; la autenticidad debe evaluarse mediante múltiples características y fuentes confiables",
     feedback:
-      "Los elementos de seguridad como marcas de agua, hilos de seguridad, microimpresiones y tintas especiales son fundamentales para verificar la autenticidad. Son difíciles de reproducir en falsificaciones y su presencia confirma que una pieza es genuina.",
+      "La autenticidad rara vez puede establecerse por una sola característica. Material, impresión, dimensiones, diseño, numeración, elementos de seguridad, procedencia y comparación con ejemplares confiables pueden ser necesarios. Además, fotografías y pantallas pueden alterar la percepción del color.",
   },
   {
     id: 47,
@@ -625,16 +676,16 @@ const QUESTIONS: Question[] = [
   {
     id: 48,
     kind: "mc",
-    prompt: "¿Qué práctica ayuda a evaluar correctamente un billete?",
+    prompt: "Al estudiar una pieza desconocida, ¿qué secuencia refleja mejor una práctica académica inicial?",
     options: [
-      "Ignorar su estado",
-      "Observarlo superficialmente",
-      "Analizar múltiples factores",
-      "Doblarlo",
+      "Observar, documentar, comparar, consultar fuentes y formular una interpretación",
+      "Asignar primero un precio y utilizarlo como criterio de autenticidad",
+      "Clasificarla inmediatamente y buscar después datos que confirmen la decisión",
+      "Modificarla físicamente para descubrir cómo fue producida",
     ],
-    correct: "Analizar múltiples factores",
+    correct: "Observar, documentar, comparar, consultar fuentes y formular una interpretación",
     feedback:
-      "Evaluar correctamente un billete requiere considerar múltiples factores: estado de conservación, rareza, demanda, autenticidad y contexto histórico. Analizar solo un aspecto puede llevar a conclusiones incorrectas e impedir una valoración justa.",
+      "El análisis comienza con evidencia. Registrar características antes de interpretarlas reduce conclusiones precipitadas. La comparación y las fuentes permiten formular hipótesis mejor sustentadas y también reconocer cuándo la información todavía es insuficiente.",
   },
   {
     id: 49,
@@ -648,16 +699,16 @@ const QUESTIONS: Question[] = [
   {
     id: 50,
     kind: "mc",
-    prompt: "¿Cuál es el objetivo final del estudio numismático y notafílico?",
+    prompt: "Después de completar este módulo, ¿qué cambio de perspectiva se espera principalmente del aspirante?",
     options: [
-      "Acumular objetos",
-      "Comprender el dinero en su contexto",
-      "Destruir billetes antiguos",
-      "Reducir su uso",
+      "Que comience a tratar monedas y billetes como documentos que requieren observación, comparación, contexto y criterios de análisis",
+      "Que pueda determinar el precio de cualquier pieza sin consultar fuentes",
+      "Que memorice una lista cerrada de definiciones y la repita sin modificarlas",
+      "Que considere que el coleccionismo y la investigación son actividades incompatibles",
     ],
-    correct: "Comprender el dinero en su contexto",
+    correct: "Que comience a tratar monedas y billetes como documentos que requieren observación, comparación, contexto y criterios de análisis",
     feedback:
-      "El objetivo principal de la numismática y la notafilia es comprender el dinero en su contexto histórico, económico y cultural. No se trata solo de coleccionar, sino de analizar las piezas como documentos que reflejan la evolución de las sociedades.",
+      "El propósito del módulo es iniciar una forma de pensar. El conocimiento numismático y notafílico se construye relacionando la pieza material con preguntas, fuentes, clasificación, conservación y contexto. El Nivel Novicio profundizará estas herramientas, pero la actitud de análisis comienza aquí.",
   },
 ];
 
@@ -682,7 +733,6 @@ export default function IntroductorioPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [nuevoCodigo, setNuevoCodigo] = useState("");
-  const [nuevaPassword, setNuevaPassword] = useState("");
   const [ascensoError, setAscensoError] = useState("");
 
   const currentQuestion = QUESTIONS[payload.currentIndex] || null;
@@ -824,8 +874,7 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
     }
 
     setNuevoCodigo(result.codigoNuevo || "");
-    setNuevaPassword(result.passwordTemporal || "");
-
+    
     localStorage.removeItem("user");
 
     return true;
@@ -1284,9 +1333,9 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
 
 			<p style={{ lineHeight: 1.8 }}>
 			  A partir de este momento, tu perfil asciende al{" "}
-			  <strong>Nivel Novicio</strong>. En esta nueva etapa iniciarás un proceso
-			  de formación más completo, orientado al estudio progresivo de la
-			  numismática y la notafilia guatemalteca.
+			  <strong>Nivel Novicio</strong>. En esta nueva etapa iniciarás tu proceso
+			  de formación y acreditación académica, orientado al estudio progresivo
+			  de la numismática y la notafilia guatemalteca.
 			</p>
 
 			{nuevoCodigo && (
@@ -1300,7 +1349,7 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
 				}}
 			  >
 				<p style={{ marginTop: 0 }}>
-				  Tu nuevo código de usuario es:
+				  Tu nuevo código institucional como Académico Novicio es:
 				</p>
 
 				<p
@@ -1314,15 +1363,27 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
 				  {nuevoCodigo}
 				</p>
 
-				{nuevaPassword && (
-				  <p style={{ marginTop: "0.8rem", lineHeight: 1.7 }}>
-					<strong>Contraseña temporal:</strong> {nuevaPassword}
-				  </p>
-				)}
+				<p
+				  style={{
+					marginBottom: 0,
+					marginTop: "0.8rem",
+					lineHeight: 1.7,
+				  }}
+				>
+				  Tu contraseña personal continúa siendo la misma.
+				  Para ingresar nuevamente a la plataforma deberás utilizar
+				  tu nuevo código institucional junto con tu contraseña habitual.
+				</p>
 
-				<p style={{ marginBottom: 0, marginTop: "0.8rem", lineHeight: 1.7 }}>
-				  También enviamos estas credenciales a tu correo electrónico. Cierra
-				  tu sesión e inicia nuevamente con tu nuevo código y contraseña.
+				<p
+				  style={{
+					marginBottom: 0,
+					marginTop: "0.8rem",
+					lineHeight: 1.7,
+				  }}
+				>
+				  También hemos enviado a tu correo electrónico la confirmación
+				  de tu ascenso y tu nuevo código institucional.
 				</p>
 			  </div>
 			)}
@@ -1369,7 +1430,6 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
 					setSelectedOption("");
 					setFeedbackMode(null);
 					setNuevoCodigo("");
-					setNuevaPassword("");
 					setAscensoError("");
 				  }}
 				  style={{

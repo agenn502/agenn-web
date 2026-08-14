@@ -5,6 +5,7 @@ import AspirantesPanel from "@/components/aprobacion/AspirantesPanel";
 import CandidatosPanel from "@/components/aprobacion/CandidatosPanel";
 import InvestigadoresPanel from "@/components/aprobacion/InvestigadoresPanel";
 import NoviciosPanel from "@/components/aprobacion/NoviciosPanel";
+import AsimilacionesPanel from "@/components/aprobacion/AsimilacionesPanel";
 
 type User = {
   codigo: string;
@@ -17,13 +18,15 @@ type Pestana =
   | "candidatos"
   | "aspirantes"
   | "novicios"
-  | "investigadores";
+  | "investigadores"
+  | "asimilaciones";
 
 type Conteos = {
   candidatos: number;
   aspirantes: number;
   novicios: number;
   investigadores: number;
+  asimilaciones: number;
 };
 
 export default function ProcesoAprobacionPage() {
@@ -31,11 +34,13 @@ export default function ProcesoAprobacionPage() {
   const [esConsejo, setEsConsejo] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activa, setActiva] = useState<Pestana>("candidatos");
+
   const [conteos, setConteos] = useState<Conteos>({
     candidatos: 0,
     aspirantes: 0,
     novicios: 0,
     investigadores: 0,
+    asimilaciones: 0,
   });
 
   useEffect(() => {
@@ -48,6 +53,7 @@ export default function ProcesoAprobacionPage() {
       }
 
       const parsed = JSON.parse(stored) as User;
+
       const consejo =
         parsed.consejo === true ||
         parsed.consejo === "true" ||
@@ -64,14 +70,27 @@ export default function ProcesoAprobacionPage() {
 
       try {
         const response = await fetch("/api/aprobacion/pendientes", {
-          headers: { "x-user-codigo": parsed.codigo },
+          headers: {
+            "x-user-codigo": parsed.codigo,
+          },
           cache: "no-store",
         });
+
         const result = await response.json();
 
         if (response.ok && result.ok) {
-          setConteos(result.conteos);
+          setConteos((actual) => ({
+            ...actual,
+            ...(result.conteos || {}),
+            asimilaciones:
+              Number(result.conteos?.asimilaciones) || 0,
+          }));
         }
+      } catch (error) {
+        console.error(
+          "Error cargando conteos del proceso de aprobación:",
+          error
+        );
       } finally {
         setLoading(false);
       }
@@ -80,7 +99,9 @@ export default function ProcesoAprobacionPage() {
     cargar();
   }, []);
 
-  if (loading) return <div>Cargando proceso de aprobación...</div>;
+  if (loading) {
+    return <div>Cargando proceso de aprobación...</div>;
+  }
 
   if (!esConsejo || !user) {
     return (
@@ -95,9 +116,11 @@ export default function ProcesoAprobacionPage() {
     { id: "aspirantes", label: "Aspirantes" },
     { id: "novicios", label: "Novicios" },
     { id: "investigadores", label: "Investigadores" },
+    { id: "asimilaciones", label: "Asimilaciones" },
   ];
 
-  const tituloActivo = pestanas.find((p) => p.id === activa)?.label;
+  const tituloActivo =
+    pestanas.find((pestana) => pestana.id === activa)?.label || "";
 
   return (
     <div style={{ maxWidth: 1100 }}>
@@ -105,7 +128,8 @@ export default function ProcesoAprobacionPage() {
 
       <p style={{ lineHeight: 1.7 }}>
         Centro de revisión del Consejo Académico para solicitudes de ingreso,
-        actividades formativas y evidencias de los procesos de ascenso.
+        actividades formativas, procesos de acreditación y propuestas de
+        incorporación por asimilación.
       </p>
 
       <div
@@ -135,6 +159,7 @@ export default function ProcesoAprobacionPage() {
               }}
             >
               {pestana.label}
+
               <span
                 style={{
                   display: "inline-grid",
@@ -162,22 +187,31 @@ export default function ProcesoAprobacionPage() {
         <CandidatosPanel
           userCodigo={user.codigo}
           onConteoChange={(numero) =>
-            setConteos((actual) => ({ ...actual, candidatos: numero }))
+            setConteos((actual) => ({
+              ...actual,
+              candidatos: numero,
+            }))
           }
         />
       )}
 
       {activa === "aspirantes" && <AspirantesPanel />}
+
       {activa === "novicios" && <NoviciosPanel />}
 
       {activa === "investigadores" && (
         <InvestigadoresPanel
           user={user}
           onConteoChange={(numero) =>
-            setConteos((actual) => ({ ...actual, investigadores: numero }))
+            setConteos((actual) => ({
+              ...actual,
+              investigadores: numero,
+            }))
           }
         />
       )}
+
+      {activa === "asimilaciones" && <AsimilacionesPanel />}
     </div>
   );
 }

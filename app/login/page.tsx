@@ -22,6 +22,7 @@ export default function LoginPage() {
   const [codigo, setCodigo] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
 
   const handleLogin = async () => {
@@ -50,16 +51,28 @@ export default function LoginPage() {
       const result: LoginResponse = await res.json();
 
       if (!res.ok || !result.ok) {
-        alert(result.ok ? "No se pudo iniciar sesión" : result.error);
+        alert(
+          result.ok
+            ? "No se pudo iniciar sesión"
+            : result.error
+        );
+
         setLoading(false);
         return;
       }
 
-      localStorage.setItem("user", JSON.stringify(result.user));
+      localStorage.setItem(
+        "user",
+        JSON.stringify(result.user)
+      );
+
       router.push("/miembros");
     } catch (err) {
       console.error("Error en login:", err);
-      alert("No se pudo conectar con el servidor.");
+
+      alert(
+        "No se pudo conectar con el servidor."
+      );
     } finally {
       setLoading(false);
     }
@@ -79,14 +92,27 @@ export default function LoginPage() {
             padding: "1.5rem",
           }}
         >
-          <label style={{ display: "block", marginBottom: "0.4rem" }}>
+          {/* CÓDIGO */}
+
+          <label
+            style={{
+              display: "block",
+              marginBottom: "0.4rem",
+            }}
+          >
             Código de ingreso
           </label>
+
           <input
             type="text"
             value={codigo}
-            onChange={(e) => setCodigo(e.target.value.toUpperCase())}
+            onChange={(e) =>
+              setCodigo(
+                e.target.value.toUpperCase()
+              )
+            }
             placeholder="Ej. NUM0001"
+            autoComplete="username"
             style={{
               width: "100%",
               padding: "0.85rem 1rem",
@@ -94,31 +120,80 @@ export default function LoginPage() {
               borderRadius: "8px",
               marginBottom: "1rem",
               fontSize: "1rem",
+              boxSizing: "border-box",
             }}
           />
 
-          <label style={{ display: "block", marginBottom: "0.4rem" }}>
+          {/* CONTRASEÑA */}
+
+          <label
+            style={{
+              display: "block",
+              marginBottom: "0.4rem",
+            }}
+          >
             Contraseña
           </label>
+
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
             placeholder="Contraseña"
+            autoComplete="current-password"
             style={{
               width: "100%",
               padding: "0.85rem 1rem",
               border: "1px solid #ddd4c7",
               borderRadius: "8px",
-              marginBottom: "1rem",
               fontSize: "1rem",
+              boxSizing: "border-box",
             }}
             onKeyDown={(e) => {
-              if (e.key === "Enter") handleLogin();
+              if (e.key === "Enter") {
+                handleLogin();
+              }
             }}
           />
 
+          {/* RECUPERAR CONTRASEÑA */}
+
+          <div
+            style={{
+              textAlign: "right",
+              marginTop: "0.55rem",
+              marginBottom: "1.2rem",
+            }}
+          >
+            <button
+              type="button"
+              onClick={() =>
+                router.push(
+                  "/recuperar-password"
+                )
+              }
+              style={{
+                padding: 0,
+                border: "none",
+                background: "transparent",
+                color: "#6b4f2a",
+                fontFamily: "inherit",
+                fontSize: "0.9rem",
+                cursor: "pointer",
+                textDecoration: "underline",
+                textUnderlineOffset: "3px",
+              }}
+            >
+              ¿Olvidó su contraseña?
+            </button>
+          </div>
+
+          {/* INGRESAR */}
+
           <button
+            type="button"
             onClick={handleLogin}
             disabled={loading}
             style={{
@@ -128,11 +203,15 @@ export default function LoginPage() {
               background: "#6b4f2a",
               color: "white",
               fontFamily: "inherit",
-              cursor: "pointer",
+              cursor: loading
+                ? "not-allowed"
+                : "pointer",
               opacity: loading ? 0.7 : 1,
             }}
           >
-            {loading ? "Ingresando..." : "Ingresar"}
+            {loading
+              ? "Ingresando..."
+              : "Ingresar"}
           </button>
         </div>
       </div>

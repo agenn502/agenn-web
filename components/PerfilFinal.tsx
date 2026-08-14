@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 
- type PerfilFinalProps = {
+type PerfilFinalProps = {
   codigo: string;
   nombre: string;
   href: string;
@@ -72,6 +72,7 @@ export default function PerfilFinal({
         }}
       >
         <strong>Perfil identificado</strong>
+
         <p style={{ marginBottom: 0, lineHeight: 1.7 }}>
           Puede consultar la descripción completa del perfil o continuar con su
           solicitud de ingreso a la Academia.

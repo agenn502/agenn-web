@@ -2,11 +2,19 @@
 
 import { useEffect, useState } from "react";
 
+import DashboardASP from "@/components/dashboard/DashboardASP";
+import DashboardNOV from "@/components/dashboard/DashboardNOV";
+import DashboardINV from "@/components/dashboard/DashboardINV";
+import DashboardINVACREDITADO from "@/components/dashboard/DashboardINVACREDITADO";
+import DashboardNUM from "@/components/dashboard/DashboardNUM";
+import DashboardCA from "@/components/dashboard/DashboardCA";
+
 type User = {
   codigo: string;
   nivel: string;
   nombre: string;
-  consejo?: boolean;
+  consejo?: boolean | string | number;
+  estado_academico?: string | null;
 };
 
 export default function MiembrosPage() {
@@ -20,99 +28,83 @@ export default function MiembrosPage() {
       return;
     }
 
-    setUser(JSON.parse(stored));
+    try {
+      const parsed = JSON.parse(stored);
+
+      setUser({
+        ...parsed,
+
+        codigo: String(parsed.codigo || "")
+          .trim()
+          .toUpperCase(),
+
+        nivel: String(parsed.nivel || "")
+          .trim()
+          .toUpperCase(),
+
+        estado_academico: parsed.estado_academico
+          ? String(parsed.estado_academico)
+              .trim()
+              .toUpperCase()
+          : null,
+      });
+    } catch {
+      localStorage.removeItem("user");
+      window.location.href = "/login";
+    }
   }, []);
 
   if (!user) {
     return <p>Cargando...</p>;
   }
 
-  const nombreNivel: Record<string, string> = {
-    NUM: "Académico Numerario",
-    INV: "Académico Investigador",
-    NOV: "Académico Novicio",
-    ASP: "Aspirante",
-  };
+  const esConsejo =
+    user.consejo === true ||
+    user.consejo === "true" ||
+    user.consejo === "TRUE" ||
+    user.consejo === 1;
 
-  return (
-  <div style={{ maxWidth: "900px" }}>
-    <h1>Bienvenido(a) a la Academia</h1>
+  /*
+   * Los miembros del Consejo conservan su
+   * DashboardCA independientemente de su nivel.
+   */
+  if (esConsejo) {
+    return <DashboardCA />;
+  }
 
-    <p style={{ lineHeight: 1.8 }}>
-      Estimado(a) <strong>{user.nombre}</strong>, le damos la bienvenida a la
-      Academia Guatemalteca de Estudios Numismáticos y Notafílicos.
-    </p>
+  switch (user.nivel) {
+    case "ASP":
+      return <DashboardASP />;
 
-    <p style={{ lineHeight: 1.8 }}>
-      Su código institucional es <strong>{user.codigo}</strong> y actualmente
-      pertenece al nivel de{" "}
-      <strong>{nombreNivel[user.nivel] || user.nivel}</strong>.
-    </p>
+    case "NOV":
+      return <DashboardNOV />;
 
-    <div
-      style={{
-        marginTop: "2rem",
-        display: "grid",
-        gap: "1.25rem",
-      }}
-    >
-      <div
-        style={{
-          border: "1px solid #d7cfbf",
-          borderRadius: "12px",
-          padding: "1.25rem",
-          background: "#faf8f3",
-        }}
-      >
-        <h2>📖 Biografía Personal</h2>
+    case "INV":
+      /*
+       * Un Investigador acreditado ya no debe
+       * regresar al proceso de formación.
+       */
+      if (
+        user.estado_academico === "ACREDITADO"
+      ) {
+        return <DashboardINVACREDITADO />;
+      }
 
-        <p>
-          Aquí podrá completar o actualizar su información personal,
-          modificar su fotografía y mantener actualizado su perfil dentro
-          de la Academia.
-        </p>
-      </div>
+      /*
+       * Los INV antiguos que todavía tengan
+       * estado_academico = null continúan usando
+       * el dashboard normal de formación.
+       */
+      return <DashboardINV />;
 
-      <div
-        style={{
-          border: "1px solid #d7cfbf",
-          borderRadius: "12px",
-          padding: "1.25rem",
-          background: "#faf8f3",
-        }}
-      >
-        <h2>🏛 AGENN Logo de miembro</h2>
+    case "NUM":
+      return <DashboardNUM />;
 
-        <p>
-          Puede descargar una imagen personalizada con su nombre,
-          código y nivel académico para utilizarla en redes sociales
-          o como identificación institucional.
-        </p>
-      </div>
-
-      <div
-        style={{
-          border: "1px solid #d7cfbf",
-          borderRadius: "12px",
-          padding: "1.25rem",
-          background: "#faf8f3",
-        }}
-      >
-        <h2>🎓 Proceso de formación</h2>
-
-        <p>
-          Desde esta sección accederá al proceso académico correspondiente
-          a su nivel actual.
-        </p>
-
-        {user.nivel === "ASP" && (
-          <p>
-            Como Aspirante deberá completar el Módulo Introductorio para
-            ascender automáticamente al nivel de Académico Novicio.
-          </p>
-        )}
-      </div>
-    </div>
-  </div>
-);
+    default:
+      return (
+        <div>
+          Nivel no reconocido.
+        </div>
+      );
+  }
 }

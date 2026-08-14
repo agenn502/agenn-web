@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
 
 type Miembro = {
   id: number;
@@ -26,87 +25,70 @@ export default function MiembroDetallePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const cargarMiembro = async () => {
-      setLoading(true);
-      setError("");
+useEffect(() => {
+  const cargarMiembro = async () => {
+    setLoading(true);
+    setError("");
 
-      const { data, error } = await supabase
-        .from("miembros")
-        .select("*")
-        .order("codigo", { ascending: true });
+    try {
+      const stored = localStorage.getItem("user");
 
-      if (error) {
-        setError(error.message);
-        setLoading(false);
+      if (!stored) {
+        window.location.href = "/login";
         return;
       }
 
+      const usuarioActual = JSON.parse(stored);
+
+      const response = await fetch("/api/directorio", {
+        headers: {
+          "x-user-codigo": usuarioActual.codigo,
+        },
+        cache: "no-store",
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.ok) {
+        throw new Error(
+          result.error || "No fue posible cargar el directorio."
+        );
+      }
+
       const encontrado =
-		  data?.find(
-			(item) =>
-			  String(item.codigo || "")
-				.replace(/\s+/g, "")
-				.trim()
-				.toUpperCase() ===
-			  codigoRuta.replace(/\s+/g, "").trim().toUpperCase()
-		  ) || null;
+        (result.miembros || []).find(
+          (item: Miembro) =>
+            String(item.codigo || "")
+              .replace(/\s+/g, "")
+              .trim()
+              .toUpperCase() ===
+            codigoRuta
+              .replace(/\s+/g, "")
+              .trim()
+              .toUpperCase()
+        ) || null;
 
-		if (!encontrado) {
-		  setError("No se encontró el miembro.");
-		} else {
-		  let avance = 0;
+      if (!encontrado) {
+        setError("No se encontró el miembro.");
+        return;
+      }
 
-		  try {
-			if (encontrado.nivel === "ASP") {
-			  const { data: progreso } = await supabase
-				.from("progreso_aspirante")
-				.select("porcentaje")
-				.eq("user_codigo", encontrado.codigo)
-				.eq("unidad_slug", "introductorio")
-				.maybeSingle();
-
-			  avance = progreso?.porcentaje || 0;
-			}
-
-			if (encontrado.nivel === "NOV") {
-			  const { data: progreso } = await supabase
-				.from("progreso_novicio")
-				.select("porcentaje")
-				.eq("user_codigo", encontrado.codigo)
-				.eq("unidad_slug", "introductorio")
-				.maybeSingle();
-
-			  avance = progreso?.porcentaje || 0;
-			}
-
-			if (encontrado.nivel === "INV") {
-			  const { data: progreso } = await supabase
-				.from("progreso_inv")
-				.select("porcentaje")
-				.eq("user_codigo", encontrado.codigo)
-				.eq("unidad_slug", "unidad-1")
-				.maybeSingle();
-
-			  avance = progreso?.porcentaje || 0;
-			}
-		  } catch {
-			avance = 0;
-		  }
-
-		  setMiembro({
-			...encontrado,
-			avanceAcademico: avance,
-		  });
-		}
-
+      setMiembro(encontrado);
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "No fue posible cargar el perfil del miembro."
+      );
+    } finally {
       setLoading(false);
-    };
-
-    if (codigoRuta) {
-      cargarMiembro();
     }
-  }, [codigoRuta]);
+  };
+
+  if (codigoRuta) {
+    cargarMiembro();
+  }
+}, [codigoRuta]);
 
   const nombreNivel: Record<string, string> = {
     NUM: "Académico Numerario",

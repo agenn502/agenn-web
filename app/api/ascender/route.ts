@@ -1,21 +1,9 @@
-import { randomBytes } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 import { enviarCorreo, plantillaCorreo } from "@/lib/email";
 
 function normalizarCodigo(valor: unknown) {
   return String(valor || "").trim().toUpperCase();
-}
-
-function generarPasswordTemporal() {
-  const caracteres =
-    "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
-  const bytes = randomBytes(12);
-
-  return Array.from(
-    bytes,
-    (byte) => caracteres[byte % caracteres.length]
-  ).join("");
 }
 
 async function siguienteCodigoNovicio() {
@@ -136,7 +124,6 @@ export async function POST(req: NextRequest) {
     }
 
     codigoNuevo = await siguienteCodigoNovicio();
-    const passwordTemporal = generarPasswordTemporal();
     passwordAnterior = usuario.password || null;
 
     const { data: miembro, error: miembroError } = await supabaseServer
@@ -156,13 +143,12 @@ export async function POST(req: NextRequest) {
     }
 
     const { error: actualizarUsuarioError } = await supabaseServer
-      .from("users")
-      .update({
-        codigo: codigoNuevo,
-        nivel: "NOV",
-        password: passwordTemporal,
-      })
-      .eq("codigo", codigoAnterior);
+	  .from("users")
+	  .update({
+		codigo: codigoNuevo,
+		nivel: "NOV",
+	  })
+	  .eq("codigo", codigoAnterior);
 
     if (actualizarUsuarioError) {
       throw new Error(actualizarUsuarioError.message);
@@ -269,29 +255,49 @@ export async function POST(req: NextRequest) {
           </p>
 
           <div
-            style="
-              background:#eef6e9;
-              border-left:5px solid #4f7f3b;
-              padding:16px;
-              margin:20px 0;
-            "
-          >
-            <strong>Nuevo código:</strong> ${codigoNuevo}<br>
-            <strong>Contraseña temporal:</strong> ${passwordTemporal}
-          </div>
+			  style="
+				background:#eef6e9;
+				border-left:5px solid #4f7f3b;
+				padding:16px;
+				margin:20px 0;
+				line-height:1.8;
+			  "
+			>
+			  <strong>Nuevo código institucional:</strong> ${codigoNuevo}<br>
+			  <strong>Nivel:</strong> Académico Novicio
+			</div>
+
+			<p>
+			  Su contraseña personal no ha cambiado. Para ingresar nuevamente
+			  a la plataforma deberá utilizar su nuevo código institucional
+			  <strong>${codigoNuevo}</strong> junto con la misma contraseña
+			  que ha utilizado hasta ahora.
+			</p>
 
           <p>
-            El Programa de Formación para Novicios está integrado por
-            diez unidades de estudio. Cada unidad combina contenidos
-            formativos con un cuestionario que deberá completarse para
-            habilitar la siguiente etapa.
-          </p>
+			  Con su incorporación al <strong>Nivel Novicio</strong> inicia formalmente
+			  su proceso de formación académica dentro de la AGENN.
+			</p>
 
-          <p>
-            En la última unidad se solicitará la elaboración de un texto
-            académico breve, con el que podrá demostrar la comprensión y
-            aplicación de los conocimientos adquiridos.
-          </p>
+			<p>
+			  El Programa de Formación y Acreditación del Nivel Novicio está integrado
+			  por diez unidades de estudio organizadas de manera progresiva. En ellas
+			  profundizará en la historia monetaria de Guatemala, la numismática, la
+			  notafilia y otros campos relacionados con el estudio histórico, técnico
+			  y cultural del dinero.
+			</p>
+
+			<p>
+			  Cada unidad combina contenidos formativos con un cuestionario que deberá
+			  completarse satisfactoriamente para habilitar la siguiente etapa.
+			</p>
+
+			<p>
+			  Los conocimientos adquiridos en el Módulo Introductorio constituyen la
+			  base sobre la cual comenzará ahora este recorrido académico más amplio,
+			  orientado al conocimiento y comprensión del patrimonio monetario
+			  guatemalteco.
+			</p>
 
           <p style="text-align:center;margin:28px 0;">
             <a
@@ -310,9 +316,10 @@ export async function POST(req: NextRequest) {
           </p>
 
           <p>
-            Por seguridad, conserve este mensaje hasta confirmar que puede
-            ingresar correctamente con sus nuevas credenciales.
-          </p>
+			  Recuerde que, a partir de este momento, su código anterior dejará
+			  de utilizarse para iniciar sesión. Su nuevo código institucional
+			  es <strong>${codigoNuevo}</strong>.
+			</p>
 
           <p>
             Le deseamos muchos éxitos en esta nueva etapa de su formación.
@@ -330,7 +337,6 @@ export async function POST(req: NextRequest) {
       ok: true,
       codigoAnterior,
       codigoNuevo,
-      passwordTemporal,
       correo,
     });
   } catch (error) {

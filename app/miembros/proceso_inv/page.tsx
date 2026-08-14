@@ -106,12 +106,7 @@ export default function ProcesoInvPage() {
         subtitulo: "Coleccionismo, conservación y mercado numismático",
         href: "/miembros/proceso_inv/unidad-10",
       },
-      {
-        slug: "tarea-final",
-        titulo: "Tarea final",
-        subtitulo: "Evaluación final del Nivel Investigador",
-        href: "/miembros/proceso_inv/tarea-final",
-      },
+      
     ],
     []
   );
@@ -230,7 +225,7 @@ export default function ProcesoInvPage() {
 
   return (
     <div style={{ maxWidth: "980px" }}>
-      <h1 style={{ marginTop: 0 }}>Proceso de Ascenso — Nivel Investigador</h1>
+      <h1 style={{ marginTop: 0 }}>Proceso de Formación y Acreditación — Nivel Investigador</h1>
 
       <p style={{ lineHeight: 1.8 }}>
         El <strong>Nivel Investigador</strong> corresponde a una etapa de formación
@@ -318,12 +313,20 @@ export default function ProcesoInvPage() {
       </p>
 
       <p style={{ lineHeight: 1.8 }}>
-        Una vez completadas satisfactoriamente las diez unidades, el participante
-        recibirá una <strong>tarea final de evaluación</strong>, la cual será revisada
-        por el <strong>Consejo Académico</strong>. En caso de aprobación, el miembro
-        podrá ser promovido al nivel de <strong>Académico Numerario (NUM)</strong>,
-        conforme a la normativa institucional aplicable.
-      </p>
+		  Una vez completadas satisfactoriamente las diez unidades del Nivel
+		  Investigador, el miembro habrá concluido su proceso de formación y
+		  obtendrá la <strong>acreditación como Académico Investigador</strong>,
+		  acompañada de su correspondiente certificado institucional.
+		</p>
+
+		<p style={{ lineHeight: 1.8 }}>
+		  La categoría de Académico Investigador constituye un nivel académico
+		  pleno dentro de la Academia y puede mantenerse de forma indefinida.
+		  Aquellos miembros que posteriormente deseen aspirar a la categoría
+		  superior de <strong>Académico Numerario</strong> podrán iniciar,
+		  voluntariamente, el Proceso NUM, sujeto a los requisitos académicos
+		  establecidos por el Consejo Académico.
+		</p>
 
       <div
         style={{

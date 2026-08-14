@@ -101,12 +101,7 @@ export default function ProcesoNovPage() {
         subtitulo: "Fundamentos de notafilia y clasificación de billetes. Coleccionismo, conservación y mercado numismático",
         href: "/miembros/proceso_nov/unidad-10",
       },
-      {
-        slug: "tarea-final",
-        titulo: "Tarea final",
-        subtitulo: "Evaluación final del Nivel Novicio",
-        href: "/miembros/proceso_nov/tarea-final",
-      },
+      
     ],
     []
   );
@@ -132,7 +127,7 @@ export default function ProcesoNovPage() {
 
       // Solo NOV o Consejo
       if (!consejoNormalizado && parsed.nivel !== "NOV") {
-        setError("Esta sección corresponde al proceso de ascenso del Nivel Novicio.");
+        setError("Esta sección corresponde al proceso de formación y acreditación del Nivel Novicio.");
         setLoading(false);
         return;
       }
@@ -161,7 +156,7 @@ export default function ProcesoNovPage() {
   }, [progreso]);
 
   const porcentajeGeneral = useMemo(() => {
-    const unidadesEvaluables = unidades.filter((u) => u.slug !== "tarea-final");
+    const unidadesEvaluables = unidades;
     const total = unidadesEvaluables.length;
     const sumado = unidadesEvaluables.reduce((acc, unidad) => {
       const row = progresoMap.get(unidad.slug);
@@ -174,11 +169,6 @@ export default function ProcesoNovPage() {
     if (esConsejo) return true;
 
     const unidad = unidades[index];
-
-    if (unidad.slug === "tarea-final") {
-      const unidad10 = progresoMap.get("unidad-10");
-      return !!unidad10?.completada;
-    }
 
     if (index === 0) return true;
 
@@ -195,13 +185,13 @@ export default function ProcesoNovPage() {
     };
   };
 
-  if (loading) return <div>Cargando proceso de ascenso...</div>;
+  if (loading) return <div>Cargando proceso de formación y acreditación...</div>;
   if (error) return <div style={{ color: "red" }}>{error}</div>;
   if (!user) return <div>Cargando usuario...</div>;
 
   return (
     <div style={{ maxWidth: "980px" }}>
-      <h1 style={{ marginTop: 0 }}>Proceso de Ascenso — Nivel Novicio</h1>
+      <h1 style={{ marginTop: 0 }}>Proceso de Formación y Acreditación — Nivel Novicio</h1>
 
       <p style={{ lineHeight: 1.8 }}>
         El <strong>Nivel Novicio</strong> corresponde a la etapa inicial de formación
@@ -291,12 +281,24 @@ export default function ProcesoNovPage() {
       </p>
 
       <p style={{ lineHeight: 1.8 }}>
-        Una vez completadas satisfactoriamente las diez unidades del Nivel Novicio,
-        el participante recibirá una <strong>tarea final de evaluación</strong>. Dicha
-        tarea será sometida a revisión por el <strong>Consejo Académico</strong>. En
-        caso de ser aprobada, el miembro será promovido al nivel de
-        <strong> Académico Investigador (INV)</strong>.
-      </p>
+		  Una vez completadas satisfactoriamente las diez unidades del Nivel
+		  Novicio, el miembro habrá concluido su proceso de formación y obtendrá
+		  la <strong>acreditación como Académico Novicio</strong>, acompañada de
+		  su correspondiente certificado institucional.
+		</p>
+
+		<p style={{ lineHeight: 1.8 }}>
+		  En ese momento, el sistema actualizará automáticamente su categoría,
+		  asignándole un nuevo código institucional correspondiente al Nivel
+		  Investigador y habilitando su acceso al{" "}
+		  <strong>Proceso de Formación y Acreditación — Nivel Investigador</strong>.
+		</p>
+
+		<p style={{ lineHeight: 1.8 }}>
+		  El miembro recibirá además un correo de felicitación informándole de su
+		  nueva acreditación, su nuevo código institucional y la disponibilidad
+		  de su certificado en el área privada de la Academia.
+		</p>
 
       <div
         style={{
@@ -332,7 +334,7 @@ export default function ProcesoNovPage() {
                   fontWeight: 700,
                 }}
               >
-                {unidad.slug === "tarea-final" ? "Evaluación final" : "Unidad de formación"}
+                Unidad de formación
               </p>
 
               <h3 style={{ marginTop: 0, marginBottom: "0.5rem" }}>

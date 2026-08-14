@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# archivos auxiliares locales de desarrollo
+*.backup.tsx
+app/new.tsx
+components/new.tsx
+app/api/route-vacio.ts
+app/miembros/proceso_asp/introductorio/page - copia.tsx

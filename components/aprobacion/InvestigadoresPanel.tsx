@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -33,7 +33,7 @@ export default function InvestigadoresPanel({ user, onConteoChange }: Props) {
   }, [onConteoChange]);
 
   const aprobar = async (ensayo: EnsayoPendiente) => {
-    if (!confirm(`¿Aprobar la evidencia de ${ensayo.autor_nombre} para ${ensayo.unidad_slug}?`)) return;
+    if (!confirm(`Â¿Aprobar la evidencia de ${ensayo.autor_nombre} para ${ensayo.unidad_slug}?`)) return;
     const ahora = new Date().toISOString();
     const { error: e1 } = await supabase.from("ensayos").update({ evidencia_validada: true, estado_revision: "aprobado", revisado_por: user.codigo, fecha_revision: ahora, url_social: null, fecha_evidencia: null }).eq("id", ensayo.id);
     if (e1) return alert(e1.message);
@@ -47,7 +47,7 @@ export default function InvestigadoresPanel({ user, onConteoChange }: Props) {
   const rechazar = async (ensayo: EnsayoPendiente) => {
     const observaciones = prompt(`Escriba las observaciones para ${ensayo.autor_nombre}:`);
     if (!observaciones?.trim()) return alert("Debe escribir observaciones para rechazar la evidencia.");
-    if (!confirm(`¿Rechazar la evidencia de ${ensayo.autor_nombre} para ${ensayo.unidad_slug}?`)) return;
+    if (!confirm(`Â¿Rechazar la evidencia de ${ensayo.autor_nombre} para ${ensayo.unidad_slug}?`)) return;
     const ahora = new Date().toISOString();
     const { error: e1 } = await supabase.from("ensayos").update({ evidencia_validada: false, estado_revision: "rechazado", observaciones_revision: observaciones.trim(), revisado_por: user.codigo, fecha_revision: ahora }).eq("id", ensayo.id);
     if (e1) return alert(e1.message);
@@ -55,12 +55,12 @@ export default function InvestigadoresPanel({ user, onConteoChange }: Props) {
     if (e2) return alert(e2.message);
     setEnsayos((prev) => prev.filter((x) => x.id !== ensayo.id));
     onConteoChange?.(Math.max(0, ensayos.length - 1));
-    alert("Evidencia rechazada. La unidad queda pendiente de corrección.");
+    alert("Evidencia rechazada. La unidad queda pendiente de correcciÃ³n.");
   };
 
   if (loading) return <p>Cargando evidencias...</p>;
   if (error) return <p style={{ color: "#8b2f2f" }}>{error}</p>;
-  if (ensayos.length === 0) return <p>No hay evidencias pendientes de revisión.</p>;
+  if (ensayos.length === 0) return <p>No hay evidencias pendientes de revisiÃ³n.</p>;
 
   return <div style={{ display: "grid", gap: "1rem" }}>{ensayos.map((ensayo) => (
     <article key={ensayo.id} style={{ background: "white", border: "1px solid #ddd4c7", borderRadius: 12, padding: "1rem" }}>
@@ -69,9 +69,10 @@ export default function InvestigadoresPanel({ user, onConteoChange }: Props) {
       <p><strong>Unidad:</strong> {ensayo.unidad_slug}</p>
       {ensayo.tema && <p><strong>Tema:</strong> {ensayo.tema}</p>}
       <p><strong>Ensayo:</strong> <Link href={`/ensayos/${ensayo.slug}`} target="_blank">Ver ensayo publicado</Link></p>
-      {ensayo.url_social && <p><strong>Publicación externa:</strong> <a href={ensayo.url_social} target="_blank" rel="noreferrer">Ver publicación</a></p>}
+      {ensayo.url_social && <p><strong>PublicaciÃ³n externa:</strong> <a href={ensayo.url_social} target="_blank" rel="noreferrer">Ver publicaciÃ³n</a></p>}
       <button onClick={() => aprobar(ensayo)} style={{ background: "#4f7f3b", color: "white", border: 0, padding: "0.75rem 1rem", borderRadius: 8, cursor: "pointer" }}>Aprobar evidencia</button>
       <button onClick={() => rechazar(ensayo)} style={{ background: "#8b2f2f", color: "white", border: 0, padding: "0.75rem 1rem", borderRadius: 8, cursor: "pointer", marginLeft: "0.5rem" }}>Rechazar evidencia</button>
     </article>
   ))}</div>;
 }
+
