@@ -257,8 +257,30 @@ Para el numismático, la moneda colonial será el siguiente gran paso de estudio
     ],
   },
 
+
   {
-    titulo: "12. Errores comunes del novicio",
+    titulo: "12. Tributo, mercados y control: no todo intercambio funcionaba igual",
+    bloques: [{ tipo: "texto", contenido: `
+La evidencia reunida por Arredondo Leiva permite profundizar un paso más: la economía maya no dependía de un único mecanismo. En distintos lugares y períodos pudieron coexistir **tributo, intercambio entre regiones, redistribución, producción especializada y formas de mercado** (Arredondo Leiva, 2012).
+
+El **tributo** muestra que la circulación de bienes no siempre implicaba compraventa. El autor recoge términos y representaciones del período Clásico relacionados con pagos, cargas y bienes entregados a las élites. En escenas como las de Bonampak aparecen cargas asociadas con cacao, evidencia útil para estudiar obligaciones económicas y políticas.
+
+La existencia de **mercados** para el período Clásico es más difícil de demostrar. Se han propuesto plazas, espacios junto a calzadas y ciertos edificios como posibles mercados, pero la interpretación continúa siendo debatida (Arredondo Leiva, 2012).
+
+**Regla metodológica:** evidencia compatible con una interpretación no equivale a demostración definitiva de esa interpretación.
+` }]},
+  
+  {
+    titulo: "13. Las redes económicas cambiaron con el tiempo",
+    bloques: [{ tipo: "texto", contenido: `
+Las rutas de intercambio no fueron permanentes. Arredondo Leiva documenta, por ejemplo, cambios en la presencia de obsidiana de **San Martín Jilotepeque** y **El Chayal** durante el Preclásico. Esos cambios permiten estudiar transformaciones en las conexiones económicas y políticas entre regiones (Arredondo Leiva, 2012).
+
+Durante el Clásico circularon obsidiana, jade, cacao, sal y otros materiales por redes terrestres y fluviales. Sin embargo, el grado de control ejercido por las élites no fue necesariamente igual para todos los productos ni en todos los sitios. Incluso existen interpretaciones diferentes sobre el control de la obsidiana según la evidencia disponible.
+
+**Una economía histórica debe estudiarse como un sistema cambiante, no como una fotografía inmóvil.** Cuando dos sitios o períodos muestran patrones distintos, corresponde investigar qué cambió y qué evidencia permite explicarlo.
+` }]},
+  {
+    titulo: "14. Errores comunes del novicio",
     bloques: [
       {
         tipo: "tabla",
@@ -282,7 +304,7 @@ Superar estos errores prepara al estudiante para las siguientes unidades, donde 
   },
 
   {
-    titulo: "13. Conclusión",
+    titulo: "15. Conclusión",
     bloques: [
       {
         tipo: "texto",
@@ -300,6 +322,8 @@ En esta unidad aprendiste que:
 7. Kaminaljuyú y Tak'alik Ab'aj fueron importantes dentro de redes regionales.
 8. Medir o contar bienes no equivale automáticamente a tener moneda.
 9. La introducción de moneda metálica transformó sistemas anteriores, pero no los sustituyó de inmediato.
+10. Comercio, tributo, redistribución y posibles mercados no deben tratararse como sinónimos.
+11. Las rutas y formas de control económico cambiaron entre regiones y períodos.
 
 **Para el novicio:** comprender el valor antes de la moneda evita que la numismática se reduzca a memorizar piezas. La moneda será más fácil de entender cuando primero comprendemos la sociedad que necesita representar e intercambiar valor.
 `,
@@ -341,13 +365,8 @@ La economía no depende exclusivamente de la moneda. Las sociedades mayas produc
     pregunta:
       "¿Cuál de estos factores NO era necesario para que un bien tuviera valor en el mundo prehispánico?",
     tipo: "mc",
-    opciones: [
-      "Utilidad",
-      "Rareza",
-      "Significado social",
-      "Una denominación oficial impresa",
-    ],
-    correcta: 3,
+    opciones: ["Utilidad", "Rareza", "Una denominación oficial impresa", "Significado social"],
+    correcta: 2,
     explicacion: `
 Los bienes podían ser valorados por utilidad, rareza, procedencia, trabajo y significado social. Una denominación oficial impresa pertenece a sistemas monetarios posteriores y no era necesaria para que existiera valor.
 `,
@@ -366,12 +385,7 @@ La evidencia muestra circulación de bienes a larga distancia y distintos mecani
     pregunta:
       "¿Qué característica hacía útil al cacao como medio de intercambio?",
     tipo: "mc",
-    opciones: [
-      "Podía contarse en unidades",
-      "Era imposible de transportar",
-      "Solo tenía uso decorativo",
-      "Era una moneda de metal",
-    ],
+    opciones: ["Podía contarse en unidades", "Era imposible de transportar", "Solo tenía uso decorativo", "Era una moneda de metal"],
     correcta: 0,
     explicacion: `
 Los granos de cacao podían contarse y transportarse, y el producto tenía demanda social. Esas características favorecieron su uso como medio de intercambio en determinados contextos.
@@ -391,13 +405,8 @@ Contar o medir un bien demuestra organización, pero no lo convierte automática
     pregunta:
       "Según la propuesta recogida por Arredondo Leiva, una carga colonial de cacao equivalía a:",
     tipo: "mc",
-    opciones: [
-      "24 granos",
-      "2,400 granos",
-      "24,000 granos",
-      "240,000 granos",
-    ],
-    correcta: 2,
+    opciones: ["24 granos", "2,400 granos", "240,000 granos", "24,000 granos"],
+    correcta: 3,
     explicacion: `
 La propuesta citada por Arredondo Leiva señala que una carga correspondía a tres xiquipiles, equivalentes a 24,000 almendras de cacao. La posible relación con recipientes prehispánicos debe entenderse como una interpretación arqueológica, no como una certeza absoluta.
 `,
@@ -416,8 +425,8 @@ Un bien puede ser muy valioso por prestigio, religión, rareza o utilidad sin ci
     pregunta:
       "¿Qué bien se relaciona principalmente con herramientas y con el estudio de rutas de distribución?",
     tipo: "mc",
-    opciones: ["Obsidiana", "Jade", "Plumas", "Conchas"],
-    correcta: 0,
+    opciones: ["Jade", "Obsidiana", "Plumas", "Conchas"],
+    correcta: 1,
     explicacion: `
 La obsidiana fue una materia prima fundamental para herramientas. Además, al identificar su fuente geológica, los arqueólogos pueden reconstruir rutas de circulación.
 `,
@@ -436,13 +445,8 @@ Si un material aparece lejos de la fuente donde se origina, tuvo que desplazarse
     pregunta:
       "¿Cuáles son dos fuentes importantes de obsidiana mencionadas para Guatemala?",
     tipo: "mc",
-    opciones: [
-      "El Chayal y San Martín Jilotepeque",
-      "Tikal y Uaxactún",
-      "Motagua y Usumacinta",
-      "Palenque y Copán",
-    ],
-    correcta: 0,
+    opciones: ["Tikal y Uaxactún", "Motagua y Usumacinta", "El Chayal y San Martín Jilotepeque", "Palenque y Copán"],
+    correcta: 2,
     explicacion: `
 El Chayal y San Martín Jilotepeque son fuentes geológicas de obsidiana importantes para el estudio de las redes prehispánicas de Guatemala.
 `,
@@ -461,13 +465,8 @@ El jade se asocia sobre todo con prestigio, producción especializada y contexto
     pregunta:
       "¿Dónde se localizan las fuentes más importantes de jadeíta mesoamericana mencionadas en esta unidad?",
     tipo: "mc",
-    opciones: [
-      "Valle del río Motagua",
-      "Costa del lago de Atitlán",
-      "Valle de México",
-      "Península de Yucatán",
-    ],
-    correcta: 0,
+    opciones: ["Costa del lago de Atitlán", "Valle de México", "Península de Yucatán", "Valle del río Motagua"],
+    correcta: 3,
     explicacion: `
 El valle del río Motagua, en Guatemala, es fundamental para comprender el abastecimiento y la circulación del jadeíta en Mesoamérica.
 `,
@@ -506,13 +505,8 @@ Su ubicación en la bocacosta del Pacífico lo convirtió en un punto importante
     pregunta:
       "¿Qué demuestra con mayor seguridad encontrar conchas marinas en un sitio lejos de la costa?",
     tipo: "mc",
-    opciones: [
-      "Que existió circulación del material",
-      "Que el sitio estaba originalmente bajo el mar",
-      "Que las conchas eran moneda oficial",
-      "Que no existían rutas comerciales",
-    ],
-    correcta: 0,
+    opciones: ["Que el sitio estaba originalmente bajo el mar", "Que existió circulación del material", "Que las conchas eran moneda oficial", "Que no existían rutas comerciales"],
+    correcta: 1,
     explicacion: `
 La presencia de materiales de origen lejano demuestra circulación. Determinar el mecanismo exacto de intercambio requiere estudiar el contexto y otras evidencias.
 `,
@@ -531,13 +525,8 @@ La distancia a la fuente, la disponibilidad local y la demanda podían modificar
     pregunta:
       "¿Cuál es la interpretación más prudente cuando un material aparece lejos de su fuente?",
     tipo: "mc",
-    opciones: [
-      "Demuestra circulación, pero el mecanismo de intercambio debe investigarse",
-      "Demuestra automáticamente un mercado moderno",
-      "Demuestra que fue comprado con moneda acuñada",
-      "Demuestra que el material no tenía valor",
-    ],
-    correcta: 0,
+    opciones: ["Demuestra automáticamente un mercado moderno", "Demuestra que fue comprado con moneda acuñada", "Demuestra que el material no tenía valor", "Demuestra circulación, pero el mecanismo de intercambio debe investigarse"],
+    correcta: 3,
     explicacion: `
 La arqueología puede mostrar que un bien se movió. Para afirmar si llegó por comercio, tributo, regalo o redistribución hacen falta más datos.
 `,
@@ -556,8 +545,8 @@ La capacidad de organizar cantidades muestra planificación y conocimiento prác
     pregunta:
       "¿Qué término utiliza esta unidad de manera didáctica para un bien que cumple algunas funciones semejantes a las del dinero sin ser moneda acuñada?",
     tipo: "mc",
-    opciones: ["Proto-dinero", "Billete", "Ficha bancaria", "Criptomoneda"],
-    correcta: 0,
+    opciones: ["Billete", "Ficha bancaria", "Proto-dinero", "Criptomoneda"],
+    correcta: 2,
     explicacion: `
 Proto-dinero es una categoría útil para explicar bienes que sirvieron como referencia de valor o medio de intercambio, aunque no fueran monedas acuñadas.
 `,
@@ -576,13 +565,8 @@ Los sistemas de pago pueden coexistir durante largos períodos. La bibliografía
     pregunta:
       "¿Qué autora estudió específicamente el uso del cacao como moneda en la era prehispánica y su pervivencia colonial?",
     tipo: "mc",
-    opciones: [
-      "Lucía Aranda Kilian",
-      "Marion Popenoe de Hatch",
-      "Chloé Andrieu",
-      "Melanie Forné",
-    ],
-    correcta: 0,
+    opciones: ["Marion Popenoe de Hatch", "Lucía Aranda Kilian", "Chloé Andrieu", "Melanie Forné"],
+    correcta: 1,
     explicacion: `
 Lucía Aranda Kilian publicó en 2005 un estudio dedicado al uso del cacao como moneda y a su continuidad durante la época colonial.
 `,
@@ -601,12 +585,7 @@ Diferentes medios de intercambio y pago pueden coexistir. La aparición de moned
     pregunta:
       "¿Cuál de estas afirmaciones distingue mejor un bien valioso de una moneda?",
     tipo: "mc",
-    opciones: [
-      "Un bien puede ser valioso sin estar destinado a funcionar como medio monetario",
-      "Todo bien raro es automáticamente moneda",
-      "Solo los objetos metálicos pueden tener valor",
-      "Toda pieza ritual es dinero",
-    ],
+    opciones: ["Un bien puede ser valioso sin estar destinado a funcionar como medio monetario", "Todo bien raro es automáticamente moneda", "Solo los objetos metálicos pueden tener valor", "Toda pieza ritual es dinero"],
     correcta: 0,
     explicacion: `
 El valor puede proceder de prestigio, utilidad, rareza o simbolismo. Para hablar de función monetaria debemos observar cómo se utiliza realmente el bien en el intercambio.
@@ -616,15 +595,335 @@ El valor puede proceder de prestigio, utilidad, rareza o simbolismo. Para hablar
     pregunta:
       "¿Cuál es la mejor conclusión de esta unidad?",
     tipo: "mc",
-    opciones: [
-      "Antes de la moneda acuñada ya existían sistemas complejos de valor e intercambio",
-      "Sin monedas no puede existir economía",
-      "Todos los mayas utilizaban una única moneda universal",
-      "La arqueología no permite estudiar la economía",
-    ],
-    correcta: 0,
+    opciones: ["Sin monedas no puede existir economía", "Todos los mayas utilizaban una única moneda universal", "Antes de la moneda acuñada ya existían sistemas complejos de valor e intercambio", "La arqueología no permite estudiar la economía"],
+    correcta: 2,
     explicacion: `
 La evidencia arqueológica permite reconstruir redes, materias primas, centros de intercambio y formas de organización económica anteriores a la moneda colonial. Ese es el punto de partida para comprender la historia monetaria de Guatemala.
 `,
   },
+  {
+    pregunta: `Un objeto de jade aparece en un contexto funerario de élite. ¿Cuál es la conclusión más rigurosa?`,
+    tipo: "mc",
+    opciones: [
+      "Demuestra que el jade era moneda oficial",
+      "El contexto permite relacionarlo con prestigio o ritualidad, pero no prueba por sí solo una función monetaria",
+      "Demuestra que fue comprado con cacao",
+      "Todo objeto funerario carece de dimensión económica",
+    ],
+    correcta: 1,
+    explicacion: `
+El contexto elitista puede sustentar una interpretación sobre prestigio, simbolismo o acceso diferencial. No basta para demostrar función monetaria. Para ello haría falta evidencia de uso en pagos, equivalencias o intercambios. La enseñanza es separar **valor** de **función monetaria**.
+`,
+  },
+  {
+    pregunta: `La existencia de tributo demuestra que todos los bienes que circulaban entre comunidades eran comprados y vendidos.`,
+    tipo: "fv",
+    opciones: [
+      "Verdadero",
+      "Falso",
+    ],
+    correcta: 1,
+    explicacion: `
+El tributo es un mecanismo de circulación distinto de la compraventa. Un bien podía desplazarse como obligación política, entrega a una élite, regalo, redistribución o comercio. **Circulación no identifica por sí sola el mecanismo económico.**
+`,
+  },
+  {
+    pregunta: `Si disminuye la obsidiana de San Martín Jilotepeque y aumenta la de El Chayal, ¿qué interpretación es más prudente?`,
+    tipo: "mc",
+    opciones: [
+      "La obsidiana dejó de utilizarse",
+      "Ambas fuentes eran el mismo yacimiento",
+      "Pudo cambiar el abastecimiento o la red de relaciones, y debe estudiarse el contexto",
+      "Toda la población emigró a El Chayal",
+    ],
+    correcta: 2,
+    explicacion: `
+Los cambios de procedencia permiten proponer transformaciones en las redes de abastecimiento. No autorizan por sí solos a afirmar migraciones, guerras o abandonos. **La procedencia es evidencia; la explicación histórica requiere contexto adicional.**
+`,
+  },
+  {
+    pregunta: `Las rutas comerciales mayas permanecieron invariables desde el Preclásico hasta el Posclásico.`,
+    tipo: "fv",
+    opciones: [
+      "Verdadero",
+      "Falso",
+    ],
+    correcta: 1,
+    explicacion: `
+Las redes cambiaron con el ascenso y declive de centros, alianzas, conflictos y modificaciones en el acceso a fuentes y rutas. Una red documentada para un período no debe proyectarse automáticamente sobre toda la historia maya.
+`,
+  },
+  {
+    pregunta: `¿Por qué identificar la fuente geológica de una pieza de obsidiana es económicamente relevante?`,
+    tipo: "mc",
+    opciones: [
+      "Permite relacionar origen y lugar de hallazgo para estudiar el desplazamiento del bien",
+      "Determina su precio exacto",
+      "Demuestra que funcionó como moneda",
+      "Identifica a la persona que la transportó",
+    ],
+    correcta: 0,
+    explicacion: `
+Relacionar fuente y lugar de hallazgo ayuda a reconstruir redes de abastecimiento y circulación. No revela por sí solo precio, mecanismo de intercambio ni identidad de los participantes.
+`,
+  },
+  {
+    pregunta: `Recipientes de tamaño semejante asociados hipotéticamente con cacao prueban por sí solos la existencia de moneda formal.`,
+    tipo: "fv",
+    opciones: [
+      "Verdadero",
+      "Falso",
+    ],
+    correcta: 1,
+    explicacion: `
+La estandarización puede ser compatible con medición y transporte de cantidades. La propuesta recogida por Arredondo debe conservarse como interpretación. **Una hipótesis apoyada por evidencia no debe transformarse en certeza sin pruebas adicionales.**
+`,
+  },
+  {
+    pregunta: `¿Qué diferencia mejor un xiquipil de una moneda acuñada en el enfoque de esta unidad?`,
+    tipo: "mc",
+    opciones: [
+      "Era una moneda metálica maya",
+      "Solo podía usarse para tributo",
+      "No existe diferencia conceptual",
+      "El xiquipil expresa una cantidad de conteo; una moneda acuñada es una pieza producida dentro de un sistema monetario",
+    ],
+    correcta: 3,
+    explicacion: `
+El xiquipil ayuda a comprender que contar o estandarizar cantidades no equivale a acuñar moneda. Una unidad de conteo puede organizar cargas o pagos sin convertirse materialmente en una moneda.
+`,
+  },
+  {
+    pregunta: `Que un bien sea transportable y divisible puede favorecer su intercambio, pero no demuestra por sí solo que funcionara como dinero.`,
+    tipo: "fv",
+    opciones: [
+      "Verdadero",
+      "Falso",
+    ],
+    correcta: 0,
+    explicacion: `
+Las propiedades físicas pueden facilitar el intercambio, pero la clasificación histórica depende de evidencias sobre el **uso efectivo** del bien. No basta con que un objeto pudiera haber servido como dinero.
+`,
+  },
+  {
+    pregunta: `Aparecen conchas marinas, obsidiana distante y jade en un mismo sitio. ¿Qué puede sostenerse inicialmente?`,
+    tipo: "mc",
+    opciones: [
+      "Todos fueron adquiridos en un único mercado",
+      "Evidencian conexiones y circulación desde distintas procedencias, pero debe investigarse cómo llegaron",
+      "Constituían una moneda universal",
+      "Demuestran necesariamente tributo",
+    ],
+    correcta: 1,
+    explicacion: `
+La diversidad de procedencias demuestra conexiones y movimiento. Comercio, tributo, regalo o redistribución siguen siendo explicaciones que requieren evidencia adicional.
+`,
+  },
+  {
+    pregunta: `El debate sobre mercados mayas obliga a distinguir entre una interpretación plausible y un hecho demostrado.`,
+    tipo: "fv",
+    opciones: [
+      "Verdadero",
+      "Falso",
+    ],
+    correcta: 0,
+    explicacion: `
+Arredondo Leiva señala propuestas arqueológicas sobre posibles espacios de mercado, pero también el carácter debatido de su identificación. El estudiante debe conservar el grado de certeza de la fuente.
+`,
+  },
+  {
+    pregunta: `¿Cuál afirmación aplica correctamente la idea de valor contextual?`,
+    tipo: "mc",
+    opciones: [
+      "Un material valía lo mismo en toda región",
+      "Solo la rareza determinaba el valor",
+      "La importancia podía variar según disponibilidad, distancia, uso, acceso y significado social",
+      "El valor solo existía con denominación oficial",
+    ],
+    correcta: 2,
+    explicacion: `
+El valor no es una propiedad fija del objeto. Arredondo subraya que dependía de quién poseía qué, cuándo y dónde; por eso deben considerarse disponibilidad, acceso, utilidad, trabajo y simbolismo.
+`,
+  },
+  {
+    pregunta: `Los bienes exóticos en contextos de élite pueden aportar información sobre diferenciación social y acceso a redes.`,
+    tipo: "fv",
+    opciones: [
+      "Verdadero",
+      "Falso",
+    ],
+    correcta: 0,
+    explicacion: `
+Su procedencia y contexto pueden ayudar a estudiar jerarquía y acceso diferencial. Esto no significa que todo bien exótico fuera exclusivo de élites ni que tuviera la misma función en todos los sitios.
+`,
+  },
+  {
+    pregunta: `¿Qué situación ejemplifica mejor una economía compleja sin moneda acuñada?`,
+    tipo: "mc",
+    opciones: [
+      "Incapacidad de medir productos",
+      "Ausencia de circulación regional",
+      "Solo trueque directo",
+      "Producción especializada, tributo, redistribución, circulación regional y equivalencias",
+    ],
+    correcta: 3,
+    explicacion: `
+La complejidad económica no depende de moneda acuñada. La evidencia maya permite estudiar simultáneamente producción, especialización, tributo, redes de circulación y posibles mercados.
+`,
+  },
+  {
+    pregunta: `Si un bien estuvo controlado por una élite, puede afirmarse automáticamente que nunca tuvo utilidad práctica.`,
+    tipo: "fv",
+    opciones: [
+      "Verdadero",
+      "Falso",
+    ],
+    correcta: 1,
+    explicacion: `
+Las funciones pueden superponerse. La obsidiana, por ejemplo, tenía usos prácticos y podía aparecer en contextos de control o ritualidad. El contexto debe guiar la interpretación.
+`,
+  },
+  {
+    pregunta: `¿Qué pregunta ayuda mejor a estudiar si una élite intervino en la circulación de un material?`,
+    tipo: "mc",
+    opciones: [
+      "¿Es visualmente atractivo?",
+      "¿Dónde aparecen materia prima, talleres, desechos y objetos terminados, y en qué contextos sociales?",
+      "¿Se parece a una moneda moderna?",
+      "¿Su nombre actual contiene la palabra dinero?",
+    ],
+    correcta: 1,
+    explicacion: `
+La distribución espacial de materias primas, talleres, residuos y productos terminados aporta evidencia sobre producción, acceso y control. La apariencia moderna no reconstruye relaciones económicas antiguas.
+`,
+  },
+  {
+    pregunta: `La arqueología puede reconstruir aspectos económicos aunque el valor exacto de los bienes no sea observable directamente.`,
+    tipo: "fv",
+    opciones: [
+      "Verdadero",
+      "Falso",
+    ],
+    correcta: 0,
+    explicacion: `
+Puede estudiar procedencia, producción, distribución, contextos de uso y patrones de acceso. No conocer un precio exacto no impide formular interpretaciones económicas rigurosas.
+`,
+  },
+  {
+    pregunta: `Una evidencia es compatible tanto con tributo como con comercio. ¿Qué debe hacer el investigador?`,
+    tipo: "mc",
+    opciones: [
+      "Elegir la explicación más atractiva",
+      "Descartar ambas",
+      "Reconocer las alternativas y buscar evidencia adicional para distinguirlas",
+      "Tratar ambos mecanismos como sinónimos",
+    ],
+    correcta: 2,
+    explicacion: `
+Una investigación rigurosa mantiene abiertas las hipótesis compatibles con la evidencia. **Reconocer incertidumbre no debilita el análisis; evita afirmar más de lo que las fuentes permiten.**
+`,
+  },
+  {
+    pregunta: `Encontrar un taller de jade demuestra que todas las piezas de jade de otros sitios fueron producidas allí.`,
+    tipo: "fv",
+    opciones: [
+      "Verdadero",
+      "Falso",
+    ],
+    correcta: 1,
+    explicacion: `
+Un taller demuestra producción local. Vincular piezas distantes exige comparar materia prima, técnica, cronología, estilo y rutas. Una evidencia local no debe generalizarse más allá de su alcance.
+`,
+  },
+  {
+    pregunta: `¿Por qué Cancuén es útil para estudiar la economía del jade?`,
+    tipo: "mc",
+    opciones: [
+      "Demuestra un único origen de todo jade",
+      "Documenta producción especializada y permite relacionar materia prima, trabajo y distribución",
+      "Fue una casa de moneda",
+      "Demuestra acuñación de jade",
+    ],
+    correcta: 1,
+    explicacion: `
+Las investigaciones citadas documentan producción especializada en Cancuén y permiten analizar abastecimiento, selección, manufactura y circulación. Su importancia es mostrar un **proceso económico**, no una moneda.
+`,
+  },
+  {
+    pregunta: `El cacao podía reunir valor de consumo, significado social y utilidad como medio de intercambio.`,
+    tipo: "fv",
+    opciones: [
+      "Verdadero",
+      "Falso",
+    ],
+    correcta: 0,
+    explicacion: `
+Las funciones de un bien pueden superponerse. Esa combinación ayuda a explicar la importancia histórica del cacao y evita reducirlo a una sola categoría.
+`,
+  },
+  {
+    pregunta: `Dos sitios reciben obsidiana de fuentes diferentes. ¿Qué conclusión debe evitarse?`,
+    tipo: "mc",
+    opciones: [
+      "Comparar abastecimiento",
+      "Investigar redes distintas",
+      "Relacionar diferencias con cronología",
+      "Afirmar sin más evidencia que una ciudad era económicamente superior",
+    ],
+    correcta: 3,
+    explicacion: `
+La procedencia permite comparar redes, pero una fuente distinta no establece por sí sola riqueza, poder o superioridad económica. Esas conclusiones requieren otras evidencias.
+`,
+  },
+  {
+    pregunta: `La ausencia de un material puede ser relevante para estudiar redes si se interpreta como parte de un patrón y con cautela.`,
+    tipo: "fv",
+    opciones: [
+      "Verdadero",
+      "Falso",
+    ],
+    correcta: 0,
+    explicacion: `
+Presencias y ausencias pueden reflejar cambios de abastecimiento, pero una ausencia también puede depender de conservación, muestreo o investigación incompleta. Por ello no debe tratarse como prueba aislada.
+`,
+  },
+  {
+    pregunta: `¿Qué distingue mejor un medio de intercambio de un bien de prestigio?`,
+    tipo: "mc",
+    opciones: [
+      "El primero participa en transacciones; el segundo se relaciona principalmente con diferenciación social, aunque un bien puede reunir ambas funciones",
+      "Todo bien de prestigio es moneda",
+      "Todo medio de intercambio es metálico",
+      "Son términos idénticos",
+    ],
+    correcta: 0,
+    explicacion: `
+Las expresiones describen funciones distintas. **Medio de intercambio** se refiere al papel transaccional; **bien de prestigio**, a estatus o jerarquía. Históricamente pueden superponerse.
+`,
+  },
+  {
+    pregunta: `La coexistencia del cacao con moneda metálica en época colonial demuestra que las transiciones monetarias pueden ser graduales.`,
+    tipo: "fv",
+    opciones: [
+      "Verdadero",
+      "Falso",
+    ],
+    correcta: 0,
+    explicacion: `
+La pervivencia del cacao estudiada por Kilian impide imaginar una sustitución instantánea. Las normas, las monedas disponibles y las prácticas cotidianas pueden cambiar a ritmos distintos.
+`,
+  },
+  {
+    pregunta: `¿Cuál es el propósito principal de estudiar el período anterior a la moneda colonial en una formación numismática?`,
+    tipo: "mc",
+    opciones: [
+      "Memorizar productos mayas",
+      "Llamar moneda a todo objeto valioso",
+      "Comprender valor, intercambio, medición y pago antes de la moneda acuñada y distinguir evidencia de interpretación",
+      "Sustituir la numismática por arqueología",
+    ],
+    correcta: 2,
+    explicacion: `
+Esta unidad proporciona una base conceptual: **valor, circulación y pago son fenómenos más amplios que la moneda**, pero eso no autoriza a llamar moneda a todo objeto valioso. La disciplina consiste en clasificar solo lo que la evidencia permite.
+`,},
 ];

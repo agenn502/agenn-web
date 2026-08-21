@@ -444,8 +444,7 @@ export default function Unidad1NovicioPage() {
 
             <p style={{ lineHeight: 1.8 }}>
               Ha completado las {QUESTIONS.length} preguntas de retroalimentación.
-              En el Nivel Novicio no se requiere ensayo para esta unidad: el
-              cuestionario completado registra la Unidad 1 como finalizada y
+              El cuestionario completado registra la Unidad 1 como finalizada y
               permite continuar con la Unidad 2.
             </p>
 
