@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
-import { TEORIA, QUESTIONS } from "@/content/proceso_nov/unidad2";
+import { TEORIA, QUESTIONS } from "@/content/proceso_nov/unidad3";
 import { supabase } from "@/lib/supabaseClient";
 
 type BloqueTexto = {
@@ -81,7 +81,7 @@ function TablaAcademica({
   );
 }
 
-export default function Unidad2NovicioPage() {
+export default function Unidad3NovicioPage() {
   const secciones = TEORIA as Seccion[];
 
   const [mostrarCuestionario, setMostrarCuestionario] = useState(false);
@@ -114,7 +114,7 @@ export default function Unidad2NovicioPage() {
       [
         {
           user_codigo: user.codigo,
-          unidad_slug: "unidad-2",
+          unidad_slug: "unidad-3",
           completada: true,
           porcentaje: 100,
           respuestas: {
@@ -133,7 +133,7 @@ export default function Unidad2NovicioPage() {
     setGuardando(false);
 
     if (error) {
-      console.error("Error guardando progreso de NOV U2:", error);
+      console.error("Error guardando progreso de NOV U3:", error);
       setErrorGuardado(
         "El cuestionario terminó, pero no fue posible registrar el progreso. Intente nuevamente antes de salir de la página."
       );
@@ -194,11 +194,11 @@ export default function Unidad2NovicioPage() {
         .from("progreso_novicio")
         .select("respuestas, completada")
         .eq("user_codigo", user.codigo)
-        .eq("unidad_slug", "unidad-2")
+        .eq("unidad_slug", "unidad-3")
         .maybeSingle();
 
       if (error) {
-        console.error("Error cargando progreso de NOV U2:", error);
+        console.error("Error cargando progreso de NOV U3:", error);
       }
 
       if (data?.completada === true) {
@@ -235,7 +235,7 @@ export default function Unidad2NovicioPage() {
       </p>
 
       <h1 style={{ marginTop: 0 }}>
-        Unidad 2: Del intercambio prehispánico al sistema monetario colonial
+        Unidad 3: La Casa de Moneda de Guatemala y la acuñación colonial
       </h1>
 
       <p style={{ color: "#555", lineHeight: 1.8 }}>
@@ -442,7 +442,7 @@ export default function Unidad2NovicioPage() {
 
             <p style={{ lineHeight: 1.8 }}>
               Ha completado las {QUESTIONS.length} preguntas de retroalimentación.
-              La Unidad 2 ha quedado registrada como finalizada y puede continuar
+              La Unidad 3 ha quedado registrada como finalizada y puede continuar
               con la siguiente unidad del Nivel Novicio.
             </p>
 

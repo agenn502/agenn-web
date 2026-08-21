@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
-import { TEORIA, QUESTIONS } from "@/content/proceso_nov/unidad2";
+import { TEORIA, QUESTIONS } from "@/content/proceso_nov/unidad10";
 import { supabase } from "@/lib/supabaseClient";
 
 type BloqueTexto = {
@@ -81,7 +81,7 @@ function TablaAcademica({
   );
 }
 
-export default function Unidad2NovicioPage() {
+export default function Unidad10NovicioPage() {
   const secciones = TEORIA as Seccion[];
 
   const [mostrarCuestionario, setMostrarCuestionario] = useState(false);
@@ -92,6 +92,12 @@ export default function Unidad2NovicioPage() {
   const [progresoCargado, setProgresoCargado] = useState(false);
   const [guardando, setGuardando] = useState(false);
   const [errorGuardado, setErrorGuardado] = useState<string | null>(null);
+  const [ascendiendo, setAscendiendo] = useState(false);
+  const [resultadoAscenso, setResultadoAscenso] = useState<{
+    codigoNuevo: string;
+    registroCertificado?: string | null;
+    correoEnviado?: boolean;
+  } | null>(null);
 
   const pregunta = QUESTIONS[preguntaActual];
 
@@ -114,7 +120,7 @@ export default function Unidad2NovicioPage() {
       [
         {
           user_codigo: user.codigo,
-          unidad_slug: "unidad-2",
+          unidad_slug: "unidad-10",
           completada: true,
           porcentaje: 100,
           respuestas: {
@@ -133,7 +139,7 @@ export default function Unidad2NovicioPage() {
     setGuardando(false);
 
     if (error) {
-      console.error("Error guardando progreso de NOV U2:", error);
+      console.error("Error guardando progreso de NOV U10:", error);
       setErrorGuardado(
         "El cuestionario terminó, pero no fue posible registrar el progreso. Intente nuevamente antes de salir de la página."
       );
@@ -141,6 +147,64 @@ export default function Unidad2NovicioPage() {
     }
 
     return true;
+  };
+
+  const completarNivelNovicio = async () => {
+    const stored = localStorage.getItem("user");
+
+    if (!stored) {
+      setErrorGuardado(
+        "No se encontró la sesión local del usuario. Inicie sesión nuevamente."
+      );
+      return false;
+    }
+
+    const user = JSON.parse(stored);
+
+    setAscendiendo(true);
+    setErrorGuardado(null);
+
+    try {
+      const response = await fetch("/api/ascender", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          codigo: user.codigo,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.ok) {
+        throw new Error(
+          result.error ||
+            "No fue posible completar el ascenso al Nivel Investigador."
+        );
+      }
+
+      setResultadoAscenso({
+        codigoNuevo: result.codigoNuevo,
+        registroCertificado: result.certificado?.registro || null,
+        correoEnviado: result.correo?.enviado === true,
+      });
+
+      localStorage.removeItem("user");
+      setCompletado(true);
+      setMostrarCuestionario(false);
+
+      return true;
+    } catch (error) {
+      setErrorGuardado(
+        error instanceof Error
+          ? error.message
+          : "No fue posible completar el ascenso al Nivel Investigador."
+      );
+      return false;
+    } finally {
+      setAscendiendo(false);
+    }
   };
 
   const responder = async (index: number) => {
@@ -158,8 +222,7 @@ export default function Unidad2NovicioPage() {
           const guardado = await guardarProgresoCuestionario();
 
           if (guardado) {
-            setCompletado(true);
-            setMostrarCuestionario(false);
+            await completarNivelNovicio();
           }
         } else {
           setPreguntaActual((prev) => prev + 1);
@@ -174,8 +237,7 @@ export default function Unidad2NovicioPage() {
     const guardado = await guardarProgresoCuestionario();
 
     if (guardado) {
-      setCompletado(true);
-      setMostrarCuestionario(false);
+      await completarNivelNovicio();
     }
   };
 
@@ -194,11 +256,11 @@ export default function Unidad2NovicioPage() {
         .from("progreso_novicio")
         .select("respuestas, completada")
         .eq("user_codigo", user.codigo)
-        .eq("unidad_slug", "unidad-2")
+        .eq("unidad_slug", "unidad-10")
         .maybeSingle();
 
       if (error) {
-        console.error("Error cargando progreso de NOV U2:", error);
+        console.error("Error cargando progreso de NOV U10:", error);
       }
 
       if (data?.completada === true) {
@@ -235,12 +297,11 @@ export default function Unidad2NovicioPage() {
       </p>
 
       <h1 style={{ marginTop: 0 }}>
-        Unidad 2: Del intercambio prehispánico al sistema monetario colonial
+        Unidad 10: Fundamentos de notafilia, coleccionismo y conservación
       </h1>
 
       <p style={{ color: "#555", lineHeight: 1.8 }}>
-        Formación de un sistema monetario en condiciones imperfectas:
-        coexistencia, metal, confianza, escasez y dependencia.
+        De la moneda federal a las acuñaciones republicanas de Rafael Carrera: continuidad de reales, pesos y circulación internacional.
       </p>
 
       <div
@@ -391,9 +452,11 @@ export default function Unidad2NovicioPage() {
               </div>
             )}
 
-            {guardando && (
+            {(guardando || ascendiendo) && (
               <p style={{ marginTop: "1rem", color: "#666" }}>
-                Registrando la unidad completada...
+                {guardando
+                  ? "Registrando la Unidad 10..."
+                  : "Finalizando el Nivel Novicio y generando su acreditación..."}
               </p>
             )}
           </div>
@@ -428,26 +491,54 @@ export default function Unidad2NovicioPage() {
           </div>
         )}
 
-        {completado && (
+        {completado && resultadoAscenso && (
           <div
             style={{
               marginTop: "1.5rem",
-              padding: "1rem",
+              padding: "1.25rem",
               background: "#eef6e9",
               border: "1px solid #cfe3c4",
               borderRadius: "10px",
             }}
           >
-            <h3 style={{ marginTop: 0 }}>✅ Unidad completada</h3>
+            <h3 style={{ marginTop: 0 }}>✅ Nivel Novicio completado</h3>
 
             <p style={{ lineHeight: 1.8 }}>
-              Ha completado las {QUESTIONS.length} preguntas de retroalimentación.
-              La Unidad 2 ha quedado registrada como finalizada y puede continuar
-              con la siguiente unidad del Nivel Novicio.
+              Ha completado satisfactoriamente las diez unidades del Nivel
+              Novicio. Su formación en este nivel ha quedado aprobada y se ha
+              generado su certificado institucional.
+            </p>
+
+            <p style={{ lineHeight: 1.8 }}>
+              A partir de este momento ha sido promovido(a) al{" "}
+              <strong>Nivel Investigador</strong>.
+            </p>
+
+            <p style={{ lineHeight: 1.8 }}>
+              <strong>Nuevo código institucional:</strong>{" "}
+              {resultadoAscenso.codigoNuevo}
+            </p>
+
+            {resultadoAscenso.registroCertificado && (
+              <p style={{ lineHeight: 1.8 }}>
+                <strong>Registro del certificado NOV:</strong>{" "}
+                {resultadoAscenso.registroCertificado}
+              </p>
+            )}
+
+            <p style={{ lineHeight: 1.8 }}>
+              Su contraseña personal continúa siendo la misma. Deberá iniciar
+              sesión nuevamente utilizando su nuevo código INV.
+            </p>
+
+            <p style={{ lineHeight: 1.8 }}>
+              {resultadoAscenso.correoEnviado
+                ? "También se ha enviado a su correo la notificación de ascenso."
+                : "El ascenso quedó registrado. Si el correo no llega a su bandeja de entrada, revise también la carpeta de Spam."}
             </p>
 
             <Link
-              href="/miembros/proceso_nov"
+              href="/login"
               style={{
                 display: "inline-block",
                 marginTop: "0.5rem",
@@ -458,7 +549,7 @@ export default function Unidad2NovicioPage() {
                 textDecoration: "none",
               }}
             >
-              Volver al proceso de ascenso
+              Ingresar con mi nuevo código INV
             </Link>
           </div>
         )}

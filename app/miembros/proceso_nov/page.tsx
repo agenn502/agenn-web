@@ -36,12 +36,6 @@ export default function ProcesoNovPage() {
   const unidades: Unidad[] = useMemo(
     () => [
       {
-        slug: "introductorio",
-        titulo: "Módulo Introductorio",
-        subtitulo: "Fundamentos de numismática, notafilia e historia del dinero",
-        href: "/miembros/proceso_nov/introductorio",
-      },
-      {
         slug: "unidad-1",
         titulo: "Unidad 1",
         subtitulo: "Economía y medios de intercambio en la Guatemala prehispánica",
@@ -249,13 +243,11 @@ export default function ProcesoNovPage() {
       <h2>Estructura del Nivel Novicio</h2>
 
       <p style={{ lineHeight: 1.8 }}>
-        El Nivel Novicio está compuesto por un módulo introductorio y diez unidades
-        temáticas, organizadas de manera progresiva. El recorrido inicia con los
-        conceptos fundamentales de la historia del dinero, la numismática y la
-        notafilia; continúa con los sistemas de intercambio prehispánicos y el orden
-        monetario colonial; y avanza hasta la conformación del sistema monetario
-        guatemalteco, el desarrollo del papel moneda, las instituciones bancarias y
-        los principios del coleccionismo especializado.
+        El Nivel Novicio está compuesto por diez unidades temáticas, organizadas de
+        manera progresiva. El recorrido inicia con los sistemas de intercambio
+        prehispánicos y avanza por la historia monetaria de Guatemala hasta el
+        desarrollo del papel moneda, las instituciones bancarias y los fundamentos
+        de la notafilia, la clasificación, la conservación y el coleccionismo.
       </p>
 
       <h2>Instrucciones para el participante</h2>
@@ -281,24 +273,31 @@ export default function ProcesoNovPage() {
       </p>
 
       <p style={{ lineHeight: 1.8 }}>
-		  Una vez completadas satisfactoriamente las diez unidades del Nivel
-		  Novicio, el miembro habrá concluido su proceso de formación y obtendrá
-		  la <strong>acreditación como Académico Novicio</strong>, acompañada de
-		  su correspondiente certificado institucional.
-		</p>
+        La aprobación del cuestionario de la <strong>Unidad 10</strong> constituye
+        la finalización del Nivel Novicio. No se requiere una tarea, ensayo o
+        evaluación adicional.
+      </p>
 
-		<p style={{ lineHeight: 1.8 }}>
-		  En ese momento, el sistema actualizará automáticamente su categoría,
-		  asignándole un nuevo código institucional correspondiente al Nivel
-		  Investigador y habilitando su acceso al{" "}
-		  <strong>Proceso de Formación y Acreditación — Nivel Investigador</strong>.
-		</p>
+      <p style={{ lineHeight: 1.8 }}>
+        Al completar satisfactoriamente las diez unidades, el miembro habrá
+        <strong> aprobado el Nivel Novicio</strong>. El sistema generará su
+        certificado institucional correspondiente y registrará la finalización
+        de esta etapa formativa.
+      </p>
 
-		<p style={{ lineHeight: 1.8 }}>
-		  El miembro recibirá además un correo de felicitación informándole de su
-		  nueva acreditación, su nuevo código institucional y la disponibilidad
-		  de su certificado en el área privada de la Academia.
-		</p>
+      <p style={{ lineHeight: 1.8 }}>
+        Inmediatamente después, el sistema actualizará su categoría a{" "}
+        <strong>Académico Investigador</strong>, le asignará un nuevo código
+        institucional con prefijo INV y habilitará su acceso al{" "}
+        <strong>Proceso de Formación y Acreditación — Nivel Investigador</strong>.
+        Su contraseña personal continuará siendo la misma.
+      </p>
+
+      <p style={{ lineHeight: 1.8 }}>
+        El miembro recibirá además un correo de felicitación con la confirmación
+        de su ascenso, su nuevo código institucional y la indicación de que su
+        certificado se encuentra disponible en el área privada de la Academia.
+      </p>
 
       <div
         style={{

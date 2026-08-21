@@ -86,24 +86,31 @@ export default function Unidad1NovicioPage() {
 
   const [mostrarCuestionario, setMostrarCuestionario] = useState(false);
   const [preguntaActual, setPreguntaActual] = useState(0);
-  const [respuestaSeleccionada, setRespuestaSeleccionada] = useState<
-    number | null
-  >(null);
-  const [mostrarRetroalimentacion, setMostrarRetroalimentacion] =
-    useState(false);
+  const [respuestaSeleccionada, setRespuestaSeleccionada] = useState<number | null>(null);
+  const [mostrarRetroalimentacion, setMostrarRetroalimentacion] = useState(false);
   const [completado, setCompletado] = useState(false);
   const [progresoCargado, setProgresoCargado] = useState(false);
+  const [guardando, setGuardando] = useState(false);
+  const [errorGuardado, setErrorGuardado] = useState<string | null>(null);
 
   const pregunta = QUESTIONS[preguntaActual];
 
   const guardarProgresoCuestionario = async () => {
     const stored = localStorage.getItem("user");
 
-    if (!stored) return;
+    if (!stored) {
+      setErrorGuardado(
+        "No se encontró la sesión local del usuario. Inicie sesión nuevamente antes de completar la unidad."
+      );
+      return false;
+    }
 
     const user = JSON.parse(stored);
 
-    await supabase.from("progreso_nov").upsert(
+    setGuardando(true);
+    setErrorGuardado(null);
+
+    const { error } = await supabase.from("progreso_novicio").upsert(
       [
         {
           user_codigo: user.codigo,
@@ -122,9 +129,23 @@ export default function Unidad1NovicioPage() {
         onConflict: "user_codigo,unidad_slug",
       }
     );
+
+    setGuardando(false);
+
+    if (error) {
+      console.error("Error guardando progreso de NOV U1:", error);
+      setErrorGuardado(
+        "El cuestionario terminó, pero no fue posible registrar el progreso. Intente nuevamente antes de salir de la página."
+      );
+      return false;
+    }
+
+    return true;
   };
 
   const responder = async (index: number) => {
+    if (!pregunta || guardando) return;
+
     setRespuestaSeleccionada(index);
 
     if (index === pregunta.correcta) {
@@ -134,15 +155,27 @@ export default function Unidad1NovicioPage() {
         setRespuestaSeleccionada(null);
 
         if (preguntaActual === QUESTIONS.length - 1) {
-          await guardarProgresoCuestionario();
-          setCompletado(true);
-          setMostrarCuestionario(false);
+          const guardado = await guardarProgresoCuestionario();
+
+          if (guardado) {
+            setCompletado(true);
+            setMostrarCuestionario(false);
+          }
         } else {
           setPreguntaActual((prev) => prev + 1);
         }
       }, 600);
     } else {
       setMostrarRetroalimentacion(true);
+    }
+  };
+
+  const reintentarGuardado = async () => {
+    const guardado = await guardarProgresoCuestionario();
+
+    if (guardado) {
+      setCompletado(true);
+      setMostrarCuestionario(false);
     }
   };
 
@@ -157,14 +190,23 @@ export default function Unidad1NovicioPage() {
 
       const user = JSON.parse(stored);
 
-      const { data } = await supabase
-        .from("progreso_nov")
+      const { data, error } = await supabase
+        .from("progreso_novicio")
         .select("respuestas, completada")
         .eq("user_codigo", user.codigo)
         .eq("unidad_slug", "unidad-1")
         .maybeSingle();
 
+      if (error) {
+        console.error("Error cargando progreso de NOV U1:", error);
+      }
+
       if (data?.completada === true) {
+        setCompletado(true);
+        setMostrarCuestionario(false);
+      } else if (data?.respuestas?.cuestionario_completado) {
+        // Compatibilidad con registros anteriores que marcaran
+        // el cuestionario sin haber actualizado "completada".
         setCompletado(true);
         setMostrarCuestionario(false);
       }
@@ -194,10 +236,13 @@ export default function Unidad1NovicioPage() {
         Nivel Novicio
       </p>
 
-      <h1 style={{ marginTop: 0 }}>Unidad 1</h1>
+      <h1 style={{ marginTop: 0 }}>
+        Unidad 1: Economía y medios de intercambio en la Guatemala prehispánica
+      </h1>
 
       <p style={{ color: "#555", lineHeight: 1.8 }}>
-        Esta unidad forma parte del proceso de ascenso del Nivel Novicio.
+        Economía y medios de intercambio en la Guatemala prehispánica: el
+        origen del valor antes de la moneda.
       </p>
 
       <div
@@ -252,13 +297,20 @@ export default function Unidad1NovicioPage() {
         <h2>Cuestionario de retroalimentación</h2>
 
         <p style={{ lineHeight: 1.8, color: "#555" }}>
-          Complete correctamente el cuestionario para finalizar esta unidad y
-          habilitar la siguiente.
+          Este cuestionario no tiene nota de aprobación. Su objetivo es reforzar
+          los conceptos clave de la unidad. Cada respuesta incorrecta mostrará
+          una explicación y podrá intentarlo nuevamente.
         </p>
 
         {!mostrarCuestionario && !completado && (
           <button
-            onClick={() => setMostrarCuestionario(true)}
+            onClick={() => {
+              setPreguntaActual(0);
+              setRespuestaSeleccionada(null);
+              setMostrarRetroalimentacion(false);
+              setErrorGuardado(null);
+              setMostrarCuestionario(true);
+            }}
             style={{
               background: "#6b6f1a",
               color: "white",
@@ -288,16 +340,11 @@ export default function Unidad1NovicioPage() {
 
             <h3>{pregunta.pregunta}</h3>
 
-            <div
-              style={{
-                display: "grid",
-                gap: "0.75rem",
-                marginTop: "1rem",
-              }}
-            >
+            <div style={{ display: "grid", gap: "0.75rem", marginTop: "1rem" }}>
               {pregunta.opciones.map((opcion, index) => (
                 <button
                   key={index}
+                  disabled={guardando}
                   onClick={() => responder(index)}
                   style={{
                     textAlign: "left",
@@ -309,7 +356,8 @@ export default function Unidad1NovicioPage() {
                         : "1px solid #ddd4c7",
                     background:
                       respuestaSeleccionada === index ? "#f4f1e8" : "white",
-                    cursor: "pointer",
+                    cursor: guardando ? "wait" : "pointer",
+                    opacity: guardando ? 0.7 : 1,
                   }}
                 >
                   {opcion}
@@ -340,10 +388,45 @@ export default function Unidad1NovicioPage() {
                 <ReactMarkdown>{pregunta.explicacion}</ReactMarkdown>
 
                 <p style={{ marginBottom: 0 }}>
-                  Vuelve a intentarlo seleccionando la respuesta correcta.
+                  Vuelva a intentarlo seleccionando la respuesta correcta.
                 </p>
               </div>
             )}
+
+            {guardando && (
+              <p style={{ marginTop: "1rem", color: "#666" }}>
+                Registrando la unidad completada...
+              </p>
+            )}
+          </div>
+        )}
+
+        {errorGuardado && !completado && (
+          <div
+            style={{
+              marginTop: "1.25rem",
+              padding: "1rem",
+              background: "#fff4e5",
+              border: "1px solid #f0d2a4",
+              borderRadius: "10px",
+            }}
+          >
+            <p style={{ marginTop: 0 }}>{errorGuardado}</p>
+
+            <button
+              onClick={reintentarGuardado}
+              disabled={guardando}
+              style={{
+                background: "#6b6f1a",
+                color: "white",
+                padding: "0.7rem 1rem",
+                border: "none",
+                borderRadius: "8px",
+                cursor: guardando ? "wait" : "pointer",
+              }}
+            >
+              {guardando ? "Guardando..." : "Reintentar registro"}
+            </button>
           </div>
         )}
 
@@ -360,9 +443,10 @@ export default function Unidad1NovicioPage() {
             <h3 style={{ marginTop: 0 }}>✅ Unidad completada</h3>
 
             <p style={{ lineHeight: 1.8 }}>
-              Ha completado correctamente la Unidad 1 del Nivel Novicio. Su
-              avance se ha actualizado al 100% y la siguiente unidad ya puede
-              ser habilitada.
+              Ha completado las {QUESTIONS.length} preguntas de retroalimentación.
+              En el Nivel Novicio no se requiere ensayo para esta unidad: el
+              cuestionario completado registra la Unidad 1 como finalizada y
+              permite continuar con la Unidad 2.
             </p>
 
             <Link

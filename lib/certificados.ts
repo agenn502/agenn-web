@@ -82,8 +82,8 @@ export function obtenerTextoCertificado(
       textoAntesNivel,
 
       justificacion: [
-        "HABIENDO CUMPLIDO SATISFACTORIAMENTE LOS REQUISITOS",
-        "ACADÉMICOS Y FORMATIVOS ESTABLECIDOS PARA ESTE NIVEL.",
+        "HABIENDO COMPLETADO SATISFACTORIAMENTE LAS DIEZ UNIDADES",
+        "DEL PROCESO DE FORMACIÓN ESTABLECIDO PARA ESTE NIVEL.",
       ],
 
       leyendaOrigen:

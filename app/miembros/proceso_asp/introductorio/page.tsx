@@ -734,6 +734,11 @@ export default function IntroductorioPage() {
   const [saving, setSaving] = useState(false);
   const [nuevoCodigo, setNuevoCodigo] = useState("");
   const [ascensoError, setAscensoError] = useState("");
+  const [correoAscenso, setCorreoAscenso] = useState<{
+    enviado: boolean;
+    error?: string;
+  } | null>(null);
+  const [ascendiendo, setAscendiendo] = useState(false);
 
   const currentQuestion = QUESTIONS[payload.currentIndex] || null;
   const progresoQuiz = Math.round((payload.completedIds.length / QUESTIONS.length) * 100);
@@ -851,8 +856,10 @@ export default function IntroductorioPage() {
 const ascenderAspiranteANovicio = async (): Promise<boolean> => {
   if (!user || esConsejo) return false;
   if (user.nivel !== "ASP") return false;
+  if (ascendiendo) return false;
 
   try {
+    setAscendiendo(true);
     setAscensoError("");
 
     const response = await fetch("/api/ascender", {
@@ -886,6 +893,8 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
     );
 
     return false;
+  } finally {
+    setAscendiendo(false);
   }
 };
 
@@ -894,7 +903,7 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
   };
 
   const responder = async (option: string) => {
-    if (!currentQuestion) return;
+    if (!currentQuestion || saving || ascendiendo) return;
 
     const currentId = currentQuestion.id;
     const wasWrongBefore = payload.lastWrongQuestionId === currentId;
@@ -959,7 +968,7 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
   };
 
   const continuarTrasCorrecta = async () => {
-    if (!currentQuestion) return;
+    if (!currentQuestion || saving || ascendiendo) return;
 
     const currentId = currentQuestion.id;
     const nextCompleted = payload.completedIds.includes(currentId)
@@ -1218,7 +1227,7 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
               <button
                 key={option}
                 onClick={() => responder(option)}
-                disabled={feedbackMode === "correct"}
+                disabled={feedbackMode === "correct" || saving || ascendiendo}
                 style={{
                   textAlign: "left",
                   padding: "0.95rem 1rem",
@@ -1266,6 +1275,7 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
               {feedbackMode === "correct" ? (
                 <button
                   onClick={continuarTrasCorrecta}
+                  disabled={saving || ascendiendo}
                   style={{
                     background: "#6b6f1a",
                     color: "white",
@@ -1275,11 +1285,16 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
                     cursor: "pointer",
                   }}
                 >
-                  Continuar
+                  {saving
+                    ? "Guardando..."
+                    : ascendiendo
+                    ? "Procesando ascenso..."
+                    : "Continuar"}
                 </button>
               ) : (
                 <button
                   onClick={repetirPregunta}
+                  disabled={saving || ascendiendo}
                   style={{
                     background: "#8b3a3a",
                     color: "white",
@@ -1298,7 +1313,7 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
           <div style={{ marginTop: "1.25rem" }}>
             <button
               onClick={continuarMasTarde}
-              disabled={saving}
+              disabled={saving || ascendiendo}
               style={{
                 background: "#ccc",
                 color: "#222",
@@ -1308,7 +1323,11 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
                 cursor: "pointer",
               }}
             >
-              {saving ? "Guardando..." : "Continuar más tarde"}
+              {ascendiendo
+                ? "Procesando ascenso..."
+                : saving
+                ? "Guardando..."
+                : "Continuar más tarde"}
             </button>
           </div>
         </div>
@@ -1375,16 +1394,38 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
 				  tu nuevo código institucional junto con tu contraseña habitual.
 				</p>
 
-				<p
-				  style={{
-					marginBottom: 0,
-					marginTop: "0.8rem",
-					lineHeight: 1.7,
-				  }}
-				>
-				  También hemos enviado a tu correo electrónico la confirmación
-				  de tu ascenso y tu nuevo código institucional.
-				</p>
+				{correoAscenso?.enviado ? (
+				  <p
+					style={{
+					  marginBottom: 0,
+					  marginTop: "0.8rem",
+					  lineHeight: 1.7,
+					}}
+				  >
+					También hemos enviado a tu correo electrónico la confirmación
+					de tu ascenso y tu nuevo código institucional.
+				  </p>
+				) : correoAscenso ? (
+				  <div
+					style={{
+					  marginTop: "0.8rem",
+					  padding: "0.85rem 1rem",
+					  background: "#fff4e5",
+					  border: "1px solid #f0d2a4",
+					  borderRadius: "8px",
+					  lineHeight: 1.7,
+					}}
+				  >
+					El ascenso quedó registrado correctamente, pero no fue posible
+					enviar el correo de confirmación.
+					{correoAscenso.error && (
+					  <>
+						<br />
+						<strong>Detalle:</strong> {correoAscenso.error}
+					  </>
+					)}
+				  </div>
+				) : null}
 			  </div>
 			)}
 
@@ -1431,6 +1472,8 @@ const ascenderAspiranteANovicio = async (): Promise<boolean> => {
 					setFeedbackMode(null);
 					setNuevoCodigo("");
 					setAscensoError("");
+					setCorreoAscenso(null);
+					setAscendiendo(false);
 				  }}
 				  style={{
 					background: "#ccc",

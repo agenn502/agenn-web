@@ -177,9 +177,29 @@ export async function POST(
     }
 
     /*
-     * Para NOV y NUM dejamos preparada la
-     * arquitectura, pero posteriormente podremos
-     * añadir aquí sus validaciones particulares.
+     * NOV únicamente se certifica por FORMACIÓN.
+     *
+     * El certificado NOV puede emitirse inmediatamente
+     * después del ascenso a INV; por ello no exigimos que
+     * el nivel actual del expediente continúe siendo NOV.
+     */
+    if (
+      nivel === "NOV" &&
+      origen !== "FORMACION"
+    ) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "El certificado del Nivel Novicio únicamente se emite por formación.",
+        },
+        { status: 409 }
+      );
+    }
+
+    /*
+     * Para NUM dejamos preparada la arquitectura
+     * para sus validaciones particulares.
      */
 
     // -------------------------------------------------------
