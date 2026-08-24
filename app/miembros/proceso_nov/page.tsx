@@ -172,10 +172,16 @@ export default function ProcesoNovPage() {
 
   const estadoUnidad = (slug: string) => {
     const row = progresoMap.get(slug);
-    if (!row) return { porcentaje: 0, completada: false };
+    if (!row) return { porcentaje: 0, completada: false, preguntasCompletadas: 0 };
+
     return {
       porcentaje: row.porcentaje || 0,
       completada: !!row.completada,
+      preguntasCompletadas: Number(
+        row.respuestas?.preguntas_completadas ??
+        row.respuestas?.pregunta_actual ??
+        0
+      ),
     };
   };
 
@@ -372,6 +378,8 @@ export default function ProcesoNovPage() {
               <p style={{ marginTop: 0, marginBottom: "1rem", color: "#555" }}>
                 {estado.completada
                   ? "Unidad completada."
+                  : desbloqueada && estado.porcentaje > 0
+                  ? `Cuestionario en progreso: ${estado.porcentaje}% completado.`
                   : desbloqueada
                   ? "Unidad disponible."
                   : "Debes completar la unidad anterior para desbloquear esta sección."}
@@ -389,7 +397,11 @@ export default function ProcesoNovPage() {
                     textDecoration: "none",
                   }}
                 >
-                  Ingresar
+                  {estado.completada
+                    ? "Revisar unidad"
+                    : estado.porcentaje > 0
+                    ? "Continuar cuestionario"
+                    : "Ingresar"}
                 </Link>
               ) : (
                 <button

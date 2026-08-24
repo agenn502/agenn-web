@@ -271,16 +271,16 @@ El siguiente nivel podrá profundizar en problemas de investigación, sistemas d
 ];
 
 export const QUESTIONS = [
-  {
+{
     pregunta: `Dos billetes firmados por la misma presidenta del Banco de Guatemala muestran formas distintas de su firma. ¿Cuál es el procedimiento correcto?`,
     tipo: "mc",
-    opciones: [`Documentar la diferencia y comprobar qué rango le asigna el sistema de clasificación`, `Declarar inmediatamente que son dos diseños distintos`, `Ignorar las firmas porque nunca tienen valor clasificatorio`, `Clasificarlos únicamente por su precio`],
-    correcta: 0,
+    opciones: [`Declarar inmediatamente que son dos diseños distintos`, `Ignorar las firmas porque nunca tienen valor clasificatorio`, `Documentar la diferencia y comprobar qué rango le asigna el sistema de clasificación`, `Clasificarlos únicamente por su precio`],
+    correcta: 2,
     explicacion: `
 El caso de María Antonieta Del Cid demuestra que incluso una misma funcionaria puede utilizar firmas diferentes. Primero debe documentarse qué cambió y por qué; después se determina su importancia dentro del sistema de clasificación.
 `,
   },
-  {
+{
     pregunta: `Que una misma funcionaria utilice dos firmas diferentes convierte automáticamente cada firma en una variante independiente.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -289,7 +289,7 @@ El caso de María Antonieta Del Cid demuestra que incluso una misma funcionaria 
 La diferencia existe materialmente, pero su rango clasificatorio depende de los criterios del sistema. El caso debe documentarse antes de convertirlo automáticamente en una variante.
 `,
   },
-  {
+{
     pregunta: `¿Qué diferencia pedagógica separa mejor U9 de U10?`,
     tipo: "mc",
     opciones: [`U9 estudia la trayectoria histórica y material del papel moneda; U10 enseña el método para estudiarlo, conservarlo y coleccionarlo`, `U9 estudia monedas y U10 billetes`, `U9 estudia precios y U10 bancos`, `No existe diferencia; ambas unidades repiten el mismo contenido`],
@@ -298,7 +298,7 @@ La diferencia existe materialmente, pero su rango clasificatorio depende de los 
 U9 proporciona la historia material necesaria; U10 convierte ese conocimiento en procedimiento notafílico.
 `,
   },
-  {
+{
     pregunta: `En U10 es necesario repetir detalladamente toda la cronología bancaria explicada en U8 y U9.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -307,16 +307,16 @@ U9 proporciona la historia material necesaria; U10 convierte ese conocimiento en
 La cronología funciona como antecedente. U10 debe concentrarse en descripción, clasificación, conservación, autenticidad, documentación y mercado.
 `,
   },
-  {
+{
     pregunta: `¿Qué tres ejes generales articula el sistema publicado para los billetes guatemaltecos?`,
     tipo: "mc",
-    opciones: [`Regímenes monetarios, entidades emisoras y características físico-diseñísticas`, `Precio, propietario y subasta`, `País, clima y tamaño`, `Rareza, gusto y antigüedad`],
-    correcta: 0,
+    opciones: [`Precio, propietario y subasta`, `País, clima y tamaño`, `Rareza, gusto y antigüedad`, `Regímenes monetarios, entidades emisoras y características físico-diseñísticas`],
+    correcta: 3,
     explicacion: `
 El sistema integra contexto histórico-institucional con características materiales y de diseño.
 `,
   },
-  {
+{
     pregunta: `El corpus del sistema publicado en 2026 comprende 299 billetes diferenciados entre 1874 y 2023.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -325,16 +325,16 @@ El sistema integra contexto histórico-institucional con características materi
 La investigación sistematiza 299 billetes diferenciados y propone una estructura jerárquica flexible para estudiarlos.
 `,
   },
-  {
+{
     pregunta: `Un catálogo asigna un código a un billete. ¿Qué puede concluirse?`,
     tipo: "mc",
-    opciones: [`Que el código localiza la pieza dentro de ese sistema, pero no sustituye su descripción`, `Que el código demuestra automáticamente autenticidad`, `Que todos los catálogos usarán el mismo código`, `Que el código determina su precio universal`],
-    correcta: 0,
+    opciones: [`Que el código demuestra automáticamente autenticidad`, `Que el código localiza la pieza dentro de ese sistema, pero no sustituye su descripción`, `Que todos los catálogos usarán el mismo código`, `Que el código determina su precio universal`],
+    correcta: 1,
     explicacion: `
 Los códigos dependen de los criterios y objetivos de cada sistema; son herramientas de referencia, no sustitutos de la evidencia material.
 `,
   },
-  {
+{
     pregunta: `Dos catálogos diferentes están obligados a utilizar exactamente el mismo sistema de códigos.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -343,16 +343,16 @@ Los códigos dependen de los criterios y objetivos de cada sistema; son herramie
 Los sistemas pueden responder a finalidades distintas. Lo importante es comprender sus criterios para establecer equivalencias.
 `,
   },
-  {
+{
     pregunta: `¿Cuál es el mejor primer paso al iniciar una colección?`,
     tipo: "mc",
-    opciones: [`Definir un alcance o criterio coherente`, `Comprar cualquier pieza barata que aparezca`, `Buscar únicamente billetes con números llamativos`, `Asignar precios antes de identificar las piezas`],
-    correcta: 0,
+    opciones: [`Comprar cualquier pieza barata que aparezca`, `Definir un alcance o criterio coherente`, `Buscar únicamente billetes con números llamativos`, `Asignar precios antes de identificar las piezas`],
+    correcta: 1,
     explicacion: `
 Un objetivo claro permite decidir qué piezas pertenecen a la colección y evita convertirla en acumulación sin criterio.
 `,
   },
-  {
+{
     pregunta: `Una colección bien estructurada puede organizarse por país, período, emisor, denominación, tema u otros criterios definidos.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -361,16 +361,16 @@ Un objetivo claro permite decidir qué piezas pertenecen a la colección y evita
 No existe un único modo correcto de coleccionar; la coherencia depende de que el criterio sea explícito y se aplique de manera consistente.
 `,
   },
-  {
+{
     pregunta: `¿Qué dato aporta la procedencia de una pieza?`,
     tipo: "mc",
-    opciones: [`Información sobre su trayectoria conocida de propiedad o adquisición`, `Una garantía absoluta de autenticidad`, `El grado de conservación`, `El valor nominal`],
-    correcta: 0,
+    opciones: [`Una garantía absoluta de autenticidad`, `El grado de conservación`, `El valor nominal`, `Información sobre su trayectoria conocida de propiedad o adquisición`],
+    correcta: 3,
     explicacion: `
 La procedencia ayuda a reconstruir la historia reciente de una pieza, pero debe distinguirse de la autenticación.
 `,
   },
-  {
+{
     pregunta: `Conocer al propietario anterior demuestra por sí solo que un billete es auténtico.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -379,7 +379,7 @@ La procedencia ayuda a reconstruir la historia reciente de una pieza, pero debe 
 Una procedencia fiable aporta contexto, pero la autenticidad requiere examinar también las características de la pieza y su correspondencia con emisiones documentadas.
 `,
   },
-  {
+{
     pregunta: `¿Qué registro sería más útil para una colección de investigación?`,
     tipo: "mc",
     opciones: [`Identificación, procedencia, adquisición, fotografías, medidas, observaciones y referencias`, `Solo el precio pagado`, `Solo el nombre del propietario`, `Únicamente una fotografía del anverso`],
@@ -388,7 +388,7 @@ Una procedencia fiable aporta contexto, pero la autenticidad requiere examinar t
 Los metadatos permiten reconstruir la identidad, trayectoria y contexto de la pieza incluso si cambia de ubicación o propietario.
 `,
   },
-  {
+{
     pregunta: `Documentar una colección es innecesario si el coleccionista recuerda de memoria dónde obtuvo cada pieza.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -397,16 +397,16 @@ Los metadatos permiten reconstruir la identidad, trayectoria y contexto de la pi
 La memoria personal no es un sistema reproducible y puede perderse; el registro preserva información útil para investigación, seguros, inventario y transferencia.
 `,
   },
-  {
+{
     pregunta: `Un billete está sucio y arrugado. ¿Cuál acción es más prudente?`,
     tipo: "mc",
-    opciones: [`Conservarlo estable y evitar tratamientos improvisados`, `Plancharlo para aumentar su grado`, `Lavarlo cuidadosamente con detergente`, `Plastificarlo para que no vuelva a doblarse`],
-    correcta: 0,
+    opciones: [`Plancharlo para aumentar su grado`, `Lavarlo cuidadosamente con detergente`, `Conservarlo estable y evitar tratamientos improvisados`, `Plastificarlo para que no vuelva a doblarse`],
+    correcta: 2,
     explicacion: `
 La conservación preventiva busca estabilizar la pieza sin introducir alteraciones que puedan destruir evidencia o causar daños irreversibles.
 `,
   },
-  {
+{
     pregunta: `Planchar o lavar un billete es una práctica recomendable para devolverlo a su condición original.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -415,16 +415,16 @@ La conservación preventiva busca estabilizar la pieza sin introducir alteracion
 Estas intervenciones modifican físicamente la pieza y pueden dañar papel, tintas, relieve y evidencia histórica.
 `,
   },
-  {
+{
     pregunta: `¿Qué debe buscarse en un material de guarda?`,
     tipo: "mc",
-    opciones: [`Estabilidad química y calidad apropiada para conservación archivística`, `Que sea el plástico más grueso disponible`, `Que tenga adhesivo para inmovilizar el billete`, `Que sea económico aunque se desconozca su composición`],
-    correcta: 0,
+    opciones: [`Que sea el plástico más grueso disponible`, `Que tenga adhesivo para inmovilizar el billete`, `Que sea económico aunque se desconozca su composición`, `Estabilidad química y calidad apropiada para conservación archivística`],
+    correcta: 3,
     explicacion: `
 El almacenamiento debe reducir riesgos químicos y físicos; una etiqueta comercial aislada no sustituye conocer la idoneidad del material.
 `,
   },
-  {
+{
     pregunta: `La expresión “libre de ácido” garantiza por sí sola que cualquier funda plástica sea adecuada indefinidamente.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -433,16 +433,16 @@ El almacenamiento debe reducir riesgos químicos y físicos; una etiqueta comerc
 La conservación depende también de composición, plastificantes, estabilidad y condiciones ambientales; no debe evaluarse un material por una sola etiqueta.
 `,
   },
-  {
+{
     pregunta: `¿Cuál es la regla más útil para manipular papel moneda?`,
     tipo: "mc",
-    opciones: [`Minimizar el contacto y trabajar con manos limpias y secas sobre una superficie segura`, `Usar guantes obligatoriamente en toda circunstancia`, `Sujetar siempre el billete por el centro`, `Doblarlo ligeramente para comprobar la resistencia`],
-    correcta: 0,
+    opciones: [`Usar guantes obligatoriamente en toda circunstancia`, `Minimizar el contacto y trabajar con manos limpias y secas sobre una superficie segura`, `Sujetar siempre el billete por el centro`, `Doblarlo ligeramente para comprobar la resistencia`],
+    correcta: 1,
     explicacion: `
 La prioridad es reducir el riesgo de daño. Los guantes pueden ser útiles en algunos contextos, pero no constituyen una regla universal.
 `,
   },
-  {
+{
     pregunta: `Los guantes son siempre más seguros que las manos limpias para manipular cualquier tipo de billete.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -451,16 +451,16 @@ La prioridad es reducir el riesgo de daño. Los guantes pueden ser útiles en al
 Según el soporte y la tarea, los guantes pueden reducir sensibilidad y aumentar el riesgo de enganchar o dejar caer la pieza.
 `,
   },
-  {
+{
     pregunta: `Un billete raro está muy deteriorado y otro muy común está impecable. ¿Qué conclusión es correcta?`,
     tipo: "mc",
-    opciones: [`Conservación y rareza son variables distintas`, `El impecable es necesariamente más raro`, `El deteriorado carece de importancia histórica`, `La rareza depende exclusivamente del grado`],
-    correcta: 0,
+    opciones: [`El impecable es necesariamente más raro`, `El deteriorado carece de importancia histórica`, `Conservación y rareza son variables distintas`, `La rareza depende exclusivamente del grado`],
+    correcta: 2,
     explicacion: `
 La condición física no determina por sí sola cuántos ejemplares existen ni la importancia histórica de una emisión.
 `,
   },
-  {
+{
     pregunta: `Un grado alto de conservación demuestra autenticidad.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -469,7 +469,7 @@ La condición física no determina por sí sola cuántos ejemplares existen ni l
 Una falsificación también puede conservarse impecablemente. Autenticidad y conservación responden a preguntas diferentes.
 `,
   },
-  {
+{
     pregunta: `¿Qué significa “sin circular” dentro de una escala de conservación?`,
     tipo: "mc",
     opciones: [`Una categoría de condición que debe aplicarse conforme a criterios definidos`, `Una garantía de que el billete es raro`, `Que jamás salió de la imprenta`, `Que necesariamente conserva valor legal`],
@@ -478,7 +478,7 @@ Una falsificación también puede conservarse impecablemente. Autenticidad y con
 La graduación describe condición física; no debe usarse para inferir automáticamente rareza, autenticidad o situación jurídica.
 `,
   },
-  {
+{
     pregunta: `La graduación de conservación está completamente libre de juicio del evaluador.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -487,7 +487,7 @@ La graduación describe condición física; no debe usarse para inferir automát
 Las escalas buscan estandarizar, pero su aplicación contiene componentes de apreciación; por eso conviene conocer el estándar utilizado.
 `,
   },
-  {
+{
     pregunta: `¿Cuál afirmación distingue mejor tiraje y rareza?`,
     tipo: "mc",
     opciones: [`El tiraje registra producción o autorización; la rareza depende también de supervivencia y disponibilidad`, `Son exactamente sinónimos`, `Todo tiraje alto produce piezas comunes para siempre`, `La rareza solo depende de la antigüedad`],
@@ -496,7 +496,7 @@ Las escalas buscan estandarizar, pero su aplicación contiene componentes de apr
 La cantidad originalmente producida es una evidencia importante, pero no informa por sí sola cuántos ejemplares sobrevivieron.
 `,
   },
-  {
+{
     pregunta: `Una emisión de tiraje reducido será necesariamente más rara hoy que cualquier emisión de tiraje alto.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -505,16 +505,16 @@ La cantidad originalmente producida es una evidencia importante, pero no informa
 La supervivencia puede alterar radicalmente la disponibilidad actual; se necesita evidencia adicional para comparar rareza.
 `,
   },
-  {
+{
     pregunta: `Para estimar el precio actual de mercado, ¿qué evidencia suele ser más útil?`,
     tipo: "mc",
-    opciones: [`Ventas recientes realizadas de ejemplares comparables`, `El precio más alto solicitado en internet`, `El valor nominal impreso`, `El precio que el propietario desea recibir`],
-    correcta: 0,
+    opciones: [`El precio más alto solicitado en internet`, `El valor nominal impreso`, `Ventas recientes realizadas de ejemplares comparables`, `El precio que el propietario desea recibir`],
+    correcta: 2,
     explicacion: `
 Una venta completada muestra un punto real de encuentro entre oferta y demanda, siempre que la pieza sea comparable en variante y conservación.
 `,
   },
-  {
+{
     pregunta: `Un catálogo de precios constituye una tasación permanente e invariable.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -523,16 +523,16 @@ Una venta completada muestra un punto real de encuentro entre oferta y demanda, 
 Los catálogos son referencias fechadas; el mercado cambia y cada pieza puede diferir en condición, rareza, procedencia y demanda.
 `,
   },
-  {
+{
     pregunta: `Un billete de Q1 antiguo se vende por mucho más de Q1. ¿Qué explica la diferencia?`,
     tipo: "mc",
-    opciones: [`Valor nominal y precio coleccionístico son conceptos diferentes`, `El banco cambió retroactivamente su denominación`, `Todo billete antiguo vale mucho`, `La denominación dejó de existir`],
-    correcta: 0,
+    opciones: [`El banco cambió retroactivamente su denominación`, `Valor nominal y precio coleccionístico son conceptos diferentes`, `Todo billete antiguo vale mucho`, `La denominación dejó de existir`],
+    correcta: 1,
     explicacion: `
 El precio de colección puede incorporar rareza, conservación, demanda, variante, procedencia y otros factores independientes del valor facial.
 `,
   },
-  {
+{
     pregunta: `La importancia histórica de un billete y su precio de mercado son exactamente la misma cosa.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -541,16 +541,16 @@ El precio de colección puede incorporar rareza, conservación, demanda, variant
 Una pieza puede ser históricamente muy importante y relativamente accesible, o comercialmente costosa por factores distintos de su importancia histórica.
 `,
   },
-  {
+{
     pregunta: `Un número de serie capicúa aparece en un billete común. ¿Qué debe evitarse?`,
     tipo: "mc",
-    opciones: [`Convertir automáticamente el patrón en una nueva variante histórica`, `Registrar el número`, `Compararlo con otros ejemplares`, `Reconocer que puede interesar a ciertos coleccionistas`],
-    correcta: 0,
+    opciones: [`Registrar el número`, `Compararlo con otros ejemplares`, `Reconocer que puede interesar a ciertos coleccionistas`, `Convertir automáticamente el patrón en una nueva variante histórica`],
+    correcta: 3,
     explicacion: `
 Los números llamativos pueden generar demanda especializada, pero no necesariamente modifican la clasificación histórica del diseño.
 `,
   },
-  {
+{
     pregunta: `Un número de serie atractivo puede tener interés comercial sin alterar la identidad clasificatoria del billete.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -559,16 +559,16 @@ Los números llamativos pueden generar demanda especializada, pero no necesariam
 La preferencia de mercado y la estructura clasificatoria responden a preguntas distintas.
 `,
   },
-  {
+{
     pregunta: `Un billete guatemalteco presenta una serie terminada en Z y pertenece a una emisión posterior a 2010. ¿Qué debe comprobarse primero?`,
     tipo: "mc",
-    opciones: [`Si corresponde a una serie de reposición destinada a sustituir ejemplares defectuosos detectados durante la impresión`, `Porque todos los errores son falsificaciones`, `Porque los errores nunca existen`, `Porque todo error pertenece a una emisión distinta`],
-    correcta: 0,
+    opciones: [`Porque todos los errores son falsificaciones`, `Porque los errores nunca existen`, `Si corresponde a una serie de reposición destinada a sustituir ejemplares defectuosos detectados durante la impresión`, `Porque todo error pertenece a una emisión distinta`],
+    correcta: 2,
     explicacion: `
 Según la información atribuida al Banco de Guatemala, la serie Z identifica billetes de reposición. La Z no indica que el ejemplar circulante sea el billete defectuoso, sino que fue producido para reemplazar uno rechazado.
 `,
   },
-  {
+{
     pregunta: `Un billete de serie Z es, por definición, el mismo billete defectuoso que fue rechazado durante la impresión.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -577,16 +577,16 @@ Según la información atribuida al Banco de Guatemala, la serie Z identifica bi
 La afirmación es falsa. El billete serie Z funciona como **reposición** del ejemplar defectuoso; no debe confundirse el sustituto con la pieza rechazada.
 `,
   },
-  {
+{
     pregunta: `¿Qué método es más sólido para evaluar autenticidad?`,
     tipo: "mc",
-    opciones: [`Examinar conjuntamente soporte, impresión, dimensiones, numeración, firmas y seguridad frente a referencias fiables`, `Comprobar únicamente la marca de agua`, `Preguntar solamente al vendedor`, `Decidir según el estado de conservación`],
-    correcta: 0,
+    opciones: [`Comprobar únicamente la marca de agua`, `Preguntar solamente al vendedor`, `Decidir según el estado de conservación`, `Examinar conjuntamente soporte, impresión, dimensiones, numeración, firmas y seguridad frente a referencias fiables`],
+    correcta: 3,
     explicacion: `
 La autenticación se fortalece mediante múltiples características concordantes y comparación con piezas y fuentes documentadas.
 `,
   },
-  {
+{
     pregunta: `La presencia de una marca de agua correcta basta siempre para demostrar autenticidad.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -595,16 +595,16 @@ La autenticación se fortalece mediante múltiples características concordantes
 Un solo rasgo puede ser imitado o malinterpretado. La autenticidad se evalúa mediante un conjunto coherente de evidencias.
 `,
   },
-  {
+{
     pregunta: `¿Por qué no deben aplicarse los mismos elementos de seguridad a todos los billetes históricos?`,
     tipo: "mc",
-    opciones: [`Porque las tecnologías y características de fabricación cambiaron con el tiempo`, `Porque los billetes antiguos no pueden falsificarse`, `Porque la seguridad solo existe desde 2000`, `Porque el emisor no importa`],
-    correcta: 0,
+    opciones: [`Porque los billetes antiguos no pueden falsificarse`, `Porque las tecnologías y características de fabricación cambiaron con el tiempo`, `Porque la seguridad solo existe desde 2000`, `Porque el emisor no importa`],
+    correcta: 1,
     explicacion: `
 Cada emisión debe compararse con las características propias de su época, impresor y diseño.
 `,
   },
-  {
+{
     pregunta: `La ausencia de hilo de seguridad en un billete del siglo XIX demuestra que es falso.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -613,7 +613,7 @@ Cada emisión debe compararse con las características propias de su época, imp
 No puede exigirse a una emisión histórica un dispositivo que no formaba parte de su tecnología de fabricación.
 `,
   },
-  {
+{
     pregunta: `¿Cuál diferencia describe mejor “número de registro” y “serie” en un billete?`,
     tipo: "mc",
     opciones: [`El número individualiza la pieza dentro de una secuencia y la serie distingue conjuntos dentro del sistema de numeración`, `Todo el billete se convierte automáticamente en una reproducción`, `El número alterado debe considerarse original`, `La alteración aumenta necesariamente su valor`],
@@ -622,7 +622,7 @@ No puede exigirse a una emisión histórica un dispositivo que no formaba parte 
 Los sistemas históricos guatemaltecos combinaron letras y números de maneras diferentes. Por eso no debe suponerse que la posición de la letra o la palabra “Serie” fue siempre idéntica.
 `,
   },
-  {
+{
     pregunta: `La forma de expresar la serie y el número de registro fue idéntica en todos los bancos y períodos guatemaltecos.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -631,16 +631,16 @@ Los sistemas históricos guatemaltecos combinaron letras y números de maneras d
 La afirmación es falsa. La disposición de números y letras cambió según emisor y período; precisamente por eso debe estudiarse históricamente el sistema de numeración.
 `,
   },
-  {
+{
     pregunta: `¿Qué conducta es más responsable al vender un billete reparado?`,
     tipo: "mc",
-    opciones: [`Informar claramente la reparación conocida`, `Ocultarla si apenas se ve`, `Describirlo como sin circular si luce bien`, `Aumentar el precio para compensar la reparación`],
-    correcta: 0,
+    opciones: [`Ocultarla si apenas se ve`, `Informar claramente la reparación conocida`, `Describirlo como sin circular si luce bien`, `Aumentar el precio para compensar la reparación`],
+    correcta: 1,
     explicacion: `
 La transparencia sobre intervenciones y defectos conocidos es parte de una práctica ética de mercado.
 `,
   },
-  {
+{
     pregunta: `La ética del coleccionista se limita a no vender falsificaciones completas.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -649,7 +649,7 @@ La transparencia sobre intervenciones y defectos conocidos es parte de una prác
 También exige describir honestamente reparaciones, alteraciones, dudas de autenticidad y otros datos materiales que puedan afectar la decisión del comprador.
 `,
   },
-  {
+{
     pregunta: `¿Qué frase expresa mejor una conclusión documentada?`,
     tipo: "mc",
     opciones: [`“La evidencia disponible permite identificar esta pieza como…”`, `“Me parece que debe ser rara, por lo tanto lo es”`, `“El vendedor dijo que es única”`, `“Como es cara, necesariamente es auténtica”`],
@@ -658,7 +658,7 @@ También exige describir honestamente reparaciones, alteraciones, dudas de auten
 El lenguaje debe reflejar el nivel real de evidencia y separar hipótesis, referencias y conclusiones.
 `,
   },
-  {
+{
     pregunta: `Distinguir entre hipótesis, referencia de catálogo y conclusión sustentada ayuda a evitar afirmaciones excesivas.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -667,16 +667,16 @@ El lenguaje debe reflejar el nivel real de evidencia y separar hipótesis, refer
 El rigor notafílico también depende de comunicar con precisión qué sabemos y cómo lo sabemos.
 `,
   },
-  {
+{
     pregunta: `¿Cuál es el orden metodológico más razonable ante una pieza desconocida?`,
     tipo: "mc",
-    opciones: [`Observar, identificar, comparar y luego clasificar`, `Valorar, comprar y después identificar`, `Clasificar antes de observar`, `Restaurar antes de documentar`],
-    correcta: 0,
+    opciones: [`Valorar, comprar y después identificar`, `Clasificar antes de observar`, `Restaurar antes de documentar`, `Observar, identificar, comparar y luego clasificar`],
+    correcta: 3,
     explicacion: `
 La clasificación debe ser consecuencia de observaciones y comparaciones, no una etiqueta impuesta antes de estudiar la pieza.
 `,
   },
-  {
+{
     pregunta: `El precio debe determinarse antes de comprobar la identidad y autenticidad de la pieza.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -685,16 +685,16 @@ La clasificación debe ser consecuencia de observaciones y comparaciones, no una
 Una valoración responsable requiere saber primero qué pieza es, si es genuina, cuál es su variante y cuál es su condición.
 `,
   },
-  {
+{
     pregunta: `¿Qué aporta una fotografía de alta calidad al registro de colección?`,
     tipo: "mc",
-    opciones: [`Permite documentar características y comparar la pieza aun cuando no esté físicamente disponible`, `Demuestra por sí sola autenticidad`, `Sustituye siempre el examen físico`, `Elimina la necesidad de metadatos`],
-    correcta: 0,
+    opciones: [`Demuestra por sí sola autenticidad`, `Sustituye siempre el examen físico`, `Permite documentar características y comparar la pieza aun cuando no esté físicamente disponible`, `Elimina la necesidad de metadatos`],
+    correcta: 2,
     explicacion: `
 La fotografía es una herramienta documental poderosa, especialmente cuando se acompaña de identificación, medidas, procedencia y referencias.
 `,
   },
-  {
+{
     pregunta: `Una fotografía sin identificación ni contexto conserva toda la información histórica de una pieza.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -703,16 +703,16 @@ La fotografía es una herramienta documental poderosa, especialmente cuando se a
 Sin metadatos puede perderse quién emitió la pieza, de dónde procede, cuándo fue fotografiada o qué características pretendían documentarse.
 `,
   },
-  {
+{
     pregunta: `Al terminar el Nivel Novicio, ¿qué competencia es más importante?`,
     tipo: "mc",
-    opciones: [`Saber observar, documentar y sostener afirmaciones proporcionales a la evidencia`, `Memorizar todos los precios de catálogo`, `Comprar piezas raras sin asesoría`, `Asignar una variante a cualquier diferencia visible`],
-    correcta: 0,
+    opciones: [`Memorizar todos los precios de catálogo`, `Comprar piezas raras sin asesoría`, `Saber observar, documentar y sostener afirmaciones proporcionales a la evidencia`, `Asignar una variante a cualquier diferencia visible`],
+    correcta: 2,
     explicacion: `
 El nivel busca formar criterio básico: describir, comparar, conservar y reconocer los límites de lo que puede afirmarse.
 `,
   },
-  {
+{
     pregunta: `Reconocer que no se cuenta con evidencia suficiente para autenticar o valorar una pieza puede ser una conclusión técnicamente correcta.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -720,5 +720,5 @@ El nivel busca formar criterio básico: describir, comparar, conservar y reconoc
     explicacion: `
 El rigor incluye reconocer límites. Evitar una afirmación no sustentada es preferible a presentar una conjetura como certeza.
 `,
-  },
+  }
 ];

@@ -90,10 +90,49 @@ export default function Unidad7NovicioPage() {
   const [mostrarRetroalimentacion, setMostrarRetroalimentacion] = useState(false);
   const [completado, setCompletado] = useState(false);
   const [progresoCargado, setProgresoCargado] = useState(false);
+  const [avanceGuardado, setAvanceGuardado] = useState(0);
   const [guardando, setGuardando] = useState(false);
   const [errorGuardado, setErrorGuardado] = useState<string | null>(null);
 
   const pregunta = QUESTIONS[preguntaActual];
+
+  const guardarAvanceParcial = async (preguntasCompletadas: number) => {
+    const stored = localStorage.getItem("user");
+    if (!stored) return false;
+
+    const user = JSON.parse(stored);
+    const porcentaje = Math.round(
+      (preguntasCompletadas / QUESTIONS.length) * 100
+    );
+
+    const { error } = await supabase.from("progreso_novicio").upsert(
+      [
+        {
+          user_codigo: user.codigo,
+          unidad_slug: "unidad-7",
+          completada: false,
+          porcentaje,
+          respuestas: {
+            cuestionario_completado: false,
+            preguntas_completadas: preguntasCompletadas,
+            pregunta_actual: preguntasCompletadas,
+            total_preguntas: QUESTIONS.length,
+            fecha: new Date().toISOString(),
+          },
+          fecha_actualizacion: new Date().toISOString(),
+        },
+      ],
+      { onConflict: "user_codigo,unidad_slug" }
+    );
+
+    if (error) {
+      console.error("Error guardando avance parcial de NOV U7:", error);
+      return false;
+    }
+
+    setAvanceGuardado(preguntasCompletadas);
+    return true;
+  };
 
   const guardarProgresoCuestionario = async () => {
     const stored = localStorage.getItem("user");
@@ -158,11 +197,21 @@ export default function Unidad7NovicioPage() {
           const guardado = await guardarProgresoCuestionario();
 
           if (guardado) {
+            setAvanceGuardado(QUESTIONS.length);
             setCompletado(true);
             setMostrarCuestionario(false);
           }
         } else {
-          setPreguntaActual((prev) => prev + 1);
+          const siguientePregunta = preguntaActual + 1;
+          const guardado = await guardarAvanceParcial(siguientePregunta);
+
+          if (guardado) {
+            setPreguntaActual(siguientePregunta);
+          } else {
+            setErrorGuardado(
+              "La respuesta fue correcta, pero no fue posible guardar el avance. Intente nuevamente antes de continuar."
+            );
+          }
         }
       }, 600);
     } else {
@@ -201,12 +250,21 @@ export default function Unidad7NovicioPage() {
         console.error("Error cargando progreso de NOV U7:", error);
       }
 
-      if (data?.completada === true) {
+      if (data?.completada === true || data?.respuestas?.cuestionario_completado) {
+        setAvanceGuardado(QUESTIONS.length);
         setCompletado(true);
         setMostrarCuestionario(false);
-      } else if (data?.respuestas?.cuestionario_completado) {
-        setCompletado(true);
-        setMostrarCuestionario(false);
+      } else {
+        const guardadas = Number(
+          data?.respuestas?.preguntas_completadas ??
+          data?.respuestas?.pregunta_actual ??
+          0
+        );
+
+        if (guardadas > 0 && guardadas < QUESTIONS.length) {
+          setAvanceGuardado(guardadas);
+          setPreguntaActual(guardadas);
+        }
       }
 
       setProgresoCargado(true);
@@ -241,6 +299,35 @@ export default function Unidad7NovicioPage() {
       <p style={{ color: "#555", lineHeight: 1.8 }}>
         De la moneda federal a las acuñaciones republicanas de Rafael Carrera: continuidad de reales, pesos y circulación internacional.
       </p>
+
+      {avanceGuardado > 0 && !completado && (
+        <div
+          style={{
+            background: "#f4f1e8",
+            border: "1px solid #ddd4c7",
+            borderRadius: "10px",
+            padding: "0.9rem 1rem",
+            marginTop: "1rem",
+          }}
+        >
+          <strong>
+            Cuestionario en progreso: {avanceGuardado} de {QUESTIONS.length} preguntas completadas.
+          </strong>{" "}
+          <a
+            href="#cuestionario"
+            onClick={() => {
+              setPreguntaActual(avanceGuardado);
+              setRespuestaSeleccionada(null);
+              setMostrarRetroalimentacion(false);
+              setErrorGuardado(null);
+              setMostrarCuestionario(true);
+            }}
+            style={{ color: "#6b6f1a", fontWeight: 700 }}
+          >
+            Continuar cuestionario
+          </a>
+        </div>
+      )}
 
       <div
         style={{
@@ -283,12 +370,14 @@ export default function Unidad7NovicioPage() {
       </div>
 
       <div
+        id="cuestionario"
         style={{
           background: "white",
           border: "1px solid #ddd4c7",
           borderRadius: "12px",
           padding: "1.25rem",
           marginTop: "1.5rem",
+          scrollMarginTop: "1rem",
         }}
       >
         <h2>Cuestionario de retroalimentación</h2>
@@ -302,7 +391,7 @@ export default function Unidad7NovicioPage() {
         {!mostrarCuestionario && !completado && (
           <button
             onClick={() => {
-              setPreguntaActual(0);
+              setPreguntaActual(avanceGuardado > 0 ? avanceGuardado : 0);
               setRespuestaSeleccionada(null);
               setMostrarRetroalimentacion(false);
               setErrorGuardado(null);
@@ -317,7 +406,7 @@ export default function Unidad7NovicioPage() {
               cursor: "pointer",
             }}
           >
-            Iniciar cuestionario
+            {avanceGuardado > 0 ? "Continuar cuestionario" : "Iniciar cuestionario"}
           </button>
         )}
 

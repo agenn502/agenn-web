@@ -269,7 +269,6 @@ La existencia de **mercados** para el período Clásico es más difícil de demo
 
 **Regla metodológica:** evidencia compatible con una interpretación no equivale a demostración definitiva de esa interpretación.
 ` }]},
-  
   {
     titulo: "13. Las redes económicas cambiaron con el tiempo",
     bloques: [{ tipo: "texto", contenido: `
@@ -925,5 +924,6 @@ La pervivencia del cacao estudiada por Kilian impide imaginar una sustitución i
     correcta: 2,
     explicacion: `
 Esta unidad proporciona una base conceptual: **valor, circulación y pago son fenómenos más amplios que la moneda**, pero eso no autoriza a llamar moneda a todo objeto valioso. La disciplina consiste en clasificar solo lo que la evidencia permite.
-`,},
+`,
+  }
 ];

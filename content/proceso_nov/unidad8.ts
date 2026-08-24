@@ -191,16 +191,16 @@ Para el notafílico, la enseñanza principal es sencilla pero exigente: **identi
 ];
 
 export const QUESTIONS = [
-  {
+{
     pregunta: `¿Qué dato distingue mejor al Banco Nacional de Guatemala de la etapa posterior de banca privada?`,
     tipo: "mc",
-    opciones: [`Fue un experimento nacional iniciado en 1874 y liquidado en 1876`, `Fue el primer banco privado de emisión fundado en 1877`, `Fue el banco central creado en 1926`, `Fue creado por la reforma de 1946`],
-    correcta: 0,
+    opciones: [`Fue el primer banco privado de emisión fundado en 1877`, `Fue el banco central creado en 1926`, `Fue un experimento nacional iniciado en 1874 y liquidado en 1876`, `Fue creado por la reforma de 1946`],
+    correcta: 2,
     explicacion: `
 El Banco Nacional inició operaciones en 1874 y duró 32 meses. Después de su liquidación comenzó la etapa de bancos privados de emisión.
 `,
   },
-  {
+{
     pregunta: `El Banco Nacional de Guatemala operó durante varias décadas y sobrevivió hasta la reforma de 1926.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -209,7 +209,7 @@ El Banco Nacional inició operaciones en 1874 y duró 32 meses. Después de su l
 Operó del 23 de marzo de 1874 al 24 de noviembre de 1876. Su corta existencia es precisamente una característica del primer experimento bancario.
 `,
   },
-  {
+{
     pregunta: `¿Cuál fue el primer banco privado de emisión de la etapa iniciada en 1877?`,
     tipo: "mc",
     opciones: [`Banco Internacional de Guatemala`, `Banco de Occidente`, `Banco Americano de Guatemala`, `Banco Central de Guatemala`],
@@ -218,7 +218,7 @@ Operó del 23 de marzo de 1874 al 24 de noviembre de 1876. Su corta existencia e
 Molina Calderón identifica al Banco Internacional, fundado en 1877, como el primero de los siete bancos privados de emisión.
 `,
   },
-  {
+{
     pregunta: `Después de 1877 cada banco privado podía crear libremente su propia unidad monetaria.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -227,16 +227,16 @@ Molina Calderón identifica al Banco Internacional, fundado en 1877, como el pri
 Los billetes podían ser distintos por banco, pero compartían una unidad monetaria común. Multiplicidad de emisores no significa multiplicidad de unidades de cuenta.
 `,
   },
-  {
+{
     pregunta: `¿Cuántos bancos privados de emisión identifica Molina Calderón para la etapa 1877–1926?`,
     tipo: "mc",
-    opciones: [`Siete`, `Tres`, `Doce`, `Uno`],
-    correcta: 0,
+    opciones: [`Tres`, `Doce`, `Uno`, `Siete`],
+    correcta: 3,
     explicacion: `
 La lista comprende Internacional, Colombiano, Occidente, Comercial, Agrícola Hipotecario, Banco de Guatemala S. A. y Americano.
 `,
   },
-  {
+{
     pregunta: `El Banco de Guatemala, S. A., de 1895 y el actual Banco de Guatemala son la misma institución.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -245,16 +245,16 @@ La lista comprende Internacional, Colombiano, Occidente, Comercial, Agrícola Hi
 Comparten parte del nombre, pero pertenecen a estructuras históricas diferentes. El actual Banco de Guatemala surge de la reforma de 1945–1946.
 `,
   },
-  {
+{
     pregunta: `¿Qué estableció el Decreto 527 de 1897 respecto de los billetes de bancos privados?`,
     tipo: "mc",
-    opciones: [`Su curso forzoso en pagos públicos y privados`, `Su retiro inmediato`, `La creación del quetzal`, `La desaparición de la banca privada`],
-    correcta: 0,
+    opciones: [`Su retiro inmediato`, `Su curso forzoso en pagos públicos y privados`, `La creación del quetzal`, `La desaparición de la banca privada`],
+    correcta: 1,
     explicacion: `
 El curso forzoso convirtió la aceptación en una obligación legal dentro de las condiciones fijadas por el decreto.
 `,
   },
-  {
+{
     pregunta: `Curso forzoso y confianza pública significan exactamente lo mismo.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -263,16 +263,16 @@ El curso forzoso convirtió la aceptación en una obligación legal dentro de la
 El curso forzoso es una condición jurídica de aceptación; la confianza depende de expectativas sobre valor, respaldo y estabilidad.
 `,
   },
-  {
+{
     pregunta: `¿Qué interpretación es más rigurosa sobre la crisis monetaria de finales del siglo XIX?`,
     tipo: "mc",
-    opciones: [`Resultó de varios factores institucionales, fiscales, bancarios y monetarios`, `Fue causada únicamente por la cantidad de diseños de billetes`, `Se debió exclusivamente a que existían siete bancos`, `Fue consecuencia directa de la creación del quetzal`],
-    correcta: 0,
+    opciones: [`Fue causada únicamente por la cantidad de diseños de billetes`, `Resultó de varios factores institucionales, fiscales, bancarios y monetarios`, `Se debió exclusivamente a que existían siete bancos`, `Fue consecuencia directa de la creación del quetzal`],
+    correcta: 1,
     explicacion: `
 La bibliografía relaciona emisión, finanzas estatales, préstamos bancarios, reservas, depreciación y legislación. Reducirlo a una sola causa empobrece el análisis.
 `,
   },
-  {
+{
     pregunta: `La existencia de varios bancos emisores demuestra por sí sola que necesariamente debía producirse una crisis.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -281,16 +281,16 @@ La bibliografía relaciona emisión, finanzas estatales, préstamos bancarios, r
 Varios emisores aumentan la complejidad, pero la crisis requiere analizar también regulación, reservas, política fiscal, crédito y confianza.
 `,
   },
-  {
+{
     pregunta: `¿Cómo debe entenderse el Comité Bancario de 1898?`,
     tipo: "mc",
-    opciones: [`Como mecanismo extraordinario ligado al Estado y a bancos privados en un contexto de crisis`, `Como el Banco Central de 1926 con otro nombre`, `Como una ceca encargada de monedas metálicas`, `Como banco extranjero`],
-    correcta: 0,
+    opciones: [`Como el Banco Central de 1926 con otro nombre`, `Como una ceca encargada de monedas metálicas`, `Como banco extranjero`, `Como mecanismo extraordinario ligado al Estado y a bancos privados en un contexto de crisis`],
+    correcta: 3,
     explicacion: `
 El Decreto 589 lo vincula con la Secretaría de Hacienda y bancos privados en medio de la crisis; no fue un banco comercial ordinario.
 `,
   },
-  {
+{
     pregunta: `El Comité Bancario puede clasificarse sin matices como uno de los siete bancos privados de emisión.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -299,7 +299,7 @@ El Decreto 589 lo vincula con la Secretaría de Hacienda y bancos privados en me
 Su naturaleza institucional fue diferente. Para clasificar un billete no basta con saber que hubo emisión; hay que identificar qué entidad y bajo qué mecanismo.
 `,
   },
-  {
+{
     pregunta: `¿Cuál era el papel principal de la Caja Reguladora creada en 1923?`,
     tipo: "mc",
     opciones: [`Contribuir a estabilizar el cambio y preparar la reforma`, `Fundar el Banco de Occidente`, `Crear los primeros billetes de peso de 1874`, `Sustituir al Banco de Guatemala de 1946`],
@@ -308,7 +308,7 @@ Su naturaleza institucional fue diferente. Para clasificar un billete no basta c
 La Caja fue una institución de transición y estabilización anterior a la centralización bancaria de 1926.
 `,
   },
-  {
+{
     pregunta: `La Caja Reguladora era ya el Banco Central de Guatemala, S. A.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -317,16 +317,16 @@ La Caja fue una institución de transición y estabilización anterior a la cent
 No deben confundirse. La Caja antecedió al Banco Central y cumplió funciones de transición dentro de la reforma.
 `,
   },
-  {
+{
     pregunta: `¿Qué cambio institucional caracteriza a la reforma de 1926?`,
     tipo: "mc",
-    opciones: [`Centralización de la emisión en el Banco Central de Guatemala, S. A.`, `Autorización de nuevos bancos privados para emitir sin límites`, `Regreso a la emisión colonial`, `Eliminación de todos los bancos comerciales`],
-    correcta: 0,
+    opciones: [`Autorización de nuevos bancos privados para emitir sin límites`, `Regreso a la emisión colonial`, `Centralización de la emisión en el Banco Central de Guatemala, S. A.`, `Eliminación de todos los bancos comerciales`],
+    correcta: 2,
     explicacion: `
 La reforma separó la banca comercial de la facultad general de emisión y concentró esta última en el Banco Central.
 `,
   },
-  {
+{
     pregunta: `Centralizar la emisión significó eliminar los bancos comerciales.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -335,16 +335,16 @@ La reforma separó la banca comercial de la facultad general de emisión y conce
 Los bancos comerciales podían continuar operando; lo que cambió fue la facultad de emitir moneda dentro del nuevo sistema.
 `,
   },
-  {
+{
     pregunta: `¿Cómo estaba constituido el capital del Banco Central de Guatemala, S. A.?`,
     tipo: "mc",
-    opciones: [`Con participación del Estado y de particulares`, `Exclusivamente extranjero`, `Exclusivamente estatal`, `Sin capital social`],
-    correcta: 0,
+    opciones: [`Exclusivamente extranjero`, `Exclusivamente estatal`, `Sin capital social`, `Con participación del Estado y de particulares`],
+    correcta: 3,
     explicacion: `
 Su carácter de sociedad anónima de capital mixto es una diferencia esencial frente al Banco de Guatemala posterior.
 `,
   },
-  {
+{
     pregunta: `El Banco Central de Guatemala de 1926 tenía exactamente la misma estructura institucional que el Banco de Guatemala de 1946.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -353,16 +353,16 @@ Su carácter de sociedad anónima de capital mixto es una diferencia esencial fr
 El primero tenía capital mixto; el segundo surgió bajo una nueva reforma y con capital aportado por el Estado.
 `,
   },
-  {
+{
     pregunta: `¿Cuál es la fecha oficial de inicio de operaciones del Banco Central de Guatemala, S. A., señalada por la fuente del Banco de Guatemala?`,
     tipo: "mc",
-    opciones: [`1 de julio de 1926`, `14 de septiembre de 1923`, `26 de noviembre de 1924`, `15 de septiembre de 1948`],
-    correcta: 0,
+    opciones: [`14 de septiembre de 1923`, `1 de julio de 1926`, `26 de noviembre de 1924`, `15 de septiembre de 1948`],
+    correcta: 1,
     explicacion: `
 La institución inició oficialmente operaciones el 1 de julio de 1926, aunque sus billetes del quetzal aparecieron después.
 `,
   },
-  {
+{
     pregunta: `Que el Banco Central comenzara operaciones en 1926 significa que todos sus billetes del quetzal fueron emitidos ese mismo año.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -371,16 +371,16 @@ La institución inició oficialmente operaciones el 1 de julio de 1926, aunque s
 Las primeras emisiones documentadas de varias denominaciones comienzan en 1927 y continúan en años posteriores.
 `,
   },
-  {
+{
     pregunta: `¿Qué denominación de los primeros billetes del Banco Central se documenta con fecha de 21 de abril de 1927?`,
     tipo: "mc",
-    opciones: [`1 quetzal`, `2 quetzales`, `10 quetzales`, `100 quetzales`],
-    correcta: 0,
+    opciones: [`2 quetzales`, `10 quetzales`, `1 quetzal`, `100 quetzales`],
+    correcta: 2,
     explicacion: `
 La fuente del Banco de Guatemala registra Q1 el 21 de abril de 1927; otras denominaciones aparecieron en fechas distintas.
 `,
   },
-  {
+{
     pregunta: `Los primeros billetes del quetzal circularon necesariamente al mismo tiempo que las primeras monedas del quetzal de 1925.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -389,7 +389,7 @@ La fuente del Banco de Guatemala registra Q1 el 21 de abril de 1927; otras denom
 Monedas y billetes tuvieron cronologías materiales diferentes. El estudiante debe distinguir medio, emisor y fecha de emisión.
 `,
   },
-  {
+{
     pregunta: `¿Por qué son conocidos como “chemas” ciertos billetes del Banco Central?`,
     tipo: "mc",
     opciones: [`Por el busto de José María Orellana en el anverso`, `Porque fueron impresos en Guatemala por Ceballos`, `Porque llevaban el retrato de Rafael Carrera`, `Porque eran billetes del Comité Bancario`],
@@ -398,7 +398,7 @@ Monedas y billetes tuvieron cronologías materiales diferentes. El estudiante de
 La bibliografía del Banco de Guatemala relaciona el apodo con los billetes que muestran a José María Orellana.
 `,
   },
-  {
+{
     pregunta: `Un ejemplar conocido de un billete demuestra automáticamente que esa denominación circuló.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -407,7 +407,7 @@ La bibliografía del Banco de Guatemala relaciona el apodo con los billetes que 
 Pueden existir especímenes, pruebas o lotes no puestos en circulación. La condición de emisión debe documentarse por separado.
 `,
   },
-  {
+{
     pregunta: `¿Qué ocurrió con determinados billetes de 100 quetzales de la serie del Banco Central?`,
     tipo: "mc",
     opciones: [`Se conocen ejemplares que no fueron puestos en circulación`, `Fueron la primera denominación emitida en 1926`, `Sustituyeron al billete de 1 quetzal en 1927`, `Fueron emitidos por el Banco Nacional de 1874`],
@@ -416,7 +416,7 @@ Pueden existir especímenes, pruebas o lotes no puestos en circulación. La cond
 La fuente documenta ejemplares de Q100 que no llegaron a circular, un caso útil para distinguir existencia física y circulación efectiva.
 `,
   },
-  {
+{
     pregunta: `La notafilia solo estudia billetes que efectivamente circularon.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -425,16 +425,16 @@ La fuente documenta ejemplares de Q100 que no llegaron a circular, un caso útil
 También estudia especímenes, pruebas y emisiones no circuladas, siempre que se describa correctamente su condición.
 `,
   },
-  {
+{
     pregunta: `¿Qué efecto tuvo la Gran Depresión sobre la banca guatemalteca según Molina Calderón?`,
     tipo: "mc",
-    opciones: [`Puso a prueba el sistema y contribuyó al cierre de varias instituciones`, `No produjo efectos bancarios relevantes`, `Restableció la banca privada de emisión`, `Creó el Banco de Guatemala en 1929`],
-    correcta: 0,
+    opciones: [`No produjo efectos bancarios relevantes`, `Restableció la banca privada de emisión`, `Puso a prueba el sistema y contribuyó al cierre de varias instituciones`, `Creó el Banco de Guatemala en 1929`],
+    correcta: 2,
     explicacion: `
 La crisis internacional agravó las dificultades de bancos que ya enfrentaban un nuevo marco regulatorio.
 `,
   },
-  {
+{
     pregunta: `La centralización de la emisión en 1926 hizo imposible que Guatemala sufriera efectos de la Gran Depresión.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -443,16 +443,16 @@ La crisis internacional agravó las dificultades de bancos que ya enfrentaban un
 Una reforma institucional puede mejorar el control monetario, pero no elimina los riesgos derivados de crisis económicas nacionales o internacionales.
 `,
   },
-  {
+{
     pregunta: `¿Qué banco privado de emisión señala Molina Calderón como sobreviviente de la Gran Depresión entre aquel grupo?`,
     tipo: "mc",
-    opciones: [`Banco de Occidente`, `Banco Internacional`, `Banco Colombiano`, `Banco Americano`],
-    correcta: 0,
+    opciones: [`Banco Internacional`, `Banco de Occidente`, `Banco Colombiano`, `Banco Americano`],
+    correcta: 1,
     explicacion: `
 Molina destaca al Banco de Occidente como la institución de ese grupo que logró atravesar la crisis.
 `,
   },
-  {
+{
     pregunta: `Todos los bancos privados de emisión cerraron exactamente en 1926 al crearse el Banco Central.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -461,16 +461,16 @@ Molina destaca al Banco de Occidente como la institución de ese grupo que logr�
 Perder la facultad de emisión no equivale necesariamente a cerrar como institución bancaria. Las trayectorias posteriores fueron distintas.
 `,
   },
-  {
+{
     pregunta: `¿Qué caracteriza a la segunda reforma bancaria de 1945–1946?`,
     tipo: "mc",
-    opciones: [`Nueva Ley Monetaria, Ley Orgánica del Banco de Guatemala y Ley de Bancos`, `Restablecimiento de siete bancos privados emisores`, `Creación del Banco Nacional de 1874`, `Abolición del quetzal`],
-    correcta: 0,
+    opciones: [`Restablecimiento de siete bancos privados emisores`, `Creación del Banco Nacional de 1874`, `Abolición del quetzal`, `Nueva Ley Monetaria, Ley Orgánica del Banco de Guatemala y Ley de Bancos`],
+    correcta: 3,
     explicacion: `
 La segunda reforma sustituyó el marco de 1926 y reorganizó la banca central y comercial.
 `,
   },
-  {
+{
     pregunta: `El Banco de Guatemala nació simplemente por cambiar el nombre al Banco Central de Guatemala.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -479,16 +479,16 @@ La segunda reforma sustituyó el marco de 1926 y reorganizó la banca central y 
 Hubo una reorganización jurídica y patrimonial más compleja, con distribución de activos y pasivos y una nueva estructura institucional.
 `,
   },
-  {
+{
     pregunta: `¿Qué rasgo distingue al Banco de Guatemala frente al Banco Central de 1926?`,
     tipo: "mc",
-    opciones: [`Capital aportado por el Estado y nueva estructura de banca central`, `Facultad de emitir billetes privados en pesos`, `Ser una sociedad anónima de siete bancos`, `Carecer de funciones monetarias`],
-    correcta: 0,
+    opciones: [`Facultad de emitir billetes privados en pesos`, `Ser una sociedad anónima de siete bancos`, `Capital aportado por el Estado y nueva estructura de banca central`, `Carecer de funciones monetarias`],
+    correcta: 2,
     explicacion: `
 La Ley Orgánica configuró una banca central estatal, con funciones de emisión, reservas y dirección monetaria.
 `,
   },
-  {
+{
     pregunta: `Banco Central de Guatemala y Banco de Guatemala pueden intercambiarse como nombres al clasificar un billete.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -497,16 +497,16 @@ La Ley Orgánica configuró una banca central estatal, con funciones de emisión
 El nombre del emisor determina etapas institucionales distintas y es esencial para una clasificación notafílica correcta.
 `,
   },
-  {
+{
     pregunta: `¿Cuándo inició operaciones el Banco de Guatemala?`,
     tipo: "mc",
-    opciones: [`1 de julio de 1946`, `1 de julio de 1926`, `15 de septiembre de 1948`, `23 de marzo de 1874`],
-    correcta: 0,
+    opciones: [`1 de julio de 1926`, `15 de septiembre de 1948`, `23 de marzo de 1874`, `1 de julio de 1946`],
+    correcta: 3,
     explicacion: `
 La transferencia de activos y pasivos se realizó antes de su inicio de operaciones el 1 de julio de 1946.
 `,
   },
-  {
+{
     pregunta: `El Banco de Guatemala comenzó a emitir inmediatamente sus propios diseños de billetes el día que inició operaciones en 1946.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -515,16 +515,16 @@ La transferencia de activos y pasivos se realizó antes de su inicio de operacio
 La transición material fue más lenta: utilizó papel moneda anterior intervenido y los primeros billetes propios fueron autorizados en 1948.
 `,
   },
-  {
+{
     pregunta: `¿Qué ocurrió con papel moneda del extinto Banco Central durante la transición al Banco de Guatemala?`,
     tipo: "mc",
-    opciones: [`Fue utilizado con intervención que identificaba al Banco de Guatemala`, `Fue destruido todo antes del 1 de julio de 1946`, `Se convirtió automáticamente en moneda metálica`, `Se volvió billete del Banco Nacional de 1874`],
-    correcta: 0,
+    opciones: [`Fue destruido todo antes del 1 de julio de 1946`, `Fue utilizado con intervención que identificaba al Banco de Guatemala`, `Se convirtió automáticamente en moneda metálica`, `Se volvió billete del Banco Nacional de 1874`],
+    correcta: 1,
     explicacion: `
 La reutilización intervenida de billetes anteriores muestra que el cambio institucional no exige reemplazo físico instantáneo del circulante.
 `,
   },
-  {
+{
     pregunta: `Una intervención posterior sobre un billete carece de importancia para su clasificación.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -533,7 +533,7 @@ La reutilización intervenida de billetes anteriores muestra que el cambio insti
 Puede documentar una nueva etapa de uso, autoridad o circulación y convertirse en un rasgo clasificatorio fundamental.
 `,
   },
-  {
+{
     pregunta: `¿Cuándo fueron autorizados los primeros billetes propios del Banco de Guatemala según la bibliografía notafílica consultada?`,
     tipo: "mc",
     opciones: [`15 de septiembre de 1948`, `26 de noviembre de 1924`, `1 de julio de 1926`, `24 de noviembre de 1876`],
@@ -542,7 +542,7 @@ Puede documentar una nueva etapa de uso, autoridad o circulación y convertirse 
 La fuente notafílica sitúa la autorización de los primeros billetes propios en 1948, después de una fase transitoria.
 `,
   },
-  {
+{
     pregunta: `Un billete fechado o utilizado en 1946 con el nombre Banco de Guatemala tiene que ser necesariamente un diseño propio creado por el nuevo banco.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -551,16 +551,16 @@ La fuente notafílica sitúa la autorización de los primeros billetes propios e
 Durante la transición se utilizaron billetes procedentes del Banco Central con intervención posterior. Fecha, diseño original e intervención deben analizarse conjuntamente.
 `,
   },
-  {
+{
     pregunta: `¿Qué elemento debe verificarse primero para ubicar institucionalmente un billete?`,
     tipo: "mc",
-    opciones: [`El emisor indicado en la pieza y sus intervenciones`, `Solo el color dominante`, `Únicamente el tamaño`, `El precio actual de mercado`],
-    correcta: 0,
+    opciones: [`Solo el color dominante`, `El emisor indicado en la pieza y sus intervenciones`, `Únicamente el tamaño`, `El precio actual de mercado`],
+    correcta: 1,
     explicacion: `
 El emisor y cualquier intervención institucional permiten situar el billete dentro del sistema que lo produjo o reutilizó.
 `,
   },
-  {
+{
     pregunta: `Dos billetes de igual denominación y año deben clasificarse como idénticos aunque tengan emisores distintos.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -569,7 +569,7 @@ El emisor y cualquier intervención institucional permiten situar el billete den
 Emisor, diseño, impresor, firmas, series e intervenciones pueden producir clasificaciones completamente diferentes.
 `,
   },
-  {
+{
     pregunta: `¿Qué diferencia existe entre emisor y casa impresora?`,
     tipo: "mc",
     opciones: [`El emisor asume la autoridad monetaria; la impresora fabrica físicamente el billete por encargo`, `Son siempre la misma institución`, `La casa impresora fija por sí sola el valor legal`, `El emisor solo diseña imágenes`],
@@ -578,7 +578,7 @@ Emisor, diseño, impresor, firmas, series e intervenciones pueden producir clasi
 Firmas como Thomas de la Rue o Waterlow produjeron billetes, pero no por ello fueron autoridades emisoras guatemaltecas.
 `,
   },
-  {
+{
     pregunta: `Que un billete guatemalteco haya sido impreso en Inglaterra lo convierte en billete inglés.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -587,16 +587,16 @@ Firmas como Thomas de la Rue o Waterlow produjeron billetes, pero no por ello fu
 El lugar o empresa de impresión no determina la autoridad emisora ni la nacionalidad monetaria de la pieza.
 `,
   },
-  {
+{
     pregunta: `¿Qué combinación describe mejor un análisis notafílico completo?`,
     tipo: "mc",
-    opciones: [`Emisor, fecha, denominación, impresor, intervenciones, estatus y contexto legal`, `Solo valor nominal y precio de catálogo`, `Solo retrato y color`, `Solo antigüedad`],
-    correcta: 0,
+    opciones: [`Solo valor nominal y precio de catálogo`, `Solo retrato y color`, `Solo antigüedad`, `Emisor, fecha, denominación, impresor, intervenciones, estatus y contexto legal`],
+    correcta: 3,
     explicacion: `
 La pieza debe estudiarse como objeto material y como documento producido dentro de una estructura institucional.
 `,
   },
-  {
+{
     pregunta: `El valor nominal es suficiente para determinar la historia institucional de un billete.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -605,16 +605,16 @@ La pieza debe estudiarse como objeto material y como documento producido dentro 
 Una misma denominación puede existir bajo emisores, diseños y regímenes diferentes. El valor nominal es apenas uno de los datos.
 `,
   },
-  {
+{
     pregunta: `¿Qué enseña mejor la secuencia 1874–1948?`,
     tipo: "mc",
-    opciones: [`Que la autoridad emisora y la organización bancaria cambiaron por etapas, con transiciones y reutilizaciones`, `Que existió un único emisor continuo`, `Que cada reforma sustituyó instantáneamente todo el circulante`, `Que los billetes privados nunca fueron legales`],
-    correcta: 0,
+    opciones: [`Que existió un único emisor continuo`, `Que cada reforma sustituyó instantáneamente todo el circulante`, `Que la autoridad emisora y la organización bancaria cambiaron por etapas, con transiciones y reutilizaciones`, `Que los billetes privados nunca fueron legales`],
+    correcta: 2,
     explicacion: `
 La secuencia muestra experimentación, banca privada, curso forzoso, mecanismos de crisis, regulación, centralización y una segunda reforma bancaria.
 `,
   },
-  {
+{
     pregunta: `La historia bancaria guatemalteca evolucionó de manera lineal, sin crisis ni soluciones transitorias.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -623,16 +623,16 @@ La secuencia muestra experimentación, banca privada, curso forzoso, mecanismos 
 Las fuentes documentan liquidaciones, crisis, curso forzoso, Comité Bancario, Caja Reguladora, reformas y reutilización de billetes.
 `,
   },
-  {
+{
     pregunta: `¿Qué conclusión demuestra mayor madurez notafílica al finalizar la unidad?`,
     tipo: "mc",
-    opciones: [`Un billete debe interpretarse según la institución y el régimen que explican su existencia y circulación`, `Todo billete antiguo es necesariamente emisión estatal`, `La centralización elimina la necesidad de estudiar emisores`, `La belleza del diseño basta para clasificarlo`],
-    correcta: 0,
+    opciones: [`Todo billete antiguo es necesariamente emisión estatal`, `La centralización elimina la necesidad de estudiar emisores`, `Un billete debe interpretarse según la institución y el régimen que explican su existencia y circulación`, `La belleza del diseño basta para clasificarlo`],
+    correcta: 2,
     explicacion: `
 El objetivo es pasar de reconocer objetos a reconstruir su historia institucional. Emisor, norma, fecha, impresión e intervención forman parte de esa lectura.
 `,
   },
-  {
+{
     pregunta: `Identificar correctamente un billete exige conocer algo más que su denominación y su apariencia.`,
     tipo: "fv",
     opciones: [`Verdadero`, `Falso`],
@@ -640,5 +640,5 @@ El objetivo es pasar de reconocer objetos a reconstruir su historia instituciona
     explicacion: `
 La notafilia rigurosa integra evidencia material e institucional. La pieza se entiende mejor cuando se relaciona con el sistema que autorizó, produjo, intervino o retiró su circulación.
 `,
-  },
+  }
 ];
