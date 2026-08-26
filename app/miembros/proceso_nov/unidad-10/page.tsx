@@ -86,14 +86,21 @@ export default function Unidad10NovicioPage() {
 
   const [mostrarCuestionario, setMostrarCuestionario] = useState(false);
   const [preguntaActual, setPreguntaActual] = useState(0);
-  const [respuestaSeleccionada, setRespuestaSeleccionada] = useState<number | null>(null);
-  const [mostrarRetroalimentacion, setMostrarRetroalimentacion] = useState(false);
+  const [respuestaSeleccionada, setRespuestaSeleccionada] =
+    useState<number | null>(null);
+  const [mostrarRetroalimentacion, setMostrarRetroalimentacion] =
+    useState(false);
   const [completado, setCompletado] = useState(false);
   const [progresoCargado, setProgresoCargado] = useState(false);
   const [avanceGuardado, setAvanceGuardado] = useState(0);
   const [guardando, setGuardando] = useState(false);
   const [errorGuardado, setErrorGuardado] = useState<string | null>(null);
   const [ascendiendo, setAscendiendo] = useState(false);
+
+  // Impide que U10 vuelva a escribir progreso con el código NOV
+  // una vez iniciado el proceso de ascenso.
+  const [nivelFinalizado, setNivelFinalizado] = useState(false);
+
   const [resultadoAscenso, setResultadoAscenso] = useState<{
     codigoNuevo: string;
     registroCertificado?: string | null;
@@ -103,10 +110,13 @@ export default function Unidad10NovicioPage() {
   const pregunta = QUESTIONS[preguntaActual];
 
   const guardarAvanceParcial = async (preguntasCompletadas: number) => {
+    if (nivelFinalizado || ascendiendo) return false;
+
     const stored = localStorage.getItem("user");
     if (!stored) return false;
 
     const user = JSON.parse(stored);
+
     const porcentaje = Math.round(
       (preguntasCompletadas / QUESTIONS.length) * 100
     );
@@ -141,6 +151,8 @@ export default function Unidad10NovicioPage() {
   };
 
   const guardarProgresoCuestionario = async () => {
+    if (nivelFinalizado || ascendiendo) return false;
+
     const stored = localStorage.getItem("user");
 
     if (!stored) {
@@ -200,6 +212,8 @@ export default function Unidad10NovicioPage() {
 
     const user = JSON.parse(stored);
 
+    // Desde este momento U10 ya no puede volver a escribir progreso NOV.
+    setNivelFinalizado(true);
     setAscendiendo(true);
     setErrorGuardado(null);
 
@@ -229,17 +243,36 @@ export default function Unidad10NovicioPage() {
         correoEnviado: result.correo?.enviado === true,
       });
 
-      localStorage.removeItem("user");
+      /*
+       * En lugar de dejar temporalmente a la aplicación sin usuario,
+       * actualizamos la identidad local al nuevo código INV.
+       *
+       * Esto evita que otros componentes todavía montados intenten
+       * consultar el antiguo código NOV o encuentren una sesión vacía.
+       */
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...user,
+          codigo: result.codigoNuevo,
+          nivel: "INV",
+        })
+      );
+
       setCompletado(true);
       setMostrarCuestionario(false);
 
       return true;
     } catch (error) {
+      // Si el ascenso falló realmente, permitimos volver a intentarlo.
+      setNivelFinalizado(false);
+
       setErrorGuardado(
         error instanceof Error
           ? error.message
           : "No fue posible completar el ascenso al Nivel Investigador."
       );
+
       return false;
     } finally {
       setAscendiendo(false);
@@ -247,7 +280,7 @@ export default function Unidad10NovicioPage() {
   };
 
   const responder = async (index: number) => {
-    if (!pregunta || guardando) return;
+    if (!pregunta || guardando || ascendiendo || nivelFinalizado) return;
 
     setRespuestaSeleccionada(index);
 
@@ -283,6 +316,8 @@ export default function Unidad10NovicioPage() {
   };
 
   const reintentarGuardado = async () => {
+    if (nivelFinalizado || ascendiendo) return;
+
     const guardado = await guardarProgresoCuestionario();
 
     if (guardado) {
@@ -312,15 +347,18 @@ export default function Unidad10NovicioPage() {
         console.error("Error cargando progreso de NOV U10:", error);
       }
 
-      if (data?.completada === true || data?.respuestas?.cuestionario_completado) {
+      if (
+        data?.completada === true ||
+        data?.respuestas?.cuestionario_completado
+      ) {
         setAvanceGuardado(QUESTIONS.length);
         setCompletado(true);
         setMostrarCuestionario(false);
       } else {
         const guardadas = Number(
           data?.respuestas?.preguntas_completadas ??
-          data?.respuestas?.pregunta_actual ??
-          0
+            data?.respuestas?.pregunta_actual ??
+            0
         );
 
         if (guardadas > 0 && guardadas < QUESTIONS.length) {
@@ -359,7 +397,8 @@ export default function Unidad10NovicioPage() {
       </h1>
 
       <p style={{ color: "#555", lineHeight: 1.8 }}>
-        De la moneda federal a las acuñaciones republicanas de Rafael Carrera: continuidad de reales, pesos y circulación internacional.
+        De la moneda federal a las acuñaciones republicanas de Rafael Carrera:
+        continuidad de reales, pesos y circulación internacional.
       </p>
 
       {avanceGuardado > 0 && !completado && (
@@ -373,7 +412,8 @@ export default function Unidad10NovicioPage() {
           }}
         >
           <strong>
-            Cuestionario en progreso: {avanceGuardado} de {QUESTIONS.length} preguntas completadas.
+            Cuestionario en progreso: {avanceGuardado} de {QUESTIONS.length}{" "}
+            preguntas completadas.
           </strong>{" "}
           <a
             href="#cuestionario"
@@ -468,67 +508,75 @@ export default function Unidad10NovicioPage() {
               cursor: "pointer",
             }}
           >
-            {avanceGuardado > 0 ? "Continuar cuestionario" : "Iniciar cuestionario"}
+            {avanceGuardado > 0
+              ? "Continuar cuestionario"
+              : "Iniciar cuestionario"}
           </button>
         )}
 
         {mostrarCuestionario && !completado && pregunta && (
           <div style={{ marginTop: "1.5rem" }}>
             <div
-			  style={{
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "space-between",
-				gap: "1rem",
-			  }}
-			>
-			  <p
-				style={{
-				  color: "#6b6f1a",
-				  fontWeight: 700,
-				  textTransform: "uppercase",
-				  fontSize: "0.82rem",
-				  letterSpacing: "0.04em",
-				  margin: 0,
-				}}
-			  >
-				Pregunta {preguntaActual + 1} de {QUESTIONS.length}
-			  </p>
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "1rem",
+              }}
+            >
+              <p
+                style={{
+                  color: "#6b6f1a",
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  fontSize: "0.82rem",
+                  letterSpacing: "0.04em",
+                  margin: 0,
+                }}
+              >
+                Pregunta {preguntaActual + 1} de {QUESTIONS.length}
+              </p>
 
-			  {respuestaSeleccionada !== null && (
-				<span
-				  aria-label={
-					respuestaSeleccionada === pregunta.correcta
-					  ? "Respuesta correcta"
-					  : "Respuesta incorrecta"
-				  }
-				  title={
-					respuestaSeleccionada === pregunta.correcta
-					  ? "Respuesta correcta"
-					  : "Respuesta incorrecta"
-				  }
-				  style={{
-					fontSize: "1.6rem",
-					lineHeight: 1,
-					fontWeight: 800,
-					color:
-					  respuestaSeleccionada === pregunta.correcta
-						? "#2e7d32"
-						: "#b3261e",
-				  }}
-				>
-				  {respuestaSeleccionada === pregunta.correcta ? "✓" : "✕"}
-				</span>
-			  )}
-			</div>
+              {respuestaSeleccionada !== null && (
+                <span
+                  aria-label={
+                    respuestaSeleccionada === pregunta.correcta
+                      ? "Respuesta correcta"
+                      : "Respuesta incorrecta"
+                  }
+                  title={
+                    respuestaSeleccionada === pregunta.correcta
+                      ? "Respuesta correcta"
+                      : "Respuesta incorrecta"
+                  }
+                  style={{
+                    fontSize: "1.6rem",
+                    lineHeight: 1,
+                    fontWeight: 800,
+                    color:
+                      respuestaSeleccionada === pregunta.correcta
+                        ? "#2e7d32"
+                        : "#b3261e",
+                  }}
+                >
+                  {respuestaSeleccionada === pregunta.correcta ? "✓" : "✕"}
+                </span>
+              )}
+            </div>
 
             <h3>{pregunta.pregunta}</h3>
 
-            <div style={{ display: "grid", gap: "0.75rem", marginTop: "1rem" }}>
+            <div
+              style={{
+                display: "grid",
+                gap: "0.75rem",
+                marginTop: "1rem",
+              }}
+            >
               {pregunta.opciones.map((opcion, index) => (
                 <button
                   key={index}
-                  disabled={guardando}
+                  disabled={guardando || ascendiendo || nivelFinalizado}
                   onClick={() => responder(index)}
                   style={{
                     textAlign: "left",
@@ -540,8 +588,12 @@ export default function Unidad10NovicioPage() {
                         : "1px solid #ddd4c7",
                     background:
                       respuestaSeleccionada === index ? "#f4f1e8" : "white",
-                    cursor: guardando ? "wait" : "pointer",
-                    opacity: guardando ? 0.7 : 1,
+                    cursor:
+                      guardando || ascendiendo || nivelFinalizado
+                        ? "wait"
+                        : "pointer",
+                    opacity:
+                      guardando || ascendiendo || nivelFinalizado ? 0.7 : 1,
                   }}
                 >
                   {opcion}
@@ -601,17 +653,19 @@ export default function Unidad10NovicioPage() {
 
             <button
               onClick={reintentarGuardado}
-              disabled={guardando}
+              disabled={guardando || ascendiendo}
               style={{
                 background: "#6b6f1a",
                 color: "white",
                 padding: "0.7rem 1rem",
                 border: "none",
                 borderRadius: "8px",
-                cursor: guardando ? "wait" : "pointer",
+                cursor: guardando || ascendiendo ? "wait" : "pointer",
               }}
             >
-              {guardando ? "Guardando..." : "Reintentar registro"}
+              {guardando || ascendiendo
+                ? "Procesando..."
+                : "Reintentar registro"}
             </button>
           </div>
         )}

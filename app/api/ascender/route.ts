@@ -11,18 +11,38 @@ function normalizarCodigo(valor: unknown) {
 }
 
 async function siguienteCodigo(prefijo: "NOV" | "INV") {
-  const [{ data: usuarios, error: usersError }, { data: miembros, error: miembrosError }] =
-    await Promise.all([
-      supabaseServer.from("users").select("codigo").like("codigo", `${prefijo}%`),
-      supabaseServer.from("miembros").select("codigo").like("codigo", `${prefijo}%`),
-    ]);
+  const [
+    { data: usuarios, error: usersError },
+    { data: miembros, error: miembrosError },
+    { data: historial, error: historialError },
+  ] = await Promise.all([
+    supabaseServer
+      .from("users")
+      .select("codigo")
+      .like("codigo", `${prefijo}%`),
+
+    supabaseServer
+      .from("miembros")
+      .select("codigo")
+      .like("codigo", `${prefijo}%`),
+
+    supabaseServer
+      .from("historial_miembro")
+      .select("codigo")
+      .like("codigo", `${prefijo}%`),
+  ]);
 
   if (usersError) throw new Error(usersError.message);
   if (miembrosError) throw new Error(miembrosError.message);
+  if (historialError) throw new Error(historialError.message);
 
   const usados = new Set<number>();
 
-  [...(usuarios || []), ...(miembros || [])].forEach((fila) => {
+  [
+    ...(usuarios || []),
+    ...(miembros || []),
+    ...(historial || []),
+  ].forEach((fila) => {
     const coincidencia = String(fila.codigo || "").match(
       new RegExp(`^${prefijo}(\\d+)$`)
     );
@@ -167,6 +187,8 @@ async function ascenderAspANov(
     );
   }
 
+  const ahora = new Date().toISOString();
+
   const { error: usuarioError } = await supabaseServer
     .from("users")
     .update({
@@ -191,7 +213,7 @@ async function ascenderAspANov(
     .from("progreso_aspirante")
     .update({
       user_codigo: codigoNuevo,
-      fecha_actualizacion: new Date().toISOString(),
+      fecha_actualizacion: ahora,
     })
     .eq("user_codigo", codigoAnterior)
     .eq("unidad_slug", "introductorio");
@@ -207,12 +229,29 @@ async function ascenderAspANov(
         completada: false,
         porcentaje: 0,
         respuestas: null,
-        fecha_actualizacion: new Date().toISOString(),
+        fecha_actualizacion: ahora,
       },
       { onConflict: "user_codigo,unidad_slug" }
     );
 
   if (progresoNovError) throw new Error(progresoNovError.message);
+
+  /*
+   * El Nivel Novicio es el primer nivel académico que conservamos
+   * permanentemente en historial_miembro.
+   */
+  const { error: historialError } = await supabaseServer
+    .from("historial_miembro")
+    .insert({
+      miembro_id: miembro.id,
+      codigo: codigoNuevo,
+      nivel: "NOV",
+      estado: "ACTUAL",
+      fecha_inicio: ahora,
+      fecha_fin: null,
+    });
+
+  if (historialError) throw new Error(historialError.message);
 
   let correo = {
     enviado: false,
@@ -342,9 +381,59 @@ async function ascenderNovAInv(
   let miembroActualizado = false;
   let progresoMovido = false;
   let progresoInvCreado = false;
+  let historialNovCerrado = false;
+  let historialInvCreado = false;
   let certificadoCreado: any = null;
 
   try {
+    /*
+     * Cerramos primero el historial NOV. Para expedientes antiguos que
+     * todavía no tengan registro histórico, lo reconstruimos como
+     * COMPLETADO en lugar de impedir el ascenso.
+     */
+    const { data: historialNov, error: historialNovError } =
+      await supabaseServer
+        .from("historial_miembro")
+        .select("id,codigo,nivel,estado,fecha_inicio,fecha_fin")
+        .eq("miembro_id", miembro.id)
+        .eq("codigo", codigoAnterior)
+        .maybeSingle();
+
+    if (historialNovError) {
+      throw new Error(historialNovError.message);
+    }
+
+    if (historialNov) {
+      const { error: cerrarHistorialError } = await supabaseServer
+        .from("historial_miembro")
+        .update({
+          estado: "COMPLETADO",
+          fecha_fin: ahora,
+        })
+        .eq("id", historialNov.id);
+
+      if (cerrarHistorialError) {
+        throw new Error(cerrarHistorialError.message);
+      }
+    } else {
+      const { error: crearHistorialNovError } = await supabaseServer
+        .from("historial_miembro")
+        .insert({
+          miembro_id: miembro.id,
+          codigo: codigoAnterior,
+          nivel: "NOV",
+          estado: "COMPLETADO",
+          fecha_inicio: null,
+          fecha_fin: ahora,
+        });
+
+      if (crearHistorialNovError) {
+        throw new Error(crearHistorialNovError.message);
+      }
+    }
+
+    historialNovCerrado = true;
+
     const { error: usuarioError } = await supabaseServer
       .from("users")
       .update({
@@ -397,8 +486,29 @@ async function ascenderNovAInv(
     if (progresoInvError) throw new Error(progresoInvError.message);
     progresoInvCreado = true;
 
+    const { error: historialInvError } = await supabaseServer
+      .from("historial_miembro")
+      .insert({
+        miembro_id: miembro.id,
+        codigo: codigoNuevo,
+        nivel: "INV",
+        estado: "ACTUAL",
+        fecha_inicio: ahora,
+        fecha_fin: null,
+      });
+
+    if (historialInvError) {
+      throw new Error(historialInvError.message);
+    }
+
+    historialInvCreado = true;
+
+    /*
+     * El certificado NOV conserva el código con el cual el miembro
+     * realmente completó ese nivel, no el nuevo código INV.
+     */
     certificadoCreado = await generarCertificadoNovicio(
-      codigoNuevo,
+      codigoAnterior,
       miembro.nombre
     );
 
@@ -488,11 +598,23 @@ async function ascenderNovAInv(
       correo,
     });
   } catch (error) {
+    /*
+     * Rollback manual en orden inverso.
+     */
+
     if (certificadoCreado?.id) {
       await supabaseServer
         .from("certificados")
         .delete()
         .eq("id", certificadoCreado.id);
+    }
+
+    if (historialInvCreado) {
+      await supabaseServer
+        .from("historial_miembro")
+        .delete()
+        .eq("miembro_id", miembro.id)
+        .eq("codigo", codigoNuevo);
     }
 
     if (progresoInvCreado) {
@@ -531,6 +653,23 @@ async function ascenderNovAInv(
           nivel: "NOV",
         })
         .eq("codigo", codigoNuevo);
+    }
+
+    if (historialNovCerrado) {
+      /*
+       * Si el historial NOV existía previamente, lo restauramos como ACTUAL.
+       * Si fue reconstruido durante este intento, también queda como ACTUAL;
+       * de ese modo el código continúa reservado y el expediente no pierde
+       * la trazabilidad adquirida.
+       */
+      await supabaseServer
+        .from("historial_miembro")
+        .update({
+          estado: "ACTUAL",
+          fecha_fin: null,
+        })
+        .eq("miembro_id", miembro.id)
+        .eq("codigo", codigoAnterior);
     }
 
     throw error;

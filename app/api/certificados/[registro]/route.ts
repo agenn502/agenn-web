@@ -128,7 +128,14 @@ export async function GET(
 
     // -------------------------------------------------------
     // 4. Determinar si el solicitante es el propietario
-    //    del certificado
+    //
+    // Un certificado conserva el código histórico con el que
+    // se obtuvo el nivel. Por ejemplo:
+    //
+    // NOV0004 -> certificado NOV
+    // INV0002 -> identidad actual
+    //
+    // Ambos códigos pueden pertenecer al mismo miembro.
     // -------------------------------------------------------
 
     const codigoSolicitante = String(
@@ -139,14 +146,125 @@ export async function GET(
       .trim()
       .toUpperCase();
 
-    const esPropietario =
-      !!codigoSolicitante &&
-      codigoSolicitante ===
-        String(
-          certificado.codigo_miembro || ""
-        )
-          .trim()
-          .toUpperCase();
+    const codigoCertificado = String(
+      certificado.codigo_miembro || ""
+    )
+      .trim()
+      .toUpperCase();
+
+    let esPropietario = false;
+
+    if (codigoSolicitante) {
+      // Compatibilidad directa:
+      // funciona para certificados cuyo código coincide
+      // todavía con la identidad actual.
+      if (
+        codigoSolicitante ===
+        codigoCertificado
+      ) {
+        esPropietario = true;
+      } else {
+        /*
+         * Primero intentamos localizar ambos códigos en el
+         * historial académico.
+         */
+        const [
+          {
+            data: historialSolicitante,
+            error: historialSolicitanteError,
+          },
+          {
+            data: historialCertificado,
+            error: historialCertificadoError,
+          },
+        ] = await Promise.all([
+          supabaseServer
+            .from("historial_miembro")
+            .select("miembro_id")
+            .eq("codigo", codigoSolicitante)
+            .maybeSingle(),
+
+          supabaseServer
+            .from("historial_miembro")
+            .select("miembro_id")
+            .eq("codigo", codigoCertificado)
+            .maybeSingle(),
+        ]);
+
+        if (historialSolicitanteError) {
+          throw new Error(
+            historialSolicitanteError.message
+          );
+        }
+
+        if (historialCertificadoError) {
+          throw new Error(
+            historialCertificadoError.message
+          );
+        }
+
+        if (
+          historialSolicitante &&
+          historialCertificado &&
+          historialSolicitante.miembro_id ===
+            historialCertificado.miembro_id
+        ) {
+          esPropietario = true;
+        } else {
+          /*
+           * Compatibilidad con expedientes anteriores a
+           * historial_miembro.
+           *
+           * Si el código actual existe en miembros y el código
+           * histórico del certificado ya está en el historial,
+           * comparamos igualmente el miembro_id.
+           */
+          const [
+            {
+              data: miembroActual,
+              error: miembroActualError,
+            },
+            {
+              data: historialCodigoCertificado,
+              error: historialCodigoCertificadoError,
+            },
+          ] = await Promise.all([
+            supabaseServer
+              .from("miembros")
+              .select("id")
+              .eq("codigo", codigoSolicitante)
+              .maybeSingle(),
+
+            supabaseServer
+              .from("historial_miembro")
+              .select("miembro_id")
+              .eq("codigo", codigoCertificado)
+              .maybeSingle(),
+          ]);
+
+          if (miembroActualError) {
+            throw new Error(
+              miembroActualError.message
+            );
+          }
+
+          if (historialCodigoCertificadoError) {
+            throw new Error(
+              historialCodigoCertificadoError.message
+            );
+          }
+
+          if (
+            miembroActual &&
+            historialCodigoCertificado &&
+            miembroActual.id ===
+              historialCodigoCertificado.miembro_id
+          ) {
+            esPropietario = true;
+          }
+        }
+      }
+    }
 
     // -------------------------------------------------------
     // 5. Respuesta
