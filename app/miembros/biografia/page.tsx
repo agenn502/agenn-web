@@ -8,6 +8,7 @@ import {
 } from "react";
 
 import { supabase } from "@/lib/supabaseClient";
+import { useSearchParams } from "next/navigation";
 
 import Cropper from "react-easy-crop";
 
@@ -24,6 +25,13 @@ type User = {
 };
 
 export default function BiografiaPage() {
+  const searchParams = useSearchParams();
+  const esIngresoInicial =
+    searchParams.get("inicial") === "1";
+
+  const [mostrarAvisoInicial, setMostrarAvisoInicial] =
+    useState(esIngresoInicial);
+
   const [user, setUser] =
     useState<User | null>(null);
 
@@ -401,6 +409,17 @@ export default function BiografiaPage() {
         return;
       }
 
+      const bioLimpia =
+        bio.trim();
+
+      if (!bioLimpia) {
+        alert(
+          "Debe completar su biografía antes de continuar."
+        );
+
+        return;
+      }
+
       setGuardando(true);
 
       try {
@@ -421,7 +440,8 @@ export default function BiografiaPage() {
 
             profesion,
 
-            bio,
+            bio:
+              bioLimpia,
 
             publicaciones,
 
@@ -521,6 +541,11 @@ export default function BiografiaPage() {
         alert(
           "Cambios guardados correctamente"
         );
+
+        if (esIngresoInicial) {
+          window.location.href =
+            "/miembros";
+        }
       } catch (error) {
         alert(
           error instanceof Error
@@ -739,6 +764,72 @@ export default function BiografiaPage() {
           760,
       }}
     >
+      {mostrarAvisoInicial && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.45)",
+            display: "grid",
+            placeItems: "center",
+            zIndex: 9999,
+            padding: "1rem",
+          }}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="titulo-perfil-inicial"
+            style={{
+              width: "100%",
+              maxWidth: "520px",
+              background: "white",
+              borderRadius: "12px",
+              padding: "1.4rem",
+              boxShadow: "0 14px 40px rgba(0,0,0,0.25)",
+            }}
+          >
+            <h2
+              id="titulo-perfil-inicial"
+              style={{
+                marginTop: 0,
+                color: "#6b6f1a",
+              }}
+            >
+              Complete su perfil de miembro
+            </h2>
+
+            <p
+              style={{
+                lineHeight: 1.8,
+                color: "#444",
+              }}
+            >
+              Incluya una foto real y la mayor información posible sobre su
+              trayectoria, intereses y experiencia numismática o notafílica.
+              Podrá editar esta información posteriormente.
+            </p>
+
+            <button
+              type="button"
+              onClick={() =>
+                setMostrarAvisoInicial(false)
+              }
+              style={{
+                background: "#6b6f1a",
+                color: "#fff",
+                padding: "0.75rem 1rem",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+              }}
+            >
+              Completar mi perfil
+            </button>
+          </div>
+        </div>
+      )}
+
       <h1
         style={{
           fontSize:

@@ -46,10 +46,12 @@ export async function GET(req: NextRequest) {
       .in("estado", ["pendiente", "reenviada"]),
 
     supabaseServer
-      .from("ensayos")
-      .select("*", { count: "exact", head: true })
-      .eq("estado", "publicado")
-      .eq("estado_revision", "pendiente"),
+	  .from("ensayos")
+	  .select("*", { count: "exact", head: true })
+	  .eq("estado", "publicado")
+	  .or(
+		"estado_revision.eq.pendiente,estado_difusion.eq.pendiente"
+	  ),
 
     supabaseServer
       .from("asimilaciones")

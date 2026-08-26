@@ -413,17 +413,53 @@ export default function Unidad3NovicioPage() {
 
         {mostrarCuestionario && !completado && pregunta && (
           <div style={{ marginTop: "1.5rem" }}>
-            <p
-              style={{
-                color: "#6b6f1a",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                fontSize: "0.82rem",
-                letterSpacing: "0.04em",
-              }}
-            >
-              Pregunta {preguntaActual + 1} de {QUESTIONS.length}
-            </p>
+            <div
+			  style={{
+				display: "flex",
+				alignItems: "center",
+				justifyContent: "space-between",
+				gap: "1rem",
+			  }}
+			>
+			  <p
+				style={{
+				  color: "#6b6f1a",
+				  fontWeight: 700,
+				  textTransform: "uppercase",
+				  fontSize: "0.82rem",
+				  letterSpacing: "0.04em",
+				  margin: 0,
+				}}
+			  >
+				Pregunta {preguntaActual + 1} de {QUESTIONS.length}
+			  </p>
+
+			  {respuestaSeleccionada !== null && (
+				<span
+				  aria-label={
+					respuestaSeleccionada === pregunta.correcta
+					  ? "Respuesta correcta"
+					  : "Respuesta incorrecta"
+				  }
+				  title={
+					respuestaSeleccionada === pregunta.correcta
+					  ? "Respuesta correcta"
+					  : "Respuesta incorrecta"
+				  }
+				  style={{
+					fontSize: "1.6rem",
+					lineHeight: 1,
+					fontWeight: 800,
+					color:
+					  respuestaSeleccionada === pregunta.correcta
+						? "#2e7d32"
+						: "#b3261e",
+				  }}
+				>
+				  {respuestaSeleccionada === pregunta.correcta ? "✓" : "✕"}
+				</span>
+			  )}
+			</div>
 
             <h3>{pregunta.pregunta}</h3>
 

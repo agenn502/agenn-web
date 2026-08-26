@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
 type User = {
@@ -31,6 +32,9 @@ export default function MiembrosLayout({
     useState(0);
 
   const [alertaAscenso, setAlertaAscenso] = useState("");
+  const [verificandoPerfil, setVerificandoPerfil] = useState(true);
+
+  const pathname = usePathname();
 
   useEffect(() => {
     const cargar = async () => {
@@ -87,6 +91,38 @@ export default function MiembrosLayout({
 
       setUser(parsed);
       setEsConsejo(consejoNormalizado);
+
+      // -------------------------------------------------------
+      // PERFIL INICIAL OBLIGATORIO
+      // -------------------------------------------------------
+
+      const { data: miembroPerfil, error: perfilError } = await supabase
+        .from("miembros")
+        .select("bio")
+        .eq("codigo", parsed.codigo)
+        .maybeSingle();
+
+      if (perfilError) {
+        console.error(
+          "No fue posible verificar el perfil inicial del miembro:",
+          perfilError
+        );
+      } else {
+        const biografiaCompleta = Boolean(
+          String(miembroPerfil?.bio || "").trim()
+        );
+
+        const estaEnBiografia =
+          pathname === "/miembros/biografia";
+
+        if (!biografiaCompleta && !estaEnBiografia) {
+          window.location.href =
+            "/miembros/biografia?inicial=1";
+          return;
+        }
+      }
+
+      setVerificandoPerfil(false);
 
       // -------------------------------------------------------
       // CONTADOR DE PROCESOS PENDIENTES DEL CONSEJO
@@ -178,9 +214,9 @@ export default function MiembrosLayout({
     };
 
     cargar();
-  }, []);
+  }, [pathname]);
 
-  if (!user) {
+  if (!user || verificandoPerfil) {
     return (
       <p style={{ padding: 40 }}>
         Cargando...

@@ -376,6 +376,13 @@ export async function POST(req: NextRequest) {
           </div>
           <p>Puede ingresar en:</p>
           <p style="text-align:center"><a href="${sitio}/login" style="background:#6b4f2a;color:white;padding:12px 18px;border-radius:8px;text-decoration:none">Ingresar a la plataforma</a></p>
+
+          <div style="background:#fff8e5;border-left:5px solid #b08a3c;padding:14px;margin:18px 0">
+            <strong>Importante:</strong> en su primer ingreso deberá completar obligatoriamente su perfil académico y biográfico.
+            Incluya una fotografía real y proporcione la mayor información posible sobre su trayectoria, intereses y experiencia
+            numismática o notafílica. Este perfil podrá actualizarlo posteriormente cuando lo considere necesario.
+          </div>
+
           <p>Le recomendamos conservar este mensaje. En una etapa posterior de la plataforma podrá cambiar su contraseña desde su perfil.</p>
         `),
       });

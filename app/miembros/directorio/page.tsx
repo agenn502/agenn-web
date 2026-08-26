@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import styles from "./directorio.module.css";
 
 type Miembro = {
   id: number;
@@ -278,14 +279,7 @@ export default function DirectorioPage() {
           {titulo}
         </h2>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fill, minmax(180px, 1fr))",
-            gap: "18px",
-          }}
-        >
+        <div className={styles.gridDirectorio}>
           {lista.map((miembro) => {
             const esInvestigador =
               miembro.nivel === "INV";
@@ -308,6 +302,7 @@ export default function DirectorioPage() {
               <Link
                 key={miembro.id}
                 href={`/miembros/directorio/${miembro.codigo}`}
+                className={styles.tarjetaMiembro}
                 style={{
                   display: "block",
                   border: "1px solid #ddd",
@@ -321,6 +316,7 @@ export default function DirectorioPage() {
                 }}
               >
                 <div
+                  className={styles.fotoMiembro}
                   style={{
                     position: "relative",
                     width: "100%",
@@ -363,6 +359,7 @@ export default function DirectorioPage() {
                 </div>
 
                 <h3
+                  className={styles.nombreMiembro}
                   style={{
                     fontSize: "15px",
                     fontWeight: "bold",
@@ -374,6 +371,7 @@ export default function DirectorioPage() {
                 </h3>
 
                 <p
+                  className={styles.codigoMiembro}
                   style={{
                     margin: "0 0 4px 0",
                     color: "#666",
@@ -384,19 +382,25 @@ export default function DirectorioPage() {
                 </p>
 
                 <p
+                  className={styles.nivelMiembro}
                   style={{
                     margin: 0,
                     color: "#444",
                     fontSize: "0.88rem",
                   }}
                 >
-                  {nombreNivel[miembro.nivel] ||
-                    miembro.nivel}
+                  <span className={styles.nivelCompleto}>
+                    {nombreNivel[miembro.nivel] || miembro.nivel}
+                  </span>
+                  <span className={styles.nivelAbreviado}>
+                    {miembro.nivel}
+                  </span>
                 </p>
 
                 {esInvestigador &&
                   infoInvestigador && (
                     <div
+                      className={styles.infoInvestigador}
                       style={{
                         marginTop: "8px",
                         padding: "8px 9px",
@@ -450,11 +454,13 @@ export default function DirectorioPage() {
                   miembro.nivel
                 ) && (
                   <div
+                    className={styles.progresoMiembro}
                     style={{
                       marginTop: "10px",
                     }}
                   >
                     <div
+                      className={styles.progresoEncabezado}
                       style={{
                         display: "flex",
                         justifyContent:
