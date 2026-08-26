@@ -1,11 +1,10 @@
-"use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
+
+import type { Metadata } from "next";
 import ReactMarkdown from "react-markdown";
+import { supabaseServer } from "@/lib/supabaseServer";
 import { nombreNivel, colorNivel } from "@/lib/niveles";
+import CompartirEnsayo from "./CompartirEnsayo";
 
 type Ensayo = {
   id: number;
@@ -26,73 +25,184 @@ type Ensayo = {
   tema: string | null;
 };
 
-export default function EnsayoDetallePage() {
-  const params = useParams();
-  const slug = String(params.slug || "");
+type PageProps = {
+  params: Promise<{
+    slug: string;
+  }>;
+  searchParams: Promise<{
+    origen?: string | string[];
+    volver?: string | string[];
+  }>;
+};
 
-  const [ensayo, setEnsayo] = useState<Ensayo | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [copiado, setCopiado] = useState(false);
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://agenn-web.vercel.app"
+).replace(/\/+$/, "");
 
-  useEffect(() => {
-    const cargar = async () => {
-      setLoading(true);
+function limpiarMarkdown(texto: string) {
+  return texto
+    .replace(/!\[[^\]]*]\([^)]*\)/g, "")
+    .replace(/\[([^\]]+)]\([^)]*\)/g, "$1")
+    .replace(/[`*_>#~-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-      const { data, error } = await supabase
-        .from("ensayos")
-        .select("*")
-        .eq("slug", slug)
-        .eq("estado", "publicado")
-        .maybeSingle();
+function descripcionEnsayo(ensayo: Ensayo) {
+  const base = limpiarMarkdown(ensayo.contenido);
 
-      if (!error && data) {
-        setEnsayo(data as Ensayo);
-      }
-
-      setLoading(false);
-    };
-
-    if (slug) cargar();
-  }, [slug]);
-
-  const urlActual =
-    typeof window !== "undefined"
-      ? window.location.href
-      : `https://agenn.org/ensayos/${slug}`;
-
-  const textoCompartir = ensayo
-	  ? `${ensayo.titulo}
-
-	Ensayo publicado en AGENN como parte del proceso formativo del Nivel Investigador.
-
-	Código de verificación: ${ensayo.codigo_verificacion}
-
-	#NumismáticaGuatemalteca #AGENN
-
-	${urlActual}`
-	  : "";
-
-  const copiarEnlace = async () => {
-    await navigator.clipboard.writeText(textoCompartir);
-    setCopiado(true);
-    setTimeout(() => setCopiado(false), 2500);
-  };
-
-  if (loading) {
-    return <main style={{ padding: "2rem" }}>Cargando ensayo...</main>;
+  if (base.length <= 180) {
+    return base || `Ensayo de ${ensayo.autor_nombre} publicado en AGENN.`;
   }
+
+  return `${base.slice(0, 177).trim()}...`;
+}
+
+async function obtenerEnsayo(slug: string): Promise<Ensayo | null> {
+  const { data, error } = await supabaseServer
+    .from("ensayos")
+    .select(
+      `
+      id,
+      titulo,
+      slug,
+      autor_nombre,
+      autor_codigo,
+      nivel,
+      proceso,
+      unidad_slug,
+      imagen_url,
+      contenido,
+      codigo_verificacion,
+      url_social,
+      estado,
+      created_at,
+      fuente_imagen,
+      tema
+      `
+    )
+    .eq("slug", slug)
+    .eq("estado", "publicado")
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error cargando ensayo público:", error);
+    return null;
+  }
+
+  return (data as Ensayo | null) || null;
+}
+
+export async function generateMetadata({
+  params,
+}: Pick<PageProps, "params">): Promise<Metadata> {
+  const { slug } = await params;
+  const ensayo = await obtenerEnsayo(String(slug || ""));
+
+  if (!ensayo) {
+    return {
+      metadataBase: new URL(SITE_URL),
+      title: "Ensayo no encontrado | AGENN",
+      description:
+        "El ensayo solicitado no se encuentra disponible en AGENN.",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const urlCanonica = `${SITE_URL}/ensayos/${ensayo.slug}`;
+  const descripcion = descripcionEnsayo(ensayo);
+
+  const imagenes = ensayo.imagen_url
+    ? [
+        {
+          url: ensayo.imagen_url,
+          alt: ensayo.titulo,
+        },
+      ]
+    : undefined;
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: `${ensayo.titulo} | AGENN`,
+    description: descripcion,
+    alternates: {
+      canonical: urlCanonica,
+    },
+    openGraph: {
+      type: "article",
+      locale: "es_GT",
+      url: urlCanonica,
+      siteName:
+        "Academia Guatemalteca de Estudios Numismáticos y Notafílicos",
+      title: ensayo.titulo,
+      description: descripcion,
+      publishedTime: ensayo.created_at,
+      authors: [ensayo.autor_nombre],
+      images: imagenes,
+    },
+    twitter: {
+      card: ensayo.imagen_url ? "summary_large_image" : "summary",
+      title: ensayo.titulo,
+      description: descripcion,
+      images: ensayo.imagen_url ? [ensayo.imagen_url] : undefined,
+    },
+  };
+}
+
+export default async function EnsayoDetallePage({
+  params,
+  searchParams,
+}: PageProps) {
+  const { slug } = await params;
+  const query = await searchParams;
+
+  const ensayo = await obtenerEnsayo(String(slug || ""));
 
   if (!ensayo) {
     return (
       <main style={{ padding: "2rem" }}>
         <p>No se encontró el ensayo.</p>
-        <Link href="/ensayos">Volver a ensayos</Link>
+        <a href="/ensayos">Volver a ensayos</a>
       </main>
     );
   }
 
+  const origen = Array.isArray(query.origen)
+    ? query.origen[0]
+    : query.origen;
+
+  const volverRecibido = Array.isArray(query.volver)
+    ? query.volver[0]
+    : query.volver;
+
+  /*
+   * Solo aceptamos una ruta interna de Revista AGENN.
+   * Así evitamos utilizar como retorno una URL externa recibida por query.
+   */
+  const volverARevista =
+    origen === "revista" &&
+    typeof volverRecibido === "string" &&
+    volverRecibido.startsWith("/revista");
+
+  const volverHref = volverARevista ? volverRecibido : "/ensayos";
+  const volverTexto = volverARevista
+    ? "Volver a Revista AGENN"
+    : "Volver a ensayos";
+
+  const urlCanonica = `${SITE_URL}/ensayos/${ensayo.slug}`;
+
   return (
-    <main style={{ background: "#faf8f2", minHeight: "100vh", padding: "2rem" }}>
+    <main
+      style={{
+        background: "#faf8f2",
+        minHeight: "100vh",
+        padding: "2rem",
+      }}
+    >
       <article
         style={{
           maxWidth: "920px",
@@ -105,7 +215,13 @@ export default function EnsayoDetallePage() {
         }}
       >
         {ensayo.imagen_url && (
-          <div style={{ width: "100%", maxHeight: "380px", overflow: "hidden" }}>
+          <div
+            style={{
+              width: "100%",
+              maxHeight: "380px",
+              overflow: "hidden",
+            }}
+          >
             <img
               src={ensayo.imagen_url}
               alt={ensayo.titulo}
@@ -119,19 +235,19 @@ export default function EnsayoDetallePage() {
             />
           </div>
         )}
-		
-		{ensayo.fuente_imagen && (
-		  <p
-			style={{
-			  fontSize: "0.85rem",
-			  color: "#666",
-			  padding: "0.6rem 2rem 0",
-			  margin: 0,
-			}}
-		  >
-			Fuente de imagen: {ensayo.fuente_imagen}
-		  </p>
-		)}
+
+        {ensayo.fuente_imagen && (
+          <p
+            style={{
+              fontSize: "0.85rem",
+              color: "#666",
+              padding: "0.6rem 2rem 0",
+              margin: 0,
+            }}
+          >
+            Fuente de imagen: {ensayo.fuente_imagen}
+          </p>
+        )}
 
         <div style={{ padding: "2rem" }}>
           <p
@@ -145,27 +261,35 @@ export default function EnsayoDetallePage() {
             }}
           >
             <span
-			  style={{
-				color: colorNivel(ensayo.nivel),
-				fontWeight: 700,
-			  }}
-			>
-			  {nombreNivel(ensayo.nivel)}
-			</span>{" "}
-			· {ensayo.proceso} · {ensayo.unidad_slug}
+              style={{
+                color: colorNivel(ensayo.nivel),
+                fontWeight: 700,
+              }}
+            >
+              {nombreNivel(ensayo.nivel)}
+            </span>{" "}
+            · {ensayo.proceso} · {ensayo.unidad_slug}
           </p>
 
-          <h1 style={{ marginTop: 0, fontSize: "2rem", lineHeight: 1.2 }}>
+          <h1
+            style={{
+              marginTop: 0,
+              fontSize: "2rem",
+              lineHeight: 1.2,
+            }}
+          >
             {ensayo.titulo}
           </h1>
-		  {ensayo.tema && (
-			  <p style={{ color: "#555", lineHeight: 1.7 }}>
-				<strong>Tema:</strong> {ensayo.tema}
-			  </p>
-			)}
+
+          {ensayo.tema && (
+            <p style={{ color: "#555", lineHeight: 1.7 }}>
+              <strong>Tema:</strong> {ensayo.tema}
+            </p>
+          )}
 
           <p style={{ color: "#555", marginBottom: "1.5rem" }}>
-            Por <strong>{ensayo.autor_nombre}</strong> · {ensayo.autor_codigo}
+            Por <strong>{ensayo.autor_nombre}</strong> ·{" "}
+            {ensayo.autor_codigo}
           </p>
 
           <div
@@ -178,42 +302,13 @@ export default function EnsayoDetallePage() {
             <ReactMarkdown>{ensayo.contenido}</ReactMarkdown>
           </div>
 
-          <div
-            style={{
-              borderTop: "1px solid #ddd4c7",
-              paddingTop: "1.2rem",
-              display: "flex",
-              gap: "0.8rem",
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
-          >
-            <button
-              onClick={copiarEnlace}
-              style={{
-                background: "#6b4f2a",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                padding: "0.75rem 1rem",
-                cursor: "pointer",
-              }}
-            >
-              {copiado ? "Texto copiado" : "Copiar texto para compartir"}
-            </button>
-
-            <Link
-              href="/ensayos"
-              style={{
-                color: "#4d371c",
-                fontWeight: "bold",
-                textDecoration: "none",
-                marginLeft: "auto",
-              }}
-            >
-              Volver a ensayos
-            </Link>
-          </div>
+          <CompartirEnsayo
+            titulo={ensayo.titulo}
+            codigoVerificacion={ensayo.codigo_verificacion}
+            urlCanonica={urlCanonica}
+            volverHref={volverHref}
+            volverTexto={volverTexto}
+          />
         </div>
       </article>
     </main>

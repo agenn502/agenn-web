@@ -130,44 +130,87 @@ export default function EnsayoUnidad1Page() {
         img.src = event.target?.result as string;
       };
 
-      img.onload = () => {
-        const maxWidth = 1200;
-        const scale = Math.min(maxWidth / img.width, 1);
+      img.onload = async () => {
+        try {
+          const MAX_BYTES = 100 * 1024;
 
-        const canvas = document.createElement("canvas");
-        canvas.width = Math.round(img.width * scale);
-        canvas.height = Math.round(img.height * scale);
+          const crearBlob = (
+            anchoMaximo: number,
+            calidadJpeg: number
+          ): Promise<Blob> => {
+            return new Promise((resolveBlob, rejectBlob) => {
+              const escala = Math.min(anchoMaximo / img.width, 1);
 
-        const ctx = canvas.getContext("2d");
+              const canvas = document.createElement("canvas");
+              canvas.width = Math.max(1, Math.round(img.width * escala));
+              canvas.height = Math.max(1, Math.round(img.height * escala));
 
-        if (!ctx) {
-          reject(new Error("No se pudo procesar la imagen."));
-          return;
-        }
+              const ctx = canvas.getContext("2d");
 
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+              if (!ctx) {
+                rejectBlob(new Error("No se pudo procesar la imagen."));
+                return;
+              }
 
-        canvas.toBlob(
-          (blob) => {
-            if (!blob) {
-              reject(new Error("No se pudo comprimir la imagen."));
-              return;
-            }
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            resolve(
-              new File(
-                [blob],
-                file.name.replace(/\.[^/.]+$/, "") + ".jpg",
-                {
-                  type: "image/jpeg",
-                  lastModified: Date.now(),
-                }
+              canvas.toBlob(
+                (blob) => {
+                  if (!blob) {
+                    rejectBlob(new Error("No se pudo comprimir la imagen."));
+                    return;
+                  }
+
+                  resolveBlob(blob);
+                },
+                "image/jpeg",
+                calidadJpeg
+              );
+            });
+          };
+
+          let anchoMaximo = 1200;
+          let calidad = 0.82;
+          let blob = await crearBlob(anchoMaximo, calidad);
+
+          while (blob.size > MAX_BYTES && calidad > 0.46) {
+            calidad = Math.max(0.46, calidad - 0.08);
+            blob = await crearBlob(anchoMaximo, calidad);
+          }
+
+          while (blob.size > MAX_BYTES && anchoMaximo > 600) {
+            anchoMaximo -= 100;
+            calidad = Math.max(calidad, 0.5);
+            blob = await crearBlob(anchoMaximo, calidad);
+          }
+
+          while (blob.size > MAX_BYTES && calidad > 0.3) {
+            calidad = Math.max(0.3, calidad - 0.05);
+            blob = await crearBlob(anchoMaximo, calidad);
+          }
+
+          if (blob.size > MAX_BYTES) {
+            reject(
+              new Error(
+                "No fue posible reducir la imagen a menos de 100 KB. Pruebe con una imagen de menor tamaño o complejidad."
               )
             );
-          },
-          "image/jpeg",
-          0.75
-        );
+            return;
+          }
+
+          resolve(
+            new File(
+              [blob],
+              file.name.replace(/\.[^/.]+$/, "") + ".jpg",
+              {
+                type: "image/jpeg",
+                lastModified: Date.now(),
+              }
+            )
+          );
+        } catch (error) {
+          reject(error);
+        }
       };
 
       img.onerror = () =>
@@ -204,13 +247,14 @@ export default function EnsayoUnidad1Page() {
     if (!imagen || !miembro) return null;
 
     const nombreArchivo =
-      `unidad-1/${miembro.codigo}-${Date.now()}.jpg`;
+      `unidad-1/${miembro.codigo}-u1.jpg`;
 
     const { error } = await supabase.storage
       .from("ensayos")
       .upload(nombreArchivo, imagen, {
         contentType: "image/jpeg",
         upsert: true,
+        cacheControl: "3600",
       });
 
     if (error) {
@@ -221,7 +265,7 @@ export default function EnsayoUnidad1Page() {
       .from("ensayos")
       .getPublicUrl(nombreArchivo);
 
-    return data.publicUrl;
+    return `${data.publicUrl}?v=${Date.now()}`;
   };
 
   const validarContenido = (paraRevision: boolean) => {
