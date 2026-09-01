@@ -60,7 +60,8 @@ function formatearFecha(valor: string | null) {
 export default async function NumerosPublicadosPage() {
   const { data, error } = await supabaseServer
     .from("revistas")
-    .select(`
+    .select(
+      `
       id,
       volumen,
       numero,
@@ -70,8 +71,9 @@ export default async function NumerosPublicadosPage() {
       subtitulo,
       fecha_publicacion,
       slug
-    `)
-    .eq("estado", "PUBLICADO")
+    `,
+    )
+    .eq("estado", "PUBLICADA")
     .order("anio", { ascending: false })
     .order("numero", { ascending: false });
 
@@ -83,7 +85,9 @@ export default async function NumerosPublicadosPage() {
         <section className={styles.encabezado}>
           <p className={styles.etiqueta}>Archivo editorial</p>
           <h1>Números publicados</h1>
-          <p>No fue posible consultar los números de la revista en este momento.</p>
+          <p>
+            No fue posible consultar los números de la revista en este momento.
+          </p>
         </section>
       </div>
     );
@@ -135,7 +139,9 @@ export default async function NumerosPublicadosPage() {
                   <i aria-hidden="true" />
                   <small>VOLUMEN {revista.volumen || "—"}</small>
                   <b>NÚMERO {revista.numero}</b>
-                  <time>{fechaEditorial(revista.mes_publicacion, revista.anio)}</time>
+                  <time>
+                    {fechaEditorial(revista.mes_publicacion, revista.anio)}
+                  </time>
                 </Link>
 
                 <div className={styles.informacion}>
@@ -145,7 +151,8 @@ export default async function NumerosPublicadosPage() {
 
                   <h2>
                     <Link href={`/revista/numeros/${revista.slug}`}>
-                      {revista.titulo || `Revista AGENN, número ${revista.numero}`}
+                      {revista.titulo ||
+                        `Revista AGENN, número ${revista.numero}`}
                     </Link>
                   </h2>
 

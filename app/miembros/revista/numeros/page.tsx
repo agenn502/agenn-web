@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -47,17 +42,14 @@ function nombreMes(mes: number | null) {
   return MESES[mes - 1];
 }
 function codigoLocal() {
-  const stored =
-    localStorage.getItem("user");
+  const stored = localStorage.getItem("user");
 
   if (!stored) return "";
 
   try {
     const user = JSON.parse(stored);
 
-    return String(
-      user.codigo || ""
-    )
+    return String(user.codigo || "")
       .trim()
       .toUpperCase();
   } catch {
@@ -66,12 +58,9 @@ function codigoLocal() {
 }
 
 function estadoTexto(estado: string) {
-  const estados: Record<
-    string,
-    string
-  > = {
+  const estados: Record<string, string> = {
     BORRADOR: "En preparación",
-    PUBLICADO: "Publicado",
+    PUBLICADA: "Publicada",
     CERRADO: "Cerrado",
   };
 
@@ -81,188 +70,119 @@ function estadoTexto(estado: string) {
 export default function NumerosRevistaPage() {
   const router = useRouter();
 
-  const [numeros, setNumeros] =
-    useState<NumeroRevista[]>([]);
+  const [numeros, setNumeros] = useState<NumeroRevista[]>([]);
 
-  const [loading, setLoading] =
-    useState(true);
+  const [loading, setLoading] = useState(true);
 
-  const [creando, setCreando] =
-    useState(false);
+  const [creando, setCreando] = useState(false);
 
-  const [mostrarFormulario, setMostrarFormulario] =
-    useState(false);
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
-  const [error, setError] =
-    useState("");
+  const [error, setError] = useState("");
 
-  const [volumen, setVolumen] =
-    useState("1");
+  const [volumen, setVolumen] = useState("1");
 
-  const [numero, setNumero] =
-    useState("1");
+  const [numero, setNumero] = useState("1");
 
-  const [anio, setAnio] =
-    useState(
-      String(new Date().getFullYear())
-    );
-  const [mesPublicacion, setMesPublicacion] =
-	  useState(
-		String(new Date().getMonth() + 1)
-	  );
-
-  const [titulo, setTitulo] =
-    useState("");
-
-  const [subtitulo, setSubtitulo] =
-    useState("");
-
-  const cargar = useCallback(
-    async () => {
-      const codigo = codigoLocal();
-
-      if (!codigo) {
-        window.location.href =
-          "/login";
-        return;
-      }
-
-      setLoading(true);
-      setError("");
-
-      try {
-        const response =
-          await fetch(
-            "/api/revista/numeros",
-            {
-              headers: {
-                "x-user-codigo":
-                  codigo,
-              },
-              cache: "no-store",
-            }
-          );
-
-        const texto =
-          await response.text();
-
-        const result = texto
-          ? JSON.parse(texto)
-          : null;
-
-        if (
-          !response.ok ||
-          !result?.ok
-        ) {
-          throw new Error(
-            result?.error ||
-              "No fue posible cargar los números."
-          );
-        }
-
-        setNumeros(
-          result.numeros || []
-        );
-      } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "No fue posible cargar los números."
-        );
-      } finally {
-        setLoading(false);
-      }
-    },
-    []
+  const [anio, setAnio] = useState(String(new Date().getFullYear()));
+  const [mesPublicacion, setMesPublicacion] = useState(
+    String(new Date().getMonth() + 1),
   );
+
+  const [titulo, setTitulo] = useState("");
+
+  const [subtitulo, setSubtitulo] = useState("");
+
+  const cargar = useCallback(async () => {
+    const codigo = codigoLocal();
+
+    if (!codigo) {
+      window.location.href = "/login";
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/revista/numeros", {
+        headers: {
+          "x-user-codigo": codigo,
+        },
+        cache: "no-store",
+      });
+
+      const texto = await response.text();
+
+      const result = texto ? JSON.parse(texto) : null;
+
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.error || "No fue posible cargar los números.");
+      }
+
+      setNumeros(result.numeros || []);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "No fue posible cargar los números.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     cargar();
   }, [cargar]);
 
-  const crearNumero = async (
-    event: FormEvent
-  ) => {
+  const crearNumero = async (event: FormEvent) => {
     event.preventDefault();
 
     setCreando(true);
     setError("");
 
     try {
-      const response =
-        await fetch(
-          "/api/revista/numeros",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type":
-                "application/json",
-              "x-user-codigo":
-                codigoLocal(),
-            },
-            body: JSON.stringify({
-              volumen: Number(volumen),
-              numero: Number(numero),
-              anio: Number(anio),
-				mes_publicacion: Number(mesPublicacion),
-				titulo:
-                titulo.trim(),
-              subtitulo:
-                subtitulo.trim(),
-            }),
-          }
-        );
+      const response = await fetch("/api/revista/numeros", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-user-codigo": codigoLocal(),
+        },
+        body: JSON.stringify({
+          volumen: Number(volumen),
+          numero: Number(numero),
+          anio: Number(anio),
+          mes_publicacion: Number(mesPublicacion),
+          titulo: titulo.trim(),
+          subtitulo: subtitulo.trim(),
+        }),
+      });
 
-      const texto =
-        await response.text();
+      const texto = await response.text();
 
-      const result = texto
-        ? JSON.parse(texto)
-        : null;
+      const result = texto ? JSON.parse(texto) : null;
 
-      if (
-        !response.ok ||
-        !result?.ok
-      ) {
-        throw new Error(
-          result?.error ||
-            "No fue posible crear el número."
-        );
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.error || "No fue posible crear el número.");
       }
 
-      router.push(
-        `/miembros/revista/numeros/${result.numero.id}`
-      );
+      router.push(`/miembros/revista/numeros/${result.numero.id}`);
     } catch (err) {
       setError(
-        err instanceof Error
-          ? err.message
-          : "No fue posible crear el número."
+        err instanceof Error ? err.message : "No fue posible crear el número.",
       );
     } finally {
       setCreando(false);
     }
   };
 
-  const enPreparacion =
-    numeros.filter(
-      (n) =>
-        n.estado !== "PUBLICADO"
-    );
+  const enPreparacion = numeros.filter((n) => n.estado !== "PUBLICADA");
 
-  const publicados =
-    numeros.filter(
-      (n) =>
-        n.estado === "PUBLICADO"
-    );
+  const publicados = numeros.filter((n) => n.estado === "PUBLICADA");
 
   if (loading) {
-    return (
-      <p>
-        Cargando números de Revista
-        AGENN...
-      </p>
-    );
+    return <p>Cargando números de Revista AGENN...</p>;
   }
 
   return (
@@ -275,15 +195,12 @@ export default function NumerosRevistaPage() {
         style={{
           color: "#6b6f1a",
           fontWeight: 700,
-          textTransform:
-            "uppercase",
+          textTransform: "uppercase",
           fontSize: "0.82rem",
-          letterSpacing:
-            "0.05em",
+          letterSpacing: "0.05em",
         }}
       >
-        Revista AGENN · Consejo
-        Editorial
+        Revista AGENN · Consejo Editorial
       </p>
 
       <h1
@@ -300,18 +217,15 @@ export default function NumerosRevistaPage() {
           maxWidth: "800px",
         }}
       >
-        Desde este espacio el Consejo
-        Editorial prepara, organiza y
-        publica los números de Revista
-        AGENN.
+        Desde este espacio el Consejo Editorial prepara, organiza y publica los
+        números de Revista AGENN.
       </p>
 
       {error && (
         <div
           style={{
             background: "#fff3f3",
-            border:
-              "1px solid #d28b8b",
+            border: "1px solid #d28b8b",
             color: "#7a1f1f",
             padding: "1rem",
             borderRadius: "10px",
@@ -324,18 +238,13 @@ export default function NumerosRevistaPage() {
 
       <button
         type="button"
-        onClick={() =>
-          setMostrarFormulario(
-            !mostrarFormulario
-          )
-        }
+        onClick={() => setMostrarFormulario(!mostrarFormulario)}
         style={{
           background: "#356128",
           color: "white",
           border: "none",
           borderRadius: "8px",
-          padding:
-            "0.8rem 1.1rem",
+          padding: "0.8rem 1.1rem",
           fontWeight: 700,
           cursor: "pointer",
           marginBottom: "1.5rem",
@@ -349,8 +258,7 @@ export default function NumerosRevistaPage() {
           onSubmit={crearNumero}
           style={{
             background: "#eef6e9",
-            border:
-              "1px solid #cfe3c4",
+            border: "1px solid #cfe3c4",
             borderRadius: "14px",
             padding: "1.5rem",
             marginBottom: "2rem",
@@ -366,40 +274,31 @@ export default function NumerosRevistaPage() {
           </h2>
 
           <div
-			  style={{
-				display: "grid",
-				gridTemplateColumns:
-				  "repeat(auto-fit, minmax(150px, 1fr))",
-				gap: "1rem",
-				marginBottom: "1rem",
-			  }}
-			>
-			  <Campo
-				label="Volumen"
-				value={volumen}
-				onChange={setVolumen}
-				type="number"
-			  />
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+              gap: "1rem",
+              marginBottom: "1rem",
+            }}
+          >
+            <Campo
+              label="Volumen"
+              value={volumen}
+              onChange={setVolumen}
+              type="number"
+            />
 
-			  <Campo
-				label="Número"
-				value={numero}
-				onChange={setNumero}
-				type="number"
-			  />
+            <Campo
+              label="Número"
+              value={numero}
+              onChange={setNumero}
+              type="number"
+            />
 
-			  <Campo
-				label="Año"
-				value={anio}
-				onChange={setAnio}
-				type="number"
-			  />
+            <Campo label="Año" value={anio} onChange={setAnio} type="number" />
 
-			  <CampoMes
-				value={mesPublicacion}
-				onChange={setMesPublicacion}
-			  />
-			</div>
+            <CampoMes value={mesPublicacion} onChange={setMesPublicacion} />
+          </div>
 
           <Campo
             label="Título especial (opcional)"
@@ -421,29 +320,20 @@ export default function NumerosRevistaPage() {
               color: "white",
               border: "none",
               borderRadius: "8px",
-              padding:
-                "0.8rem 1.1rem",
+              padding: "0.8rem 1.1rem",
               fontWeight: 700,
               cursor: "pointer",
               marginTop: "0.5rem",
             }}
           >
-            {creando
-              ? "Creando..."
-              : "Crear número"}
+            {creando ? "Creando..." : "Crear número"}
           </button>
         </form>
       )}
 
-      <SeccionNumeros
-        titulo="En preparación"
-        numeros={enPreparacion}
-      />
+      <SeccionNumeros titulo="En preparación" numeros={enPreparacion} />
 
-      <SeccionNumeros
-        titulo="Publicados"
-        numeros={publicados}
-      />
+      <SeccionNumeros titulo="Publicados" numeros={publicados} />
 
       <Link
         href="/miembros/revista"
@@ -476,7 +366,6 @@ function CampoMes({
       }}
     >
       Mes editorial
-
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -526,22 +415,15 @@ function Campo({
       <input
         type={type}
         value={value}
-        min={
-          type === "number"
-            ? 1
-            : undefined
-        }
-        onChange={(e) =>
-          onChange(e.target.value)
-        }
+        min={type === "number" ? 1 : undefined}
+        onChange={(e) => onChange(e.target.value)}
         style={{
           display: "block",
           width: "100%",
           boxSizing: "border-box",
           marginTop: "0.35rem",
           padding: "0.75rem",
-          border:
-            "1px solid #aaa",
+          border: "1px solid #aaa",
           borderRadius: "8px",
           fontFamily: "inherit",
           fontWeight: 400,
@@ -578,8 +460,7 @@ function SeccionNumeros({
             color: "#777",
           }}
         >
-          No hay números en esta
-          categoría.
+          No hay números en esta categoría.
         </p>
       ) : (
         <div
@@ -588,97 +469,75 @@ function SeccionNumeros({
             gap: "1rem",
           }}
         >
-          {numeros.map(
-            (revista) => (
+          {numeros.map((revista) => (
+            <div
+              key={revista.id}
+              style={{
+                background: "white",
+                border: "1px solid #ddd4c7",
+                borderRadius: "12px",
+                padding: "1.2rem",
+              }}
+            >
               <div
-                key={revista.id}
                 style={{
-                  background:
-                    "white",
-                  border:
-                    "1px solid #ddd4c7",
-                  borderRadius:
-                    "12px",
-                  padding: "1.2rem",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: "1rem",
+                  flexWrap: "wrap",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent:
-                      "space-between",
-                    gap: "1rem",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <div>
-                    <strong
-                      style={{
-                        color:
-                          "#4d371c",
-                        fontSize:
-                          "1.05rem",
-                      }}
-                    >
-                      Vol.{" "}
-                      {revista.volumen ||
-                        "—"}{" "}
-                      · Núm.{" "}
-                      {revista.numero} ·{" "}
-						{nombreMes(revista.mes_publicacion)
-						  ? `${nombreMes(revista.mes_publicacion)} de `
-						  : ""}
-						{revista.anio}
-                    </strong>
-
-                    {revista.titulo && (
-                      <div
-                        style={{
-                          marginTop:
-                            "0.4rem",
-                        }}
-                      >
-                        {revista.titulo}
-                      </div>
-                    )}
-
-                    <div
-                      style={{
-                        marginTop:
-                          "0.35rem",
-                        color: "#777",
-                      }}
-                    >
-                      {estadoTexto(
-                        revista.estado
-                      )}
-                    </div>
-                  </div>
-
-                  <Link
-                    href={`/miembros/revista/numeros/${revista.id}`}
+                <div>
+                  <strong
                     style={{
-                      alignSelf:
-                        "center",
-                      background:
-                        "#f0eadf",
-                      color:
-                        "#4d371c",
-                      padding:
-                        "0.65rem 0.9rem",
-                      borderRadius:
-                        "8px",
-                      fontWeight: 700,
-                      textDecoration:
-                        "none",
+                      color: "#4d371c",
+                      fontSize: "1.05rem",
                     }}
                   >
-                    Gestionar número
-                  </Link>
+                    Vol. {revista.volumen || "—"} · Núm. {revista.numero} ·{" "}
+                    {nombreMes(revista.mes_publicacion)
+                      ? `${nombreMes(revista.mes_publicacion)} de `
+                      : ""}
+                    {revista.anio}
+                  </strong>
+
+                  {revista.titulo && (
+                    <div
+                      style={{
+                        marginTop: "0.4rem",
+                      }}
+                    >
+                      {revista.titulo}
+                    </div>
+                  )}
+
+                  <div
+                    style={{
+                      marginTop: "0.35rem",
+                      color: "#777",
+                    }}
+                  >
+                    {estadoTexto(revista.estado)}
+                  </div>
                 </div>
+
+                <Link
+                  href={`/miembros/revista/numeros/${revista.id}`}
+                  style={{
+                    alignSelf: "center",
+                    background: "#f0eadf",
+                    color: "#4d371c",
+                    padding: "0.65rem 0.9rem",
+                    borderRadius: "8px",
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
+                >
+                  Gestionar número
+                </Link>
               </div>
-            )
-          )}
+            </div>
+          ))}
         </div>
       )}
     </section>

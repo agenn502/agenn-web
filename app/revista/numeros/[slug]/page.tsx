@@ -12,9 +12,9 @@ type Numero = {
   volumen: number | null;
   numero: number;
   anio: number;
-	mes_publicacion: number | null;
-	titulo: string | null;
-	subtitulo: string | null;
+  mes_publicacion: number | null;
+  titulo: string | null;
+  subtitulo: string | null;
   editorial: string | null;
   fecha_publicacion: string | null;
   slug: string;
@@ -41,7 +41,8 @@ type ArticuloPublico = {
 const obtenerNumero = cache(async (slug: string): Promise<Numero | null> => {
   const { data, error } = await supabaseServer
     .from("revistas")
-    .select(`
+    .select(
+      `
       id,
       volumen,
       numero,
@@ -52,9 +53,10 @@ const obtenerNumero = cache(async (slug: string): Promise<Numero | null> => {
       editorial,
       fecha_publicacion,
       slug
-    `)
+    `,
+    )
     .eq("slug", slug)
-    .eq("estado", "PUBLICADO")
+    .eq("estado", "PUBLICADA")
     .maybeSingle();
 
   if (error) throw new Error(error.message);
@@ -74,17 +76,19 @@ async function obtenerArticulos(revistaId: number): Promise<ArticuloPublico[]> {
   const manuscritoIds = relaciones.map((item) => Number(item.manuscrito_id));
   const versionIds = relaciones.map((item) => Number(item.version_id));
 
-  const [{ data: manuscritos, error: manuscritosError }, { data: versiones, error: versionesError }] =
-    await Promise.all([
-      supabaseServer
-        .from("manuscritos_editoriales")
-        .select("id,autor_miembro_id,titulo_actual,tipo_contenido,tema")
-        .in("id", manuscritoIds),
-      supabaseServer
-        .from("manuscrito_versiones")
-        .select("id,titulo")
-        .in("id", versionIds),
-    ]);
+  const [
+    { data: manuscritos, error: manuscritosError },
+    { data: versiones, error: versionesError },
+  ] = await Promise.all([
+    supabaseServer
+      .from("manuscritos_editoriales")
+      .select("id,autor_miembro_id,titulo_actual,tipo_contenido,tema")
+      .in("id", manuscritoIds),
+    supabaseServer
+      .from("manuscrito_versiones")
+      .select("id,titulo")
+      .in("id", versionIds),
+  ]);
 
   if (manuscritosError) throw new Error(manuscritosError.message);
   if (versionesError) throw new Error(versionesError.message);
@@ -93,7 +97,7 @@ async function obtenerArticulos(revistaId: number): Promise<ArticuloPublico[]> {
     ...new Set(
       (manuscritos || [])
         .map((manuscrito) => Number(manuscrito.autor_miembro_id))
-        .filter(Boolean)
+        .filter(Boolean),
     ),
   ];
 
@@ -110,10 +114,10 @@ async function obtenerArticulos(revistaId: number): Promise<ArticuloPublico[]> {
   }
 
   const manuscritoPorId = new Map(
-    (manuscritos || []).map((item) => [Number(item.id), item])
+    (manuscritos || []).map((item) => [Number(item.id), item]),
   );
   const versionPorId = new Map(
-    (versiones || []).map((item) => [Number(item.id), item])
+    (versiones || []).map((item) => [Number(item.id), item]),
   );
   const autorPorId = new Map(autores.map((item) => [Number(item.id), item]));
 
@@ -130,7 +134,7 @@ async function obtenerArticulos(revistaId: number): Promise<ArticuloPublico[]> {
       orden: Number(relacion.orden),
       localizador: String(relacion.localizador || ""),
       titulo: String(
-        version?.titulo || manuscrito?.titulo_actual || "Trabajo sin título"
+        version?.titulo || manuscrito?.titulo_actual || "Trabajo sin título",
       ),
       tipo: String(manuscrito?.tipo_contenido || "Ensayo"),
       tema: manuscrito?.tema ? String(manuscrito.tema) : null,
@@ -225,7 +229,6 @@ export default async function NumeroPublicadoPage({
       </nav>
 
       <header className={styles.cabeceraNumero}>
-        
         <div className={styles.datosNumero}>
           <p className={styles.identificacion}>REVISTA AGENN</p>
 
@@ -239,9 +242,9 @@ export default async function NumeroPublicadoPage({
           )}
 
           <p className={styles.edicion}>
-			  Volumen {numero.volumen || "—"} · Número {numero.numero} ·{" "}
-			  {fechaEditorial(numero.mes_publicacion, numero.anio)}
-			</p>
+            Volumen {numero.volumen || "—"} · Número {numero.numero} ·{" "}
+            {fechaEditorial(numero.mes_publicacion, numero.anio)}
+          </p>
 
           {fecha && <p className={styles.fecha}>Publicado el {fecha}</p>}
         </div>
@@ -283,7 +286,9 @@ export default async function NumeroPublicadoPage({
 
                     {articulo.autor && (
                       <p className={styles.autor}>
-                        <Link href={`/revista/autores/${articulo.autor.codigo.toLowerCase()}`}>
+                        <Link
+                          href={`/revista/autores/${articulo.autor.codigo.toLowerCase()}`}
+                        >
                           {articulo.autor.nombre}
                         </Link>
                       </p>
