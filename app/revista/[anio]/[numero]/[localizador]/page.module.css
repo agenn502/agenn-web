@@ -1,0 +1,199 @@
+.pagina {
+  --verde: #354526;
+  --verde-medio: #4f5f2f;
+  --dorado: #c8a24b;
+  --crema: #f7f2e8;
+
+  width: min(940px, 90%);
+  margin: 0 auto;
+  padding: 2rem 0 5rem;
+  color: #302f2a;
+}
+
+.regreso {
+  margin-bottom: 2rem;
+}
+
+.regreso a {
+  color: var(--verde);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.encabezado {
+  padding: 3rem 0;
+  border-top: 7px solid var(--verde);
+  border-bottom: 1px solid rgba(200, 162, 75, 0.45);
+}
+
+.referenciaNumero {
+  margin: 0;
+  color: var(--dorado);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.encabezado h1 {
+  margin: 1rem 0;
+  color: var(--verde);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+.autor {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.25rem;
+}
+
+.autor a {
+  color: var(--verde-medio);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.clasificacion {
+  margin: 0.7rem 0 1.5rem;
+  color: #73786f;
+}
+
+.imagenPrincipal {
+  margin: 3rem auto;
+}
+
+.figura {
+  margin: 2rem auto 1.25rem;
+}
+
+.imagenPrincipal {
+  max-width: 820px;
+}
+
+.figura {
+  max-width: 760px;
+}
+
+.imagenPrincipal img,
+.figura img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 3px;
+}
+
+.imagenPrincipal figcaption,
+.figura figcaption {
+  margin-top: 0.7rem;
+  color: #60655d;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.figura figcaption strong,
+.figura figcaption span {
+  display: block;
+}
+
+.contenido {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 3rem 0;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  line-height: 1.9;
+  text-align: justify;
+}
+
+.contenido p {
+  margin: 0 0 1.2rem;
+}
+
+.contenido h2 {
+  margin: 2.8rem 0 1.2rem;
+  color: var(--verde);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.contenido h3 {
+  margin: 2.2rem 0 1rem;
+  color: var(--verde-medio);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.espacio {
+  height: 0.8rem;
+}
+
+.espacioAmplio {
+  height: 1.4rem;
+}
+
+.imagenNoDisponible {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  color: #805c31;
+  border: 1px dashed #c8a978;
+  background: #fffaf0;
+}
+
+.htmlEnriquecido {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  line-height: 1.9;
+  text-align: justify;
+}
+
+.htmlEnriquecido figure,
+.htmlEnriquecido figcaption {
+  text-align: center;
+}
+
+.htmlEnriquecido figure + h1,
+.htmlEnriquecido figure + h2,
+.htmlEnriquecido figure + h3 {
+  margin-top: 1.25rem;
+}
+
+.cita {
+  max-width: 820px;
+  margin: 1rem auto 0;
+  padding: 1.5rem;
+  background: var(--crema);
+  border-left: 4px solid var(--dorado);
+}
+
+.cita h2 {
+  margin: 0 0 0.7rem;
+  color: var(--verde);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.15rem;
+}
+
+.cita p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+@media (max-width: 650px) {
+  .pagina {
+    width: 92%;
+  }
+
+  .encabezado {
+    padding: 2rem 0;
+  }
+
+  .contenido {
+    font-size: 18px;
+  }
+}

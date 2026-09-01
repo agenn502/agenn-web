@@ -1,0 +1,186 @@
+.pagina {
+  --verde: #354526;
+  --verde-medio: #4f5f2f;
+  --dorado: #c8a24b;
+  --crema: #f7f2e8;
+
+  width: min(960px, 90%);
+  min-height: 55vh;
+  margin: 0 auto;
+  padding: 4.5rem 0 5rem;
+  color: #30372a;
+}
+
+.encabezado {
+  text-align: center;
+}
+
+.etiqueta {
+  margin: 0 0 0.8rem;
+  color: var(--dorado);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.encabezado h1 {
+  margin: 0;
+  color: var(--verde);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.5rem, 5vw, 4.1rem);
+  font-weight: 400;
+}
+
+.encabezado > p:last-child {
+  max-width: 700px;
+  margin: 1.2rem auto 0;
+  color: #5b6257;
+  line-height: 1.75;
+}
+
+.formulario {
+  margin: 3rem auto;
+  padding: 2rem;
+  background: var(--crema);
+  border: 1px solid rgba(200, 162, 75, 0.42);
+}
+
+.formulario label {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: var(--verde);
+  font-weight: 800;
+}
+
+.formulario > div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.formulario input {
+  min-width: 0;
+  padding: 0.95rem 1rem;
+  color: #30372a;
+  background: white;
+  border: 1px solid #bbb3a6;
+  border-right: 0;
+  border-radius: 0;
+  font: inherit;
+}
+
+.formulario input:focus {
+  outline: 2px solid rgba(200, 162, 75, 0.5);
+  outline-offset: 1px;
+}
+
+.formulario button {
+  padding: 0.95rem 1.5rem;
+  color: white;
+  background: var(--verde);
+  border: 1px solid var(--verde);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.formulario button:hover {
+  background: var(--dorado);
+  border-color: var(--dorado);
+}
+
+.ayuda,
+.sinResultados {
+  padding: 2rem;
+  color: #63695f;
+  text-align: center;
+  background: #fbf8f1;
+  border: 1px dashed #cabd9e;
+}
+
+.resumen {
+  margin-bottom: 1.5rem;
+}
+
+.resumen h2 {
+  margin: 0;
+  color: var(--verde);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.resumen p {
+  margin: 0.5rem 0 0;
+  color: #6b7067;
+}
+
+.lista article {
+  padding: 1.8rem 0;
+  border-bottom: 1px solid #e3dccf;
+}
+
+.datos {
+  margin: 0 0 0.65rem;
+  color: var(--dorado);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.lista h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.5rem;
+  line-height: 1.35;
+}
+
+.lista h3 a,
+.autor a {
+  color: var(--verde);
+  text-decoration: none;
+}
+
+.lista h3 a:hover,
+.autor a:hover {
+  color: var(--dorado);
+}
+
+.autor {
+  margin: 0.7rem 0 0;
+  font-weight: 700;
+}
+
+.clasificacion {
+  margin: 0.35rem 0 0;
+  color: #777c73;
+  font-size: 0.88rem;
+}
+
+.extracto {
+  margin: 1rem 0 0;
+  color: #50564d;
+  line-height: 1.7;
+}
+
+@media (max-width: 600px) {
+  .pagina {
+    width: 92%;
+    padding-top: 3rem;
+  }
+
+  .formulario {
+    padding: 1.25rem;
+  }
+
+  .formulario > div {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .formulario input {
+    border-right: 1px solid #bbb3a6;
+  }
+}

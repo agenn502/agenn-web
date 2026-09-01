@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import SiteChrome from "../components/SiteChrome";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "AGENN",
   description:
     "Academia Guatemalteca de Estudios Numismáticos y Notafílicos",
@@ -39,9 +38,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body>
-        <Header />
-        <main className="site-main">{children}</main>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

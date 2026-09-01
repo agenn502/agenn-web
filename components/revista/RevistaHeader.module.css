@@ -1,0 +1,310 @@
+.header {
+  --verde-oscuro: #354526;
+  --verde-medio: #4f5f2f;
+  --dorado: #c8a24b;
+  --dorado-claro: #ddc176;
+  --crema: #f7f2e8;
+  --texto: #28351f;
+
+  width: 100%;
+  background: var(--crema);
+  color: var(--texto);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.franjaSuperior {
+  background: var(--verde-oscuro);
+  color: #f5e5b6;
+  border-bottom: 1px solid rgba(200, 162, 75, 0.65);
+}
+
+.franjaContenido {
+  width: min(1450px, 94%);
+  min-height: 58px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  letter-spacing: 0.11em;
+  font-size: 0.83rem;
+}
+
+.lema,
+.nombreAcademia {
+  white-space: nowrap;
+}
+
+.pluma {
+  margin-right: 0.7rem;
+  color: var(--dorado-claro);
+  font-size: 1.35rem;
+}
+
+.masthead {
+  position: relative;
+  width: min(1450px, 94%);
+  min-height: 455px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 320px 1px minmax(480px, 1fr) 320px;
+  align-items: center;
+  gap: 2.5rem;
+  overflow: hidden;
+}
+
+.logoContenedor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: min(100%, 310px);
+  height: auto;
+  object-fit: contain;
+}
+
+.separador {
+  width: 1px;
+  height: 76%;
+  background: var(--dorado);
+}
+
+.tituloContenedor {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.subtitulo {
+  display: grid;
+  grid-template-columns: minmax(40px, 1fr) auto minmax(40px, 1fr);
+  align-items: center;
+  gap: 1rem;
+  color: #313528;
+  font-size: 1rem;
+  letter-spacing: 0.28em;
+}
+
+.subtitulo span {
+  height: 1px;
+  background: rgba(200, 162, 75, 0.7);
+}
+
+.enlaceTitulo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+  line-height: 0.88;
+  margin-top: 1.3rem;
+}
+
+.revista,
+.agenn {
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+.revista {
+  color: var(--verde-oscuro);
+  font-size: clamp(4rem, 6.5vw, 7.2rem);
+}
+
+.agenn {
+  color: var(--dorado);
+  font-size: clamp(4.4rem, 7vw, 7.8rem);
+  margin-top: 0.25rem;
+}
+
+.lineaDecorativa {
+  display: grid;
+  grid-template-columns: 1fr 12px 1fr;
+  align-items: center;
+  gap: 0.2rem;
+  margin-top: 1.6rem;
+}
+
+.lineaDecorativa span {
+  height: 1px;
+  background: var(--dorado);
+}
+
+.lineaDecorativa i {
+  width: 9px;
+  height: 9px;
+  margin: auto;
+  background: var(--dorado);
+  transform: rotate(45deg);
+}
+
+.frase {
+  margin: 1.2rem 0 0;
+  color: #303628;
+  font-size: clamp(0.82rem, 1.25vw, 1.1rem);
+  letter-spacing: 0.08em;
+}
+
+.globoContenedor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.13;
+}
+
+.globo {
+  width: 100%;
+  height: auto;
+  filter: sepia(1) saturate(0.55);
+}
+
+.navegacion {
+  background: var(--verde-oscuro);
+  border-top: 1px solid rgba(200, 162, 75, 0.55);
+  border-bottom: 1px solid rgba(200, 162, 75, 0.55);
+}
+
+.menu {
+  width: min(1500px, 100%);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.opcion {
+  position: relative;
+  min-height: 82px;
+  padding: 0.8rem 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  color: #f4e6bd;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 0.9rem;
+  border-right: 1px solid rgba(244, 230, 189, 0.25);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.opcion:first-child {
+  border-left: 1px solid rgba(244, 230, 189, 0.25);
+}
+
+.opcion:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+}
+
+.icono {
+  color: var(--dorado-claro);
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.activa::after {
+  content: "";
+  position: absolute;
+  right: 1rem;
+  bottom: 0;
+  left: 1rem;
+  height: 4px;
+  background: var(--dorado);
+}
+
+@media (max-width: 1100px) {
+  .franjaContenido {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .nombreAcademia {
+    display: none;
+  }
+
+  .masthead {
+    grid-template-columns: 220px 1px 1fr;
+    min-height: 390px;
+  }
+
+  .globoContenedor {
+    position: absolute;
+    right: -70px;
+    width: 300px;
+  }
+
+  .menu {
+    flex-wrap: wrap;
+  }
+
+  .opcion {
+    min-height: 68px;
+    flex: 1 1 190px;
+  }
+}
+
+@media (max-width: 720px) {
+  .franjaContenido {
+    min-height: 48px;
+    font-size: 0.7rem;
+  }
+
+  .masthead {
+    min-height: auto;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+
+  .logo {
+    width: 180px;
+  }
+
+  .separador,
+  .globoContenedor {
+    display: none;
+  }
+
+  .subtitulo {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+  }
+
+  .revista {
+    font-size: 3.3rem;
+  }
+
+  .agenn {
+    font-size: 3.7rem;
+  }
+
+  .frase {
+    font-size: 0.7rem;
+    line-height: 1.5;
+  }
+
+  .menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .opcion,
+  .opcion:first-child {
+    min-height: 60px;
+    padding: 0.65rem;
+    border-left: 0;
+    border-right: 1px solid rgba(244, 230, 189, 0.2);
+    border-bottom: 1px solid rgba(244, 230, 189, 0.2);
+    font-size: 0.7rem;
+  }
+
+  .icono {
+    font-size: 1.25rem;
+  }
+}

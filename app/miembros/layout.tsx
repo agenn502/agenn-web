@@ -30,6 +30,8 @@ export default function MiembrosLayout({
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [pendientesAprobacion, setPendientesAprobacion] =
     useState(0);
+  const [pendientesRevista, setPendientesRevista] =
+    useState(0);
 
   const [alertaAscenso, setAlertaAscenso] = useState("");
   const [verificandoPerfil, setVerificandoPerfil] = useState(true);
@@ -153,6 +155,83 @@ export default function MiembrosLayout({
       }
 
       // -------------------------------------------------------
+      // CONTADOR DE PENDIENTES DEL CONSEJO EDITORIAL
+      // -------------------------------------------------------
+
+      try {
+        const response = await fetch("/api/revista/editorial", {
+          headers: { "x-user-codigo": parsed.codigo },
+          cache: "no-store",
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          if (result?.ok) {
+            const requierenAtencion = (result.manuscritos || []).filter(
+              (m: any) =>
+                ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(
+                  String(m.estado || "").trim().toUpperCase()
+                )
+            );
+            setPendientesRevista(requierenAtencion.length);
+          }
+        } else if (response.status !== 403) {
+          setPendientesRevista(0);
+        }
+      } catch {
+        setPendientesRevista(0);
+      }
+
+      // -------------------------------------------------------
+      // NOVEDADES DE REVISTA PARA EL AUTOR
+      // -------------------------------------------------------
+
+      try {
+        const response = await fetch(
+          "/api/revista/mis-manuscritos",
+          {
+            headers: { "x-user-codigo": parsed.codigo },
+            cache: "no-store",
+          }
+        );
+
+        if (response.ok) {
+          const result = await response.json();
+          if (result?.ok) {
+            const ultimaVista = Number(
+              localStorage.getItem(
+                `revista-vista-${parsed.codigo}`
+              ) || "0"
+            );
+
+            const novedadesAutor = (result.manuscritos || []).filter(
+              (m: any) => {
+                const estado = String(m.estado || "")
+                  .trim()
+                  .toUpperCase();
+                const actualizado = new Date(
+                  m.updated_at || m.fecha_aval || m.fecha_ingreso || 0
+                ).getTime();
+
+                return (
+                  ["CORRECCIONES", "AVALADO", "ASIGNADO", "PUBLICADO"].includes(estado) &&
+                  actualizado > ultimaVista
+                );
+              }
+            );
+
+            if (novedadesAutor.length > 0) {
+              setPendientesRevista((actual) =>
+                Math.max(actual, novedadesAutor.length)
+              );
+            }
+          }
+        }
+      } catch {
+        // Las novedades del autor no deben bloquear la navegación.
+      }
+
+      // -------------------------------------------------------
       // ALERTAS RELACIONADAS CON ENSAYOS / PROCESOS
       // -------------------------------------------------------
 
@@ -272,6 +351,10 @@ export default function MiembrosLayout({
             label: "Ensayos académicos",
             href: "/miembros/ensayos",
           },
+		  {
+			  label: "Revista AGENN",
+			  href: "/miembros/revista",
+			},
           {
             label: "Documentos oficiales",
             href: "/miembros/documentos",
@@ -346,6 +429,10 @@ export default function MiembrosLayout({
             label: "Eventos",
             href: "/miembros/eventos",
           },
+		  {
+			  label: "Revista AGENN",
+			  href: "/miembros/revista",
+			},
           {
             label: "Documentos oficiales",
             href: "/miembros/documentos",
@@ -430,6 +517,10 @@ export default function MiembrosLayout({
               "Proceso de formación y acreditación",
             href: "/miembros/proceso_nov",
           },
+		  {
+			  label: "Revista AGENN",
+			  href: "/miembros/revista",
+			},
           {
             label: "Ensayos académicos",
             href: "/miembros/ensayos",
@@ -537,6 +628,27 @@ export default function MiembrosLayout({
                     <span>
                       {item.label}
                     </span>
+
+                    {item.href ===
+                      "/miembros/revista" &&
+                      pendientesRevista > 0 && (
+                        <span
+                          style={{
+                            display: "inline-grid",
+                            placeItems: "center",
+                            minWidth: "24px",
+                            height: "24px",
+                            padding: "0 6px",
+                            borderRadius: "999px",
+                            background: "#6b6f1a",
+                            color: "white",
+                            fontSize: "0.78rem",
+                            fontWeight: 700,
+                          }}
+                        >
+                          {pendientesRevista}
+                        </span>
+                      )}
 
                     {item.href ===
                       "/miembros/proceso-aprobacion" &&

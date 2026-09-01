@@ -1,0 +1,179 @@
+.portada {
+  --verde: #354526;
+  --verde-medio: #4f5f2f;
+  --dorado: #c8a24b;
+  --crema: #f7f2e8;
+  --texto: #30372a;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(200, 162, 75, 0.1),
+      transparent 35%
+    ),
+    #fffdf8;
+  color: var(--texto);
+}
+
+.presentacion {
+  width: min(970px, 88%);
+  margin: 0 auto;
+  padding: 5.5rem 0 4.5rem;
+  text-align: center;
+}
+
+.etiqueta {
+  margin: 0 0 1rem;
+  color: var(--dorado);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.presentacion h1 {
+  max-width: 850px;
+  margin: 0 auto;
+  color: var(--verde);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.1rem, 4vw, 3.8rem);
+  font-weight: 400;
+  line-height: 1.13;
+}
+
+.linea {
+  width: min(420px, 70%);
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: 1fr 10px 1fr;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.linea span {
+  height: 1px;
+  background: var(--dorado);
+}
+
+.linea i {
+  width: 8px;
+  height: 8px;
+  margin: auto;
+  background: var(--dorado);
+  transform: rotate(45deg);
+}
+
+.introduccion,
+.descripcion {
+  margin-right: auto;
+  margin-left: auto;
+  line-height: 1.85;
+}
+
+.introduccion {
+  max-width: 900px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.08rem, 1.7vw, 1.3rem);
+}
+
+.descripcion {
+  max-width: 850px;
+  margin-top: 1.4rem;
+  color: #555b50;
+  font-size: 1rem;
+}
+
+.acciones {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.botonPrincipal,
+.botonSecundario {
+  padding: 0.9rem 1.5rem;
+  border: 1px solid var(--verde);
+  border-radius: 2px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.2s ease;
+}
+
+.botonPrincipal {
+  background: var(--verde);
+  color: white;
+}
+
+.botonSecundario {
+  background: transparent;
+  color: var(--verde);
+}
+
+.botonPrincipal:hover,
+.botonSecundario:hover {
+  background: var(--dorado);
+  border-color: var(--dorado);
+  color: white;
+}
+
+.caracteristicas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: var(--crema);
+  border-top: 1px solid rgba(200, 162, 75, 0.35);
+  border-bottom: 1px solid rgba(200, 162, 75, 0.35);
+}
+
+.caracteristicas article {
+  position: relative;
+  padding: 3rem clamp(1.5rem, 4vw, 4.5rem);
+  text-align: center;
+}
+
+.caracteristicas article + article {
+  border-left: 1px solid rgba(200, 162, 75, 0.35);
+}
+
+.caracteristicas span {
+  display: block;
+  color: var(--dorado);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.8rem;
+}
+
+.caracteristicas h2 {
+  margin: 0.65rem 0;
+  color: var(--verde);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.caracteristicas p {
+  max-width: 330px;
+  margin: 0 auto;
+  color: #5c6258;
+  line-height: 1.65;
+}
+
+@media (max-width: 760px) {
+  .presentacion {
+    padding: 3.5rem 0;
+  }
+
+  .caracteristicas {
+    grid-template-columns: 1fr;
+  }
+
+  .caracteristicas article + article {
+    border-top: 1px solid rgba(200, 162, 75, 0.35);
+    border-left: 0;
+  }
+}

@@ -1,0 +1,259 @@
+.pagina {
+  --verde: #354526;
+  --verde-medio: #4f5f2f;
+  --dorado: #c8a24b;
+  --crema: #f7f2e8;
+
+  min-height: 55vh;
+  padding-bottom: 5rem;
+  color: #30372a;
+  background: #fffdf8;
+}
+
+.encabezado {
+  width: min(900px, 88%);
+  margin: 0 auto;
+  padding: 4.5rem 0 3rem;
+  text-align: center;
+}
+
+.etiqueta {
+  margin: 0 0 0.8rem;
+  color: var(--dorado);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.encabezado h1 {
+  margin: 0;
+  color: var(--verde);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.3rem, 5vw, 4rem);
+  font-weight: 400;
+}
+
+.encabezado > p:last-child {
+  max-width: 720px;
+  margin: 0 auto;
+  color: #5c6258;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.linea {
+  width: min(360px, 70%);
+  margin: 1.7rem auto;
+  display: grid;
+  grid-template-columns: 1fr 10px 1fr;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.linea span {
+  height: 1px;
+  background: var(--dorado);
+}
+
+.linea i {
+  width: 8px;
+  height: 8px;
+  margin: auto;
+  background: var(--dorado);
+  transform: rotate(45deg);
+}
+
+.vacio {
+  width: min(680px, 88%);
+  margin: 1rem auto;
+  padding: 3rem;
+  text-align: center;
+  background: var(--crema);
+  border: 1px solid rgba(200, 162, 75, 0.4);
+}
+
+.vacio span {
+  color: var(--dorado);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.vacio h2 {
+  margin: 0.8rem 0;
+  color: var(--verde);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.vacio p {
+  margin: 0;
+  color: #60655b;
+  line-height: 1.75;
+}
+
+.cuadricula {
+  width: min(1180px, 90%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.tarjeta {
+  display: grid;
+  grid-template-columns: 205px 1fr;
+  overflow: hidden;
+  background: white;
+  border: 1px solid rgba(200, 162, 75, 0.38);
+  box-shadow: 0 10px 30px rgba(45, 54, 35, 0.08);
+}
+
+.edicionVisual {
+  min-height: 310px;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #f5e7bd;
+  text-align: center;
+  text-decoration: none;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    var(--verde);
+  background-size: 24px 24px;
+  outline: 1px solid rgba(221, 193, 118, 0.65);
+  outline-offset: -14px;
+}
+
+.marca {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 0.16em;
+}
+
+.edicionVisual strong {
+  margin-top: 0.15rem;
+  color: var(--dorado);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.7rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.edicionVisual i {
+  width: 45px;
+  height: 1px;
+  margin: 1.6rem 0;
+  background: var(--dorado);
+}
+
+.edicionVisual small,
+.edicionVisual b,
+.edicionVisual time {
+  display: block;
+  line-height: 1.55;
+  text-transform: uppercase;
+}
+
+.edicionVisual small {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+}
+
+.edicionVisual b {
+  font-size: 1rem;
+}
+
+.edicionVisual time {
+  margin-top: 0.7rem;
+  color: #e7d6a5;
+  font-size: 0.72rem;
+}
+
+.informacion {
+  padding: 2rem;
+}
+
+.datos {
+  margin: 0 0 0.8rem;
+  color: var(--dorado);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.informacion h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.55rem;
+  line-height: 1.3;
+}
+
+.informacion h2 a {
+  color: var(--verde);
+  text-decoration: none;
+}
+
+.fechaEditorial {
+  margin: 0.8rem 0 0;
+  color: var(--verde-medio);
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.subtitulo {
+  color: #5c6258;
+  line-height: 1.65;
+}
+
+.fechaReal {
+  color: #777;
+  font-size: 0.83rem;
+}
+
+.consultar {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--verde-medio);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.consultar:hover,
+.informacion h2 a:hover {
+  color: var(--dorado);
+}
+
+@media (max-width: 980px) {
+  .cuadricula {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 570px) {
+  .encabezado {
+    padding-top: 3rem;
+  }
+
+  .tarjeta {
+    grid-template-columns: 1fr;
+  }
+
+  .edicionVisual {
+    min-height: 300px;
+  }
+
+  .informacion {
+    padding: 1.5rem;
+  }
+}
