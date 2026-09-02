@@ -239,6 +239,21 @@ function esHtmlEnriquecido(contenido: string) {
   return contenido.trimStart().startsWith(PREFIJO_HTML_ENRIQUECIDO);
 }
 
+function normalizarAlineacionDeTexto(raiz: ParentNode) {
+  raiz
+    .querySelectorAll<HTMLElement>("p,div,li,blockquote")
+    .forEach((elemento) => {
+      const alineacion = elemento.style.textAlign.trim().toLowerCase();
+      if (alineacion === "left" || alineacion === "start") {
+        elemento.style.removeProperty("text-align");
+      }
+
+      if (!elemento.getAttribute("style")?.trim()) {
+        elemento.removeAttribute("style");
+      }
+    });
+}
+
 function htmlFigura(imagen: ImagenManuscrito) {
   return `<figure data-imagen-id="${imagen.id}" contenteditable="false" style="margin:24px auto 16px auto;text-align:center;max-width:760px"><img src="${imagen.url}" alt="${escaparHtml(imagen.titulo || "Imagen del manuscrito")}" style="display:block;margin:0 auto;max-width:100%;max-height:520px;object-fit:contain;border-radius:8px" />${imagen.titulo ? `<figcaption style="display:block;margin-top:12px;font-weight:700;color:#333;line-height:1.45"><strong>${escaparHtml(imagen.titulo)}</strong></figcaption>` : ""}${imagen.fuente ? `<div style="display:block;margin-top:7px;font-size:.86rem;color:#777;font-style:italic;line-height:1.45"><em>${escaparHtml(imagen.fuente)}</em></div>` : ""}</figure>`;
 }
@@ -311,6 +326,8 @@ function limpiarHtmlEnriquecido(editor: HTMLElement) {
     }
   });
 
+  normalizarAlineacionDeTexto(copia);
+
   return copia.innerHTML.trim();
 }
 
@@ -334,6 +351,8 @@ function contenidoAHtml(contenido: string, imagenes: ImagenManuscrito[]) {
         contenedor.innerHTML = htmlFigura(imagen);
         marcador.replaceWith(...Array.from(contenedor.childNodes));
       });
+
+    normalizarAlineacionDeTexto(plantilla.content);
     return plantilla.innerHTML;
   }
 
@@ -789,6 +808,7 @@ export default function MiManuscritoPage() {
       elemento.style.removeProperty("font-size");
       elemento.style.removeProperty("font-family");
       elemento.style.removeProperty("line-height");
+      elemento.style.removeProperty("text-align");
 
       Array.from(elemento.style).forEach((propiedad) => {
         if (propiedad.toLowerCase().startsWith("mso-")) {
@@ -1475,7 +1495,12 @@ export default function MiManuscritoPage() {
               }
               .editor-revista :global(p) {
                 margin: 0;
-                text-align: justify;
+                text-align: justify !important;
+              }
+              .editor-revista > :global(div),
+              .editor-revista :global(li),
+              .editor-revista :global(blockquote) {
+                text-align: justify !important;
               }
               .editor-revista :global(p[data-espacio="true"]) {
                 min-height: 1.85em;
@@ -1490,7 +1515,7 @@ export default function MiManuscritoPage() {
                 font-family: "Times New Roman", Times, serif;
                 font-weight: 700;
                 line-height: 1.35;
-                text-align: left;
+                text-align: left !important;
               }
               .editor-revista :global(strong),
               .editor-revista :global(b) {

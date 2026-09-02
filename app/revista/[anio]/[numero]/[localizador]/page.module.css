@@ -153,9 +153,25 @@
   text-align: justify;
 }
 
+.htmlEnriquecido p,
+.htmlEnriquecido > div,
+.htmlEnriquecido li,
+.htmlEnriquecido blockquote {
+  text-align: justify !important;
+}
+
+.htmlEnriquecido h1,
+.htmlEnriquecido h2,
+.htmlEnriquecido h3,
+.htmlEnriquecido h4,
+.htmlEnriquecido h5,
+.htmlEnriquecido h6 {
+  text-align: left !important;
+}
+
 .htmlEnriquecido figure,
 .htmlEnriquecido figcaption {
-  text-align: center;
+  text-align: center !important;
 }
 
 .htmlEnriquecido figure + h1,
