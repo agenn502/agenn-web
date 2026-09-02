@@ -180,6 +180,19 @@ function fechaPublicacion(valor: string | null) {
   }
 }
 
+function tipoContenidoTexto(tipo: string) {
+  const etiquetas: Record<string, string> = {
+    ENSAYO: "Ensayo",
+    ARTICULO: "Artículo",
+    ESTUDIO: "Estudio",
+    NOTA_INVESTIGACION: "Nota de investigación",
+    NOTA_BREVE: "Nota breve",
+    RESENA: "Reseña bibliográfica",
+  };
+
+  return etiquetas[tipo.toUpperCase()] || tipo;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -295,7 +308,7 @@ export default async function NumeroPublicadoPage({
                     )}
 
                     <p className={styles.detalles}>
-                      {articulo.tipo}
+                      {tipoContenidoTexto(articulo.tipo)}
                       {articulo.tema ? ` · ${articulo.tema}` : ""}
                     </p>
                   </div>

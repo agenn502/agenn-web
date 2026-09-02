@@ -82,6 +82,19 @@ function codigoLocal() {
   }
 }
 
+function tipoContenidoTexto(tipo: string | null | undefined) {
+  const etiquetas: Record<string, string> = {
+    ENSAYO: "Ensayo",
+    ARTICULO: "Artículo",
+    ESTUDIO: "Estudio",
+    NOTA_INVESTIGACION: "Nota de investigación",
+    NOTA_BREVE: "Nota breve",
+    RESENA: "Reseña bibliográfica",
+  };
+
+  return etiquetas[String(tipo || "").toUpperCase()] || tipo || "Sin tipo";
+}
+
 export default function GestionNumeroPage() {
   const params = useParams();
   const id = String(params.id || "");
@@ -622,6 +635,8 @@ function ArticuloNumero({
             {articulo.manuscrito?.autor && (
               <> · {articulo.manuscrito.autor.codigo}</>
             )}
+            <br />
+            Tipo: {tipoContenidoTexto(articulo.manuscrito?.tipo_contenido)}
             <br />
             Versión congelada:{" "}
             <strong>{articulo.version?.numero_version || "—"}</strong>
