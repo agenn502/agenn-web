@@ -25,7 +25,13 @@ type Articulo = {
     id: number;
     titulo_actual: string;
     tipo_contenido: string;
-    autor: { id: number; codigo: string; nombre: string; nivel: string } | null;
+    autor: {
+      id: number;
+      codigo: string;
+      nombre: string;
+      nombre_citacion: string | null;
+      nivel: string;
+    } | null;
   } | null;
   version: {
     id: number;
@@ -312,16 +318,23 @@ export default function ArticuloRevistaPage() {
   }, [loading, numeroId, articuloId]);
 
   const referencia = useMemo(() => {
-    if (!numero || !articulo) return "";
+    if (!numero || !articulo) return null;
 
-    const autor = articulo.manuscrito?.autor?.nombre || "Autor";
+    const autor =
+      articulo.manuscrito?.autor?.nombre_citacion?.trim() ||
+      articulo.manuscrito?.autor?.nombre ||
+      "Autor";
     const titulo =
       articulo.version?.titulo ||
       articulo.manuscrito?.titulo_actual ||
       "Sin título";
     const volumen = numero.volumen || "—";
 
-    return `${autor}. (${numero.anio}). ${titulo}. Revista AGENN, ${volumen}(${numero.numero}), ${articulo.localizador || ""}.`;
+    return {
+      antes: `${autor}. (${numero.anio}). ${titulo}. `,
+      revistaYVolumen: `Revista AGENN, ${volumen}`,
+      despues: `(${numero.numero}), ${articulo.localizador || ""}.`,
+    };
   }, [numero, articulo]);
 
   if (loading) return <p>Cargando artículo...</p>;
@@ -445,9 +458,13 @@ export default function ArticuloRevistaPage() {
         }}
       >
         <h2 style={{ marginTop: 0, color: "#4d371c", fontSize: "1.1rem" }}>
-          Cómo citar este artículo
+          Cómo citar este artículo (APA 7.ª ed.)
         </h2>
-        <p style={{ marginBottom: 0, lineHeight: 1.7 }}>{referencia}</p>
+        <p style={{ marginBottom: 0, lineHeight: 1.7 }}>
+          {referencia?.antes}
+          <em>{referencia?.revistaYVolumen}</em>
+          {referencia?.despues}
+        </p>
       </aside>
       <style jsx global>{`
         .contenido-html-enriquecido {
@@ -457,18 +474,33 @@ export default function ArticuloRevistaPage() {
           text-align: justify;
         }
 
+        .contenido-html-enriquecido p,
+        .contenido-html-enriquecido > div,
+        .contenido-html-enriquecido li,
+        .contenido-html-enriquecido blockquote {
+          text-align: justify !important;
+        }
+
         .contenido-html-enriquecido p {
           margin: 0 0 1.15rem;
         }
 
         .contenido-html-enriquecido h1,
         .contenido-html-enriquecido h2,
-        .contenido-html-enriquecido h3 {
+        .contenido-html-enriquecido h3,
+        .contenido-html-enriquecido h4,
+        .contenido-html-enriquecido h5,
+        .contenido-html-enriquecido h6 {
           font-family: "Times New Roman", Times, serif;
           font-size: 24px;
           line-height: 1.35;
           font-weight: 700;
-          text-align: left;
+          text-align: left !important;
+        }
+
+        .contenido-html-enriquecido figure,
+        .contenido-html-enriquecido figcaption {
+          text-align: center !important;
         }
 
         .contenido-html-enriquecido figure + h1,

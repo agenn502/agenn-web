@@ -16,11 +16,22 @@ type Periodo = {
 
 const BORRADOR_LOCAL_KEY = "revista-nuevo-manuscrito";
 
+const TIPOS_CONTENIDO = [
+  { valor: "ENSAYO", etiqueta: "Ensayo" },
+  { valor: "ARTICULO", etiqueta: "Artículo" },
+  { valor: "ESTUDIO", etiqueta: "Estudio" },
+  { valor: "NOTA_INVESTIGACION", etiqueta: "Nota de investigación" },
+  { valor: "NOTA_BREVE", etiqueta: "Nota breve" },
+  { valor: "RESENA", etiqueta: "Reseña bibliográfica" },
+];
+
 function codigoLocal() {
   const stored = localStorage.getItem("user");
   if (!stored) return "";
   try {
-    return String(JSON.parse(stored).codigo || "").trim().toUpperCase();
+    return String(JSON.parse(stored).codigo || "")
+      .trim()
+      .toUpperCase();
   } catch {
     return "";
   }
@@ -32,6 +43,7 @@ export default function EscribirEnsayoPage() {
   const [subtemas, setSubtemas] = useState<Subtema[]>([]);
   const [periodos, setPeriodos] = useState<Periodo[]>([]);
   const [titulo, setTitulo] = useState("");
+  const [tipoContenido, setTipoContenido] = useState("ENSAYO");
   const [temaId, setTemaId] = useState("");
   const [subtemaId, setSubtemaId] = useState("");
   const [secundarios, setSecundarios] = useState<number[]>([]);
@@ -50,6 +62,7 @@ export default function EscribirEnsayoPage() {
       const datos = guardado ? JSON.parse(guardado) : {};
 
       setTitulo(String(datos.titulo || ""));
+      setTipoContenido(String(datos.tipoContenido || "ENSAYO"));
       setTemaId(String(datos.temaId || ""));
       setSubtemaId(String(datos.subtemaId || ""));
       setSecundarios(Array.isArray(datos.secundarios) ? datos.secundarios : []);
@@ -69,6 +82,7 @@ export default function EscribirEnsayoPage() {
       BORRADOR_LOCAL_KEY,
       JSON.stringify({
         titulo,
+        tipoContenido,
         temaId,
         subtemaId,
         secundarios,
@@ -77,10 +91,11 @@ export default function EscribirEnsayoPage() {
         anioFin,
         palabras,
         solicitudId,
-      })
+      }),
     );
   }, [
     titulo,
+    tipoContenido,
     temaId,
     subtemaId,
     secundarios,
@@ -110,16 +125,22 @@ export default function EscribirEnsayoPage() {
         const catalogos = await respuestaCatalogos.json();
 
         if (!respuestaMiembro.ok || !datosMiembro?.ok) {
-          throw new Error(datosMiembro?.error || "No fue posible identificar al miembro.");
+          throw new Error(
+            datosMiembro?.error || "No fue posible identificar al miembro.",
+          );
         }
         if (!respuestaCatalogos.ok || !catalogos?.ok) {
-          throw new Error(catalogos?.error || "No fue posible cargar los temas.");
+          throw new Error(
+            catalogos?.error || "No fue posible cargar los temas.",
+          );
         }
 
-        const codigoReal = String(datosMiembro.miembro?.codigo || "").toUpperCase();
+        const codigoReal = String(
+          datosMiembro.miembro?.codigo || "",
+        ).toUpperCase();
         if (!codigoReal.startsWith("INV") && !codigoReal.startsWith("NUM")) {
           throw new Error(
-            "Esta opción está disponible únicamente para Investigadores acreditados y miembros Numerarios."
+            "Esta opción está disponible únicamente para Investigadores acreditados y miembros Numerarios.",
           );
         }
 
@@ -128,7 +149,11 @@ export default function EscribirEnsayoPage() {
         setSubtemas(catalogos.subtemas || []);
         setPeriodos(catalogos.periodos || []);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "No fue posible preparar el formulario.");
+        setError(
+          err instanceof Error
+            ? err.message
+            : "No fue posible preparar el formulario.",
+        );
       } finally {
         setCargando(false);
       }
@@ -138,11 +163,11 @@ export default function EscribirEnsayoPage() {
 
   const subtemasDisponibles = useMemo(
     () => subtemas.filter((item) => item.tema_id === Number(temaId)),
-    [subtemas, temaId]
+    [subtemas, temaId],
   );
   const secundariosDisponibles = useMemo(
     () => temas.filter((item) => item.id !== Number(temaId)),
-    [temas, temaId]
+    [temas, temaId],
   );
 
   const cambiarTema = (valor: string) => {
@@ -155,7 +180,7 @@ export default function EscribirEnsayoPage() {
     setSecundarios((actuales) =>
       actuales.includes(id)
         ? actuales.filter((actual) => actual !== id)
-        : [...actuales, id]
+        : [...actuales, id],
     );
   };
 
@@ -163,10 +188,13 @@ export default function EscribirEnsayoPage() {
     event.preventDefault();
     setError("");
 
-    if (titulo.trim().length < 10) return setError("El título debe contener al menos 10 caracteres.");
+    if (titulo.trim().length < 10)
+      return setError("El título debe contener al menos 10 caracteres.");
     if (!temaId) return setError("Seleccione un tema principal.");
     if (alcance === "PERSONALIZADO" && !anioInicio && !anioFin) {
-      return setError("Indique al menos uno de los años del intervalo personalizado.");
+      return setError(
+        "Indique al menos uno de los años del intervalo personalizado.",
+      );
     }
     if (anioInicio && anioFin && Number(anioInicio) > Number(anioFin)) {
       return setError("El año inicial no puede ser posterior al año final.");
@@ -183,13 +211,22 @@ export default function EscribirEnsayoPage() {
         body: JSON.stringify({
           solicitud_id: solicitudId,
           titulo: titulo.trim(),
+          tipo_contenido: tipoContenido,
           tema_id: Number(temaId),
           subtema_id: subtemaId ? Number(subtemaId) : null,
           temas_secundarios: secundarios,
-          periodo_id: alcance && alcance !== "PERSONALIZADO" ? Number(alcance) : null,
-          anio_inicio: alcance === "PERSONALIZADO" && anioInicio ? Number(anioInicio) : null,
-          anio_fin: alcance === "PERSONALIZADO" && anioFin ? Number(anioFin) : null,
-          palabras_clave: palabras.split(",").map((p) => p.trim()).filter(Boolean),
+          periodo_id:
+            alcance && alcance !== "PERSONALIZADO" ? Number(alcance) : null,
+          anio_inicio:
+            alcance === "PERSONALIZADO" && anioInicio
+              ? Number(anioInicio)
+              : null,
+          anio_fin:
+            alcance === "PERSONALIZADO" && anioFin ? Number(anioFin) : null,
+          palabras_clave: palabras
+            .split(",")
+            .map((p) => p.trim())
+            .filter(Boolean),
         }),
       });
       const result = await response.json();
@@ -199,7 +236,11 @@ export default function EscribirEnsayoPage() {
       localStorage.removeItem(BORRADOR_LOCAL_KEY);
       window.location.href = `/miembros/revista/mis-manuscritos/${result.manuscrito_id}`;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "No fue posible crear el borrador.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "No fue posible crear el borrador.",
+      );
       setCreando(false);
     }
   };
@@ -209,10 +250,10 @@ export default function EscribirEnsayoPage() {
   return (
     <div style={{ maxWidth: "860px" }}>
       <p style={sobreTitulo}>Revista AGENN · Participación</p>
-      <h1 style={{ color: "#4d371c" }}>Escribir ensayo</h1>
+      <h1 style={{ color: "#4d371c" }}>Escribir para la revista</h1>
       <p style={introduccion}>
-        Cree el borrador y continúe en el editor completo. El tema principal
-        facilita la organización; los demás criterios son opcionales.
+        Cree el borrador y continúe en el editor completo. El tipo y el tema
+        principal facilitan la organización; los demás criterios son opcionales.
       </p>
       {error && <div style={errorEstilo}>{error}</div>}
 
@@ -221,10 +262,12 @@ export default function EscribirEnsayoPage() {
           <div style={autorEstilo}>
             <span style={{ color: "#666" }}>Autor</span>
             <strong>{miembro.nombre}</strong>
-            <span style={{ color: "#6b6f1a", fontWeight: 700 }}>{miembro.codigo}</span>
+            <span style={{ color: "#6b6f1a", fontWeight: 700 }}>
+              {miembro.codigo}
+            </span>
           </div>
 
-          <Campo etiqueta="Título inicial del ensayo" requerido>
+          <Campo etiqueta="Título inicial" requerido>
             <input
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
@@ -236,10 +279,34 @@ export default function EscribirEnsayoPage() {
             />
           </Campo>
 
+          <Campo etiqueta="Tipo de contenido" requerido>
+            <select
+              value={tipoContenido}
+              onChange={(e) => setTipoContenido(e.target.value)}
+              required
+              style={control}
+            >
+              {TIPOS_CONTENIDO.map((tipo) => (
+                <option key={tipo.valor} value={tipo.valor}>
+                  {tipo.etiqueta}
+                </option>
+              ))}
+            </select>
+          </Campo>
+
           <Campo etiqueta="Tema principal" requerido>
-            <select value={temaId} onChange={(e) => cambiarTema(e.target.value)} required style={control}>
+            <select
+              value={temaId}
+              onChange={(e) => cambiarTema(e.target.value)}
+              required
+              style={control}
+            >
               <option value="">Seleccione un tema</option>
-              {temas.map((tema) => <option key={tema.id} value={tema.id}>{tema.nombre}</option>)}
+              {temas.map((tema) => (
+                <option key={tema.id} value={tema.id}>
+                  {tema.nombre}
+                </option>
+              ))}
             </select>
           </Campo>
 
@@ -251,13 +318,19 @@ export default function EscribirEnsayoPage() {
               style={control}
             >
               <option value="">Sin subtema específico</option>
-              {subtemasDisponibles.map((item) => <option key={item.id} value={item.id}>{item.nombre}</option>)}
+              {subtemasDisponibles.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.nombre}
+                </option>
+              ))}
             </select>
           </Campo>
 
           {temaId && (
             <fieldset style={fieldset}>
-              <legend style={legend}>Temas secundarios <span style={opcional}>(opcionales)</span></legend>
+              <legend style={legend}>
+                Temas secundarios <span style={opcional}>(opcionales)</span>
+              </legend>
               <div style={casillas}>
                 {secundariosDisponibles.map((tema) => (
                   <label key={tema.id} style={casilla}>
@@ -286,7 +359,11 @@ export default function EscribirEnsayoPage() {
               style={control}
             >
               <option value="">Sin delimitación temporal</option>
-              {periodos.map((periodo) => <option key={periodo.id} value={periodo.id}>{periodo.nombre}</option>)}
+              {periodos.map((periodo) => (
+                <option key={periodo.id} value={periodo.id}>
+                  {periodo.nombre}
+                </option>
+              ))}
               <option value="PERSONALIZADO">Intervalo personalizado</option>
             </select>
           </Campo>
@@ -294,21 +371,46 @@ export default function EscribirEnsayoPage() {
           {alcance === "PERSONALIZADO" && (
             <div style={dosColumnas}>
               <Campo etiqueta="Año inicial" opcional>
-                <input type="number" min={1} max={2200} value={anioInicio} onChange={(e) => setAnioInicio(e.target.value)} style={control} placeholder="1874" />
+                <input
+                  type="number"
+                  min={1}
+                  max={2200}
+                  value={anioInicio}
+                  onChange={(e) => setAnioInicio(e.target.value)}
+                  style={control}
+                  placeholder="1874"
+                />
               </Campo>
               <Campo etiqueta="Año final" opcional>
-                <input type="number" min={1} max={2200} value={anioFin} onChange={(e) => setAnioFin(e.target.value)} style={control} placeholder="2025" />
+                <input
+                  type="number"
+                  min={1}
+                  max={2200}
+                  value={anioFin}
+                  onChange={(e) => setAnioFin(e.target.value)}
+                  style={control}
+                  placeholder="2025"
+                />
               </Campo>
             </div>
           )}
 
           <Campo etiqueta="Palabras clave" opcional>
-            <input value={palabras} onChange={(e) => setPalabras(e.target.value)} style={control} placeholder="Sepárelas con comas" />
-            <small style={ayuda}>Ejemplo: billete guatemalteco, diseño, iconografía, transformación</small>
+            <input
+              value={palabras}
+              onChange={(e) => setPalabras(e.target.value)}
+              style={control}
+              placeholder="Sepárelas con comas"
+            />
+            <small style={ayuda}>
+              Ejemplo: billete guatemalteco, diseño, iconografía, transformación
+            </small>
           </Campo>
 
           <div style={acciones}>
-            <Link href="/miembros/revista" style={botonSecundario}>Cancelar</Link>
+            <Link href="/miembros/revista" style={botonSecundario}>
+              Cancelar
+            </Link>
             <button type="submit" disabled={creando} style={botonPrincipal}>
               {creando ? "Guardando borrador..." : "Crear y guardar borrador"}
             </button>
@@ -319,7 +421,12 @@ export default function EscribirEnsayoPage() {
   );
 }
 
-function Campo({ etiqueta, requerido, opcional: esOpcional, children }: {
+function Campo({
+  etiqueta,
+  requerido,
+  opcional: esOpcional,
+  children,
+}: {
   etiqueta: string;
   requerido?: boolean;
   opcional?: boolean;
@@ -327,27 +434,121 @@ function Campo({ etiqueta, requerido, opcional: esOpcional, children }: {
 }) {
   return (
     <label style={etiquetaEstilo}>
-      <span>{etiqueta} {requerido && <span style={asterisco}>*</span>}{esOpcional && <span style={opcional}> (opcional)</span>}</span>
+      <span>
+        {etiqueta} {requerido && <span style={asterisco}>*</span>}
+        {esOpcional && <span style={opcional}> (opcional)</span>}
+      </span>
       {children}
     </label>
   );
 }
 
-const sobreTitulo: CSSProperties = { color: "#6b6f1a", fontWeight: 700, textTransform: "uppercase", fontSize: "0.82rem", letterSpacing: "0.05em" };
-const introduccion: CSSProperties = { lineHeight: 1.8, color: "#555", textAlign: "justify" };
-const formulario: CSSProperties = { marginTop: "1.5rem", padding: "1.5rem", border: "1px solid #ddd4c7", borderRadius: "12px", background: "white", display: "grid", gap: "1.25rem" };
-const autorEstilo: CSSProperties = { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0.65rem", padding: "0.9rem 1rem", borderRadius: "8px", background: "#f4f1e8" };
-const etiquetaEstilo: CSSProperties = { display: "grid", gap: "0.45rem", color: "#4d371c", fontWeight: 700 };
-const control: CSSProperties = { width: "100%", boxSizing: "border-box", padding: "0.8rem 0.9rem", border: "1px solid #c8beb0", borderRadius: "8px", background: "white", color: "#222", font: "inherit", fontWeight: 400 };
-const fieldset: CSSProperties = { margin: 0, padding: "1rem", border: "1px solid #d8d0c2", borderRadius: "8px" };
-const legend: CSSProperties = { padding: "0 0.35rem", color: "#4d371c", fontWeight: 700 };
-const casillas: CSSProperties = { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "0.7rem 1rem" };
-const casilla: CSSProperties = { display: "flex", alignItems: "flex-start", gap: "0.5rem", color: "#444", lineHeight: 1.4 };
-const dosColumnas: CSSProperties = { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem" };
-const acciones: CSSProperties = { display: "flex", justifyContent: "flex-end", flexWrap: "wrap", gap: "0.75rem" };
-const botonPrincipal: CSSProperties = { border: 0, borderRadius: "8px", padding: "0.85rem 1.15rem", background: "#6b6f1a", color: "white", fontWeight: 700, cursor: "pointer" };
-const botonSecundario: CSSProperties = { border: "1px solid #b9b0a3", borderRadius: "8px", padding: "0.78rem 1rem", color: "#4d371c", fontWeight: 700, textDecoration: "none" };
-const errorEstilo: CSSProperties = { marginTop: "1rem", padding: "0.9rem 1rem", borderRadius: "8px", border: "1px solid #d28b8b", background: "#fff3f3", color: "#7a1f1f" };
+const sobreTitulo: CSSProperties = {
+  color: "#6b6f1a",
+  fontWeight: 700,
+  textTransform: "uppercase",
+  fontSize: "0.82rem",
+  letterSpacing: "0.05em",
+};
+const introduccion: CSSProperties = {
+  lineHeight: 1.8,
+  color: "#555",
+  textAlign: "justify",
+};
+const formulario: CSSProperties = {
+  marginTop: "1.5rem",
+  padding: "1.5rem",
+  border: "1px solid #ddd4c7",
+  borderRadius: "12px",
+  background: "white",
+  display: "grid",
+  gap: "1.25rem",
+};
+const autorEstilo: CSSProperties = {
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "center",
+  gap: "0.65rem",
+  padding: "0.9rem 1rem",
+  borderRadius: "8px",
+  background: "#f4f1e8",
+};
+const etiquetaEstilo: CSSProperties = {
+  display: "grid",
+  gap: "0.45rem",
+  color: "#4d371c",
+  fontWeight: 700,
+};
+const control: CSSProperties = {
+  width: "100%",
+  boxSizing: "border-box",
+  padding: "0.8rem 0.9rem",
+  border: "1px solid #c8beb0",
+  borderRadius: "8px",
+  background: "white",
+  color: "#222",
+  font: "inherit",
+  fontWeight: 400,
+};
+const fieldset: CSSProperties = {
+  margin: 0,
+  padding: "1rem",
+  border: "1px solid #d8d0c2",
+  borderRadius: "8px",
+};
+const legend: CSSProperties = {
+  padding: "0 0.35rem",
+  color: "#4d371c",
+  fontWeight: 700,
+};
+const casillas: CSSProperties = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
+  gap: "0.7rem 1rem",
+};
+const casilla: CSSProperties = {
+  display: "flex",
+  alignItems: "flex-start",
+  gap: "0.5rem",
+  color: "#444",
+  lineHeight: 1.4,
+};
+const dosColumnas: CSSProperties = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+  gap: "1rem",
+};
+const acciones: CSSProperties = {
+  display: "flex",
+  justifyContent: "flex-end",
+  flexWrap: "wrap",
+  gap: "0.75rem",
+};
+const botonPrincipal: CSSProperties = {
+  border: 0,
+  borderRadius: "8px",
+  padding: "0.85rem 1.15rem",
+  background: "#6b6f1a",
+  color: "white",
+  fontWeight: 700,
+  cursor: "pointer",
+};
+const botonSecundario: CSSProperties = {
+  border: "1px solid #b9b0a3",
+  borderRadius: "8px",
+  padding: "0.78rem 1rem",
+  color: "#4d371c",
+  fontWeight: 700,
+  textDecoration: "none",
+};
+const errorEstilo: CSSProperties = {
+  marginTop: "1rem",
+  padding: "0.9rem 1rem",
+  borderRadius: "8px",
+  border: "1px solid #d28b8b",
+  background: "#fff3f3",
+  color: "#7a1f1f",
+};
 const asterisco: CSSProperties = { color: "#9e2424" };
 const opcional: CSSProperties = { color: "#777", fontWeight: 400 };
 const ayuda: CSSProperties = { color: "#777", fontWeight: 400 };

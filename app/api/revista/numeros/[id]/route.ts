@@ -164,7 +164,7 @@ export async function GET(
     if (autorIdsAsignados.length > 0) {
       const { data, error } = await supabaseServer
         .from("miembros")
-        .select("id,codigo,nombre,nivel")
+        .select("id,codigo,nombre,nombre_citacion,nivel")
         .in("id", autorIdsAsignados);
       if (error) throw new Error(error.message);
       autoresAsignados = data || [];
@@ -283,7 +283,7 @@ export async function GET(
     if (autorIdsPublicables.length > 0) {
       const { data, error } = await supabaseServer
         .from("miembros")
-        .select("id,codigo,nombre,nivel")
+        .select("id,codigo,nombre,nombre_citacion,nivel")
         .in("id", autorIdsPublicables);
       if (error) throw new Error(error.message);
       autoresPublicables = data || [];

@@ -20,6 +20,7 @@ type Autor = {
   id: number;
   codigo: string;
   nombre: string;
+  nombre_citacion: string | null;
   nivel: string;
 };
 
@@ -125,7 +126,7 @@ const obtenerPublicacion = cache(
     if (manuscrito.autor_miembro_id) {
       const { data, error } = await supabaseServer
         .from("miembros")
-        .select("id,codigo,nombre,nivel")
+        .select("id,codigo,nombre,nombre_citacion,nivel")
         .eq("id", manuscrito.autor_miembro_id)
         .maybeSingle();
 
@@ -366,9 +367,14 @@ export default async function ArticuloPublicoPage({
   if (!publicacion) notFound();
 
   const titulo = publicacion.version.titulo;
-  const autorNombre = publicacion.autor?.nombre || "Autor no identificado";
+  const autorNombre =
+    publicacion.autor?.nombre_citacion?.trim() ||
+    publicacion.autor?.nombre ||
+    "Autor no identificado";
   const volumen = publicacion.numero.volumen || "—";
-  const referencia = `${autorNombre}. (${publicacion.numero.anio}). ${titulo}. Revista AGENN, ${volumen}(${publicacion.numero.numero}), ${publicacion.articulo.localizador}.`;
+  const referenciaAntes = `${autorNombre}. (${publicacion.numero.anio}). ${titulo}. `;
+  const referenciaRevistaYVolumen = `Revista AGENN, ${volumen}`;
+  const referenciaDespues = `(${publicacion.numero.numero}), ${publicacion.articulo.localizador}.`;
   const contenidoTieneImagenIntegrada =
     /data-agenn-imagen-id=["']\d+["']|\[\[IMAGEN:\d+\]\]/.test(
       publicacion.version.contenido,
@@ -438,8 +444,12 @@ export default async function ArticuloPublicoPage({
       </article>
 
       <aside className={styles.cita}>
-        <h2>Cómo citar este ensayo</h2>
-        <p>{referencia}</p>
+        <h2>Cómo citar este artículo (APA 7.ª ed.)</h2>
+        <p>
+          {referenciaAntes}
+          <em>{referenciaRevistaYVolumen}</em>
+          {referenciaDespues}
+        </p>
       </aside>
     </div>
   );

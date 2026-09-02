@@ -15,20 +15,28 @@ async function validarConsejo(codigo: string) {
 }
 
 function generarPasswordTemporal() {
-  const caracteres = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+  const caracteres =
+    "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
   const bytes = randomBytes(12);
-  return Array.from(bytes, (byte) => caracteres[byte % caracteres.length]).join("");
+  return Array.from(bytes, (byte) => caracteres[byte % caracteres.length]).join(
+    "",
+  );
 }
 
 async function siguienteCodigo(nivel: "ASP" | "INV") {
   const [{ data: usuarios }, { data: miembros }] = await Promise.all([
     supabaseServer.from("users").select("codigo").like("codigo", `${nivel}%`),
-    supabaseServer.from("miembros").select("codigo").like("codigo", `${nivel}%`),
+    supabaseServer
+      .from("miembros")
+      .select("codigo")
+      .like("codigo", `${nivel}%`),
   ]);
 
   const usados = new Set<number>();
   [...(usuarios || []), ...(miembros || [])].forEach((row) => {
-    const match = String(row.codigo || "").match(new RegExp(`^${nivel}(\\d+)$`));
+    const match = String(row.codigo || "").match(
+      new RegExp(`^${nivel}(\\d+)$`),
+    );
     if (match) usados.add(Number(match[1]));
   });
 
@@ -62,7 +70,10 @@ async function registrarHistorial(params: {
 export async function GET(req: NextRequest) {
   const codigo = (req.headers.get("x-user-codigo") || "").trim().toUpperCase();
   if (!codigo || !(await validarConsejo(codigo))) {
-    return NextResponse.json({ ok: false, error: "Acceso no autorizado." }, { status: 403 });
+    return NextResponse.json(
+      { ok: false, error: "Acceso no autorizado." },
+      { status: 403 },
+    );
   }
 
   const { data, error } = await supabaseServer
@@ -71,7 +82,11 @@ export async function GET(req: NextRequest) {
     .in("estado", ["pendiente", "reenviada"])
     .order("fecha_solicitud", { ascending: true });
 
-  if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+  if (error)
+    return NextResponse.json(
+      { ok: false, error: error.message },
+      { status: 500 },
+    );
 
   const candidatos = await Promise.all(
     (data || []).map(async (candidato) => {
@@ -83,7 +98,7 @@ export async function GET(req: NextRequest) {
         foto_firmada = firma?.signedUrl || null;
       }
       return { ...candidato, foto_firmada };
-    })
+    }),
   );
 
   return NextResponse.json({ ok: true, candidatos });
@@ -91,12 +106,17 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const actorCodigo = String(body.actorCodigo || "").trim().toUpperCase();
+  const actorCodigo = String(body.actorCodigo || "")
+    .trim()
+    .toUpperCase();
   const candidatoId = String(body.candidatoId || "").trim();
   const accion = String(body.accion || "").trim();
 
   if (!actorCodigo || !(await validarConsejo(actorCodigo))) {
-    return NextResponse.json({ ok: false, error: "Acceso no autorizado." }, { status: 403 });
+    return NextResponse.json(
+      { ok: false, error: "Acceso no autorizado." },
+      { status: 403 },
+    );
   }
 
   const { data: candidato, error: candidatoError } = await supabaseServer
@@ -106,7 +126,10 @@ export async function POST(req: NextRequest) {
     .maybeSingle();
 
   if (candidatoError || !candidato) {
-    return NextResponse.json({ ok: false, error: "No se encontró el expediente." }, { status: 404 });
+    return NextResponse.json(
+      { ok: false, error: "No se encontró el expediente." },
+      { status: 404 },
+    );
   }
 
   const sitio = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
@@ -116,11 +139,16 @@ export async function POST(req: NextRequest) {
     const observaciones = String(body.observacionesCandidato || "").trim();
     const privadas = String(body.observacionesPrivadas || "").trim();
     if (!observaciones) {
-      return NextResponse.json({ ok: false, error: "Escriba las correcciones solicitadas." }, { status: 400 });
+      return NextResponse.json(
+        { ok: false, error: "Escriba las correcciones solicitadas." },
+        { status: 400 },
+      );
     }
 
     const token = randomUUID();
-    const expira = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+    const expira = new Date(
+      Date.now() + 30 * 24 * 60 * 60 * 1000,
+    ).toISOString();
 
     const { error } = await supabaseServer
       .from("candidatos")
@@ -135,7 +163,11 @@ export async function POST(req: NextRequest) {
       })
       .eq("id", candidato.id);
 
-    if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+    if (error)
+      return NextResponse.json(
+        { ok: false, error: error.message },
+        { status: 500 },
+      );
 
     await registrarHistorial({
       candidatoId: candidato.id,
@@ -162,10 +194,13 @@ export async function POST(req: NextRequest) {
       `),
     });
 
-    await supabaseServer.from("candidatos").update({
-      ultimo_correo_enviado: correo.enviado ? new Date().toISOString() : null,
-      ultimo_error_correo: correo.error || null,
-    }).eq("id", candidato.id);
+    await supabaseServer
+      .from("candidatos")
+      .update({
+        ultimo_correo_enviado: correo.enviado ? new Date().toISOString() : null,
+        ultimo_error_correo: correo.error || null,
+      })
+      .eq("id", candidato.id);
 
     return NextResponse.json({ ok: true, correo });
   }
@@ -174,22 +209,32 @@ export async function POST(req: NextRequest) {
     const privadas = String(body.observacionesPrivadas || "").trim();
     const mensajePublico = String(body.observacionesCandidato || "").trim();
     if (!privadas) {
-      return NextResponse.json({ ok: false, error: "Registre el fundamento privado de la decisión." }, { status: 400 });
+      return NextResponse.json(
+        { ok: false, error: "Registre el fundamento privado de la decisión." },
+        { status: 400 },
+      );
     }
 
     const ahora = new Date().toISOString();
-    const { error } = await supabaseServer.from("candidatos").update({
-      estado: "rechazada",
-      observaciones_privadas: privadas,
-      observaciones_candidato: mensajePublico || null,
-      revisado_por_codigo: actorCodigo,
-      fecha_revision: ahora,
-      fecha_resolucion: ahora,
-      token_correccion: null,
-      token_correccion_expira: null,
-    }).eq("id", candidato.id);
+    const { error } = await supabaseServer
+      .from("candidatos")
+      .update({
+        estado: "rechazada",
+        observaciones_privadas: privadas,
+        observaciones_candidato: mensajePublico || null,
+        revisado_por_codigo: actorCodigo,
+        fecha_revision: ahora,
+        fecha_resolucion: ahora,
+        token_correccion: null,
+        token_correccion_expira: null,
+      })
+      .eq("id", candidato.id);
 
-    if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+    if (error)
+      return NextResponse.json(
+        { ok: false, error: error.message },
+        { status: 500 },
+      );
 
     await registrarHistorial({
       candidatoId: candidato.id,
@@ -197,7 +242,9 @@ export async function POST(req: NextRequest) {
       accion: "candidatura_rechazada",
       estadoAnterior: candidato.estado,
       estadoNuevo: "rechazada",
-      detalle: mensajePublico || "Resolución de no aprobación emitida por el Consejo Académico.",
+      detalle:
+        mensajePublico ||
+        "Resolución de no aprobación emitida por el Consejo Académico.",
       actorCodigo,
       visibleCandidato: true,
     });
@@ -214,20 +261,28 @@ export async function POST(req: NextRequest) {
       `),
     });
 
-    await supabaseServer.from("candidatos").update({
-      ultimo_correo_enviado: correo.enviado ? new Date().toISOString() : null,
-      ultimo_error_correo: correo.error || null,
-    }).eq("id", candidato.id);
+    await supabaseServer
+      .from("candidatos")
+      .update({
+        ultimo_correo_enviado: correo.enviado ? new Date().toISOString() : null,
+        ultimo_error_correo: correo.error || null,
+      })
+      .eq("id", candidato.id);
 
     return NextResponse.json({ ok: true, correo });
   }
 
   if (accion === "aprobar") {
-    const nivel = String(body.nivel || "").trim().toUpperCase();
+    const nivel = String(body.nivel || "")
+      .trim()
+      .toUpperCase();
     const privadas = String(body.observacionesPrivadas || "").trim();
 
     if (nivel !== "ASP" && nivel !== "INV") {
-      return NextResponse.json({ ok: false, error: "Seleccione ASP o INV." }, { status: 400 });
+      return NextResponse.json(
+        { ok: false, error: "Seleccione ASP o INV." },
+        { status: 400 },
+      );
     }
 
     const codigoMiembro = await siguienteCodigo(nivel as "ASP" | "INV");
@@ -237,12 +292,15 @@ export async function POST(req: NextRequest) {
 
     try {
       if (candidato.foto_url) {
-        const { data: foto, error: descargaError } = await supabaseServer.storage
-          .from("candidatos-fotos")
-          .download(candidato.foto_url);
+        const { data: foto, error: descargaError } =
+          await supabaseServer.storage
+            .from("candidatos-fotos")
+            .download(candidato.foto_url);
 
         if (descargaError || !foto) {
-          throw new Error("No fue posible recuperar la fotografía del candidato.");
+          throw new Error(
+            "No fue posible recuperar la fotografía del candidato.",
+          );
         }
 
         const rutaMiembro = `${codigoMiembro}-${Date.now()}.jpg`;
@@ -254,7 +312,9 @@ export async function POST(req: NextRequest) {
           });
 
         if (subidaError) {
-          throw new Error("No fue posible guardar la fotografía del nuevo miembro.");
+          throw new Error(
+            "No fue posible guardar la fotografía del nuevo miembro.",
+          );
         }
 
         fotoMiembro = supabaseServer.storage
@@ -266,7 +326,8 @@ export async function POST(req: NextRequest) {
         .from("miembros")
         .insert({
           codigo: codigoMiembro,
-          nombre: nombreCompleto,
+          nombres: candidato.nombres,
+          apellidos: candidato.apellidos,
           nivel,
           correo: candidato.correo,
           foto_url: fotoMiembro,
@@ -279,7 +340,9 @@ export async function POST(req: NextRequest) {
         .single();
 
       if (miembroError || !miembro) {
-        throw new Error(miembroError?.message || "No fue posible crear el miembro.");
+        throw new Error(
+          miembroError?.message || "No fue posible crear el miembro.",
+        );
       }
 
       miembroId = miembro.id;
@@ -320,12 +383,12 @@ export async function POST(req: NextRequest) {
             },
             {
               onConflict: "user_codigo,unidad_slug",
-            }
+            },
           );
 
         if (progresoError) {
           throw new Error(
-            `No fue posible inicializar el progreso académico: ${progresoError.message}`
+            `No fue posible inicializar el progreso académico: ${progresoError.message}`,
           );
         }
       }
@@ -390,7 +453,9 @@ export async function POST(req: NextRequest) {
       await supabaseServer
         .from("candidatos")
         .update({
-          ultimo_correo_enviado: correo.enviado ? new Date().toISOString() : null,
+          ultimo_correo_enviado: correo.enviado
+            ? new Date().toISOString()
+            : null,
           ultimo_error_correo: correo.error || null,
         })
         .eq("id", candidato.id);
@@ -416,13 +481,13 @@ export async function POST(req: NextRequest) {
               ? error.message
               : "No fue posible aprobar la candidatura.",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   }
 
   return NextResponse.json(
     { ok: false, error: "Acción no reconocida." },
-    { status: 400 }
+    { status: 400 },
   );
 }

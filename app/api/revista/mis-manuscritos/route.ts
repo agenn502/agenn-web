@@ -3,7 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
 function normalizarCodigo(valor: unknown) {
-  return String(valor || "").trim().toUpperCase();
+  return String(valor || "")
+    .trim()
+    .toUpperCase();
 }
 
 function slugificar(valor: string) {
@@ -20,11 +22,18 @@ function puedeParticipar(codigo: string) {
   return codigo.startsWith("INV") || codigo.startsWith("NUM");
 }
 
+const TIPOS_CONTENIDO = new Set([
+  "ENSAYO",
+  "ARTICULO",
+  "ESTUDIO",
+  "NOTA_INVESTIGACION",
+  "NOTA_BREVE",
+  "RESENA",
+]);
+
 export async function GET(req: NextRequest) {
   try {
-    const codigo = normalizarCodigo(
-      req.headers.get("x-user-codigo")
-    );
+    const codigo = normalizarCodigo(req.headers.get("x-user-codigo"));
 
     if (!codigo) {
       return NextResponse.json(
@@ -32,16 +41,15 @@ export async function GET(req: NextRequest) {
           ok: false,
           error: "No se indicó el código del usuario.",
         },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
-    const { data: miembro, error: miembroError } =
-      await supabaseServer
-        .from("miembros")
-        .select("id,codigo,nombre,nivel")
-        .eq("codigo", codigo)
-        .maybeSingle();
+    const { data: miembro, error: miembroError } = await supabaseServer
+      .from("miembros")
+      .select("id,codigo,nombre,nivel")
+      .eq("codigo", codigo)
+      .maybeSingle();
 
     if (miembroError) {
       throw new Error(miembroError.message);
@@ -53,14 +61,14 @@ export async function GET(req: NextRequest) {
           ok: false,
           error: "No se encontró el miembro.",
         },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
-    const { data: manuscritos, error: manuscritosError } =
-      await supabaseServer
-        .from("manuscritos_editoriales")
-        .select(`
+    const { data: manuscritos, error: manuscritosError } = await supabaseServer
+      .from("manuscritos_editoriales")
+      .select(
+        `
           id,
           ensayo_id,
           origen,
@@ -72,28 +80,25 @@ export async function GET(req: NextRequest) {
           fecha_aval,
           created_at,
           updated_at
-        `)
-        .eq("autor_miembro_id", miembro.id)
-        .order("updated_at", {
-          ascending: false,
-        });
+        `,
+      )
+      .eq("autor_miembro_id", miembro.id)
+      .order("updated_at", {
+        ascending: false,
+      });
 
     if (manuscritosError) {
       throw new Error(manuscritosError.message);
     }
 
-    const ids = (manuscritos || []).map(
-      (m: any) => Number(m.id)
-    );
+    const ids = (manuscritos || []).map((m: any) => Number(m.id));
 
     let versiones: any[] = [];
 
     if (ids.length > 0) {
       const { data, error } = await supabaseServer
         .from("manuscrito_versiones")
-        .select(
-          "id,manuscrito_id,numero_version,created_at"
-        )
+        .select("id,manuscrito_id,numero_version,created_at")
         .in("manuscrito_id", ids)
         .order("numero_version", {
           ascending: false,
@@ -109,31 +114,21 @@ export async function GET(req: NextRequest) {
     const ultimaVersion = new Map<number, any>();
 
     for (const version of versiones) {
-      const manuscritoId = Number(
-        version.manuscrito_id
-      );
+      const manuscritoId = Number(version.manuscrito_id);
 
       if (!ultimaVersion.has(manuscritoId)) {
-        ultimaVersion.set(
-          manuscritoId,
-          version
-        );
+        ultimaVersion.set(manuscritoId, version);
       }
     }
 
-    const resultado = (manuscritos || []).map(
-      (manuscrito: any) => {
-        const version = ultimaVersion.get(
-          Number(manuscrito.id)
-        );
+    const resultado = (manuscritos || []).map((manuscrito: any) => {
+      const version = ultimaVersion.get(Number(manuscrito.id));
 
-        return {
-          ...manuscrito,
-          version_actual:
-            version?.numero_version || null,
-        };
-      }
-    );
+      return {
+        ...manuscrito,
+        version_actual: version?.numero_version || null,
+      };
+    });
 
     return NextResponse.json({
       ok: true,
@@ -148,10 +143,7 @@ export async function GET(req: NextRequest) {
       manuscritos: resultado,
     });
   } catch (error) {
-    console.error(
-      "Error GET /api/revista/mis-manuscritos:",
-      error
-    );
+    console.error("Error GET /api/revista/mis-manuscritos:", error);
 
     return NextResponse.json(
       {
@@ -161,7 +153,7 @@ export async function GET(req: NextRequest) {
             ? error.message
             : "No fue posible cargar sus manuscritos.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -176,7 +168,7 @@ export async function POST(req: NextRequest) {
     if (!codigo) {
       return NextResponse.json(
         { ok: false, error: "No se indicó el código del usuario." },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -191,7 +183,7 @@ export async function POST(req: NextRequest) {
     if (!miembro) {
       return NextResponse.json(
         { ok: false, error: "No se encontró el miembro." },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -202,13 +194,18 @@ export async function POST(req: NextRequest) {
           error:
             "Esta opción está disponible únicamente para Investigadores acreditados y miembros Numerarios.",
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
     const body = await req.json();
-    const solicitudId = String(body?.solicitud_id || "").trim().toLowerCase();
+    const solicitudId = String(body?.solicitud_id || "")
+      .trim()
+      .toLowerCase();
     const titulo = String(body?.titulo || "").trim();
+    const tipoContenido = String(body?.tipo_contenido || "ENSAYO")
+      .trim()
+      .toUpperCase();
     const temaId = Number(body?.tema_id);
     const subtemaId = body?.subtema_id ? Number(body.subtema_id) : null;
     const periodoId = body?.periodo_id ? Number(body.periodo_id) : null;
@@ -216,44 +213,54 @@ export async function POST(req: NextRequest) {
     const anioFin = body?.anio_fin ? Number(body.anio_fin) : null;
     const temasSecundarios = [
       ...new Set(
-        (Array.isArray(body?.temas_secundarios)
-          ? body.temas_secundarios
-          : []
-        )
+        (Array.isArray(body?.temas_secundarios) ? body.temas_secundarios : [])
           .map(Number)
-          .filter((id: number) => Number.isInteger(id) && id > 0)
+          .filter((id: number) => Number.isInteger(id) && id > 0),
       ),
     ].filter((id) => id !== temaId);
     const palabrasClave = [
       ...new Set(
         (Array.isArray(body?.palabras_clave) ? body.palabras_clave : [])
           .map((palabra: unknown) => String(palabra || "").trim())
-          .filter(Boolean)
+          .filter(Boolean),
       ),
     ].slice(0, 12);
 
     if (titulo.length < 10 || titulo.length > 250) {
       return NextResponse.json(
-        { ok: false, error: "El título debe contener entre 10 y 250 caracteres." },
-        { status: 400 }
+        {
+          ok: false,
+          error: "El título debe contener entre 10 y 250 caracteres.",
+        },
+        { status: 400 },
+      );
+    }
+
+    if (!TIPOS_CONTENIDO.has(tipoContenido)) {
+      return NextResponse.json(
+        { ok: false, error: "Seleccione un tipo de contenido válido." },
+        { status: 400 },
       );
     }
 
     if (
       !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
-        solicitudId
+        solicitudId,
       )
     ) {
       return NextResponse.json(
-        { ok: false, error: "No se recibió un identificador válido para el borrador." },
-        { status: 400 }
+        {
+          ok: false,
+          error: "No se recibió un identificador válido para el borrador.",
+        },
+        { status: 400 },
       );
     }
 
     if (!Number.isInteger(temaId) || temaId <= 0) {
       return NextResponse.json(
         { ok: false, error: "Seleccione un tema principal." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -263,7 +270,7 @@ export async function POST(req: NextRequest) {
     ) {
       return NextResponse.json(
         { ok: false, error: "El año inicial no es válido." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -273,14 +280,14 @@ export async function POST(req: NextRequest) {
     ) {
       return NextResponse.json(
         { ok: false, error: "El año final no es válido." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (anioInicio !== null && anioFin !== null && anioInicio > anioFin) {
       return NextResponse.json(
         { ok: false, error: "El año inicial no puede ser posterior al final." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -294,8 +301,11 @@ export async function POST(req: NextRequest) {
     if (temaError) throw new Error(temaError.message);
     if (!temaPrincipal) {
       return NextResponse.json(
-        { ok: false, error: "El tema principal seleccionado no está disponible." },
-        { status: 400 }
+        {
+          ok: false,
+          error: "El tema principal seleccionado no está disponible.",
+        },
+        { status: 400 },
       );
     }
 
@@ -312,7 +322,7 @@ export async function POST(req: NextRequest) {
       if (!subtema) {
         return NextResponse.json(
           { ok: false, error: "El subtema no corresponde al tema principal." },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -329,7 +339,7 @@ export async function POST(req: NextRequest) {
       if (!periodo) {
         return NextResponse.json(
           { ok: false, error: "El período seleccionado no está disponible." },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -345,8 +355,11 @@ export async function POST(req: NextRequest) {
       if (secundariosError) throw new Error(secundariosError.message);
       if ((secundariosValidos || []).length !== temasSecundarios.length) {
         return NextResponse.json(
-          { ok: false, error: "Uno de los temas secundarios no está disponible." },
-          { status: 400 }
+          {
+            ok: false,
+            error: "Uno de los temas secundarios no está disponible.",
+          },
+          { status: 400 },
         );
       }
     }
@@ -389,28 +402,28 @@ export async function POST(req: NextRequest) {
       const { data: ensayo, error: ensayoError } = await supabaseServer
         .from("ensayos")
         .insert({
-        solicitud_id: solicitudId,
-        titulo,
-        slug,
-        autor_nombre: miembro.nombre,
-        autor_codigo: miembro.codigo,
-        nivel: miembro.nivel,
-        proceso: "REVISTA",
-        unidad_slug: "revista",
-        contenido: "",
-        codigo_verificacion: codigoVerificacion,
-        estado: "borrador",
-        tema: temaPrincipal.nombre,
-        tema_id: temaId,
-        subtema_id: subtemaId,
-        periodo_id: periodoId,
-        anio_inicio: anioInicio,
-        anio_fin: anioFin,
-        palabras_clave: palabrasClave,
-        evidencia_validada: false,
-        seleccionado_revista: false,
-        origen_ensayo: "REVISTA",
-        autor_miembro_id: miembro.id,
+          solicitud_id: solicitudId,
+          titulo,
+          slug,
+          autor_nombre: miembro.nombre,
+          autor_codigo: miembro.codigo,
+          nivel: miembro.nivel,
+          proceso: "REVISTA",
+          unidad_slug: "revista",
+          contenido: "",
+          codigo_verificacion: codigoVerificacion,
+          estado: "borrador",
+          tema: temaPrincipal.nombre,
+          tema_id: temaId,
+          subtema_id: subtemaId,
+          periodo_id: periodoId,
+          anio_inicio: anioInicio,
+          anio_fin: anioFin,
+          palabras_clave: palabrasClave,
+          evidencia_validada: false,
+          seleccionado_revista: false,
+          origen_ensayo: "REVISTA",
+          autor_miembro_id: miembro.id,
         })
         .select("id")
         .single();
@@ -423,21 +436,21 @@ export async function POST(req: NextRequest) {
       const { data: manuscrito, error: manuscritoError } = await supabaseServer
         .from("manuscritos_editoriales")
         .insert({
-        solicitud_id: solicitudId,
-        ensayo_id: ensayoId,
-        autor_miembro_id: miembro.id,
-        origen: "PROPUESTA_AUTOR",
-        tipo_contenido: "ENSAYO",
-        estado: "BORRADOR",
-        titulo_actual: titulo,
-        contenido_actual: "",
-        tema: temaPrincipal.nombre,
-        tema_id: temaId,
-        subtema_id: subtemaId,
-        periodo_id: periodoId,
-        anio_inicio: anioInicio,
-        anio_fin: anioFin,
-        palabras_clave: palabrasClave,
+          solicitud_id: solicitudId,
+          ensayo_id: ensayoId,
+          autor_miembro_id: miembro.id,
+          origen: "PROPUESTA_AUTOR",
+          tipo_contenido: tipoContenido,
+          estado: "BORRADOR",
+          titulo_actual: titulo,
+          contenido_actual: "",
+          tema: temaPrincipal.nombre,
+          tema_id: temaId,
+          subtema_id: subtemaId,
+          periodo_id: periodoId,
+          anio_inicio: anioInicio,
+          anio_fin: anioFin,
+          palabras_clave: palabrasClave,
         })
         .select("id")
         .single();
@@ -457,7 +470,7 @@ export async function POST(req: NextRequest) {
           {
             onConflict: "manuscrito_id,tema_id",
             ignoreDuplicates: true,
-          }
+          },
         );
 
       if (temasSecundariosError) {
@@ -471,7 +484,7 @@ export async function POST(req: NextRequest) {
         manuscrito_id: manuscritoId,
         estado: "BORRADOR",
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Error POST /api/revista/mis-manuscritos:", error);
@@ -484,7 +497,7 @@ export async function POST(req: NextRequest) {
             ? error.message
             : "No fue posible crear el borrador.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
