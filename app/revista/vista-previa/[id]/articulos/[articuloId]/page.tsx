@@ -361,7 +361,11 @@ export default function ArticuloRevistaPage() {
     const volumen = numero.volumen || "—";
 
     return {
-      antes: `${autor}. (${numero.anio}). ${sinPuntoFinal(titulo)}. `,
+      antes: `${autor}. (${numero.anio}). ${sinPuntoFinal(titulo)}. ${
+        articulo.manuscrito?.tipo_contenido === "NOTA_BREVE"
+          ? "[Nota breve]. "
+          : ""
+      }`,
       resena:
         articulo.manuscrito?.tipo_contenido === "RESENA" && articulo.resena
           ? `[Reseña del libro ${sinPuntoFinal(articulo.resena.titulo_obra)}, por ${articulo.resena.autores_obra}]. `

@@ -472,7 +472,11 @@ export default async function ArticuloPublicoPage({
     publicacion.manuscrito.tipo_contenido === "RESENA" && publicacion.resena
       ? `[Reseña del libro ${sinPuntoFinal(publicacion.resena.titulo_obra)}, por ${publicacion.resena.autores_obra}]. `
       : "";
-  const referenciaAntes = `${autorNombre}. (${publicacion.numero.anio}). ${sinPuntoFinal(titulo)}. ${descripcionResena}`;
+  const descripcionTipo =
+    publicacion.manuscrito.tipo_contenido === "NOTA_BREVE"
+      ? "[Nota breve]. "
+      : descripcionResena;
+  const referenciaAntes = `${autorNombre}. (${publicacion.numero.anio}). ${sinPuntoFinal(titulo)}. ${descripcionTipo}`;
   const referenciaRevistaYVolumen = `Revista AGENN, ${volumen}`;
   const referenciaDespues = `(${publicacion.numero.numero}), ${publicacion.articulo.localizador}.`;
   const contenidoTieneImagenIntegrada =
@@ -513,8 +517,7 @@ export default async function ArticuloPublicoPage({
         )}
 
         <p className={styles.clasificacion}>
-          {publicacion.articulo.seccion} ·{" "}
-          {publicacion.manuscrito.tipo_contenido}
+          {publicacion.articulo.seccion}
           {publicacion.manuscrito.tema
             ? ` · ${publicacion.manuscrito.tema}`
             : ""}

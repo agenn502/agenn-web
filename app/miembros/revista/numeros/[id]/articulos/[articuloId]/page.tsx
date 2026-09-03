@@ -369,7 +369,11 @@ export default function ArticuloRevistaPage() {
       articulo.manuscrito?.tipo_contenido === "RESENA" && articulo.resena
         ? `[Reseña del libro ${sinPuntoFinal(articulo.resena.titulo_obra)}, por ${articulo.resena.autores_obra}]. `
         : "";
-    return `${autor}. (${numero.anio}). ${sinPuntoFinal(titulo)}. ${resena}Revista AGENN, ${volumen}(${numero.numero}), ${articulo.localizador || ""}.`;
+    const descripcionTipo =
+      articulo.manuscrito?.tipo_contenido === "NOTA_BREVE"
+        ? "[Nota breve]. "
+        : resena;
+    return `${autor}. (${numero.anio}). ${sinPuntoFinal(titulo)}. ${descripcionTipo}Revista AGENN, ${volumen}(${numero.numero}), ${articulo.localizador || ""}.`;
   }, [numero, articulo]);
 
   if (loading) return <p>Cargando artículo...</p>;

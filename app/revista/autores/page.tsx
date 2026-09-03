@@ -39,7 +39,10 @@ async function obtenerAutoresPublicados(): Promise<Autor[]> {
   const { data: articulos, error: articulosError } = await supabaseServer
     .from("revista_articulos")
     .select("manuscrito_id")
-    .in("revista_id", numeros.map((numero) => numero.id));
+    .in(
+      "revista_id",
+      numeros.map((numero) => numero.id),
+    );
 
   if (articulosError) throw new Error(articulosError.message);
   if (!articulos?.length) return [];
@@ -51,7 +54,8 @@ async function obtenerAutoresPublicados(): Promise<Autor[]> {
   const { data: manuscritos, error: manuscritosError } = await supabaseServer
     .from("manuscritos_editoriales")
     .select("autor_miembro_id")
-    .in("id", manuscritoIds);
+    .in("id", manuscritoIds)
+    .eq("tipo_autoria", "MIEMBRO");
 
   if (manuscritosError) throw new Error(manuscritosError.message);
 
@@ -59,7 +63,7 @@ async function obtenerAutoresPublicados(): Promise<Autor[]> {
     ...new Set(
       (manuscritos || [])
         .map((manuscrito) => Number(manuscrito.autor_miembro_id))
-        .filter(Boolean)
+        .filter(Boolean),
     ),
   ];
 
