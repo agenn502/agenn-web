@@ -17,6 +17,11 @@ type Manuscrito = {
   ensayo_id: number;
   origen: string;
   tipo_contenido: string;
+  flujo_editorial: string;
+  tipo_autoria: string;
+  autor_corporativo: string | null;
+  mostrar_referencia: boolean;
+  edicion_ce_permitida: boolean;
   estado: string;
   titulo_actual: string;
   contenido_actual: string;
@@ -25,6 +30,23 @@ type Manuscrito = {
   tema: string | null;
   fecha_ingreso: string;
   fecha_aval: string | null;
+};
+
+type ResenaBibliografica = {
+  id: number;
+  manuscrito_id: number;
+  titulo_obra: string;
+  autores_obra: string;
+  editorial: string | null;
+  edicion: string | null;
+  anio_publicacion: number | null;
+  isbn: string | null;
+  numero_paginas: number | null;
+  portada_url: string | null;
+  portada_storage_path: string | null;
+  portada_alt: string | null;
+  fuente_portada: string | null;
+  updated_at: string;
 };
 
 type Version = {
@@ -104,6 +126,8 @@ function eventoTexto(tipo: string) {
     DESCARTE: "No seleccionado",
     ASIGNACION_REVISTA: "Asignado a un número",
     PUBLICACION: "Publicado",
+    ENVIO_BANCO: "Envío al Banco de publicables",
+    EDICION_EDITORIAL: "Edición del Consejo Editorial",
   };
 
   return nombres[tipo] || tipo;
@@ -113,10 +137,11 @@ function eventoTexto(tipo: string) {
 // OPTIMIZACIÓN DE IMÁGENES
 // ============================================================
 
-async function comprimirImagen(file: File): Promise<File> {
-  const MAX_BYTES = 200 * 1024;
-  const MAX_WIDTH = 1600;
-
+async function comprimirImagen(
+  file: File,
+  maxBytes = 200 * 1024,
+  maxWidth = 1600,
+): Promise<File> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     const img = new Image();
@@ -168,33 +193,33 @@ async function comprimirImagen(file: File): Promise<File> {
             );
           });
 
-        let ancho = MAX_WIDTH;
+        let ancho = maxWidth;
         let calidad = 0.84;
 
         let blob = await crearBlob(ancho, calidad);
 
-        while (blob.size > MAX_BYTES && calidad > 0.5) {
+        while (blob.size > maxBytes && calidad > 0.5) {
           calidad = Math.max(0.5, calidad - 0.08);
 
           blob = await crearBlob(ancho, calidad);
         }
 
-        while (blob.size > MAX_BYTES && ancho > 900) {
+        while (blob.size > maxBytes && ancho > 700) {
           ancho -= 100;
 
           blob = await crearBlob(ancho, calidad);
         }
 
-        while (blob.size > MAX_BYTES && calidad > 0.35) {
+        while (blob.size > maxBytes && calidad > 0.35) {
           calidad = Math.max(0.35, calidad - 0.05);
 
           blob = await crearBlob(ancho, calidad);
         }
 
-        if (blob.size > MAX_BYTES) {
+        if (blob.size > maxBytes) {
           reject(
             new Error(
-              "No fue posible reducir la imagen a menos de 200 KB. Pruebe con otra imagen.",
+              `No fue posible reducir la imagen a menos de ${Math.round(maxBytes / 1024)} KB. Pruebe con otra imagen.`,
             ),
           );
           return;
@@ -460,6 +485,20 @@ export default function MiManuscritoPage() {
 
   const [nota, setNota] = useState("");
 
+  const [resena, setResena] = useState<ResenaBibliografica | null>(null);
+
+  const [tipoAutoria, setTipoAutoria] = useState("MIEMBRO");
+
+  const [mostrarReferencia, setMostrarReferencia] = useState(true);
+
+  const [archivoPortada, setArchivoPortada] = useState<File | null>(null);
+
+  const [vistaPortadaLocal, setVistaPortadaLocal] = useState<string | null>(
+    null,
+  );
+
+  const [tamanoPortada, setTamanoPortada] = useState<number | null>(null);
+
   const [loading, setLoading] = useState(true);
 
   const [procesando, setProcesando] = useState(false);
@@ -469,6 +508,14 @@ export default function MiManuscritoPage() {
   >("SIN_CAMBIOS");
 
   const [error, setError] = useState("");
+
+  const cambiarDatoResena = (
+    campo: keyof ResenaBibliografica,
+    valor: string | number | null,
+  ) => {
+    setResena((actual) => (actual ? { ...actual, [campo]: valor } : actual));
+    setEstadoGuardado("CAMBIOS");
+  };
 
   // Modal imagen
   const [modalImagen, setModalImagen] = useState(false);
@@ -518,6 +565,12 @@ export default function MiManuscritoPage() {
 
       setManuscrito(result.manuscrito);
 
+      setResena(result.resena || null);
+
+      setTipoAutoria(result.manuscrito.tipo_autoria || "MIEMBRO");
+
+      setMostrarReferencia(result.manuscrito.mostrar_referencia !== false);
+
       setVersiones(result.versiones || []);
 
       setEventos(result.eventos || []);
@@ -533,11 +586,15 @@ export default function MiManuscritoPage() {
       setTitulo(result.manuscrito.titulo_actual || "");
 
       let textoContenido = result.manuscrito.contenido_actual || "";
+      const esEdicionDeVersion =
+        result.manuscrito.estado === "CORRECCIONES" ||
+        (result.manuscrito.estado === "BORRADOR" &&
+          (result.versiones || []).length > 0);
 
       // En correcciones, las copias editables reciben IDs nuevos. Conservamos
       // su posición remapeando por el mismo orden de la versión congelada.
       if (
-        result.manuscrito.estado === "CORRECCIONES" &&
+        esEdicionDeVersion &&
         imagenesActuales.length > 0 &&
         imagenesBorradorActual.length > 0
       ) {
@@ -568,7 +625,7 @@ export default function MiManuscritoPage() {
         );
 
       if (
-        result.manuscrito.estado === "CORRECCIONES" &&
+        esEdicionDeVersion &&
         !esHtmlEnriquecido(textoContenido) &&
         !tieneMarcadoresImagen &&
         imagenesBorradorActual.length > 0
@@ -592,6 +649,13 @@ export default function MiManuscritoPage() {
     cargar();
   }, [cargar]);
 
+  useEffect(
+    () => () => {
+      if (vistaPortadaLocal) URL.revokeObjectURL(vistaPortadaLocal);
+    },
+    [vistaPortadaLocal],
+  );
+
   // =========================================================
   // PREPARAR COPIA EDITORIAL DE IMÁGENES
   // =========================================================
@@ -600,7 +664,10 @@ export default function MiManuscritoPage() {
     const preparar = async () => {
       if (
         !manuscrito ||
-        manuscrito.estado !== "CORRECCIONES" ||
+        !(
+          manuscrito.estado === "CORRECCIONES" ||
+          (manuscrito.estado === "BORRADOR" && versiones.length > 0)
+        ) ||
         preparadoRef.current
       ) {
         return;
@@ -646,11 +713,29 @@ export default function MiManuscritoPage() {
     };
 
     preparar();
-  }, [manuscrito, id, cargar]);
+  }, [manuscrito, versiones.length, id, cargar]);
 
   // =========================================================
   // GUARDAR TEXTO / REENVIAR
   // =========================================================
+
+  const datosEditoriales = () => ({
+    tipo_autoria: tipoAutoria,
+    mostrar_referencia: mostrarReferencia,
+    resena: resena
+      ? {
+          titulo_obra: resena.titulo_obra,
+          autores_obra: resena.autores_obra,
+          editorial: resena.editorial,
+          edicion: resena.edicion,
+          anio_publicacion: resena.anio_publicacion,
+          isbn: resena.isbn,
+          numero_paginas: resena.numero_paginas,
+          portada_alt: resena.portada_alt,
+          fuente_portada: resena.fuente_portada,
+        }
+      : null,
+  });
 
   const guardarContenido = async (
     nuevoContenido: string,
@@ -672,6 +757,7 @@ export default function MiManuscritoPage() {
         contenido: nuevoContenido,
         fuente_imagen: "",
         nota_autor: "",
+        ...datosEditoriales(),
       }),
     });
 
@@ -704,7 +790,9 @@ export default function MiManuscritoPage() {
       accion !== "GUARDAR" &&
       !confirm(
         accion === "ENVIAR"
-          ? "¿Enviar este ensayo al Consejo Editorial? Después del envío no podrá editarlo hasta que exista una resolución editorial."
+          ? manuscrito?.flujo_editorial === "SIMPLIFICADO"
+            ? "¿Enviar esta publicación al Banco de publicables? El Consejo Editorial podrá ajustar su presentación al incorporarla a un número."
+            : "¿Enviar esta publicación al Consejo Editorial? Después del envío no podrá editarla hasta que exista una resolución editorial."
           : "¿Enviar esta nueva versión al Consejo Editorial? Después de enviarla no podrá editarla hasta que exista una nueva resolución.",
       )
     ) {
@@ -728,6 +816,7 @@ export default function MiManuscritoPage() {
           contenido: contenidoActual.trim(),
           fuente_imagen: "",
           nota_autor: nota.trim(),
+          ...datosEditoriales(),
         }),
       });
 
@@ -742,7 +831,11 @@ export default function MiManuscritoPage() {
       if (accion === "GUARDAR") {
         setEstadoGuardado("GUARDADO");
       } else {
-        alert(`Versión ${result.numero_version} enviada al Consejo Editorial.`);
+        alert(
+          manuscrito?.flujo_editorial === "SIMPLIFICADO"
+            ? `Versión ${result.numero_version} enviada al Banco de publicables.`
+            : `Versión ${result.numero_version} enviada al Consejo Editorial.`,
+        );
 
         setNota("");
 
@@ -936,6 +1029,203 @@ export default function MiManuscritoPage() {
         err instanceof Error
           ? err.message
           : "No fue posible optimizar la imagen.",
+      );
+    } finally {
+      setProcesando(false);
+    }
+  };
+
+  const seleccionarPortada = async (file: File | null) => {
+    if (vistaPortadaLocal) URL.revokeObjectURL(vistaPortadaLocal);
+    setVistaPortadaLocal(null);
+    setArchivoPortada(null);
+    setTamanoPortada(null);
+
+    if (!file) return;
+
+    setProcesando(true);
+    setError("");
+
+    try {
+      const optimizada = await comprimirImagen(file, 150 * 1024, 1200);
+      setArchivoPortada(optimizada);
+      setTamanoPortada(optimizada.size);
+      setVistaPortadaLocal(URL.createObjectURL(optimizada));
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "No fue posible optimizar la portada.",
+      );
+    } finally {
+      setProcesando(false);
+    }
+  };
+
+  const pegarPortada = (event: ReactClipboardEvent<HTMLDivElement>) => {
+    const imagenDesdeItems = Array.from(event.clipboardData.items)
+      .find((item) => item.kind === "file" && item.type.startsWith("image/"))
+      ?.getAsFile();
+    const imagen =
+      imagenDesdeItems ||
+      Array.from(event.clipboardData.files).find((archivo) =>
+        archivo.type.startsWith("image/"),
+      );
+
+    if (!imagen) {
+      setError(
+        "El portapapeles no contiene una imagen. Copie la portada como imagen y vuelva a pegarla.",
+      );
+      return;
+    }
+
+    event.preventDefault();
+    void seleccionarPortada(imagen);
+  };
+
+  const subirPortada = async () => {
+    if (!archivoPortada || !resena) return;
+
+    setProcesando(true);
+    setError("");
+
+    try {
+      const formData = new FormData();
+      formData.append("archivo", archivoPortada);
+      formData.append("uso", "PORTADA");
+      formData.append(
+        "titulo",
+        resena.portada_alt?.trim() || `Portada de ${resena.titulo_obra}`,
+      );
+      formData.append("fuente", resena.fuente_portada?.trim() || "");
+
+      const response = await fetch(
+        `/api/revista/mis-manuscritos/${id}/imagenes`,
+        {
+          method: "POST",
+          headers: { "x-user-codigo": codigoLocal() },
+          body: formData,
+        },
+      );
+      const texto = await response.text();
+      const result = texto ? JSON.parse(texto) : null;
+
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.error || "No fue posible guardar la portada.");
+      }
+
+      setResena((actual) =>
+        actual
+          ? {
+              ...actual,
+              portada_url: result.portada.url,
+              portada_storage_path: result.portada.storage_path,
+              portada_alt: result.portada.alt || null,
+              fuente_portada: result.portada.fuente || null,
+            }
+          : actual,
+      );
+      if (vistaPortadaLocal) URL.revokeObjectURL(vistaPortadaLocal);
+      setVistaPortadaLocal(null);
+      setArchivoPortada(null);
+      setTamanoPortada(null);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "No fue posible guardar la portada.",
+      );
+    } finally {
+      setProcesando(false);
+    }
+  };
+
+  const eliminarPortada = async () => {
+    if (
+      !resena?.portada_url ||
+      !confirm("¿Quitar la portada de esta reseña?")
+    ) {
+      return;
+    }
+
+    setProcesando(true);
+    setError("");
+
+    try {
+      const response = await fetch(
+        `/api/revista/mis-manuscritos/${id}/imagenes`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "x-user-codigo": codigoLocal(),
+          },
+          body: JSON.stringify({ uso: "PORTADA" }),
+        },
+      );
+      const texto = await response.text();
+      const result = texto ? JSON.parse(texto) : null;
+
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.error || "No fue posible quitar la portada.");
+      }
+
+      setResena((actual) =>
+        actual
+          ? {
+              ...actual,
+              portada_url: null,
+              portada_storage_path: null,
+              portada_alt: null,
+              fuente_portada: null,
+            }
+          : actual,
+      );
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "No fue posible quitar la portada.",
+      );
+    } finally {
+      setProcesando(false);
+    }
+  };
+
+  const reabrirPublicacion = async () => {
+    if (
+      !confirm(
+        "¿Reabrir esta publicación para preparar una nueva versión? La versión anterior se conservará en el historial.",
+      )
+    ) {
+      return;
+    }
+
+    setProcesando(true);
+    setError("");
+    try {
+      const response = await fetch(`/api/revista/mis-manuscritos/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "x-user-codigo": codigoLocal(),
+        },
+        body: JSON.stringify({ accion: "REABRIR" }),
+      });
+      const texto = await response.text();
+      const result = texto ? JSON.parse(texto) : null;
+      if (!response.ok || !result?.ok) {
+        throw new Error(
+          result?.error || "No fue posible reabrir la publicación.",
+        );
+      }
+      preparadoRef.current = false;
+      await cargar();
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "No fue posible reabrir la publicación.",
       );
     } finally {
       setProcesando(false);
@@ -1447,6 +1737,382 @@ export default function MiManuscritoPage() {
         </div>
       )}
 
+      {manuscrito.flujo_editorial === "SIMPLIFICADO" &&
+        manuscrito.estado === "PUBLICABLE" && (
+          <section
+            style={{
+              background: "#eef6e9",
+              border: "1px solid #b7d2aa",
+              borderRadius: "12px",
+              padding: "1.2rem",
+              marginBottom: "1.5rem",
+            }}
+          >
+            <h2 style={{ marginTop: 0, color: "#356128" }}>
+              Preparar una nueva versión
+            </h2>
+            <p style={{ lineHeight: 1.7 }}>
+              Puede reabrir esta publicación para corregir el texto o agregar,
+              sustituir o eliminar su portada. La versión enviada anteriormente
+              permanecerá en el historial.
+            </p>
+            <button
+              type="button"
+              disabled={procesando}
+              onClick={reabrirPublicacion}
+              style={{
+                background: "#356128",
+                color: "white",
+                border: 0,
+                borderRadius: "8px",
+                padding: "0.75rem 1rem",
+                fontWeight: 700,
+              }}
+            >
+              Reabrir para edición
+            </button>
+          </section>
+        )}
+
+      {manuscrito.flujo_editorial === "SIMPLIFICADO" &&
+        manuscrito.estado === "ASIGNADO" && (
+          <div
+            style={{
+              background: "#fff4d6",
+              border: "1px solid #dfc36d",
+              borderRadius: "10px",
+              padding: "1rem",
+              marginBottom: "1.5rem",
+            }}
+          >
+            Para preparar una nueva versión, el Consejo Editorial debe retirar
+            primero esta publicación del número en preparación.
+          </div>
+        )}
+
+      {manuscrito.tipo_contenido === "RESENA" && resena && (
+        <section
+          style={{
+            background: "#f8f6ef",
+            border: "1px solid #cfc7b8",
+            borderRadius: "14px",
+            padding: "1.5rem",
+            marginBottom: "1.5rem",
+          }}
+        >
+          <h2 style={{ marginTop: 0, color: "#4d371c" }}>
+            Datos de la obra reseñada
+          </h2>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "1rem",
+            }}
+          >
+            <label style={{ display: "grid", gap: "0.35rem" }}>
+              <strong>Firma pública</strong>
+              <select
+                value={tipoAutoria}
+                disabled={!editable || procesando}
+                onChange={(e) => {
+                  const valor = e.target.value;
+                  setTipoAutoria(valor);
+                  setMostrarReferencia(valor === "MIEMBRO");
+                  setEstadoGuardado("CAMBIOS");
+                }}
+                style={{ padding: "0.7rem" }}
+              >
+                <option value="CONSEJO_EDITORIAL">Consejo Editorial</option>
+                <option value="MIEMBRO">Mi nombre como autor</option>
+              </select>
+            </label>
+
+            <label style={{ display: "grid", gap: "0.35rem" }}>
+              <strong>Título de la obra</strong>
+              <input
+                value={resena.titulo_obra}
+                disabled={!editable || procesando}
+                onChange={(e) =>
+                  cambiarDatoResena("titulo_obra", e.target.value)
+                }
+                style={{ padding: "0.7rem" }}
+              />
+            </label>
+
+            <label style={{ display: "grid", gap: "0.35rem" }}>
+              <strong>Autor o autores de la obra</strong>
+              <input
+                value={resena.autores_obra}
+                disabled={!editable || procesando}
+                onChange={(e) =>
+                  cambiarDatoResena("autores_obra", e.target.value)
+                }
+                style={{ padding: "0.7rem" }}
+              />
+            </label>
+
+            <label style={{ display: "grid", gap: "0.35rem" }}>
+              <strong>Editorial</strong>
+              <input
+                value={resena.editorial || ""}
+                disabled={!editable || procesando}
+                onChange={(e) =>
+                  cambiarDatoResena("editorial", e.target.value || null)
+                }
+                style={{ padding: "0.7rem" }}
+              />
+            </label>
+
+            <label style={{ display: "grid", gap: "0.35rem" }}>
+              <strong>Edición</strong>
+              <input
+                value={resena.edicion || ""}
+                disabled={!editable || procesando}
+                onChange={(e) =>
+                  cambiarDatoResena("edicion", e.target.value || null)
+                }
+                style={{ padding: "0.7rem" }}
+              />
+            </label>
+
+            <label style={{ display: "grid", gap: "0.35rem" }}>
+              <strong>Año de publicación</strong>
+              <input
+                type="number"
+                min={1000}
+                max={2100}
+                value={resena.anio_publicacion || ""}
+                disabled={!editable || procesando}
+                onChange={(e) =>
+                  cambiarDatoResena(
+                    "anio_publicacion",
+                    e.target.value ? Number(e.target.value) : null,
+                  )
+                }
+                style={{ padding: "0.7rem" }}
+              />
+            </label>
+
+            <label style={{ display: "grid", gap: "0.35rem" }}>
+              <strong>ISBN</strong>
+              <input
+                value={resena.isbn || ""}
+                disabled={!editable || procesando}
+                onChange={(e) =>
+                  cambiarDatoResena("isbn", e.target.value || null)
+                }
+                style={{ padding: "0.7rem" }}
+              />
+            </label>
+
+            <label style={{ display: "grid", gap: "0.35rem" }}>
+              <strong>Número de páginas</strong>
+              <input
+                type="number"
+                min={1}
+                value={resena.numero_paginas || ""}
+                disabled={!editable || procesando}
+                onChange={(e) =>
+                  cambiarDatoResena(
+                    "numero_paginas",
+                    e.target.value ? Number(e.target.value) : null,
+                  )
+                }
+                style={{ padding: "0.7rem" }}
+              />
+            </label>
+          </div>
+
+          <label
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              gap: "0.55rem",
+              marginTop: "1rem",
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={mostrarReferencia}
+              disabled={!editable || procesando}
+              onChange={(e) => {
+                setMostrarReferencia(e.target.checked);
+                setEstadoGuardado("CAMBIOS");
+              }}
+            />
+            Mostrar la referencia sugerida para citar esta reseña
+          </label>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "1rem",
+              marginTop: "1.25rem",
+              alignItems: "start",
+            }}
+          >
+            <div
+              tabIndex={editable ? 0 : -1}
+              onPaste={editable ? pegarPortada : undefined}
+              style={{
+                minHeight: "300px",
+                border: "2px dashed #aaa17f",
+                borderRadius: "12px",
+                background: "white",
+                padding: "0.8rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                outlineColor: "#6b6f1a",
+              }}
+              aria-label="Área para pegar la portada"
+            >
+              {vistaPortadaLocal || resena.portada_url ? (
+                <img
+                  src={vistaPortadaLocal || resena.portada_url || ""}
+                  alt={resena.portada_alt || `Portada de ${resena.titulo_obra}`}
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "360px",
+                    objectFit: "contain",
+                  }}
+                />
+              ) : (
+                <div style={{ color: "#6d6558", lineHeight: 1.7 }}>
+                  <strong>Pegue aquí la portada</strong>
+                  <br />
+                  Use Ctrl + V después de copiarla como imagen.
+                </div>
+              )}
+            </div>
+
+            <div>
+              <h3 style={{ marginTop: 0, color: "#4d371c" }}>
+                Portada de la obra
+              </h3>
+              <p style={{ color: "#666", lineHeight: 1.6 }}>
+                Puede pegarla directamente o seleccionarla como archivo. Será
+                convertida a JPG y reducida automáticamente a un máximo de 150
+                KB.
+              </p>
+
+              {editable && (
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  disabled={procesando}
+                  onChange={(e) =>
+                    void seleccionarPortada(e.target.files?.[0] || null)
+                  }
+                />
+              )}
+
+              {tamanoPortada !== null && (
+                <div
+                  style={{
+                    marginTop: "0.8rem",
+                    padding: "0.8rem",
+                    color: "#775500",
+                    background: "#fff4d6",
+                    border: "1px solid #dfc36d",
+                    borderRadius: "8px",
+                    lineHeight: 1.55,
+                  }}
+                >
+                  <strong>
+                    Portada preparada: {(tamanoPortada / 1024).toFixed(1)} KB
+                  </strong>
+                  <br />
+                  Todavía no está guardada. Pulse{" "}
+                  <strong>Guardar portada</strong> antes de enviar la
+                  publicación.
+                </div>
+              )}
+
+              <label
+                style={{ display: "grid", gap: "0.35rem", marginTop: "1rem" }}
+              >
+                <strong>Texto alternativo</strong>
+                <input
+                  value={resena.portada_alt || ""}
+                  disabled={!editable || procesando}
+                  onChange={(e) =>
+                    cambiarDatoResena("portada_alt", e.target.value || null)
+                  }
+                  placeholder={`Portada de ${resena.titulo_obra}`}
+                  style={{ padding: "0.7rem" }}
+                />
+              </label>
+
+              <label
+                style={{ display: "grid", gap: "0.35rem", marginTop: "1rem" }}
+              >
+                <strong>Fuente de la portada</strong>
+                <input
+                  value={resena.fuente_portada || ""}
+                  disabled={!editable || procesando}
+                  onChange={(e) =>
+                    cambiarDatoResena("fuente_portada", e.target.value || null)
+                  }
+                  placeholder="Ej.: Imagen proporcionada por la editorial"
+                  style={{ padding: "0.7rem" }}
+                />
+              </label>
+
+              {editable && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "0.7rem",
+                    marginTop: "1rem",
+                  }}
+                >
+                  {archivoPortada && (
+                    <button
+                      type="button"
+                      disabled={procesando}
+                      onClick={subirPortada}
+                      style={{
+                        background: "#6b6f1a",
+                        color: "white",
+                        border: 0,
+                        borderRadius: "8px",
+                        padding: "0.7rem 1rem",
+                        fontWeight: 700,
+                      }}
+                    >
+                      Guardar portada
+                    </button>
+                  )}
+
+                  {resena.portada_url && (
+                    <button
+                      type="button"
+                      disabled={procesando}
+                      onClick={eliminarPortada}
+                      style={{
+                        background: "white",
+                        color: "#8b2f2f",
+                        border: "1px solid #d3a0a0",
+                        borderRadius: "8px",
+                        padding: "0.7rem 1rem",
+                      }}
+                    >
+                      Quitar portada
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ===================================================
           EDITOR
       =================================================== */}
@@ -1691,7 +2357,9 @@ export default function MiManuscritoPage() {
             }}
           >
             {manuscrito.estado === "BORRADOR"
-              ? "Enviar al Consejo Editorial"
+              ? manuscrito.flujo_editorial === "SIMPLIFICADO"
+                ? "Enviar al Banco de publicables"
+                : "Enviar al Consejo Editorial"
               : "Reenviar al Consejo Editorial"}
           </h2>
 
@@ -1702,7 +2370,9 @@ export default function MiManuscritoPage() {
             }}
           >
             {manuscrito.estado === "BORRADOR"
-              ? "Cuando el ensayo esté completo, envíelo para iniciar su revisión. El texto y las imágenes quedarán congelados como versión 1."
+              ? manuscrito.flujo_editorial === "SIMPLIFICADO"
+                ? "Cuando la publicación esté completa, envíela al Banco de publicables. El texto, la portada y las imágenes quedarán congelados como versión 1."
+                : "Cuando la publicación esté completa, envíela para iniciar su revisión. El texto y las imágenes quedarán congelados como versión 1."
               : "Cuando haya atendido las observaciones, envíe la nueva versión. El texto y las imágenes quedarán registrados de forma independiente de la versión anterior."}
           </p>
 
@@ -1717,7 +2387,9 @@ export default function MiManuscritoPage() {
             rows={4}
             placeholder={
               manuscrito.estado === "BORRADOR"
-                ? "Nota opcional para el Consejo Editorial..."
+                ? manuscrito.flujo_editorial === "SIMPLIFICADO"
+                  ? "Nota opcional para el equipo editorial..."
+                  : "Nota opcional para el Consejo Editorial..."
                 : "Explique brevemente los ajustes realizados..."
             }
             style={{
@@ -1745,7 +2417,9 @@ export default function MiManuscritoPage() {
             }}
           >
             {manuscrito.estado === "BORRADOR"
-              ? "Enviar ensayo"
+              ? manuscrito.flujo_editorial === "SIMPLIFICADO"
+                ? "Enviar al Banco de publicables"
+                : "Enviar publicación"
               : "Reenviar nueva versión"}
           </button>
         </section>

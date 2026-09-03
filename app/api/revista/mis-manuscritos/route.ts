@@ -73,6 +73,11 @@ export async function GET(req: NextRequest) {
           ensayo_id,
           origen,
           tipo_contenido,
+          flujo_editorial,
+          tipo_autoria,
+          autor_corporativo,
+          mostrar_referencia,
+          edicion_ce_permitida,
           estado,
           titulo_actual,
           tema,
@@ -206,6 +211,25 @@ export async function POST(req: NextRequest) {
     const tipoContenido = String(body?.tipo_contenido || "ENSAYO")
       .trim()
       .toUpperCase();
+    const esFlujoSimplificado = ["NOTA_BREVE", "RESENA"].includes(
+      tipoContenido,
+    );
+    const tipoAutoria =
+      tipoContenido === "RESENA" &&
+      String(body?.tipo_autoria || "CONSEJO_EDITORIAL").toUpperCase() ===
+        "MIEMBRO"
+        ? "MIEMBRO"
+        : tipoContenido === "RESENA"
+          ? "CONSEJO_EDITORIAL"
+          : "MIEMBRO";
+    const mostrarReferencia =
+      tipoContenido === "RESENA" ? body?.mostrar_referencia === true : true;
+    const datosResena =
+      tipoContenido === "RESENA" &&
+      body?.resena &&
+      typeof body.resena === "object"
+        ? body.resena
+        : null;
     const temaId = Number(body?.tema_id);
     const subtemaId = body?.subtema_id ? Number(body.subtema_id) : null;
     const periodoId = body?.periodo_id ? Number(body.periodo_id) : null;
@@ -239,6 +263,21 @@ export async function POST(req: NextRequest) {
     if (!TIPOS_CONTENIDO.has(tipoContenido)) {
       return NextResponse.json(
         { ok: false, error: "Seleccione un tipo de contenido válido." },
+        { status: 400 },
+      );
+    }
+
+    if (
+      tipoContenido === "RESENA" &&
+      (!String(datosResena?.titulo_obra || "").trim() ||
+        !String(datosResena?.autores_obra || "").trim())
+    ) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "En una reseña debe indicar el título y la autoría de la obra reseñada.",
+        },
         { status: 400 },
       );
     }
@@ -441,6 +480,12 @@ export async function POST(req: NextRequest) {
           autor_miembro_id: miembro.id,
           origen: "PROPUESTA_AUTOR",
           tipo_contenido: tipoContenido,
+          flujo_editorial: esFlujoSimplificado ? "SIMPLIFICADO" : "COMPLETO",
+          tipo_autoria: tipoAutoria,
+          autor_corporativo:
+            tipoAutoria === "CONSEJO_EDITORIAL" ? "Consejo Editorial" : null,
+          mostrar_referencia: mostrarReferencia,
+          edicion_ce_permitida: esFlujoSimplificado,
           estado: "BORRADOR",
           titulo_actual: titulo,
           contenido_actual: "",
@@ -457,6 +502,59 @@ export async function POST(req: NextRequest) {
 
       if (manuscritoError) throw new Error(manuscritoError.message);
       manuscritoId = Number(manuscrito.id);
+    }
+
+    if (tipoContenido === "RESENA" && datosResena) {
+      const anioPublicacion = datosResena.anio_publicacion
+        ? Number(datosResena.anio_publicacion)
+        : null;
+      const numeroPaginas = datosResena.numero_paginas
+        ? Number(datosResena.numero_paginas)
+        : null;
+
+      if (
+        anioPublicacion !== null &&
+        (!Number.isInteger(anioPublicacion) ||
+          anioPublicacion < 1000 ||
+          anioPublicacion > 2100)
+      ) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error: "El año de publicación de la obra no es válido.",
+          },
+          { status: 400 },
+        );
+      }
+
+      if (
+        numeroPaginas !== null &&
+        (!Number.isInteger(numeroPaginas) || numeroPaginas <= 0)
+      ) {
+        return NextResponse.json(
+          { ok: false, error: "El número de páginas de la obra no es válido." },
+          { status: 400 },
+        );
+      }
+
+      const { error: resenaError } = await supabaseServer
+        .from("resenas_bibliograficas")
+        .upsert(
+          {
+            manuscrito_id: manuscritoId,
+            titulo_obra: String(datosResena.titulo_obra).trim(),
+            autores_obra: String(datosResena.autores_obra).trim(),
+            editorial: String(datosResena.editorial || "").trim() || null,
+            edicion: String(datosResena.edicion || "").trim() || null,
+            anio_publicacion: anioPublicacion,
+            isbn: String(datosResena.isbn || "").trim() || null,
+            numero_paginas: numeroPaginas,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: "manuscrito_id" },
+        );
+
+      if (resenaError) throw new Error(resenaError.message);
     }
 
     if (temasSecundarios.length > 0) {

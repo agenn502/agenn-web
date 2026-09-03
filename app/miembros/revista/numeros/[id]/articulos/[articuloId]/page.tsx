@@ -16,6 +16,19 @@ type Imagen = {
   orden: number;
 };
 
+type Resena = {
+  titulo_obra: string;
+  autores_obra: string;
+  editorial: string | null;
+  edicion: string | null;
+  anio_publicacion: number | null;
+  isbn: string | null;
+  numero_paginas: number | null;
+  portada_url: string | null;
+  portada_alt: string | null;
+  fuente_portada: string | null;
+};
+
 type Articulo = {
   id: number;
   manuscrito_id: number;
@@ -27,8 +40,12 @@ type Articulo = {
     id: number;
     titulo_actual: string;
     tipo_contenido: string;
+    tipo_autoria: string;
+    autor_corporativo: string | null;
+    mostrar_referencia: boolean;
     autor: { id: number; codigo: string; nombre: string; nivel: string } | null;
   } | null;
+  resena: Resena | null;
   version: {
     id: number;
     numero_version: number;
@@ -39,6 +56,17 @@ type Articulo = {
     imagenes: Imagen[];
   } | null;
 };
+
+function autorPublico(articulo: Articulo) {
+  if (articulo.manuscrito?.tipo_autoria === "CONSEJO_EDITORIAL") {
+    return articulo.manuscrito.autor_corporativo || "Consejo Editorial";
+  }
+  return articulo.manuscrito?.autor?.nombre || "Autor no identificado";
+}
+
+function sinPuntoFinal(valor: string) {
+  return valor.trim().replace(/\.+$/, "");
+}
 
 type Numero = {
   id: number;
@@ -146,6 +174,50 @@ function htmlEnriquecidoConImagenes(contenido: string, imagenes: Imagen[]) {
     },
   );
 }
+
+const fichaResena: React.CSSProperties = {
+  display: "grid",
+  gridTemplateColumns: "minmax(170px, 260px) minmax(0, 1fr)",
+  gap: "2rem",
+  alignItems: "start",
+  margin: "2.5rem 3mm 0",
+  padding: "1.5rem",
+  background: "#f6f2e9",
+  border: "1px solid #ddd4c7",
+  borderRadius: "12px",
+};
+const figuraPortada: React.CSSProperties = { margin: 0, textAlign: "center" };
+const imagenPortada: React.CSSProperties = {
+  display: "block",
+  width: "100%",
+  maxHeight: "380px",
+  objectFit: "contain",
+  borderRadius: "6px",
+};
+const piePortada: React.CSSProperties = {
+  marginTop: "0.55rem",
+  color: "#666",
+  fontSize: "0.82rem",
+};
+const etiquetaFicha: React.CSSProperties = {
+  margin: 0,
+  color: "#6b6f1a",
+  fontWeight: 800,
+  letterSpacing: "0.06em",
+  textTransform: "uppercase",
+  fontSize: "0.78rem",
+};
+const tituloObra: React.CSSProperties = {
+  margin: "0.45rem 0 1rem",
+  color: "#4d371c",
+  fontFamily: "Georgia, serif",
+};
+const datosFicha: React.CSSProperties = {
+  display: "grid",
+  gap: "0.55rem",
+  margin: 0,
+  lineHeight: 1.5,
+};
 
 function contenidoConImagenes(contenido: string, imagenes: Imagen[]) {
   if (contenido.trimStart().startsWith(PREFIJO_HTML_ENRIQUECIDO)) {
@@ -286,14 +358,18 @@ export default function ArticuloRevistaPage() {
   const referencia = useMemo(() => {
     if (!numero || !articulo) return "";
 
-    const autor = articulo.manuscrito?.autor?.nombre || "Autor";
+    const autor = autorPublico(articulo);
     const titulo =
       articulo.version?.titulo ||
       articulo.manuscrito?.titulo_actual ||
       "Sin título";
     const volumen = numero.volumen || "—";
 
-    return `${autor}. (${numero.anio}). ${titulo}. Revista AGENN, ${volumen}(${numero.numero}), ${articulo.localizador || ""}.`;
+    const resena =
+      articulo.manuscrito?.tipo_contenido === "RESENA" && articulo.resena
+        ? `[Reseña del libro ${sinPuntoFinal(articulo.resena.titulo_obra)}, por ${articulo.resena.autores_obra}]. `
+        : "";
+    return `${autor}. (${numero.anio}). ${sinPuntoFinal(titulo)}. ${resena}Revista AGENN, ${volumen}(${numero.numero}), ${articulo.localizador || ""}.`;
   }, [numero, articulo]);
 
   if (loading) return <p>Cargando artículo...</p>;
@@ -356,7 +432,7 @@ export default function ArticuloRevistaPage() {
           </h1>
 
           <div style={{ fontSize: "1.1rem", color: "#555" }}>
-            {articulo.manuscrito?.autor?.nombre || "Autor no identificado"}
+            {autorPublico(articulo)}
           </div>
 
           {articulo.seccion && (
@@ -373,6 +449,69 @@ export default function ArticuloRevistaPage() {
             }
           />
         </header>
+
+        {articulo.manuscrito?.tipo_contenido === "RESENA" &&
+          articulo.resena && (
+            <section style={fichaResena}>
+              {articulo.resena.portada_url && (
+                <figure style={figuraPortada}>
+                  <img
+                    src={articulo.resena.portada_url}
+                    alt={
+                      articulo.resena.portada_alt ||
+                      `Portada de ${articulo.resena.titulo_obra}`
+                    }
+                    style={imagenPortada}
+                  />
+                  {articulo.resena.fuente_portada && (
+                    <figcaption style={piePortada}>
+                      Fuente: {articulo.resena.fuente_portada}
+                    </figcaption>
+                  )}
+                </figure>
+              )}
+              <div>
+                <p style={etiquetaFicha}>Obra reseñada</p>
+                <h2 style={tituloObra}>{articulo.resena.titulo_obra}</h2>
+                <dl className="datos-ficha-resena" style={datosFicha}>
+                  <div>
+                    <dt>Autoría</dt>
+                    <dd>{articulo.resena.autores_obra}</dd>
+                  </div>
+                  {articulo.resena.editorial && (
+                    <div>
+                      <dt>Editorial</dt>
+                      <dd>{articulo.resena.editorial}</dd>
+                    </div>
+                  )}
+                  {articulo.resena.edicion && (
+                    <div>
+                      <dt>Edición</dt>
+                      <dd>{articulo.resena.edicion}</dd>
+                    </div>
+                  )}
+                  {articulo.resena.anio_publicacion && (
+                    <div>
+                      <dt>Año</dt>
+                      <dd>{articulo.resena.anio_publicacion}</dd>
+                    </div>
+                  )}
+                  {articulo.resena.isbn && (
+                    <div>
+                      <dt>ISBN</dt>
+                      <dd>{articulo.resena.isbn}</dd>
+                    </div>
+                  )}
+                  {articulo.resena.numero_paginas && (
+                    <div>
+                      <dt>Páginas</dt>
+                      <dd>{articulo.resena.numero_paginas}</dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+            </section>
+          )}
 
         {error && (
           <div
@@ -403,20 +542,22 @@ export default function ArticuloRevistaPage() {
           )}
         </article>
 
-        <aside
-          style={{
-            marginTop: "2rem",
-            padding: "1.5rem",
-            background: "#f6f2e9",
-            borderRadius: "10px",
-            borderLeft: "4px solid #6b6f1a",
-          }}
-        >
-          <h2 style={{ marginTop: 0, color: "#4d371c", fontSize: "1.1rem" }}>
-            Cómo citar este artículo
-          </h2>
-          <p style={{ marginBottom: 0, lineHeight: 1.7 }}>{referencia}</p>
-        </aside>
+        {articulo.manuscrito?.mostrar_referencia !== false && (
+          <aside
+            style={{
+              marginTop: "2rem",
+              padding: "1.5rem",
+              background: "#f6f2e9",
+              borderRadius: "10px",
+              borderLeft: "4px solid #6b6f1a",
+            }}
+          >
+            <h2 style={{ marginTop: 0, color: "#4d371c", fontSize: "1.1rem" }}>
+              Cómo citar este artículo
+            </h2>
+            <p style={{ marginBottom: 0, lineHeight: 1.7 }}>{referencia}</p>
+          </aside>
+        )}
         <style jsx global>{`
           .contenido-html-enriquecido {
             font-family: "Times New Roman", Times, serif;
@@ -437,6 +578,25 @@ export default function ArticuloRevistaPage() {
             line-height: 1.35;
             font-weight: 700;
             text-align: left;
+          }
+
+          .datos-ficha-resena > div {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.35rem;
+          }
+
+          .datos-ficha-resena dt {
+            font-weight: 700;
+          }
+
+          .datos-ficha-resena dt::after {
+            content: ":";
+          }
+
+          .datos-ficha-resena dd {
+            margin: 0;
           }
 
           .contenido-html-enriquecido img {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AccesoNumeroPrueba from "@/components/revista/AccesoNumeroPrueba";
 import styles from "./page.module.css";
 
 export default function RevistaPage() {
@@ -26,9 +27,9 @@ export default function RevistaPage() {
         <p className={styles.descripcion}>
           Sus páginas están dedicadas al conocimiento, análisis y difusión del
           patrimonio numismático, notafílico y exonúmico, con especial atención
-          a Guatemala y a su relación con la historia, el arte, la economía y
-          la sociedad. Cada publicación busca acercar el trabajo académico tanto
-          a especialistas y coleccionistas como a lectores interesados en
+          a Guatemala y a su relación con la historia, el arte, la economía y la
+          sociedad. Cada publicación busca acercar el trabajo académico tanto a
+          especialistas y coleccionistas como a lectores interesados en
           comprender el significado histórico y cultural de estos objetos.
         </p>
 
@@ -36,7 +37,7 @@ export default function RevistaPage() {
           <Link href="/revista/numeros" className={styles.botonPrincipal}>
             Explorar los números
           </Link>
-
+          <AccesoNumeroPrueba className={styles.botonPrincipal} />
         </div>
       </section>
 
@@ -44,9 +45,7 @@ export default function RevistaPage() {
         <article>
           <span>01</span>
           <h2>Periodicidad</h2>
-          <p>
-            Tres números al año, publicados con frecuencia cuatrimestral.
-          </p>
+          <p>Tres números al año, publicados con frecuencia cuatrimestral.</p>
         </article>
 
         <article>

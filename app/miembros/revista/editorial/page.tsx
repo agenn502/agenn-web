@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import Link from "next/link";
 
@@ -57,9 +52,7 @@ type ConsejoEditorial = {
   rol: string;
 };
 
-function etiquetaEstado(
-  estado: Manuscrito["estado"]
-) {
+function etiquetaEstado(estado: Manuscrito["estado"]) {
   switch (estado) {
     case "CANDIDATO":
       return "Candidato";
@@ -106,22 +99,18 @@ function fecha(fechaIso: string | null) {
   if (!fechaIso) return "—";
 
   try {
-    return new Intl.DateTimeFormat(
-      "es-GT",
-      {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      }
-    ).format(new Date(fechaIso));
+    return new Intl.DateTimeFormat("es-GT", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(new Date(fechaIso));
   } catch {
     return fechaIso;
   }
 }
 
 function obtenerCodigoLocal() {
-  const stored =
-    localStorage.getItem("user");
+  const stored = localStorage.getItem("user");
 
   if (!stored) return "";
 
@@ -137,94 +126,66 @@ function obtenerCodigoLocal() {
 }
 
 export default function GestionEditorialPage() {
-  const [
-    consejoEditorial,
-    setConsejoEditorial,
-  ] =
-    useState<ConsejoEditorial | null>(
-      null
-    );
+  const [consejoEditorial, setConsejoEditorial] =
+    useState<ConsejoEditorial | null>(null);
 
-  const [manuscritos, setManuscritos] =
-    useState<Manuscrito[]>([]);
+  const [manuscritos, setManuscritos] = useState<Manuscrito[]>([]);
 
-  const [loading, setLoading] =
-    useState(true);
+  const [loading, setLoading] = useState(true);
 
-  const [error, setError] =
-    useState("");
+  const [error, setError] = useState("");
 
-  const cargar = useCallback(
-    async () => {
-      const codigo =
-        obtenerCodigoLocal();
+  const cargar = useCallback(async () => {
+    const codigo = obtenerCodigoLocal();
 
-      if (!codigo) {
-        window.location.href =
-          "/login";
-        return;
-      }
+    if (!codigo) {
+      window.location.href = "/login";
+      return;
+    }
 
-      setLoading(true);
-      setError("");
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/revista/editorial", {
+        headers: {
+          "x-user-codigo": codigo,
+        },
+
+        cache: "no-store",
+      });
+
+      const texto = await response.text();
+
+      let result: any = null;
 
       try {
-        const response = await fetch(
-          "/api/revista/editorial",
-          {
-            headers: {
-              "x-user-codigo":
-                codigo,
-            },
-
-            cache: "no-store",
-          }
+        result = texto ? JSON.parse(texto) : null;
+      } catch {
+        throw new Error(
+          `La API devolvió una respuesta no válida (${response.status}).`,
         );
-
-        const texto =
-          await response.text();
-
-        let result: any = null;
-
-        try {
-          result = texto
-            ? JSON.parse(texto)
-            : null;
-        } catch {
-          throw new Error(
-            `La API devolvió una respuesta no válida (${response.status}).`
-          );
-        }
-
-        if (
-          !response.ok ||
-          !result?.ok
-        ) {
-          throw new Error(
-            result?.error ||
-              "No fue posible cargar la gestión editorial."
-          );
-        }
-
-        setConsejoEditorial(
-          result.consejo_editorial
-        );
-
-        setManuscritos(
-          result.manuscritos || []
-        );
-      } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "No fue posible cargar la gestión editorial."
-        );
-      } finally {
-        setLoading(false);
       }
-    },
-    []
-  );
+
+      if (!response.ok || !result?.ok) {
+        throw new Error(
+          result?.error || "No fue posible cargar la gestión editorial.",
+        );
+      }
+
+      setConsejoEditorial(result.consejo_editorial);
+
+      setManuscritos(result.manuscritos || []);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "No fue posible cargar la gestión editorial.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     cargar();
@@ -235,90 +196,56 @@ export default function GestionEditorialPage() {
   // =========================================================
 
   const candidatos = useMemo(
-    () =>
-      manuscritos.filter(
-        (m) =>
-          m.estado ===
-          "CANDIDATO"
-      ),
-    [manuscritos]
+    () => manuscritos.filter((m) => m.estado === "CANDIDATO"),
+    [manuscritos],
   );
 
   const revision = useMemo(
     () =>
       manuscritos.filter(
         (m) =>
-          m.estado ===
-            "EN_REVISION" ||
-          m.estado ===
-            "CORRECCIONES" ||
-          m.estado ===
-            "REENVIADO"
+          m.estado === "EN_REVISION" ||
+          m.estado === "CORRECCIONES" ||
+          m.estado === "REENVIADO",
       ),
-    [manuscritos]
+    [manuscritos],
   );
 
   const publicables = useMemo(
-    () =>
-      manuscritos.filter(
-        (m) =>
-          m.estado ===
-          "AVALADO"
-      ),
-    [manuscritos]
+    () => manuscritos.filter((m) => m.estado === "AVALADO"),
+    [manuscritos],
   );
 
   const publicados = useMemo(
     () =>
       manuscritos.filter(
-        (m) =>
-          m.estado ===
-            "ASIGNADO" ||
-          m.estado ===
-            "PUBLICADO"
+        (m) => m.estado === "ASIGNADO" || m.estado === "PUBLICADO",
       ),
-    [manuscritos]
+    [manuscritos],
   );
 
   const descartados = useMemo(
-    () =>
-      manuscritos.filter(
-        (m) =>
-          m.estado ===
-          "DESCARTADO"
-      ),
-    [manuscritos]
+    () => manuscritos.filter((m) => m.estado === "DESCARTADO"),
+    [manuscritos],
   );
 
   if (loading) {
-    return (
-      <p>
-        Cargando gestión
-        editorial...
-      </p>
-    );
+    return <p>Cargando gestión editorial...</p>;
   }
 
-  if (
-    error &&
-    !consejoEditorial
-  ) {
+  if (error && !consejoEditorial) {
     return (
       <div
         style={{
           maxWidth: "900px",
         }}
       >
-        <h1>
-          Gestión editorial
-        </h1>
+        <h1>Gestión editorial</h1>
 
         <div
           style={{
-            background:
-              "#fff3f3",
-            border:
-              "1px solid #d28b8b",
+            background: "#fff3f3",
+            border: "1px solid #d28b8b",
             borderRadius: "10px",
             padding: "1rem",
             color: "#7a1f1f",
@@ -330,17 +257,14 @@ export default function GestionEditorialPage() {
         <Link
           href="/miembros/revista"
           style={{
-            display:
-              "inline-block",
+            display: "inline-block",
             marginTop: "1rem",
             color: "#4d371c",
             fontWeight: 700,
-            textDecoration:
-              "none",
+            textDecoration: "none",
           }}
         >
-          ← Volver a Revista
-          AGENN
+          ← Volver a Revista AGENN
         </Link>
       </div>
     );
@@ -354,13 +278,10 @@ export default function GestionEditorialPage() {
     >
       <p
         style={{
-          margin:
-            "0 0 0.4rem 0",
+          margin: "0 0 0.4rem 0",
           fontSize: "0.82rem",
-          letterSpacing:
-            "0.05em",
-          textTransform:
-            "uppercase",
+          letterSpacing: "0.05em",
+          textTransform: "uppercase",
           color: "#6b6f1a",
           fontWeight: 700,
         }}
@@ -384,61 +305,37 @@ export default function GestionEditorialPage() {
           color: "#555",
         }}
       >
-        Desde este espacio el
-        Consejo Editorial administra
-        los trabajos propuestos para
-        Revista AGENN, desde su
-        ingreso al banco editorial
-        hasta su aval, asignación y
-        publicación.
+        Desde este espacio el Consejo Editorial administra los trabajos
+        propuestos para Revista AGENN, desde su ingreso al banco editorial hasta
+        su aval, asignación y publicación.
       </p>
 
       {consejoEditorial && (
         <div
           style={{
-            background:
-              "#eef6e9",
-            border:
-              "1px solid #cfe3c4",
+            background: "#eef6e9",
+            border: "1px solid #cfe3c4",
             borderRadius: "10px",
-            padding:
-              "0.9rem 1rem",
-            marginBottom:
-              "1.5rem",
+            padding: "0.9rem 1rem",
+            marginBottom: "1.5rem",
           }}
         >
-          <strong>
-            {
-              consejoEditorial.nombre
-            }
-          </strong>
-
+          <strong>{consejoEditorial.nombre}</strong>
           <br />
-
-          {
-            consejoEditorial.codigo
-          }{" "}
-          · Consejo Editorial ·{" "}
-          <strong>
-            {
-              consejoEditorial.rol
-            }
-          </strong>
+          {consejoEditorial.codigo} · Consejo Editorial ·{" "}
+          <strong>{consejoEditorial.rol}</strong>
         </div>
       )}
 
       {error && (
         <div
           style={{
-            background:
-              "#fff3f3",
-            border:
-              "1px solid #d28b8b",
+            background: "#fff3f3",
+            border: "1px solid #d28b8b",
             borderRadius: "10px",
             padding: "1rem",
             color: "#7a1f1f",
-            marginBottom:
-              "1.5rem",
+            marginBottom: "1.5rem",
           }}
         >
           {error}
@@ -452,39 +349,18 @@ export default function GestionEditorialPage() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fit, minmax(160px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
           gap: "0.8rem",
           marginBottom: "2rem",
         }}
       >
-        <Contador
-          numero={
-            candidatos.length
-          }
-          texto="Candidatos"
-        />
+        <Contador numero={candidatos.length} texto="Candidatos" />
 
-        <Contador
-          numero={
-            revision.length
-          }
-          texto="En revisión"
-        />
+        <Contador numero={revision.length} texto="En revisión" />
 
-        <Contador
-          numero={
-            publicables.length
-          }
-          texto="Publicables"
-        />
+        <Contador numero={publicables.length} texto="Publicables" />
 
-        <Contador
-          numero={
-            publicados.length
-          }
-          texto="Asignados / publicados"
-        />
+        <Contador numero={publicados.length} texto="Asignados / publicados" />
       </div>
 
       {/* =====================================================
@@ -494,9 +370,7 @@ export default function GestionEditorialPage() {
       <Bandeja
         titulo="Banco de candidatos"
         descripcion="Trabajos propuestos para consideración inicial del Consejo Editorial."
-        manuscritos={
-          candidatos
-        }
+        manuscritos={candidatos}
         vacio="No hay manuscritos pendientes de consideración inicial."
       />
 
@@ -507,9 +381,7 @@ export default function GestionEditorialPage() {
       <Bandeja
         titulo="En revisión editorial"
         descripcion="Manuscritos actualmente sometidos a revisión, correcciones o reenvío."
-        manuscritos={
-          revision
-        }
+        manuscritos={revision}
         vacio="No hay manuscritos actualmente en revisión."
       />
 
@@ -520,33 +392,45 @@ export default function GestionEditorialPage() {
       <Bandeja
         titulo="Banco de publicables"
         descripcion="Trabajos que ya cuentan con aval del Consejo Editorial y pueden incorporarse a un número de Revista AGENN."
-        manuscritos={
-          publicables
-        }
+        manuscritos={publicables}
         vacio="Todavía no existen manuscritos avalados pendientes de publicación."
       />
 
-      {/* =====================================================
-          PUBLICADOS
-      ===================================================== */}
+      <section
+        style={{
+          background: "#f7f3eb",
+          border: "1px solid #ddd4c7",
+          borderRadius: "12px",
+          padding: "1.25rem",
+          marginBottom: "1.5rem",
+        }}
+      >
+        <h2 style={{ marginTop: 0, color: "#4d371c" }}>Archivo editorial</h2>
+        <p style={{ lineHeight: 1.7, color: "#555" }}>
+          Consulte los {publicados.length} trabajos asignados a números o ya
+          publicados mediante búsqueda, filtros y páginas independientes.
+        </p>
+        <Link
+          href="/miembros/revista/editorial/archivo"
+          style={{
+            display: "inline-block",
+            background: "#4d371c",
+            color: "white",
+            textDecoration: "none",
+            padding: "0.75rem 1rem",
+            borderRadius: "8px",
+            fontWeight: 700,
+          }}
+        >
+          Ver asignados y publicados
+        </Link>
+      </section>
 
-      <Bandeja
-        titulo="Asignados y publicados"
-        descripcion="Trabajos incorporados a un número de Revista AGENN o ya publicados."
-        manuscritos={
-          publicados
-        }
-        vacio="Todavía no existen manuscritos asignados o publicados."
-      />
-
-      {descartados.length >
-        0 && (
+      {descartados.length > 0 && (
         <Bandeja
           titulo="No seleccionados"
           descripcion="Trabajos que concluyeron su recorrido editorial sin ser seleccionados para publicación."
-          manuscritos={
-            descartados
-          }
+          manuscritos={descartados}
           vacio=""
         />
       )}
@@ -554,16 +438,14 @@ export default function GestionEditorialPage() {
       <Link
         href="/miembros/revista"
         style={{
-          display:
-            "inline-block",
+          display: "inline-block",
           marginTop: "0.5rem",
           color: "#4d371c",
           fontWeight: 700,
           textDecoration: "none",
         }}
       >
-        ← Volver a Revista
-        AGENN
+        ← Volver a Revista AGENN
       </Link>
     </div>
   );
@@ -573,19 +455,12 @@ export default function GestionEditorialPage() {
 // COMPONENTES
 // ===========================================================
 
-function Contador({
-  numero,
-  texto,
-}: {
-  numero: number;
-  texto: string;
-}) {
+function Contador({ numero, texto }: { numero: number; texto: string }) {
   return (
     <div
       style={{
         background: "white",
-        border:
-          "1px solid #ddd4c7",
+        border: "1px solid #ddd4c7",
         borderRadius: "12px",
         padding: "1rem",
       }}
@@ -627,8 +502,7 @@ function Bandeja({
     <section
       style={{
         background: "white",
-        border:
-          "1px solid #ddd4c7",
+        border: "1px solid #ddd4c7",
         borderRadius: "14px",
         padding: "1.5rem",
         marginBottom: "1.5rem",
@@ -637,11 +511,9 @@ function Bandeja({
       <div
         style={{
           display: "flex",
-          justifyContent:
-            "space-between",
+          justifyContent: "space-between",
           gap: "1rem",
-          alignItems:
-            "flex-start",
+          alignItems: "flex-start",
           flexWrap: "wrap",
         }}
       >
@@ -649,8 +521,7 @@ function Bandeja({
           <h2
             style={{
               marginTop: 0,
-              marginBottom:
-                "0.35rem",
+              marginBottom: "0.35rem",
               color: "#4d371c",
             }}
           >
@@ -670,13 +541,10 @@ function Bandeja({
 
         <span
           style={{
-            background:
-              "#f4f1e8",
+            background: "#f4f1e8",
             color: "#6b4f2a",
-            borderRadius:
-              "999px",
-            padding:
-              "0.35rem 0.7rem",
+            borderRadius: "999px",
+            padding: "0.35rem 0.7rem",
             fontWeight: 700,
             fontSize: "0.85rem",
           }}
@@ -685,14 +553,11 @@ function Bandeja({
         </span>
       </div>
 
-      {manuscritos.length ===
-      0 ? (
+      {manuscritos.length === 0 ? (
         <div
           style={{
-            background:
-              "#faf8f2",
-            border:
-              "1px dashed #cfc5b6",
+            background: "#faf8f2",
+            border: "1px dashed #cfc5b6",
             borderRadius: "10px",
             padding: "1rem",
             color: "#666",
@@ -707,39 +572,24 @@ function Bandeja({
             gap: "0.9rem",
           }}
         >
-          {manuscritos.map(
-            (manuscrito) => (
-              <TarjetaManuscrito
-                key={
-                  manuscrito.id
-                }
-                manuscrito={
-                  manuscrito
-                }
-              />
-            )
-          )}
+          {manuscritos.map((manuscrito) => (
+            <TarjetaManuscrito key={manuscrito.id} manuscrito={manuscrito} />
+          ))}
         </div>
       )}
     </section>
   );
 }
 
-function TarjetaManuscrito({
-  manuscrito,
-}: {
-  manuscrito: Manuscrito;
-}) {
+function TarjetaManuscrito({ manuscrito }: { manuscrito: Manuscrito }) {
   return (
     <div
       style={{
-        border:
-          "1px solid #e2dbcf",
+        border: "1px solid #e2dbcf",
         borderRadius: "11px",
         padding: "1rem",
         display: "flex",
-        justifyContent:
-          "space-between",
+        justifyContent: "space-between",
         gap: "1.2rem",
         alignItems: "center",
         flexWrap: "wrap",
@@ -752,14 +602,11 @@ function TarjetaManuscrito({
       >
         <h3
           style={{
-            margin:
-              "0 0 0.45rem 0",
+            margin: "0 0 0.45rem 0",
             color: "#4d371c",
           }}
         >
-          {
-            manuscrito.titulo_actual
-          }
+          {manuscrito.titulo_actual}
         </h3>
 
         <div
@@ -768,40 +615,13 @@ function TarjetaManuscrito({
             lineHeight: 1.7,
           }}
         >
-          <strong>
-            {manuscrito.autor
-              ?.nombre ||
-              "Autor no identificado"}
-          </strong>
-
-          {manuscrito.autor && (
-            <>
-              {" "}
-              ·{" "}
-              {
-                manuscrito
-                  .autor.codigo
-              }
-            </>
-          )}
-
+          <strong>{manuscrito.autor?.nombre || "Autor no identificado"}</strong>
+          {manuscrito.autor && <> · {manuscrito.autor.codigo}</>}
           <br />
-
-          {manuscrito.tipo_contenido}{" "}
-          ·{" "}
-          {etiquetaOrigen(
-            manuscrito.origen
-          )}
-
+          {manuscrito.tipo_contenido} · {etiquetaOrigen(manuscrito.origen)}
           <br />
-
-          Versión{" "}
-          {manuscrito.version_actual ||
-            "—"}{" "}
-          · Ingreso:{" "}
-          {fecha(
-            manuscrito.fecha_ingreso
-          )}
+          Versión {manuscrito.version_actual || "—"} · Ingreso:{" "}
+          {fecha(manuscrito.fecha_ingreso)}
         </div>
 
         <div
@@ -811,23 +631,16 @@ function TarjetaManuscrito({
         >
           <span
             style={{
-              display:
-                "inline-block",
-              background:
-                "#f4f1e8",
+              display: "inline-block",
+              background: "#f4f1e8",
               color: "#6b4f2a",
-              borderRadius:
-                "999px",
-              padding:
-                "0.3rem 0.6rem",
-              fontSize:
-                "0.82rem",
+              borderRadius: "999px",
+              padding: "0.3rem 0.6rem",
+              fontSize: "0.82rem",
               fontWeight: 700,
             }}
           >
-            {etiquetaEstado(
-              manuscrito.estado
-            )}
+            {etiquetaEstado(manuscrito.estado)}
           </span>
         </div>
       </div>
@@ -838,8 +651,7 @@ function TarjetaManuscrito({
           background: "#356128",
           color: "white",
           textDecoration: "none",
-          padding:
-            "0.75rem 1rem",
+          padding: "0.75rem 1rem",
           borderRadius: "8px",
           fontWeight: 700,
           whiteSpace: "nowrap",

@@ -134,7 +134,7 @@ export async function GET(
       const { data, error } = await supabaseServer
         .from("manuscritos_editoriales")
         .select(
-          "id,autor_miembro_id,titulo_actual,tipo_contenido,origen,estado,tema",
+          "id,autor_miembro_id,titulo_actual,tipo_contenido,flujo_editorial,tipo_autoria,autor_corporativo,mostrar_referencia,edicion_ce_permitida,origen,estado,tema",
         )
         .in("id", manuscritoIds);
       if (error) throw new Error(error.message);
@@ -171,6 +171,7 @@ export async function GET(
     }
 
     let imagenesAsignadas: any[] = [];
+    let resenasAsignadas: any[] = [];
 
     if (versionIds.length > 0) {
       const { data, error } = await supabaseServer
@@ -183,9 +184,25 @@ export async function GET(
 
       if (error) throw new Error(error.message);
       imagenesAsignadas = data || [];
+
+      const { data: resenas, error: resenasError } = await supabaseServer
+        .from("resena_versiones")
+        .select(
+          "id,version_id,manuscrito_id,titulo_obra,autores_obra,editorial,edicion,anio_publicacion,isbn,numero_paginas,portada_url,portada_storage_path,portada_alt,fuente_portada,created_at",
+        )
+        .in("version_id", versionIds);
+
+      if (resenasError) throw new Error(resenasError.message);
+      resenasAsignadas = resenas || [];
     }
 
     const imagenesPorVersion = new Map<number, any[]>();
+    const resenaPorVersion = new Map(
+      resenasAsignadas.map((resena: any) => [
+        Number(resena.version_id),
+        resena,
+      ]),
+    );
 
     for (const imagen of imagenesAsignadas) {
       const versionId = Number(imagen.version_id);
@@ -213,6 +230,7 @@ export async function GET(
       return {
         ...a,
         manuscrito: manuscrito ? { ...manuscrito, autor: autor || null } : null,
+        resena: resenaPorVersion.get(Number(a.version_id)) || null,
         version: version
           ? {
               ...version,
@@ -225,9 +243,9 @@ export async function GET(
     const { data: avalados, error: avaladosError } = await supabaseServer
       .from("manuscritos_editoriales")
       .select(
-        "id,autor_miembro_id,titulo_actual,tipo_contenido,origen,estado,tema,fecha_aval,updated_at",
+        "id,autor_miembro_id,titulo_actual,tipo_contenido,origen,estado,tema,fecha_aval,updated_at,flujo_editorial,tipo_autoria,autor_corporativo",
       )
-      .eq("estado", "AVALADO")
+      .in("estado", ["AVALADO", "PUBLICABLE"])
       .order("fecha_aval", { ascending: true });
 
     if (avaladosError) throw new Error(avaladosError.message);
@@ -517,6 +535,17 @@ export async function PATCH(
         );
       }
 
+      const { data: manuscritoActual, error: manuscritoActualError } =
+        await supabaseServer
+          .from("manuscritos_editoriales")
+          .select("flujo_editorial")
+          .eq("id", articulo.manuscrito_id)
+          .maybeSingle();
+
+      if (manuscritoActualError) {
+        throw new Error(manuscritoActualError.message);
+      }
+
       const { error: eliminarError } = await supabaseServer
         .from("revista_articulos")
         .delete()
@@ -526,7 +555,13 @@ export async function PATCH(
 
       const { error: restaurarError } = await supabaseServer
         .from("manuscritos_editoriales")
-        .update({ estado: "AVALADO", updated_at: new Date().toISOString() })
+        .update({
+          estado:
+            manuscritoActual?.flujo_editorial === "SIMPLIFICADO"
+              ? "PUBLICABLE"
+              : "AVALADO",
+          updated_at: new Date().toISOString(),
+        })
         .eq("id", articulo.manuscrito_id);
 
       if (restaurarError) throw new Error(restaurarError.message);

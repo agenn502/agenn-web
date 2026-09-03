@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function CompartirArticulo({
   titulo,
@@ -10,12 +10,13 @@ export default function CompartirArticulo({
   url?: string;
 }) {
   const [copiado, setCopiado] = useState(false);
+  const [direccion, setDireccion] = useState(url || "");
+  const [compartirDisponible, setCompartirDisponible] = useState(false);
 
-  const direccion =
-    url ||
-    (typeof window !== "undefined"
-      ? window.location.href
-      : "");
+  useEffect(() => {
+    setDireccion(url || window.location.href);
+    setCompartirDisponible("share" in navigator);
+  }, [url]);
 
   const texto = encodeURIComponent(titulo);
   const enlace = encodeURIComponent(direccion);
@@ -64,9 +65,7 @@ export default function CompartirArticulo({
         Compartir:
       </strong>
 
-      <Red
-        href={`https://www.facebook.com/sharer/sharer.php?u=${enlace}`}
-      >
+      <Red href={`https://www.facebook.com/sharer/sharer.php?u=${enlace}`}>
         Facebook
       </Red>
 
@@ -76,11 +75,7 @@ export default function CompartirArticulo({
         X
       </Red>
 
-      <Red
-        href={`https://wa.me/?text=${texto}%20${enlace}`}
-      >
-        WhatsApp
-      </Red>
+      <Red href={`https://wa.me/?text=${texto}%20${enlace}`}>WhatsApp</Red>
 
       <Red
         href={`https://www.linkedin.com/sharing/share-offsite/?url=${enlace}`}
@@ -92,7 +87,7 @@ export default function CompartirArticulo({
         {copiado ? "¡Copiado!" : "Copiar enlace"}
       </button>
 
-      {typeof navigator !== "undefined" && "share" in navigator && (
+      {compartirDisponible && (
         <button type="button" onClick={compartirNativo} style={boton}>
           Compartir…
         </button>
@@ -101,20 +96,9 @@ export default function CompartirArticulo({
   );
 }
 
-function Red({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
+function Red({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={boton}
-    >
+    <a href={href} target="_blank" rel="noopener noreferrer" style={boton}>
       {children}
     </a>
   );

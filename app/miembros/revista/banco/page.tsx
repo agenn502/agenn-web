@@ -24,6 +24,11 @@ type Publicable = {
   autor_miembro_id: number;
   titulo_actual: string;
   tipo_contenido: string;
+  flujo_editorial: string;
+  tipo_autoria: string;
+  autor_corporativo: string | null;
+  mostrar_referencia: boolean;
+  edicion_ce_permitida: boolean;
   origen: string;
   estado: string;
   tema: string | null;
@@ -37,7 +42,9 @@ function codigoLocal() {
   if (!stored) return "";
 
   try {
-    return String(JSON.parse(stored).codigo || "").trim().toUpperCase();
+    return String(JSON.parse(stored).codigo || "")
+      .trim()
+      .toUpperCase();
   } catch {
     return "";
   }
@@ -90,7 +97,7 @@ export default function BancoEnsayosPage() {
 
         if (!response.ok || !result?.ok) {
           throw new Error(
-            result?.error || "No fue posible cargar el Banco de ensayos."
+            result?.error || "No fue posible cargar el Banco de ensayos.",
           );
         }
 
@@ -99,7 +106,7 @@ export default function BancoEnsayosPage() {
         setError(
           err instanceof Error
             ? err.message
-            : "No fue posible cargar el Banco de ensayos."
+            : "No fue posible cargar el Banco de ensayos.",
         );
       } finally {
         setLoading(false);
@@ -111,9 +118,12 @@ export default function BancoEnsayosPage() {
 
   const tipos = useMemo(
     () =>
-      [...new Set(publicables.map((item) => item.tipo_contenido).filter(Boolean))]
-        .sort(),
-    [publicables]
+      [
+        ...new Set(
+          publicables.map((item) => item.tipo_contenido).filter(Boolean),
+        ),
+      ].sort(),
+    [publicables],
   );
 
   const resultados = useMemo(() => {
@@ -142,7 +152,7 @@ export default function BancoEnsayosPage() {
 
     const confirmar = window.confirm(
       `¿Incorporar “${manuscrito.titulo_actual}” al número seleccionado?\n\n` +
-        "Se congelará la versión vigente para esta publicación."
+        "Se congelará la versión vigente para esta publicación.",
     );
 
     if (!confirmar) return;
@@ -167,19 +177,19 @@ export default function BancoEnsayosPage() {
 
       if (!response.ok || !result?.ok) {
         throw new Error(
-          result?.error || "No fue posible incorporar el trabajo."
+          result?.error || "No fue posible incorporar el trabajo.",
         );
       }
 
       setPublicables((actuales) =>
-        actuales.filter((item) => item.id !== manuscrito.id)
+        actuales.filter((item) => item.id !== manuscrito.id),
       );
       alert(`Trabajo incorporado como ${result.localizador}.`);
     } catch (err) {
       setError(
         err instanceof Error
           ? err.message
-          : "No fue posible incorporar el trabajo."
+          : "No fue posible incorporar el trabajo.",
       );
     } finally {
       setProcesandoId(null);
@@ -202,11 +212,12 @@ export default function BancoEnsayosPage() {
         Revista AGENN · Consejo Editorial
       </p>
 
-      <h1 style={{ color: "#4d371c" }}>Banco de ensayos</h1>
+      <h1 style={{ color: "#4d371c" }}>Banco de publicables</h1>
 
       <p style={{ maxWidth: "820px", lineHeight: 1.8, color: "#555" }}>
-        Este espacio reúne los trabajos que cuentan con aval editorial y todavía
-        no han sido incorporados a un número de Revista AGENN.
+        Este espacio reúne los trabajos con aval editorial y las publicaciones
+        del flujo simplificado que todavía no han sido incorporados a un número
+        de Revista AGENN.
       </p>
 
       {!numeroValido && (
@@ -253,7 +264,8 @@ export default function BancoEnsayosPage() {
       </div>
 
       <p style={{ color: "#666" }}>
-        {resultados.length} trabajo{resultados.length === 1 ? "" : "s"} disponible
+        {resultados.length} trabajo{resultados.length === 1 ? "" : "s"}{" "}
+        disponible
         {resultados.length === 1 ? "" : "s"}
       </p>
 
@@ -267,19 +279,36 @@ export default function BancoEnsayosPage() {
                 <p style={tipoEtiqueta}>{manuscrito.tipo_contenido}</p>
                 <h2 style={titulo}>{manuscrito.titulo_actual}</h2>
                 <p style={detalle}>
-                  <strong>{manuscrito.autor?.nombre || "Autor no identificado"}</strong>
-                  {manuscrito.autor?.codigo && ` · ${manuscrito.autor.codigo}`}
+                  <strong>
+                    {manuscrito.tipo_autoria === "CONSEJO_EDITORIAL"
+                      ? manuscrito.autor_corporativo || "Consejo Editorial"
+                      : manuscrito.autor?.nombre || "Autor no identificado"}
+                  </strong>
+                  {manuscrito.tipo_autoria !== "CONSEJO_EDITORIAL" &&
+                    manuscrito.autor?.codigo &&
+                    ` · ${manuscrito.autor.codigo}`}
                   <br />
-                  {manuscrito.tema && <>Tema: {manuscrito.tema}<br /></>}
-                  Versión {manuscrito.version?.numero_version || "—"} · Aval:{" "}
-                  {fecha(manuscrito.fecha_aval)}
+                  {manuscrito.tema && (
+                    <>
+                      Tema: {manuscrito.tema}
+                      <br />
+                    </>
+                  )}
+                  Versión {manuscrito.version?.numero_version || "—"}
+                  {manuscrito.estado === "AVALADO" ? (
+                    <> · Aval: {fecha(manuscrito.fecha_aval)}</>
+                  ) : (
+                    <> · Flujo simplificado</>
+                  )}
                 </p>
               </div>
 
               {numeroValido && (
                 <button
                   type="button"
-                  disabled={procesandoId === manuscrito.id || !manuscrito.version}
+                  disabled={
+                    procesandoId === manuscrito.id || !manuscrito.version
+                  }
                   onClick={() => incorporar(manuscrito)}
                   style={botonVerde}
                 >

@@ -93,7 +93,11 @@ export default async function NumerosPublicadosPage() {
     );
   }
 
-  const numeros = (data || []) as NumeroPublicado[];
+  // Los números con título provisional permanecen accesibles mediante su
+  // enlace directo para las pruebas del CA, pero no se anuncian públicamente.
+  const numeros = ((data || []) as NumeroPublicado[]).filter(
+    (revista) => revista.titulo?.trim().toLocaleLowerCase("es") !== "prueba",
+  );
 
   return (
     <div className={styles.pagina}>

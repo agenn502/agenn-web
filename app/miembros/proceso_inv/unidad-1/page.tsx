@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { TEORIA, QUESTIONS } from "@/content/proceso_inv/unidad1";
+import { CUESTIONARIOS_INV_DISPONIBLES_PARA_NUEVOS } from "@/content/proceso_inv/config";
 import { supabase } from "@/lib/supabaseClient";
 
 type BloqueTexto = {
@@ -85,12 +86,17 @@ export default function Unidad1InvestigadorPage() {
   const secciones = TEORIA as Seccion[];
 
   const [mostrarCuestionario, setMostrarCuestionario] = useState(false);
-  const [preguntaActual, setPreguntaActual] = useState(24);
-  const [respuestaSeleccionada, setRespuestaSeleccionada] = useState<number | null>(null);
-  const [mostrarRetroalimentacion, setMostrarRetroalimentacion] = useState(false);
+  const [preguntaActual, setPreguntaActual] = useState(0);
+  const [respuestaSeleccionada, setRespuestaSeleccionada] = useState<
+    number | null
+  >(null);
+  const [mostrarRetroalimentacion, setMostrarRetroalimentacion] =
+    useState(false);
   const [completado, setCompletado] = useState(false);
   const [unidadCompletada, setUnidadCompletada] = useState(false);
   const [progresoCargado, setProgresoCargado] = useState(false);
+  const [cuestionarioBloqueado, setCuestionarioBloqueado] = useState(false);
+  const [modoRepaso, setModoRepaso] = useState(false);
 
   const pregunta = QUESTIONS[preguntaActual];
 
@@ -104,13 +110,13 @@ export default function Unidad1InvestigadorPage() {
         setRespuestaSeleccionada(null);
 
         if (preguntaActual === QUESTIONS.length - 1) {
-		  guardarProgresoCuestionario();
+          if (!modoRepaso) void guardarProgresoCuestionario();
 
-		  setCompletado(true);
-		  setMostrarCuestionario(false);
-		} else {
-		  setPreguntaActual((prev) => prev + 1);
-		}
+          setCompletado(true);
+          setMostrarCuestionario(false);
+        } else {
+          setPreguntaActual((prev) => prev + 1);
+        }
       }, 600);
     } else {
       setMostrarRetroalimentacion(true);
@@ -118,70 +124,87 @@ export default function Unidad1InvestigadorPage() {
   };
 
   const guardarProgresoCuestionario = async () => {
-  const stored = localStorage.getItem("user");
-
-  if (!stored) return;
-
-  const user = JSON.parse(stored);
-
-  await supabase.from("progreso_inv").upsert(
-    [
-      {
-        user_codigo: user.codigo,
-        unidad_slug: "unidad-1",
-        completada: false,
-        porcentaje: 25,
-        respuestas: {
-          cuestionario_completado: true,
-          total_preguntas: QUESTIONS.length,
-          fecha: new Date().toISOString(),
-        },
-        fecha_actualizacion: new Date().toISOString(),
-      },
-    ],
-    {
-      onConflict: "user_codigo,unidad_slug",
-    }
-  );
-};
-useEffect(() => {
-  const cargarProgreso = async () => {
     const stored = localStorage.getItem("user");
 
-    if (!stored) {
-      setProgresoCargado(true);
-      return;
-    }
+    if (!stored) return;
 
     const user = JSON.parse(stored);
 
-    const { data } = await supabase
-	  .from("progreso_inv")
-	  .select("respuestas, completada")
-	  .eq("user_codigo", user.codigo)
-	  .eq("unidad_slug", "unidad-1")
-	  .maybeSingle();
-
-	if (data?.completada === true) {
-	  setUnidadCompletada(true);
-	  setCompletado(true);
-	  setMostrarCuestionario(false);
-	  setProgresoCargado(true);
-	  return;
-	}
-
-	if (data?.respuestas?.cuestionario_completado) {
-	  setCompletado(true);
-	  setMostrarCuestionario(false);
-	}
-    setProgresoCargado(true);
+    await supabase.from("progreso_inv").upsert(
+      [
+        {
+          user_codigo: user.codigo,
+          unidad_slug: "unidad-1",
+          completada: false,
+          porcentaje: 25,
+          respuestas: {
+            cuestionario_completado: true,
+            total_preguntas: QUESTIONS.length,
+            fecha: new Date().toISOString(),
+          },
+          fecha_actualizacion: new Date().toISOString(),
+        },
+      ],
+      {
+        onConflict: "user_codigo,unidad_slug",
+      },
+    );
   };
 
-  cargarProgreso();
-}, []);	
-if (!progresoCargado) {
-  return <p>Cargando progreso...</p>;
-}
+  const iniciarRepaso = () => {
+    setModoRepaso(true);
+    setPreguntaActual(0);
+    setRespuestaSeleccionada(null);
+    setMostrarRetroalimentacion(false);
+    setCompletado(false);
+    setMostrarCuestionario(true);
+  };
+  useEffect(() => {
+    const cargarProgreso = async () => {
+      const stored = localStorage.getItem("user");
+
+      if (!stored) {
+        setCuestionarioBloqueado(true);
+        setProgresoCargado(true);
+        return;
+      }
+
+      const user = JSON.parse(stored);
+
+      const { data } = await supabase
+        .from("progreso_inv")
+        .select("respuestas, completada")
+        .eq("user_codigo", user.codigo)
+        .eq("unidad_slug", "unidad-1")
+        .maybeSingle();
+
+      if (!data && !CUESTIONARIOS_INV_DISPONIBLES_PARA_NUEVOS) {
+        setCuestionarioBloqueado(true);
+        setProgresoCargado(true);
+        return;
+      }
+
+      if (data?.completada === true) {
+        setUnidadCompletada(true);
+        setCompletado(true);
+        setMostrarCuestionario(false);
+        setProgresoCargado(true);
+        return;
+      }
+
+      if (data?.respuestas?.cuestionario_completado) {
+        setCompletado(true);
+        setMostrarCuestionario(false);
+      }
+      setProgresoCargado(true);
+    };
+
+    cargarProgreso();
+  }, []);
+  if (!progresoCargado) {
+    return <p>Cargando progreso...</p>;
+  }
+
   return (
     <div style={{ maxWidth: "980px" }}>
       <p
@@ -202,8 +225,8 @@ if (!progresoCargado) {
       </h1>
 
       <p style={{ color: "#555", lineHeight: 1.8 }}>
-        Economía y medios de intercambio en la Guatemala prehispánica: el
-        origen del valor antes de la moneda.
+        Economía y medios de intercambio en la Guatemala prehispánica: el origen
+        del valor antes de la moneda.
       </p>
 
       <div
@@ -262,7 +285,24 @@ if (!progresoCargado) {
           los conceptos clave de la unidad antes de elaborar el ensayo.
         </p>
 
-        {!mostrarCuestionario && !completado && (
+        {cuestionarioBloqueado && (
+          <div
+            style={{
+              background: "#fff8d9",
+              border: "1px solid #dfc96d",
+              borderRadius: "10px",
+              padding: "1rem",
+              color: "#66520a",
+              lineHeight: 1.7,
+            }}
+          >
+            <strong>Cuestionario en preparación.</strong> Puede estudiar el
+            contenido completo de esta unidad. La evaluación se habilitará
+            cuando la Academia publique oficialmente el Nivel Investigador.
+          </div>
+        )}
+
+        {!cuestionarioBloqueado && !mostrarCuestionario && !completado && (
           <button
             onClick={() => setMostrarCuestionario(true)}
             style={{
@@ -278,154 +318,177 @@ if (!progresoCargado) {
           </button>
         )}
 
-        {mostrarCuestionario && !completado && pregunta && (
-          <div style={{ marginTop: "1.5rem" }}>
-            <p
-              style={{
-                color: "#6b6f1a",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                fontSize: "0.82rem",
-                letterSpacing: "0.04em",
-              }}
-            >
-              Pregunta {preguntaActual + 1} de {QUESTIONS.length}
-            </p>
-
-            <h3>{pregunta.pregunta}</h3>
-
-            <div style={{ display: "grid", gap: "0.75rem", marginTop: "1rem" }}>
-              {pregunta.opciones.map((opcion, index) => (
-                <button
-                  key={index}
-                  onClick={() => responder(index)}
-                  style={{
-                    textAlign: "left",
-                    padding: "0.9rem 1rem",
-                    borderRadius: "10px",
-                    border:
-                      respuestaSeleccionada === index
-                        ? "2px solid #6b6f1a"
-                        : "1px solid #ddd4c7",
-                    background:
-                      respuestaSeleccionada === index ? "#f4f1e8" : "white",
-                    cursor: "pointer",
-                  }}
-                >
-                  {opcion}
-                </button>
-              ))}
-            </div>
-
-            {mostrarRetroalimentacion && (
-              <div
+        {!cuestionarioBloqueado &&
+          mostrarCuestionario &&
+          !completado &&
+          pregunta && (
+            <div style={{ marginTop: "1.5rem" }}>
+              <p
                 style={{
-                  marginTop: "1.25rem",
-                  padding: "1rem",
-                  background: "#f8ecec",
-                  border: "1px solid #ebc8c8",
-                  borderRadius: "10px",
+                  color: "#6b6f1a",
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  fontSize: "0.82rem",
+                  letterSpacing: "0.04em",
                 }}
               >
-                <p
+                Pregunta {preguntaActual + 1} de {QUESTIONS.length}
+              </p>
+
+              <h3>{pregunta.pregunta}</h3>
+
+              <div
+                style={{ display: "grid", gap: "0.75rem", marginTop: "1rem" }}
+              >
+                {pregunta.opciones.map((opcion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => responder(index)}
+                    style={{
+                      textAlign: "left",
+                      padding: "0.9rem 1rem",
+                      borderRadius: "10px",
+                      border:
+                        respuestaSeleccionada === index
+                          ? "2px solid #6b6f1a"
+                          : "1px solid #ddd4c7",
+                      background:
+                        respuestaSeleccionada === index ? "#f4f1e8" : "white",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {opcion}
+                  </button>
+                ))}
+              </div>
+
+              {mostrarRetroalimentacion && (
+                <div
                   style={{
-                    marginTop: 0,
-                    fontWeight: 700,
-                    color: "#8b2f2f",
+                    marginTop: "1.25rem",
+                    padding: "1rem",
+                    background: "#f8ecec",
+                    border: "1px solid #ebc8c8",
+                    borderRadius: "10px",
                   }}
                 >
-                  Respuesta incorrecta
-                </p>
+                  <p
+                    style={{
+                      marginTop: 0,
+                      fontWeight: 700,
+                      color: "#8b2f2f",
+                    }}
+                  >
+                    Respuesta incorrecta
+                  </p>
 
-                <ReactMarkdown>{pregunta.explicacion}</ReactMarkdown>
+                  <ReactMarkdown>{pregunta.explicacion}</ReactMarkdown>
 
-                <p style={{ marginBottom: 0 }}>
-                  Vuelve a intentarlo seleccionando la respuesta correcta.
-                </p>
-              </div>
-            )}
-          </div>
-        )}
+                  <p style={{ marginBottom: 0 }}>
+                    Vuelve a intentarlo seleccionando la respuesta correcta.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
 
         {completado && (
-		  <div
-			style={{
-			  marginTop: "1.5rem",
-			  padding: "1rem",
-			  background: "#eef6e9",
-			  border: "1px solid #cfe3c4",
-			  borderRadius: "10px",
-			}}
-		  >
-			{unidadCompletada ? (
-			  <>
-				<h3 style={{ marginTop: 0 }}>✅ Unidad completada</h3>
+          <div
+            style={{
+              marginTop: "1.5rem",
+              padding: "1rem",
+              background: "#eef6e9",
+              border: "1px solid #cfe3c4",
+              borderRadius: "10px",
+            }}
+          >
+            {unidadCompletada ? (
+              <>
+                <h3 style={{ marginTop: 0 }}>✅ Unidad completada</h3>
 
-				<p style={{ lineHeight: 1.8 }}>
-				  Esta unidad ya fue aprobada por el Consejo Académico.
-				  Puede continuar con la siguiente unidad del proceso de ascenso.
-				</p>
+                <p style={{ lineHeight: 1.8 }}>
+                  Esta unidad ya fue aprobada por el Consejo Académico. Puede
+                  continuar con la siguiente unidad del proceso de ascenso.
+                </p>
 
-				<Link
-				  href="/miembros/proceso_inv"
-				  style={{
-					display: "inline-block",
-					marginTop: "0.5rem",
-					background: "#6b6f1a",
-					color: "white",
-					padding: "0.8rem 1.2rem",
-					borderRadius: "8px",
-					textDecoration: "none",
-				  }}
-				>
-				  Volver al proceso de ascenso
-				</Link>
-			  </>
-			) : (
-			  <>
-				<h3 style={{ marginTop: 0 }}>Cuestionario completado</h3>
+                <Link
+                  href="/miembros/proceso_inv"
+                  style={{
+                    display: "inline-block",
+                    marginTop: "0.5rem",
+                    background: "#6b6f1a",
+                    color: "white",
+                    padding: "0.8rem 1.2rem",
+                    borderRadius: "8px",
+                    textDecoration: "none",
+                  }}
+                >
+                  Volver al proceso de ascenso
+                </Link>
+              </>
+            ) : (
+              <>
+                <h3 style={{ marginTop: 0 }}>Cuestionario completado</h3>
 
-				<p style={{ lineHeight: 1.8 }}>
-				  Has completado las 25 preguntas de retroalimentación de esta unidad.
+                <p style={{ lineHeight: 1.8 }}>
+                  Has completado las 25 preguntas de retroalimentación de esta
+                  unidad. El siguiente paso consiste en elaborar y publicar un
+                  ensayo académico basado en uno de los temas propuestos para
+                  esta unidad. La Unidad 1 únicamente se considerará completada
+                  cuando el ensayo haya sido publicado en la plataforma de la
+                  Academia y se haya registrado correctamente la evidencia de su
+                  difusión en redes sociales.
+                </p>
 
-				  El siguiente paso consiste en elaborar y publicar un ensayo académico
-				  basado en uno de los temas propuestos para esta unidad.
+                <Link
+                  href="/miembros/proceso_inv/unidad-1/ensayo"
+                  style={{
+                    display: "inline-block",
+                    marginTop: "0.5rem",
+                    background: "#6b6f1a",
+                    color: "white",
+                    padding: "0.8rem 1.2rem",
+                    borderRadius: "8px",
+                    textDecoration: "none",
+                  }}
+                >
+                  Continuar al ensayo
+                </Link>
 
-				  La Unidad 1 únicamente se considerará completada cuando el ensayo haya sido
-				  publicado en la plataforma de la Academia y se haya registrado correctamente
-				  la evidencia de su difusión en redes sociales.
-				</p>
+                <p
+                  style={{
+                    marginTop: "1rem",
+                    fontSize: "0.9rem",
+                    color: "#666",
+                  }}
+                >
+                  Nota: completar el cuestionario no desbloquea la siguiente
+                  unidad. El desbloqueo ocurre al finalizar satisfactoriamente
+                  el proceso de ensayo y difusión correspondiente.
+                </p>
+              </>
+            )}
 
-				<Link
-				  href="/miembros/proceso_inv/unidad-1/ensayo"
-				  style={{
-					display: "inline-block",
-					marginTop: "0.5rem",
-					background: "#6b6f1a",
-					color: "white",
-					padding: "0.8rem 1.2rem",
-					borderRadius: "8px",
-					textDecoration: "none",
-				  }}
-				>
-				  Continuar al ensayo
-				</Link>
-
-				<p
-				  style={{
-					marginTop: "1rem",
-					fontSize: "0.9rem",
-					color: "#666",
-				  }}
-				>
-				  Nota: completar el cuestionario no desbloquea la siguiente unidad. El
-				  desbloqueo ocurre al finalizar satisfactoriamente el proceso de ensayo y
-				  difusión correspondiente.
-				</p>
-			  </>
-			)}
-		  </div>
-		)}
+            <button
+              type="button"
+              onClick={iniciarRepaso}
+              style={{
+                display: "inline-block",
+                marginTop: "0.5rem",
+                marginLeft: "0.65rem",
+                background: "white",
+                color: "#4d371c",
+                padding: "0.75rem 1.1rem",
+                borderRadius: "8px",
+                border: "1px solid #9dbc91",
+                cursor: "pointer",
+                fontWeight: 700,
+              }}
+            >
+              Repasar cuestionario
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

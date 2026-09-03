@@ -102,6 +102,11 @@ export async function GET(
         autor_miembro_id,
         origen,
         tipo_contenido,
+        flujo_editorial,
+        tipo_autoria,
+        autor_corporativo,
+        mostrar_referencia,
+        edicion_ce_permitida,
         estado,
         titulo_actual,
         contenido_actual,
@@ -200,6 +205,21 @@ export async function GET(
 
     const ultimaVersion = (versiones || [])[0] || null;
 
+    let resena: any = null;
+
+    if (manuscrito.tipo_contenido === "RESENA") {
+      const { data, error } = await supabaseServer
+        .from("resenas_bibliograficas")
+        .select(
+          "id,manuscrito_id,titulo_obra,autores_obra,editorial,edicion,anio_publicacion,isbn,numero_paginas,portada_url,portada_storage_path,portada_alt,fuente_portada,updated_at",
+        )
+        .eq("manuscrito_id", id)
+        .maybeSingle();
+
+      if (error) throw new Error(error.message);
+      resena = data || null;
+    }
+
     const imagenesVersionActual = ultimaVersion
       ? await obtenerImagenes(id, Number(ultimaVersion.id))
       : [];
@@ -222,6 +242,7 @@ export async function GET(
       eventos: eventosConActor,
       imagenes_version_actual: imagenesVersionActual,
       imagenes_borrador: imagenesBorrador,
+      resena,
     });
   } catch (error) {
     console.error("Error GET /api/revista/mis-manuscritos/[id]:", error);
@@ -270,6 +291,12 @@ export async function PATCH(
     const contenido = String(body.contenido || "").trim();
     const fuenteImagen = String(body.fuente_imagen || "").trim();
     const notaAutor = String(body.nota_autor || "").trim();
+    const tipoAutoria = String(body.tipo_autoria || "MIEMBRO")
+      .trim()
+      .toUpperCase();
+    const mostrarReferencia = body.mostrar_referencia === true;
+    const datosResena =
+      body.resena && typeof body.resena === "object" ? body.resena : null;
 
     const { data: manuscrito, error: manuscritoError } = await supabaseServer
       .from("manuscritos_editoriales")
@@ -278,6 +305,9 @@ export async function PATCH(
         id,
         ensayo_id,
         autor_miembro_id,
+        tipo_contenido,
+        flujo_editorial,
+        tipo_autoria,
         estado,
         titulo_actual,
         contenido_actual,
@@ -301,6 +331,46 @@ export async function PATCH(
       );
     }
 
+    if (accion === "REABRIR") {
+      if (
+        manuscrito.flujo_editorial !== "SIMPLIFICADO" ||
+        manuscrito.estado !== "PUBLICABLE"
+      ) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error:
+              manuscrito.estado === "ASIGNADO"
+                ? "Retire primero la publicación del número antes de reabrirla."
+                : "Esta publicación no puede reabrirse desde su estado actual.",
+          },
+          { status: 409 },
+        );
+      }
+
+      const ahora = new Date().toISOString();
+      const { error: reabrirError } = await actualizarConReintentos(() =>
+        supabaseServer
+          .from("manuscritos_editoriales")
+          .update({ estado: "BORRADOR", updated_at: ahora })
+          .eq("id", id)
+          .eq("estado", "PUBLICABLE"),
+      );
+      if (reabrirError) throw new Error(reabrirError.message);
+
+      await actualizarConReintentos(() =>
+        supabaseServer.from("manuscrito_eventos").insert({
+          manuscrito_id: id,
+          tipo: "EDICION_EDITORIAL",
+          actor_miembro_id: miembro.id,
+          mensaje:
+            "Publicación del flujo simplificado reabierta para preparar una nueva versión.",
+        }),
+      );
+
+      return NextResponse.json({ ok: true, estado: "BORRADOR" });
+    }
+
     if (!["BORRADOR", "CORRECCIONES"].includes(manuscrito.estado)) {
       return NextResponse.json(
         {
@@ -320,6 +390,101 @@ export async function PATCH(
         },
         { status: 400 },
       );
+    }
+
+    if (manuscrito.tipo_contenido === "RESENA") {
+      if (!datosResena) {
+        return NextResponse.json(
+          { ok: false, error: "Faltan los datos bibliográficos de la reseña." },
+          { status: 400 },
+        );
+      }
+
+      const tituloObra = String(datosResena.titulo_obra || "").trim();
+      const autoresObra = String(datosResena.autores_obra || "").trim();
+      const anioPublicacion = datosResena.anio_publicacion
+        ? Number(datosResena.anio_publicacion)
+        : null;
+      const numeroPaginas = datosResena.numero_paginas
+        ? Number(datosResena.numero_paginas)
+        : null;
+
+      if (!tituloObra || !autoresObra) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error:
+              "La reseña debe conservar el título y la autoría de la obra reseñada.",
+          },
+          { status: 400 },
+        );
+      }
+
+      if (
+        anioPublicacion !== null &&
+        (!Number.isInteger(anioPublicacion) ||
+          anioPublicacion < 1000 ||
+          anioPublicacion > 2100)
+      ) {
+        return NextResponse.json(
+          { ok: false, error: "El año de publicación no es válido." },
+          { status: 400 },
+        );
+      }
+
+      if (
+        numeroPaginas !== null &&
+        (!Number.isInteger(numeroPaginas) || numeroPaginas <= 0)
+      ) {
+        return NextResponse.json(
+          { ok: false, error: "El número de páginas no es válido." },
+          { status: 400 },
+        );
+      }
+
+      if (!["MIEMBRO", "CONSEJO_EDITORIAL"].includes(tipoAutoria)) {
+        return NextResponse.json(
+          { ok: false, error: "El tipo de autoría no es válido." },
+          { status: 400 },
+        );
+      }
+
+      const { error: autoriaError } = await actualizarConReintentos(() =>
+        supabaseServer
+          .from("manuscritos_editoriales")
+          .update({
+            tipo_autoria: tipoAutoria,
+            autor_corporativo:
+              tipoAutoria === "CONSEJO_EDITORIAL" ? "Consejo Editorial" : null,
+            mostrar_referencia: mostrarReferencia,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", id),
+      );
+
+      if (autoriaError) throw new Error(autoriaError.message);
+
+      const { error: resenaError } = await actualizarConReintentos(() =>
+        supabaseServer.from("resenas_bibliograficas").upsert(
+          {
+            manuscrito_id: id,
+            titulo_obra: tituloObra,
+            autores_obra: autoresObra,
+            editorial: String(datosResena.editorial || "").trim() || null,
+            edicion: String(datosResena.edicion || "").trim() || null,
+            anio_publicacion: anioPublicacion,
+            isbn: String(datosResena.isbn || "").trim() || null,
+            numero_paginas: numeroPaginas,
+            portada_alt: String(datosResena.portada_alt || "").trim() || null,
+            fuente_portada:
+              String(datosResena.fuente_portada || "").trim() || null,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: "manuscrito_id" },
+        ),
+      );
+
+      if (resenaError) throw new Error(resenaError.message);
     }
 
     const ahora = new Date().toISOString();

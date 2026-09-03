@@ -14,6 +14,7 @@ export default function Header() {
     { href: "/miembro", label: "Afiliación", key: "afiliacion" },
     { href: "/diagnostico", label: "Perfil numismático", key: "perfil" },
     { href: "/contacto", label: "Contacto", key: "contacto" },
+    { href: "/revista", label: "Revista", key: "revista" },
     { href: "/login", label: "🔒 Ingreso miembros", key: "login" },
   ];
 
@@ -21,11 +22,7 @@ export default function Header() {
     <header className="site-header-custom">
       <div className="container header-inner">
         <Link href="/" className="brand-link">
-          <img
-            src="/logo-agenn.png"
-            alt="AGENN"
-            className="brand-logo"
-          />
+          <img src="/logo-agenn.png" alt="AGENN" className="brand-logo" />
           <span className="brand-name">AGENN</span>
         </Link>
 

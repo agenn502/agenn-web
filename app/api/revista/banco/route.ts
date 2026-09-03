@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
 function normalizarCodigo(valor: unknown) {
-  return String(valor || "").trim().toUpperCase();
+  return String(valor || "")
+    .trim()
+    .toUpperCase();
 }
 
 async function obtenerEditor(request: NextRequest) {
@@ -47,7 +49,9 @@ async function obtenerEditor(request: NextRequest) {
     };
   }
 
-  if (!["DIRECTOR", "EDITOR"].includes(String(consejo.rol || "").toUpperCase())) {
+  if (
+    !["DIRECTOR", "EDITOR"].includes(String(consejo.rol || "").toUpperCase())
+  ) {
     return {
       ok: false as const,
       status: 403,
@@ -65,25 +69,32 @@ export async function GET(request: NextRequest) {
     if (!solicitante.ok) {
       return NextResponse.json(
         { ok: false, error: solicitante.error },
-        { status: solicitante.status }
+        { status: solicitante.status },
       );
     }
 
     const { data: avalados, error: avaladosError } = await supabaseServer
       .from("manuscritos_editoriales")
-      .select(`
+      .select(
+        `
         id,
         autor_miembro_id,
         titulo_actual,
         tipo_contenido,
+        flujo_editorial,
+        tipo_autoria,
+        autor_corporativo,
+        mostrar_referencia,
+        edicion_ce_permitida,
         origen,
         estado,
         tema,
         fecha_aval,
         updated_at
-      `)
-      .eq("estado", "AVALADO")
-      .order("fecha_aval", { ascending: true });
+      `,
+      )
+      .in("estado", ["AVALADO", "PUBLICABLE"])
+      .order("updated_at", { ascending: true });
 
     if (avaladosError) throw new Error(avaladosError.message);
     if (!avalados?.length) {
@@ -92,30 +103,35 @@ export async function GET(request: NextRequest) {
 
     const manuscritoIds = avalados.map((manuscrito) => Number(manuscrito.id));
 
-    const { data: asignaciones, error: asignacionesError } = await supabaseServer
-      .from("revista_articulos")
-      .select("manuscrito_id")
-      .in("manuscrito_id", manuscritoIds);
+    const { data: asignaciones, error: asignacionesError } =
+      await supabaseServer
+        .from("revista_articulos")
+        .select("manuscrito_id")
+        .in("manuscrito_id", manuscritoIds);
 
     if (asignacionesError) throw new Error(asignacionesError.message);
 
     const asignados = new Set(
-      (asignaciones || []).map((asignacion) => Number(asignacion.manuscrito_id))
+      (asignaciones || []).map((asignacion) =>
+        Number(asignacion.manuscrito_id),
+      ),
     );
     const disponibles = avalados.filter(
-      (manuscrito) => !asignados.has(Number(manuscrito.id))
+      (manuscrito) => !asignados.has(Number(manuscrito.id)),
     );
 
     if (!disponibles.length) {
       return NextResponse.json({ ok: true, publicables: [] });
     }
 
-    const disponiblesIds = disponibles.map((manuscrito) => Number(manuscrito.id));
+    const disponiblesIds = disponibles.map((manuscrito) =>
+      Number(manuscrito.id),
+    );
     const autorIds = [
       ...new Set(
         disponibles
           .map((manuscrito) => Number(manuscrito.autor_miembro_id))
-          .filter(Boolean)
+          .filter(Boolean),
       ),
     ];
 
@@ -154,7 +170,7 @@ export async function GET(request: NextRequest) {
     }
 
     const autorPorId = new Map(
-      (autoresResultado.data || []).map((autor) => [Number(autor.id), autor])
+      (autoresResultado.data || []).map((autor) => [Number(autor.id), autor]),
     );
 
     const publicables = disponibles.map((manuscrito) => ({
@@ -183,7 +199,7 @@ export async function GET(request: NextRequest) {
             ? error.message
             : "No fue posible cargar el Banco de ensayos.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

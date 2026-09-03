@@ -41,6 +41,8 @@ type Articulo = {
     id: number;
     titulo_actual: string;
     tipo_contenido: string;
+    tipo_autoria: string;
+    autor_corporativo: string | null;
     origen: string;
     estado: string;
     tema: string | null;
@@ -629,12 +631,11 @@ function ArticuloNumero({
               "Trabajo sin título"}
           </h3>
           <div style={{ color: "#555", lineHeight: 1.7 }}>
-            <strong>
-              {articulo.manuscrito?.autor?.nombre || "Autor no identificado"}
-            </strong>
-            {articulo.manuscrito?.autor && (
-              <> · {articulo.manuscrito.autor.codigo}</>
-            )}
+            <strong>{autorPublico(articulo)}</strong>
+            {articulo.manuscrito?.tipo_autoria !== "CONSEJO_EDITORIAL" &&
+              articulo.manuscrito?.autor && (
+                <> · {articulo.manuscrito.autor.codigo}</>
+              )}
             <br />
             Tipo: {tipoContenidoTexto(articulo.manuscrito?.tipo_contenido)}
             <br />
@@ -760,3 +761,9 @@ const botonRojo: React.CSSProperties = {
   fontWeight: 700,
   cursor: "pointer",
 };
+
+function autorPublico(articulo: Articulo) {
+  return articulo.manuscrito?.tipo_autoria === "CONSEJO_EDITORIAL"
+    ? articulo.manuscrito.autor_corporativo || "Consejo Editorial"
+    : articulo.manuscrito?.autor?.nombre || "Autor no identificado";
+}

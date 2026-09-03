@@ -35,6 +35,8 @@ type ArticuloPublico = {
   titulo: string;
   tipo: string;
   tema: string | null;
+  tipo_autoria: string;
+  autor_corporativo: string | null;
   autor: Autor | null;
 };
 
@@ -85,7 +87,9 @@ async function obtenerArticulos(revistaId: number): Promise<ArticuloPublico[]> {
   ] = await Promise.all([
     supabaseServer
       .from("manuscritos_editoriales")
-      .select("id,autor_miembro_id,titulo_actual,tipo_contenido,tema")
+      .select(
+        "id,autor_miembro_id,titulo_actual,tipo_contenido,tipo_autoria,autor_corporativo,tema",
+      )
       .in("id", manuscritoIds),
     supabaseServer
       .from("manuscrito_versiones")
@@ -141,6 +145,10 @@ async function obtenerArticulos(revistaId: number): Promise<ArticuloPublico[]> {
       ),
       tipo: String(manuscrito?.tipo_contenido || "Ensayo"),
       tema: manuscrito?.tema ? String(manuscrito.tema) : null,
+      tipo_autoria: String(manuscrito?.tipo_autoria || "MIEMBRO"),
+      autor_corporativo: manuscrito?.autor_corporativo
+        ? String(manuscrito.autor_corporativo)
+        : null,
       autor,
     };
   });
@@ -280,14 +288,20 @@ export default async function NumeroPublicadoPage({
                       </Link>
                     </h4>
 
-                    {articulo.autor && (
+                    {articulo.tipo_autoria === "CONSEJO_EDITORIAL" ? (
                       <p className={styles.autor}>
-                        <Link
-                          href={`/revista/autores/${articulo.autor.codigo.toLowerCase()}`}
-                        >
-                          {articulo.autor.nombre}
-                        </Link>
+                        {articulo.autor_corporativo || "Consejo Editorial"}
                       </p>
+                    ) : (
+                      articulo.autor && (
+                        <p className={styles.autor}>
+                          <Link
+                            href={`/revista/autores/${articulo.autor.codigo.toLowerCase()}`}
+                          >
+                            {articulo.autor.nombre}
+                          </Link>
+                        </p>
+                      )
                     )}
 
                     <p className={styles.detalles}>

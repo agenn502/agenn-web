@@ -87,18 +87,14 @@ export default function RevistaAgennPage() {
       // MIEMBRO
       // =====================================================
 
-      const { data: miembroData, error: miembroError } =
-        await supabase
-          .from("miembros")
-          .select("id,codigo,nombre,nivel,estado_academico")
-          .eq("codigo", codigo)
-          .maybeSingle();
+      const { data: miembroData, error: miembroError } = await supabase
+        .from("miembros")
+        .select("id,codigo,nombre,nivel,estado_academico")
+        .eq("codigo", codigo)
+        .maybeSingle();
 
       if (miembroError) {
-        console.error(
-          "Error cargando miembro:",
-          miembroError
-        );
+        console.error("Error cargando miembro:", miembroError);
       }
 
       if (miembroData) {
@@ -108,32 +104,25 @@ export default function RevistaAgennPage() {
         // CONSEJO EDITORIAL
         // ===================================================
 
-        const { data: ceData, error: ceError } =
-          await supabase
-            .from("consejo_editorial_miembros")
-            .select("rol,activo")
-            .eq("miembro_id", miembroData.id)
-            .eq("activo", true)
-            .maybeSingle();
+        const { data: ceData, error: ceError } = await supabase
+          .from("consejo_editorial_miembros")
+          .select("rol,activo")
+          .eq("miembro_id", miembroData.id)
+          .eq("activo", true)
+          .maybeSingle();
 
         if (ceError) {
-          console.error(
-            "Error verificando Consejo Editorial:",
-            ceError
-          );
+          console.error("Error verificando Consejo Editorial:", ceError);
         }
 
         if (ceData) {
           setCe(ceData as ConsejoEditorial);
 
           try {
-            const editorialResponse = await fetch(
-              "/api/revista/editorial",
-              {
-                headers: { "x-user-codigo": codigo },
-                cache: "no-store",
-              }
-            );
+            const editorialResponse = await fetch("/api/revista/editorial", {
+              headers: { "x-user-codigo": codigo },
+              cache: "no-store",
+            });
             const editorialTexto = await editorialResponse.text();
             const editorialResult = editorialTexto
               ? JSON.parse(editorialTexto)
@@ -144,16 +133,15 @@ export default function RevistaAgennPage() {
                 editorialResult.manuscritos || []
               ).filter((m: any) =>
                 ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(
-                  String(m.estado || "").trim().toUpperCase()
-                )
+                  String(m.estado || "")
+                    .trim()
+                    .toUpperCase(),
+                ),
               );
               setPendientesEditoriales(requierenAtencion.length);
             }
           } catch (error) {
-            console.error(
-              "Error consultando pendientes editoriales:",
-              error
-            );
+            console.error("Error consultando pendientes editoriales:", error);
             setPendientesEditoriales(0);
           }
         }
@@ -174,11 +162,10 @@ export default function RevistaAgennPage() {
               "x-user-codigo": codigo,
             },
             cache: "no-store",
-          }
+          },
         );
 
-        const manuscritosTexto =
-          await manuscritosResponse.text();
+        const manuscritosTexto = await manuscritosResponse.text();
 
         let manuscritosResult: any = null;
 
@@ -188,31 +175,22 @@ export default function RevistaAgennPage() {
             : null;
         } catch {
           console.error(
-            "La API de manuscritos devolvió una respuesta no válida."
+            "La API de manuscritos devolvió una respuesta no válida.",
           );
         }
 
-        if (
-          manuscritosResponse.ok &&
-          manuscritosResult?.ok
-        ) {
-          setCantidadManuscritos(
-            manuscritosResult.manuscritos?.length || 0
-          );
+        if (manuscritosResponse.ok && manuscritosResult?.ok) {
+          setCantidadManuscritos(manuscritosResult.manuscritos?.length || 0);
         } else {
           console.error(
             "Error verificando manuscritos editoriales:",
-            manuscritosResult?.error ||
-              `HTTP ${manuscritosResponse.status}`
+            manuscritosResult?.error || `HTTP ${manuscritosResponse.status}`,
           );
 
           setCantidadManuscritos(0);
         }
       } catch (error) {
-        console.error(
-          "Error consultando manuscritos editoriales:",
-          error
-        );
+        console.error("Error consultando manuscritos editoriales:", error);
 
         setCantidadManuscritos(0);
       }
@@ -221,11 +199,10 @@ export default function RevistaAgennPage() {
       // NÚMEROS DE REVISTA
       // =====================================================
 
-      const { data: revistasData, error: revistasError } =
-        await supabase
-          .from("revistas")
-          .select(
-            `
+      const { data: revistasData, error: revistasError } = await supabase
+        .from("revistas")
+        .select(
+          `
             id,
             numero,
             anio,
@@ -234,15 +211,15 @@ export default function RevistaAgennPage() {
             portada_url,
             estado,
             fecha_publicacion
-            `
-          )
-          .order("anio", { ascending: false })
-          .order("numero", { ascending: false });
+            `,
+        )
+        .order("anio", { ascending: false })
+        .order("numero", { ascending: false });
 
       if (revistasError) {
         console.error(
           "Error cargando números de Revista AGENN:",
-          revistasError
+          revistasError,
         );
       }
 
@@ -264,36 +241,26 @@ export default function RevistaAgennPage() {
   const esNUM = user.nivel === "NUM";
 
   const esInvAcreditado =
-    user.nivel === "INV" &&
-    miembro?.estado_academico === "ACREDITADO";
+    user.nivel === "INV" && miembro?.estado_academico === "ACREDITADO";
 
-  const puedeEscribir =
-    esNUM || esInvAcreditado;
+  const puedeEscribir = esNUM || esInvAcreditado;
 
-  const tieneManuscritos =
-    cantidadManuscritos > 0;
+  const tieneManuscritos = cantidadManuscritos > 0;
 
   const esCE = Boolean(ce?.activo);
 
-  const puedeAdministrarCE =
-    ce?.rol === "DIRECTOR" ||
-    ce?.rol === "EDITOR";
+  const puedeAdministrarCE = ce?.rol === "DIRECTOR" || ce?.rol === "EDITOR";
 
-  const revistasPublicadas =
-    revistas.filter(
-      (revista) =>
-        revista.estado === "PUBLICADA"
-    );
+  const revistasPublicadas = revistas.filter(
+    (revista) => revista.estado === "PUBLICADA",
+  );
 
-  const revistasEnPreparacion =
-    revistas.filter(
-      (revista) =>
-        revista.estado !== "PUBLICADA"
-    );
+  const revistasEnPreparacion = revistas.filter(
+    (revista) => revista.estado !== "PUBLICADA",
+  );
 
   return (
     <div style={{ maxWidth: "1100px" }}>
-
       {/* =====================================================
           ENCABEZADO
       ===================================================== */}
@@ -332,11 +299,10 @@ export default function RevistaAgennPage() {
             color: "#555",
           }}
         >
-          Revista académica de la Academia Guatemalteca de
-          Estudios Numismáticos y Notafílicos, orientada a la
-          publicación y difusión de estudios, ensayos y trabajos
-          especializados sobre numismática, notafilia y disciplinas
-          afines.
+          Revista académica de la Academia Guatemalteca de Estudios Numismáticos
+          y Notafílicos, orientada a la publicación y difusión de estudios,
+          ensayos y trabajos especializados sobre numismática, notafilia y
+          disciplinas afines.
         </p>
       </div>
 
@@ -373,15 +339,14 @@ export default function RevistaAgennPage() {
               lineHeight: 1.7,
             }}
           >
-            Revista AGENN se encuentra actualmente en preparación.
-            El primer número será publicado próximamente.
+            Revista AGENN se encuentra actualmente en preparación. El primer
+            número será publicado próximamente.
           </div>
         ) : (
           <div
             style={{
               display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit, minmax(240px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
               gap: "1rem",
               marginTop: "1rem",
             }}
@@ -418,9 +383,7 @@ export default function RevistaAgennPage() {
                     padding: "1rem",
                   }}
                 >
-                  <strong>
-                    Revista AGENN
-                  </strong>
+                  <strong>Revista AGENN</strong>
 
                   <div
                     style={{
@@ -478,9 +441,8 @@ export default function RevistaAgennPage() {
               color: "#555",
             }}
           >
-            Los miembros Investigadores acreditados y Numerarios
-            pueden proponer trabajos originales para consideración
-            del Consejo Editorial.
+            Los miembros Investigadores acreditados y Numerarios pueden proponer
+            trabajos originales para consideración del Consejo Editorial.
           </p>
 
           <Link
@@ -555,9 +517,9 @@ export default function RevistaAgennPage() {
               color: "#555",
             }}
           >
-            Desde este espacio puede consultar su estado, revisar
-            las observaciones del Consejo Editorial y atender las
-            correcciones solicitadas cuando corresponda.
+            Desde este espacio puede consultar su estado, revisar las
+            observaciones del Consejo Editorial y atender las correcciones
+            solicitadas cuando corresponda.
           </p>
 
           <Link
@@ -620,9 +582,8 @@ export default function RevistaAgennPage() {
               color: "#4d5f44",
             }}
           >
-            Usted forma parte del Consejo Editorial de Revista
-            AGENN con el rol de{" "}
-            <strong>{ce?.rol}</strong>.
+            Usted forma parte del Consejo Editorial de Revista AGENN con el rol
+            de <strong>{ce?.rol}</strong>.
           </p>
 
           {pendientesEditoriales > 0 && (
@@ -709,6 +670,21 @@ export default function RevistaAgennPage() {
                   </span>
                 )}
               </span>
+            </Link>
+
+            <Link
+              href="/miembros/revista/editorial/archivo"
+              style={{
+                background: "white",
+                color: "#356128",
+                textDecoration: "none",
+                padding: "0.8rem 1rem",
+                borderRadius: "8px",
+                border: "1px solid #9dbc91",
+                fontWeight: 700,
+              }}
+            >
+              Archivo editorial
             </Link>
 
             {puedeAdministrarCE && (

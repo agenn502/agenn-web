@@ -24,6 +24,19 @@ type Autor = {
   nivel: string;
 };
 
+type Resena = {
+  titulo_obra: string;
+  autores_obra: string;
+  editorial: string | null;
+  edicion: string | null;
+  anio_publicacion: number | null;
+  isbn: string | null;
+  numero_paginas: number | null;
+  portada_url: string | null;
+  portada_alt: string | null;
+  fuente_portada: string | null;
+};
+
 type Publicacion = {
   numero: {
     id: number;
@@ -42,6 +55,9 @@ type Publicacion = {
     id: number;
     titulo_actual: string;
     tipo_contenido: string;
+    tipo_autoria: string;
+    autor_corporativo: string | null;
+    mostrar_referencia: boolean;
     tema: string | null;
   };
   version: {
@@ -53,7 +69,45 @@ type Publicacion = {
   };
   autor: Autor | null;
   imagenes: Imagen[];
+  resena: Resena | null;
 };
+
+function sinPuntoFinal(valor: string) {
+  return valor.trim().replace(/\.+$/, "");
+}
+
+const ERROR_TRANSITORIO =
+  /fetch failed|network|timeout|timed out|econnreset|und_err/i;
+
+function esperar(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function consultarConReintentos<T extends { error: unknown }>(
+  consulta: () => PromiseLike<T>,
+): Promise<T> {
+  let ultimoResultado: T | null = null;
+
+  for (let intento = 0; intento < 3; intento += 1) {
+    const resultado = await consulta();
+    ultimoResultado = resultado;
+
+    const mensaje =
+      resultado.error &&
+      typeof resultado.error === "object" &&
+      "message" in resultado.error
+        ? String(resultado.error.message)
+        : "";
+
+    if (!resultado.error || !ERROR_TRANSITORIO.test(mensaje)) {
+      return resultado;
+    }
+
+    if (intento < 2) await esperar(400 * 2 ** intento);
+  }
+
+  return ultimoResultado as T;
+}
 
 const obtenerPublicacion = cache(
   async (
@@ -66,45 +120,72 @@ const obtenerPublicacion = cache(
 
     if (!Number.isInteger(anio) || !Number.isInteger(numeroValor)) return null;
 
-    const { data: numero, error: numeroError } = await supabaseServer
-      .from("revistas")
-      .select("id,volumen,numero,anio,mes_publicacion,slug")
-      .eq("anio", anio)
-      .eq("numero", numeroValor)
-      .eq("estado", "PUBLICADA")
-      .maybeSingle();
+    const { data: numero, error: numeroError } = await consultarConReintentos(
+      () =>
+        supabaseServer
+          .from("revistas")
+          .select("id,volumen,numero,anio,mes_publicacion,slug")
+          .eq("anio", anio)
+          .eq("numero", numeroValor)
+          .eq("estado", "PUBLICADA")
+          .maybeSingle(),
+    );
 
     if (numeroError) throw new Error(numeroError.message);
     if (!numero) return null;
 
-    const { data: articulo, error: articuloError } = await supabaseServer
-      .from("revista_articulos")
-      .select("id,manuscrito_id,version_id,seccion,localizador")
-      .eq("revista_id", numero.id)
-      .eq("localizador", localizador)
-      .maybeSingle();
+    const { data: articulo, error: articuloError } =
+      await consultarConReintentos(() =>
+        supabaseServer
+          .from("revista_articulos")
+          .select("id,manuscrito_id,version_id,seccion,localizador")
+          .eq("revista_id", numero.id)
+          .eq("localizador", localizador)
+          .maybeSingle(),
+      );
 
     if (articuloError) throw new Error(articuloError.message);
     if (!articulo) return null;
 
-    const [manuscritoResultado, versionResultado, imagenesResultado] =
-      await Promise.all([
+    const [
+      manuscritoResultado,
+      versionResultado,
+      imagenesResultado,
+      resenaResultado,
+    ] = await Promise.all([
+      consultarConReintentos(() =>
         supabaseServer
           .from("manuscritos_editoriales")
-          .select("id,autor_miembro_id,titulo_actual,tipo_contenido,tema")
+          .select(
+            "id,autor_miembro_id,titulo_actual,tipo_contenido,tipo_autoria,autor_corporativo,mostrar_referencia,tema",
+          )
           .eq("id", articulo.manuscrito_id)
           .maybeSingle(),
+      ),
+      consultarConReintentos(() =>
         supabaseServer
           .from("manuscrito_versiones")
           .select("id,titulo,contenido,imagen_url,fuente_imagen")
           .eq("id", articulo.version_id)
           .maybeSingle(),
+      ),
+      consultarConReintentos(() =>
         supabaseServer
           .from("manuscrito_imagenes")
           .select("id,url,titulo,fuente,orden")
           .eq("version_id", articulo.version_id)
           .order("orden", { ascending: true }),
-      ]);
+      ),
+      consultarConReintentos(() =>
+        supabaseServer
+          .from("resena_versiones")
+          .select(
+            "titulo_obra,autores_obra,editorial,edicion,anio_publicacion,isbn,numero_paginas,portada_url,portada_alt,fuente_portada",
+          )
+          .eq("version_id", articulo.version_id)
+          .maybeSingle(),
+      ),
+    ]);
 
     if (manuscritoResultado.error) {
       throw new Error(manuscritoResultado.error.message);
@@ -115,6 +196,7 @@ const obtenerPublicacion = cache(
     if (imagenesResultado.error) {
       throw new Error(imagenesResultado.error.message);
     }
+    if (resenaResultado.error) throw new Error(resenaResultado.error.message);
 
     const manuscrito = manuscritoResultado.data;
     const version = versionResultado.data;
@@ -124,11 +206,13 @@ const obtenerPublicacion = cache(
     let autor: Autor | null = null;
 
     if (manuscrito.autor_miembro_id) {
-      const { data, error } = await supabaseServer
-        .from("miembros")
-        .select("id,codigo,nombre,nombre_citacion,nivel")
-        .eq("id", manuscrito.autor_miembro_id)
-        .maybeSingle();
+      const { data, error } = await consultarConReintentos(() =>
+        supabaseServer
+          .from("miembros")
+          .select("id,codigo,nombre,nombre_citacion,nivel")
+          .eq("id", manuscrito.autor_miembro_id)
+          .maybeSingle(),
+      );
 
       if (error) throw new Error(error.message);
       autor = data as Autor | null;
@@ -145,6 +229,11 @@ const obtenerPublicacion = cache(
         id: Number(manuscrito.id),
         titulo_actual: String(manuscrito.titulo_actual || "Trabajo sin título"),
         tipo_contenido: String(manuscrito.tipo_contenido || "Ensayo"),
+        tipo_autoria: String(manuscrito.tipo_autoria || "MIEMBRO"),
+        autor_corporativo: manuscrito.autor_corporativo
+          ? String(manuscrito.autor_corporativo)
+          : null,
+        mostrar_referencia: manuscrito.mostrar_referencia !== false,
         tema: manuscrito.tema ? String(manuscrito.tema) : null,
       },
       version: {
@@ -160,6 +249,7 @@ const obtenerPublicacion = cache(
       },
       autor,
       imagenes: (imagenesResultado.data || []) as Imagen[],
+      resena: (resenaResultado.data as Resena | null) || null,
     };
   },
 );
@@ -351,7 +441,9 @@ export async function generateMetadata({
   return {
     title: publicacion.version.titulo,
     description: `${publicacion.version.titulo}, por ${
-      publicacion.autor?.nombre || "autor de Revista AGENN"
+      publicacion.manuscrito.tipo_autoria === "CONSEJO_EDITORIAL"
+        ? publicacion.manuscrito.autor_corporativo || "Consejo Editorial"
+        : publicacion.autor?.nombre || "autor de Revista AGENN"
     }.`,
   };
 }
@@ -367,12 +459,20 @@ export default async function ArticuloPublicoPage({
   if (!publicacion) notFound();
 
   const titulo = publicacion.version.titulo;
-  const autorNombre =
-    publicacion.autor?.nombre_citacion?.trim() ||
-    publicacion.autor?.nombre ||
-    "Autor no identificado";
+  const autoriaCorporativa =
+    publicacion.manuscrito.tipo_autoria === "CONSEJO_EDITORIAL";
+  const autorVisible = autoriaCorporativa
+    ? publicacion.manuscrito.autor_corporativo || "Consejo Editorial"
+    : publicacion.autor?.nombre || "Autor no identificado";
+  const autorNombre = autoriaCorporativa
+    ? autorVisible
+    : publicacion.autor?.nombre_citacion?.trim() || autorVisible;
   const volumen = publicacion.numero.volumen || "—";
-  const referenciaAntes = `${autorNombre}. (${publicacion.numero.anio}). ${titulo}. `;
+  const descripcionResena =
+    publicacion.manuscrito.tipo_contenido === "RESENA" && publicacion.resena
+      ? `[Reseña del libro ${sinPuntoFinal(publicacion.resena.titulo_obra)}, por ${publicacion.resena.autores_obra}]. `
+      : "";
+  const referenciaAntes = `${autorNombre}. (${publicacion.numero.anio}). ${sinPuntoFinal(titulo)}. ${descripcionResena}`;
   const referenciaRevistaYVolumen = `Revista AGENN, ${volumen}`;
   const referenciaDespues = `(${publicacion.numero.numero}), ${publicacion.articulo.localizador}.`;
   const contenidoTieneImagenIntegrada =
@@ -400,7 +500,7 @@ export default async function ArticuloPublicoPage({
 
         <h1>{titulo}</h1>
 
-        {publicacion.autor ? (
+        {!autoriaCorporativa && publicacion.autor ? (
           <p className={styles.autor}>
             <Link
               href={`/revista/autores/${publicacion.autor.codigo.toLowerCase()}`}
@@ -409,7 +509,7 @@ export default async function ArticuloPublicoPage({
             </Link>
           </p>
         ) : (
-          <p className={styles.autor}>{autorNombre}</p>
+          <p className={styles.autor}>{autorVisible}</p>
         )}
 
         <p className={styles.clasificacion}>
@@ -422,6 +522,69 @@ export default async function ArticuloPublicoPage({
 
         <CompartirArticulo titulo={titulo} />
       </header>
+
+      {publicacion.manuscrito.tipo_contenido === "RESENA" &&
+        publicacion.resena && (
+          <section style={fichaResena}>
+            {publicacion.resena.portada_url && (
+              <figure style={figuraPortada}>
+                <img
+                  src={publicacion.resena.portada_url}
+                  alt={
+                    publicacion.resena.portada_alt ||
+                    `Portada de ${publicacion.resena.titulo_obra}`
+                  }
+                  style={imagenPortada}
+                />
+                {publicacion.resena.fuente_portada && (
+                  <figcaption style={piePortada}>
+                    Fuente: {publicacion.resena.fuente_portada}
+                  </figcaption>
+                )}
+              </figure>
+            )}
+            <div>
+              <p style={etiquetaFicha}>Obra reseñada</p>
+              <h2 style={tituloObra}>{publicacion.resena.titulo_obra}</h2>
+              <dl className="datos-ficha-resena" style={datosFicha}>
+                <div>
+                  <dt>Autoría</dt>
+                  <dd>{publicacion.resena.autores_obra}</dd>
+                </div>
+                {publicacion.resena.editorial && (
+                  <div>
+                    <dt>Editorial</dt>
+                    <dd>{publicacion.resena.editorial}</dd>
+                  </div>
+                )}
+                {publicacion.resena.edicion && (
+                  <div>
+                    <dt>Edición</dt>
+                    <dd>{publicacion.resena.edicion}</dd>
+                  </div>
+                )}
+                {publicacion.resena.anio_publicacion && (
+                  <div>
+                    <dt>Año</dt>
+                    <dd>{publicacion.resena.anio_publicacion}</dd>
+                  </div>
+                )}
+                {publicacion.resena.isbn && (
+                  <div>
+                    <dt>ISBN</dt>
+                    <dd>{publicacion.resena.isbn}</dd>
+                  </div>
+                )}
+                {publicacion.resena.numero_paginas && (
+                  <div>
+                    <dt>Páginas</dt>
+                    <dd>{publicacion.resena.numero_paginas}</dd>
+                  </div>
+                )}
+              </dl>
+            </div>
+          </section>
+        )}
 
       {publicacion.version.imagen_url && !contenidoTieneImagenIntegrada && (
         <figure className={styles.imagenPrincipal}>
@@ -443,14 +606,71 @@ export default async function ArticuloPublicoPage({
         )}
       </article>
 
-      <aside className={styles.cita}>
-        <h2>Cómo citar este artículo (APA 7.ª ed.)</h2>
-        <p>
-          {referenciaAntes}
-          <em>{referenciaRevistaYVolumen}</em>
-          {referenciaDespues}
-        </p>
-      </aside>
+      {publicacion.manuscrito.mostrar_referencia && (
+        <aside className={styles.cita}>
+          <h2>Cómo citar este artículo (APA 7.ª ed.)</h2>
+          <p>
+            {referenciaAntes}
+            <em>{referenciaRevistaYVolumen}</em>
+            {referenciaDespues}
+          </p>
+        </aside>
+      )}
+      <style>{`
+        .datos-ficha-resena > div {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: baseline;
+          gap: 0.35rem;
+        }
+        .datos-ficha-resena dt { font-weight: 700; }
+        .datos-ficha-resena dt::after { content: ":"; }
+        .datos-ficha-resena dd { margin: 0; }
+      `}</style>
     </div>
   );
 }
+
+const fichaResena: React.CSSProperties = {
+  display: "grid",
+  gridTemplateColumns: "minmax(170px, 260px) minmax(0, 1fr)",
+  gap: "2rem",
+  alignItems: "start",
+  margin: "2.5rem 0 0",
+  padding: "1.5rem",
+  background: "#f6f2e9",
+  border: "1px solid #ddd4c7",
+  borderRadius: "12px",
+};
+const figuraPortada: React.CSSProperties = { margin: 0, textAlign: "center" };
+const imagenPortada: React.CSSProperties = {
+  display: "block",
+  width: "100%",
+  maxHeight: "380px",
+  objectFit: "contain",
+  borderRadius: "6px",
+};
+const piePortada: React.CSSProperties = {
+  marginTop: "0.55rem",
+  color: "#666",
+  fontSize: "0.82rem",
+};
+const etiquetaFicha: React.CSSProperties = {
+  margin: 0,
+  color: "#6b6f1a",
+  fontWeight: 800,
+  letterSpacing: "0.06em",
+  textTransform: "uppercase",
+  fontSize: "0.78rem",
+};
+const tituloObra: React.CSSProperties = {
+  margin: "0.45rem 0 1rem",
+  color: "#4d371c",
+  fontFamily: "Georgia, serif",
+};
+const datosFicha: React.CSSProperties = {
+  display: "grid",
+  gap: "0.55rem",
+  margin: 0,
+  lineHeight: 1.5,
+};

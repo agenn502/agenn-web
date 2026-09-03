@@ -25,6 +25,8 @@ type Articulo = {
     id: number;
     titulo_actual: string;
     tipo_contenido: string;
+    tipo_autoria: string;
+    autor_corporativo: string | null;
     autor: { id: number; codigo: string; nombre: string; nivel: string } | null;
   } | null;
   version: {
@@ -33,6 +35,12 @@ type Articulo = {
     titulo: string;
   } | null;
 };
+
+function autorPublico(articulo: Articulo) {
+  return articulo.manuscrito?.tipo_autoria === "CONSEJO_EDITORIAL"
+    ? articulo.manuscrito.autor_corporativo || "Consejo Editorial"
+    : articulo.manuscrito?.autor?.nombre || "Autor no identificado";
+}
 
 const MESES = [
   "enero",
@@ -306,8 +314,7 @@ export default function VistaPreviaNumeroPage() {
                         "Trabajo sin título"}
                     </Link>
                     <div style={{ marginTop: "0.45rem", color: "#666" }}>
-                      {articulo.manuscrito?.autor?.nombre ||
-                        "Autor no identificado"}
+                      {autorPublico(articulo)}
                     </div>
                   </div>
                 </article>

@@ -51,7 +51,7 @@ async function obtenerAutorEditable(req: NextRequest, manuscritoId: number) {
 
   const { data: manuscrito, error: manuscritoError } = await supabaseServer
     .from("manuscritos_editoriales")
-    .select("id,autor_miembro_id,estado")
+    .select("id,autor_miembro_id,estado,tipo_contenido")
     .eq("id", manuscritoId)
     .eq("autor_miembro_id", miembro.id)
     .maybeSingle();
@@ -251,8 +251,19 @@ export async function POST(
 
     const formData = await req.formData();
     const archivo = formData.get("archivo");
+    const uso = String(formData.get("uso") || "CONTENIDO")
+      .trim()
+      .toUpperCase();
+    const esPortada = uso === "PORTADA";
     const titulo = String(formData.get("titulo") || "").trim();
     const fuente = String(formData.get("fuente") || "").trim();
+
+    if (esPortada && acceso.manuscrito.tipo_contenido !== "RESENA") {
+      return NextResponse.json(
+        { ok: false, error: "Solo las reseñas admiten portada bibliográfica." },
+        { status: 400 },
+      );
+    }
 
     if (!(archivo instanceof File)) {
       return NextResponse.json(
@@ -275,9 +286,16 @@ export async function POST(
       );
     }
 
-    if (archivo.size > 220 * 1024) {
+    const limiteBytes = esPortada ? 170 * 1024 : 220 * 1024;
+
+    if (archivo.size > limiteBytes) {
       return NextResponse.json(
-        { ok: false, error: "La imagen supera el límite editorial de 220 KB." },
+        {
+          ok: false,
+          error: esPortada
+            ? "La portada supera el límite editorial de 170 KB."
+            : "La imagen supera el límite editorial de 220 KB.",
+        },
         { status: 400 },
       );
     }
@@ -300,9 +318,9 @@ export async function POST(
         .replace(/-+/g, "-")
         .slice(-80) || "imagen.jpg";
 
-    const storagePath = `revista/manuscrito-${manuscritoId}/${Date.now()}-${Math.random()
-      .toString(36)
-      .slice(2, 8)}-${nombreSeguro}`;
+    const storagePath = `revista/manuscrito-${manuscritoId}/${
+      esPortada ? "portada-" : ""
+    }${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${nombreSeguro}`;
 
     const buffer = Buffer.from(await archivo.arrayBuffer());
 
@@ -350,6 +368,79 @@ export async function POST(
       .getPublicUrl(storagePath);
 
     const url = publicData.publicUrl;
+
+    if (esPortada) {
+      const { data: resenaActual, error: actualError } = await supabaseServer
+        .from("resenas_bibliograficas")
+        .select("portada_storage_path")
+        .eq("manuscrito_id", manuscritoId)
+        .maybeSingle();
+
+      if (actualError) {
+        await supabaseServer.storage.from("ensayos").remove([storagePath]);
+        throw new Error(actualError.message);
+      }
+
+      let portadaError: { message: string } | null = null;
+
+      for (let intento = 0; intento < 4; intento += 1) {
+        const resultado = await supabaseServer
+          .from("resenas_bibliograficas")
+          .update({
+            portada_url: url,
+            portada_storage_path: storagePath,
+            portada_alt: titulo || null,
+            fuente_portada: fuente || null,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("manuscrito_id", manuscritoId);
+
+        portadaError = resultado.error;
+        if (!portadaError) break;
+        if (!esErrorTransitorio(portadaError.message) || intento === 3) break;
+
+        const comprobacion = await supabaseServer
+          .from("resenas_bibliograficas")
+          .select("portada_storage_path")
+          .eq("manuscrito_id", manuscritoId)
+          .maybeSingle();
+
+        if (comprobacion.data?.portada_storage_path === storagePath) {
+          portadaError = null;
+          break;
+        }
+
+        await esperar(450 * 2 ** intento);
+      }
+
+      if (portadaError) {
+        await supabaseServer.storage.from("ensayos").remove([storagePath]);
+        throw new Error(portadaError.message);
+      }
+
+      const rutaAnterior = resenaActual?.portada_storage_path;
+      if (rutaAnterior && rutaAnterior !== storagePath) {
+        const { count } = await supabaseServer
+          .from("resena_versiones")
+          .select("id", { count: "exact", head: true })
+          .eq("portada_storage_path", rutaAnterior);
+
+        if ((count || 0) === 0) {
+          await supabaseServer.storage.from("ensayos").remove([rutaAnterior]);
+        }
+      }
+
+      return NextResponse.json({
+        ok: true,
+        portada: {
+          url,
+          storage_path: storagePath,
+          alt: titulo,
+          fuente,
+          anterior_storage_path: resenaActual?.portada_storage_path || null,
+        },
+      });
+    }
 
     let creada: any = null;
     let insertError: { message: string } | null = null;
@@ -449,6 +540,56 @@ export async function DELETE(
     }
 
     const body = await req.json();
+    const uso = String(body.uso || "CONTENIDO")
+      .trim()
+      .toUpperCase();
+
+    if (uso === "PORTADA") {
+      if (acceso.manuscrito.tipo_contenido !== "RESENA") {
+        return NextResponse.json(
+          { ok: false, error: "Este manuscrito no es una reseña." },
+          { status: 400 },
+        );
+      }
+
+      const { data: resena, error: resenaError } = await supabaseServer
+        .from("resenas_bibliograficas")
+        .select("portada_storage_path")
+        .eq("manuscrito_id", manuscritoId)
+        .maybeSingle();
+
+      if (resenaError) throw new Error(resenaError.message);
+      if (!resena?.portada_storage_path) {
+        return NextResponse.json({ ok: true, ya_eliminada: true });
+      }
+
+      const rutaAnterior = resena.portada_storage_path;
+      const { error: limpiarError } = await supabaseServer
+        .from("resenas_bibliograficas")
+        .update({
+          portada_url: null,
+          portada_storage_path: null,
+          portada_alt: null,
+          fuente_portada: null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("manuscrito_id", manuscritoId)
+        .eq("portada_storage_path", rutaAnterior);
+
+      if (limpiarError) throw new Error(limpiarError.message);
+
+      const { count } = await supabaseServer
+        .from("resena_versiones")
+        .select("id", { count: "exact", head: true })
+        .eq("portada_storage_path", rutaAnterior);
+
+      if ((count || 0) === 0) {
+        await supabaseServer.storage.from("ensayos").remove([rutaAnterior]);
+      }
+
+      return NextResponse.json({ ok: true });
+    }
+
     const imagenId = Number(body.imagen_id);
 
     if (!Number.isInteger(imagenId) || imagenId <= 0) {

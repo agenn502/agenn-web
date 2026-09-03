@@ -14,7 +14,27 @@ type Periodo = {
   anio_fin: number | null;
 };
 
+type DatosResena = {
+  tituloObra: string;
+  autoresObra: string;
+  editorial: string;
+  edicion: string;
+  anioPublicacion: string;
+  isbn: string;
+  numeroPaginas: string;
+};
+
 const BORRADOR_LOCAL_KEY = "revista-nuevo-manuscrito";
+
+const RESENA_INICIAL: DatosResena = {
+  tituloObra: "",
+  autoresObra: "",
+  editorial: "",
+  edicion: "",
+  anioPublicacion: "",
+  isbn: "",
+  numeroPaginas: "",
+};
 
 const TIPOS_CONTENIDO = [
   { valor: "ENSAYO", etiqueta: "Ensayo" },
@@ -44,6 +64,9 @@ export default function EscribirEnsayoPage() {
   const [periodos, setPeriodos] = useState<Periodo[]>([]);
   const [titulo, setTitulo] = useState("");
   const [tipoContenido, setTipoContenido] = useState("ENSAYO");
+  const [tipoAutoria, setTipoAutoria] = useState("CONSEJO_EDITORIAL");
+  const [mostrarReferencia, setMostrarReferencia] = useState(false);
+  const [datosResena, setDatosResena] = useState<DatosResena>(RESENA_INICIAL);
   const [temaId, setTemaId] = useState("");
   const [subtemaId, setSubtemaId] = useState("");
   const [secundarios, setSecundarios] = useState<number[]>([]);
@@ -63,6 +86,9 @@ export default function EscribirEnsayoPage() {
 
       setTitulo(String(datos.titulo || ""));
       setTipoContenido(String(datos.tipoContenido || "ENSAYO"));
+      setTipoAutoria(String(datos.tipoAutoria || "CONSEJO_EDITORIAL"));
+      setMostrarReferencia(Boolean(datos.mostrarReferencia));
+      setDatosResena({ ...RESENA_INICIAL, ...(datos.datosResena || {}) });
       setTemaId(String(datos.temaId || ""));
       setSubtemaId(String(datos.subtemaId || ""));
       setSecundarios(Array.isArray(datos.secundarios) ? datos.secundarios : []);
@@ -83,6 +109,9 @@ export default function EscribirEnsayoPage() {
       JSON.stringify({
         titulo,
         tipoContenido,
+        tipoAutoria,
+        mostrarReferencia,
+        datosResena,
         temaId,
         subtemaId,
         secundarios,
@@ -96,6 +125,9 @@ export default function EscribirEnsayoPage() {
   }, [
     titulo,
     tipoContenido,
+    tipoAutoria,
+    mostrarReferencia,
+    datosResena,
     temaId,
     subtemaId,
     secundarios,
@@ -191,6 +223,14 @@ export default function EscribirEnsayoPage() {
     if (titulo.trim().length < 10)
       return setError("El título debe contener al menos 10 caracteres.");
     if (!temaId) return setError("Seleccione un tema principal.");
+    if (
+      tipoContenido === "RESENA" &&
+      (!datosResena.tituloObra.trim() || !datosResena.autoresObra.trim())
+    ) {
+      return setError(
+        "En una reseña debe indicar el título y la autoría de la obra reseñada.",
+      );
+    }
     if (alcance === "PERSONALIZADO" && !anioInicio && !anioFin) {
       return setError(
         "Indique al menos uno de los años del intervalo personalizado.",
@@ -212,6 +252,25 @@ export default function EscribirEnsayoPage() {
           solicitud_id: solicitudId,
           titulo: titulo.trim(),
           tipo_contenido: tipoContenido,
+          tipo_autoria: tipoContenido === "RESENA" ? tipoAutoria : "MIEMBRO",
+          mostrar_referencia:
+            tipoContenido === "RESENA" ? mostrarReferencia : true,
+          resena:
+            tipoContenido === "RESENA"
+              ? {
+                  titulo_obra: datosResena.tituloObra.trim(),
+                  autores_obra: datosResena.autoresObra.trim(),
+                  editorial: datosResena.editorial.trim() || null,
+                  edicion: datosResena.edicion.trim() || null,
+                  anio_publicacion: datosResena.anioPublicacion
+                    ? Number(datosResena.anioPublicacion)
+                    : null,
+                  isbn: datosResena.isbn.trim() || null,
+                  numero_paginas: datosResena.numeroPaginas
+                    ? Number(datosResena.numeroPaginas)
+                    : null,
+                }
+              : null,
           tema_id: Number(temaId),
           subtema_id: subtemaId ? Number(subtemaId) : null,
           temas_secundarios: secundarios,
@@ -250,7 +309,7 @@ export default function EscribirEnsayoPage() {
   return (
     <div style={{ maxWidth: "860px" }}>
       <p style={sobreTitulo}>Revista AGENN · Participación</p>
-      <h1 style={{ color: "#4d371c" }}>Escribir para la revista</h1>
+      <h1 style={{ color: "#4d371c" }}>Crear publicación</h1>
       <p style={introduccion}>
         Cree el borrador y continúe en el editor completo. El tipo y el tema
         principal facilitan la organización; los demás criterios son opcionales.
@@ -282,7 +341,17 @@ export default function EscribirEnsayoPage() {
           <Campo etiqueta="Tipo de contenido" requerido>
             <select
               value={tipoContenido}
-              onChange={(e) => setTipoContenido(e.target.value)}
+              onChange={(e) => {
+                const tipo = e.target.value;
+                setTipoContenido(tipo);
+                if (tipo === "RESENA") {
+                  setTipoAutoria("CONSEJO_EDITORIAL");
+                  setMostrarReferencia(false);
+                } else {
+                  setTipoAutoria("MIEMBRO");
+                  setMostrarReferencia(true);
+                }
+              }}
               required
               style={control}
             >
@@ -293,6 +362,154 @@ export default function EscribirEnsayoPage() {
               ))}
             </select>
           </Campo>
+
+          {tipoContenido === "NOTA_BREVE" && (
+            <div style={avisoFlujo}>
+              La nota breve se enviará directamente al Banco de publicables. El
+              Consejo Editorial podrá ajustar su presentación antes de
+              incorporarla a un número.
+            </div>
+          )}
+
+          {tipoContenido === "RESENA" && (
+            <fieldset style={fieldsetDestacado}>
+              <legend style={legend}>Datos de la reseña bibliográfica</legend>
+
+              <Campo etiqueta="Firma pública de la reseña" requerido>
+                <select
+                  value={tipoAutoria}
+                  onChange={(e) => {
+                    const autoria = e.target.value;
+                    setTipoAutoria(autoria);
+                    setMostrarReferencia(autoria === "MIEMBRO");
+                  }}
+                  style={control}
+                >
+                  <option value="CONSEJO_EDITORIAL">Consejo Editorial</option>
+                  <option value="MIEMBRO">Mi nombre como autor</option>
+                </select>
+              </Campo>
+
+              <div style={{ height: "1rem" }} />
+
+              <Campo etiqueta="Título de la obra reseñada" requerido>
+                <input
+                  value={datosResena.tituloObra}
+                  onChange={(e) =>
+                    setDatosResena((actual) => ({
+                      ...actual,
+                      tituloObra: e.target.value,
+                    }))
+                  }
+                  required
+                  style={control}
+                />
+              </Campo>
+
+              <div style={{ height: "1rem" }} />
+
+              <Campo etiqueta="Autor o autores de la obra" requerido>
+                <input
+                  value={datosResena.autoresObra}
+                  onChange={(e) =>
+                    setDatosResena((actual) => ({
+                      ...actual,
+                      autoresObra: e.target.value,
+                    }))
+                  }
+                  required
+                  style={control}
+                  placeholder="Como aparecen en la publicación"
+                />
+              </Campo>
+
+              <div style={{ ...dosColumnas, marginTop: "1rem" }}>
+                <Campo etiqueta="Editorial" opcional>
+                  <input
+                    value={datosResena.editorial}
+                    onChange={(e) =>
+                      setDatosResena((actual) => ({
+                        ...actual,
+                        editorial: e.target.value,
+                      }))
+                    }
+                    style={control}
+                  />
+                </Campo>
+                <Campo etiqueta="Edición" opcional>
+                  <input
+                    value={datosResena.edicion}
+                    onChange={(e) =>
+                      setDatosResena((actual) => ({
+                        ...actual,
+                        edicion: e.target.value,
+                      }))
+                    }
+                    style={control}
+                    placeholder="Ej.: 2.ª edición"
+                  />
+                </Campo>
+                <Campo etiqueta="Año de publicación" opcional>
+                  <input
+                    type="number"
+                    min={1000}
+                    max={2100}
+                    value={datosResena.anioPublicacion}
+                    onChange={(e) =>
+                      setDatosResena((actual) => ({
+                        ...actual,
+                        anioPublicacion: e.target.value,
+                      }))
+                    }
+                    style={control}
+                  />
+                </Campo>
+                <Campo etiqueta="Número de páginas" opcional>
+                  <input
+                    type="number"
+                    min={1}
+                    value={datosResena.numeroPaginas}
+                    onChange={(e) =>
+                      setDatosResena((actual) => ({
+                        ...actual,
+                        numeroPaginas: e.target.value,
+                      }))
+                    }
+                    style={control}
+                  />
+                </Campo>
+              </div>
+
+              <div style={{ marginTop: "1rem" }}>
+                <Campo etiqueta="ISBN" opcional>
+                  <input
+                    value={datosResena.isbn}
+                    onChange={(e) =>
+                      setDatosResena((actual) => ({
+                        ...actual,
+                        isbn: e.target.value,
+                      }))
+                    }
+                    style={control}
+                  />
+                </Campo>
+              </div>
+
+              <label style={{ ...casilla, marginTop: "1rem" }}>
+                <input
+                  type="checkbox"
+                  checked={mostrarReferencia}
+                  onChange={(e) => setMostrarReferencia(e.target.checked)}
+                />
+                Mostrar la referencia sugerida para citar esta reseña
+              </label>
+
+              <p style={ayuda}>
+                La portada se podrá pegar directamente con Ctrl + V en el
+                editor, después de crear el borrador.
+              </p>
+            </fieldset>
+          )}
 
           <Campo etiqueta="Tema principal" requerido>
             <select
@@ -496,6 +713,11 @@ const fieldset: CSSProperties = {
   border: "1px solid #d8d0c2",
   borderRadius: "8px",
 };
+const fieldsetDestacado: CSSProperties = {
+  ...fieldset,
+  background: "#f8f6ef",
+  borderColor: "#b8b98a",
+};
 const legend: CSSProperties = {
   padding: "0 0.35rem",
   color: "#4d371c",
@@ -552,3 +774,11 @@ const errorEstilo: CSSProperties = {
 const asterisco: CSSProperties = { color: "#9e2424" };
 const opcional: CSSProperties = { color: "#777", fontWeight: 400 };
 const ayuda: CSSProperties = { color: "#777", fontWeight: 400 };
+const avisoFlujo: CSSProperties = {
+  padding: "0.9rem 1rem",
+  borderRadius: "8px",
+  border: "1px solid #cfe3c4",
+  background: "#eef6e9",
+  color: "#35542b",
+  lineHeight: 1.6,
+};
