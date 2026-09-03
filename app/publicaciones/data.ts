@@ -9,7 +9,7 @@ export const publicaciones = [
     descripcion:
       "Estudio dedicado al análisis histórico y económico de los cuartillos, como expresión monetaria popular en Guatemala. 'La moneda menuda, aquella que se usó en las llamadas transacciones bajas, la del mercado para comprar tomate o una olla pequeñita, una vela carbón... la moneda que recibió como jornal la mujer que faenó la cochinilla, el niño que cortó café, dinero del que barrió las calles, del que cortó el zacate para darle de comer a los bueyes que halaron la carreta, el del pago del carretero, o del pago de la señora que llegó a cuidar los niños o a barrer la casa o a lavar la ropa, esa moneda menuda era, fue, por eso, la salvación de la clase pobre y explotada durante esos ya lejanos 107 años.'",
     portada: "/publicaciones/portadas/port1.jpg",
-    enlace: "https://biblos.usac.edu.gt/opac/record/659596",
+    enlace: "https://tienda.sophosenlinea.com/libro/cuartillos-la-moneda-del-pueblo_359287",
   },
   {
     slug: "notafilia-guatemalteca",
@@ -106,5 +106,44 @@ export const publicaciones = [
     portada: "/publicaciones/portadas/port8.jpg",
     enlace:
       "https://alhe.mora.edu.mx/index.php/ALHE/article/view/1603",
+  },
+  {
+    slug: "exonumia_fichas",
+    titulo:
+      "Exonumia e historia: fichas particulares de Guatemala",
+    autores: ["Manfred Michel Morales Osterberg"],
+    anio: 2026,
+    serie: "Libro",
+    editorial: "Exonumis Editores",
+    descripcion: "Las fichas particulares son especímenes que forman parte de la exonumia. Esta rama especializada de la numismática se encarga de estudiar los objetos con forma de moneda que carecen de valor monetario, estos objetos suelen ser de emisión privada o conmemorativos como, por ejemplo: tokens de juegos, fichas de emisión privada, medallas etc.",
+    portada: "/publicaciones/portadas/port9.jpg",
+    enlace:
+      "https://tienda.sophosenlinea.com/libro/exonumia-e-historia-fichas-particulares-de-guatemala_358761",
+  },
+    {
+    slug: "ensayos_numismatica",
+    titulo:
+      "Ensayos de Numismática Guatemalteca",
+    autores: ["Edgar Daniel Quisquinay Rojas"],
+    anio: 2026,
+    serie: "Libro",
+    editorial: "Cholsamaj",
+    descripcion: "Este libro es una recopilación, revisada, corregida y aumentada, de ensayos con tema histórico y numismática, realizados por el autor en los recientes cinco años. El enfoque es crítico desde la perspectiva de la numismática como ente independiente, una ciencia, que produce conocimiento propio que se sitúa siempre como trabajo en proceso de actualización constante.",
+    portada: "/publicaciones/portadas/port10.jpg",
+    enlace:
+      "https://tienda.sophosenlinea.com/libro/cuartillos-la-moneda-del-pueblo_359287",
+  },
+  {
+    slug: "museo_virtual_unan",
+    titulo:
+      "El Museo virtual de notafilia guatemalteca: historia, arte y preservación del legado monetario de Guatemala",
+    autores: ["Gerónimo Estuardo Pérez Irungaray"],
+    anio: 2026,
+    serie: "Artículo",
+    editorial: "Revista de la Unión Americana de Numismática. 11(64), 53-60",
+    descripcion: "El artículo presenta el Museo Virtual de Notafilia Guatemalteca como una iniciativa para preservar, organizar y difundir digitalmente el patrimonio monetario nacional mediante un sistema de clasificación jerárquico. Describe el proceso de construcción de la plataforma, su estructura museográfica y su aporte a la investigación, la educación y la conservación del legado histórico de los billetes guatemaltecos.",
+    portada: "/publicaciones/portadas/port11.jpg",
+    enlace:
+      "https://infoiarna.url.edu.gt/publicaciones-academicas/el-museo-virtual-de-notafilia-guatemalteca-historia-arte-y-preservacion-del-legado-monetario-de-guatemala/",
   },
 ];
