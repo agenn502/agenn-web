@@ -61,6 +61,98 @@
   color: #73786f;
 }
 
+.fichaResena {
+  display: grid;
+  grid-template-columns: minmax(170px, 260px) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+  margin: 2.5rem 0 0;
+  padding: 1.5rem;
+  min-width: 0;
+  overflow: hidden;
+  background: #f6f2e9;
+  border: 1px solid #ddd4c7;
+  border-radius: 12px;
+}
+
+.fichaResenaSinPortada {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.figuraPortada {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.imagenPortada {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: 380px;
+  margin: 0 auto;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.piePortada {
+  margin-top: 0.55rem;
+  color: #666;
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+
+.contenidoFichaResena {
+  min-width: 0;
+}
+
+.etiquetaFicha {
+  margin: 0;
+  color: #6b6f1a;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tituloObra {
+  margin: 0.45rem 0 1rem;
+  color: #4d371c;
+  font-family: Georgia, serif;
+  overflow-wrap: anywhere;
+}
+
+.datosFicha {
+  display: grid;
+  gap: 0.55rem;
+  min-width: 0;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.datosFicha > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  min-width: 0;
+  gap: 0.35rem;
+}
+
+.datosFicha dt {
+  font-weight: 700;
+}
+
+.datosFicha dt::after {
+  content: ":";
+}
+
+.datosFicha dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
 .imagenPrincipal {
   margin: 3rem auto;
 }
@@ -211,5 +303,22 @@
 
   .contenido {
     font-size: 18px;
+  }
+
+  .fichaResena {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+    padding: 1rem;
+  }
+
+  .figuraPortada {
+    width: min(100%, 220px);
+    margin-inline: auto;
+  }
+
+  .tituloObra {
+    font-size: 1.45rem;
+    line-height: 1.25;
   }
 }

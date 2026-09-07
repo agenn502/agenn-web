@@ -331,13 +331,22 @@ p {
     background-color: #4f5f2f;
     border: 1px solid #3e4b24;
     border-radius: 10px;
-    overflow: hidden;
+    max-height: calc(100vh - 13rem);
+    max-height: calc(100dvh - 13rem);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    touch-action: pan-y;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
     z-index: 1001;
   }
 
   .desktop-nav.mobile-open .header-link {
     display: block;
+    flex: 0 0 auto;
     text-align: center;
     padding: 0.9rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);

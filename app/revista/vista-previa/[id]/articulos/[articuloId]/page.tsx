@@ -470,28 +470,34 @@ export default function ArticuloRevistaPage() {
       )}
 
       {articulo.manuscrito?.tipo_contenido === "RESENA" && articulo.resena && (
-        <section style={fichaResena}>
+        <section
+          className={`ficha-resena ${
+            articulo.resena.portada_url ? "" : "ficha-resena--sin-portada"
+          }`}
+        >
           {articulo.resena.portada_url && (
-            <figure style={figuraPortada}>
+            <figure className="ficha-resena__portada">
               <img
                 src={articulo.resena.portada_url}
                 alt={
                   articulo.resena.portada_alt ||
                   `Portada de ${articulo.resena.titulo_obra}`
                 }
-                style={imagenPortada}
+                className="ficha-resena__imagen"
               />
               {articulo.resena.fuente_portada && (
-                <figcaption style={piePortada}>
+                <figcaption className="ficha-resena__pie">
                   Fuente: {articulo.resena.fuente_portada}
                 </figcaption>
               )}
             </figure>
           )}
-          <div>
-            <p style={etiquetaFicha}>Obra reseñada</p>
-            <h2 style={tituloObra}>{articulo.resena.titulo_obra}</h2>
-            <dl className="datos-ficha-resena" style={datosFicha}>
+          <div className="ficha-resena__contenido">
+            <p className="ficha-resena__etiqueta">Obra reseñada</p>
+            <h2 className="ficha-resena__titulo">
+              {articulo.resena.titulo_obra}
+            </h2>
+            <dl className="datos-ficha-resena">
               <div>
                 <dt>Autoría</dt>
                 <dd>{articulo.resena.autores_obra}</dd>
@@ -633,54 +639,100 @@ export default function ArticuloRevistaPage() {
         }
 
         .datos-ficha-resena dd {
+          min-width: 0;
           margin: 0;
+          overflow-wrap: anywhere;
+        }
+
+        .ficha-resena {
+          display: grid;
+          grid-template-columns: minmax(170px, 260px) minmax(0, 1fr);
+          gap: 2rem;
+          align-items: start;
+          min-width: 0;
+          margin: 2.5rem 0 0;
+          padding: 1.5rem;
+          overflow: hidden;
+          background: #f6f2e9;
+          border: 1px solid #ddd4c7;
+          border-radius: 12px;
+        }
+
+        .ficha-resena--sin-portada {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .ficha-resena__portada {
+          width: 100%;
+          min-width: 0;
+          margin: 0;
+          text-align: center;
+        }
+
+        .ficha-resena__imagen {
+          display: block;
+          width: 100%;
+          max-width: 100%;
+          max-height: 380px;
+          margin: 0 auto;
+          object-fit: contain;
+          border-radius: 6px;
+        }
+
+        .ficha-resena__pie {
+          margin-top: 0.55rem;
+          color: #666;
+          font-size: 0.82rem;
+          overflow-wrap: anywhere;
+        }
+
+        .ficha-resena__contenido {
+          min-width: 0;
+        }
+
+        .ficha-resena__etiqueta {
+          margin: 0;
+          color: #6b6f1a;
+          font-size: 0.78rem;
+          font-weight: 800;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+        }
+
+        .ficha-resena__titulo {
+          margin: 0.45rem 0 1rem;
+          color: #4d371c;
+          font-family: Georgia, serif;
+          overflow-wrap: anywhere;
+        }
+
+        .datos-ficha-resena {
+          display: grid;
+          gap: 0.55rem;
+          min-width: 0;
+          margin: 0;
+          line-height: 1.5;
+        }
+
+        @media (max-width: 650px) {
+          .ficha-resena {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 1.25rem;
+            margin-top: 1.75rem;
+            padding: 1rem;
+          }
+
+          .ficha-resena__portada {
+            width: min(100%, 220px);
+            margin-inline: auto;
+          }
+
+          .ficha-resena__titulo {
+            font-size: 1.45rem;
+            line-height: 1.25;
+          }
         }
       `}</style>
     </main>
   );
 }
-
-const fichaResena: React.CSSProperties = {
-  display: "grid",
-  gridTemplateColumns: "minmax(170px, 260px) minmax(0, 1fr)",
-  gap: "2rem",
-  alignItems: "start",
-  margin: "2.5rem 0 0",
-  padding: "1.5rem",
-  background: "#f6f2e9",
-  border: "1px solid #ddd4c7",
-  borderRadius: "12px",
-};
-
-const figuraPortada: React.CSSProperties = { margin: 0, textAlign: "center" };
-const imagenPortada: React.CSSProperties = {
-  display: "block",
-  width: "100%",
-  maxHeight: "380px",
-  objectFit: "contain",
-  borderRadius: "6px",
-};
-const piePortada: React.CSSProperties = {
-  marginTop: "0.55rem",
-  color: "#666",
-  fontSize: "0.82rem",
-};
-const etiquetaFicha: React.CSSProperties = {
-  margin: 0,
-  color: "#6b6f1a",
-  fontWeight: 800,
-  letterSpacing: "0.06em",
-  textTransform: "uppercase",
-  fontSize: "0.78rem",
-};
-const tituloObra: React.CSSProperties = {
-  margin: "0.45rem 0 1rem",
-  color: "#4d371c",
-  fontFamily: "Georgia, serif",
-};
-const datosFicha: React.CSSProperties = {
-  display: "grid",
-  gap: "0.55rem",
-  margin: 0,
-  lineHeight: 1.5,
-};

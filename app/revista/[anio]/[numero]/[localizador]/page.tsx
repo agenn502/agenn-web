@@ -528,28 +528,36 @@ export default async function ArticuloPublicoPage({
 
       {publicacion.manuscrito.tipo_contenido === "RESENA" &&
         publicacion.resena && (
-          <section style={fichaResena}>
+          <section
+            className={`${styles.fichaResena} ${
+              publicacion.resena.portada_url
+                ? ""
+                : styles.fichaResenaSinPortada
+            }`}
+          >
             {publicacion.resena.portada_url && (
-              <figure style={figuraPortada}>
+              <figure className={styles.figuraPortada}>
                 <img
                   src={publicacion.resena.portada_url}
                   alt={
                     publicacion.resena.portada_alt ||
                     `Portada de ${publicacion.resena.titulo_obra}`
                   }
-                  style={imagenPortada}
+                  className={styles.imagenPortada}
                 />
                 {publicacion.resena.fuente_portada && (
-                  <figcaption style={piePortada}>
+                  <figcaption className={styles.piePortada}>
                     Fuente: {publicacion.resena.fuente_portada}
                   </figcaption>
                 )}
               </figure>
             )}
-            <div>
-              <p style={etiquetaFicha}>Obra reseñada</p>
-              <h2 style={tituloObra}>{publicacion.resena.titulo_obra}</h2>
-              <dl className="datos-ficha-resena" style={datosFicha}>
+            <div className={styles.contenidoFichaResena}>
+              <p className={styles.etiquetaFicha}>Obra reseñada</p>
+              <h2 className={styles.tituloObra}>
+                {publicacion.resena.titulo_obra}
+              </h2>
+              <dl className={styles.datosFicha}>
                 <div>
                   <dt>Autoría</dt>
                   <dd>{publicacion.resena.autores_obra}</dd>
@@ -619,61 +627,6 @@ export default async function ArticuloPublicoPage({
           </p>
         </aside>
       )}
-      <style>{`
-        .datos-ficha-resena > div {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: baseline;
-          gap: 0.35rem;
-        }
-        .datos-ficha-resena dt { font-weight: 700; }
-        .datos-ficha-resena dt::after { content: ":"; }
-        .datos-ficha-resena dd { margin: 0; }
-      `}</style>
     </div>
   );
 }
-
-const fichaResena: React.CSSProperties = {
-  display: "grid",
-  gridTemplateColumns: "minmax(170px, 260px) minmax(0, 1fr)",
-  gap: "2rem",
-  alignItems: "start",
-  margin: "2.5rem 0 0",
-  padding: "1.5rem",
-  background: "#f6f2e9",
-  border: "1px solid #ddd4c7",
-  borderRadius: "12px",
-};
-const figuraPortada: React.CSSProperties = { margin: 0, textAlign: "center" };
-const imagenPortada: React.CSSProperties = {
-  display: "block",
-  width: "100%",
-  maxHeight: "380px",
-  objectFit: "contain",
-  borderRadius: "6px",
-};
-const piePortada: React.CSSProperties = {
-  marginTop: "0.55rem",
-  color: "#666",
-  fontSize: "0.82rem",
-};
-const etiquetaFicha: React.CSSProperties = {
-  margin: 0,
-  color: "#6b6f1a",
-  fontWeight: 800,
-  letterSpacing: "0.06em",
-  textTransform: "uppercase",
-  fontSize: "0.78rem",
-};
-const tituloObra: React.CSSProperties = {
-  margin: "0.45rem 0 1rem",
-  color: "#4d371c",
-  fontFamily: "Georgia, serif",
-};
-const datosFicha: React.CSSProperties = {
-  display: "grid",
-  gap: "0.55rem",
-  margin: 0,
-  lineHeight: 1.5,
-};
