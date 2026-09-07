@@ -48,6 +48,7 @@ function arregloIntereses(valor: string): string[] {
 export async function POST(request: Request) {
   let candidatoId: string | null = null;
   let codigoCandidato: string | null = null;
+  let rutaFoto: string | null = null;
   let fotoSubida = false;
 
   try {
@@ -213,7 +214,7 @@ export async function POST(request: Request) {
     candidatoId = candidato.id;
     codigoCandidato = candidato.codigo;
 
-    const rutaFoto = `${codigoCandidato}.jpg`;
+    rutaFoto = `${codigoCandidato}-${crypto.randomUUID()}.jpg`;
     const bytesFoto = await fotografia.arrayBuffer();
 
     const { error: fotoError } = await supabaseServer.storage
@@ -266,10 +267,10 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Error inesperado en /api/candidatos:", error);
 
-    if (fotoSubida && codigoCandidato) {
+    if (fotoSubida && rutaFoto) {
       await supabaseServer.storage
         .from("candidatos-fotos")
-        .remove([`${codigoCandidato}.jpg`]);
+        .remove([rutaFoto]);
     }
 
     if (candidatoId) {
