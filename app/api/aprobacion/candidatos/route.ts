@@ -24,16 +24,28 @@ function generarPasswordTemporal() {
 }
 
 async function siguienteCodigo(nivel: "ASP" | "INV") {
-  const [{ data: usuarios }, { data: miembros }] = await Promise.all([
+  const [
+    { data: usuarios, error: usuariosError },
+    { data: miembros, error: miembrosError },
+    { data: historial, error: historialError },
+  ] = await Promise.all([
     supabaseServer.from("users").select("codigo").like("codigo", `${nivel}%`),
     supabaseServer
       .from("miembros")
       .select("codigo")
       .like("codigo", `${nivel}%`),
+    supabaseServer
+      .from("historial_miembro")
+      .select("codigo")
+      .like("codigo", `${nivel}%`),
   ]);
 
+  if (usuariosError) throw new Error(usuariosError.message);
+  if (miembrosError) throw new Error(miembrosError.message);
+  if (historialError) throw new Error(historialError.message);
+
   const usados = new Set<number>();
-  [...(usuarios || []), ...(miembros || [])].forEach((row) => {
+  [...(usuarios || []), ...(miembros || []), ...(historial || [])].forEach((row) => {
     const match = String(row.codigo || "").match(
       new RegExp(`^${nivel}(\\d+)$`),
     );
@@ -42,6 +54,11 @@ async function siguienteCodigo(nivel: "ASP" | "INV") {
 
   let numero = 1;
   while (usados.has(numero)) numero += 1;
+
+  if (numero > 9999) {
+    throw new Error(`No hay códigos ${nivel} disponibles.`);
+  }
+
   return `${nivel}${String(numero).padStart(4, "0")}`;
 }
 

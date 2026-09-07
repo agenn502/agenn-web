@@ -62,6 +62,10 @@ async function siguienteCodigo(
       data: miembros,
       error: miembrosError,
     },
+    {
+      data: historial,
+      error: historialError,
+    },
   ] = await Promise.all([
     supabaseServer
       .from("users")
@@ -73,6 +77,14 @@ async function siguienteCodigo(
 
     supabaseServer
       .from("miembros")
+      .select("codigo")
+      .like(
+        "codigo",
+        `${prefijo}%`
+      ),
+
+    supabaseServer
+      .from("historial_miembro")
       .select("codigo")
       .like(
         "codigo",
@@ -92,12 +104,19 @@ async function siguienteCodigo(
     );
   }
 
+  if (historialError) {
+    throw new Error(
+      historialError.message
+    );
+  }
+
   const usados =
     new Set<number>();
 
   [
     ...(usuarios || []),
     ...(miembros || []),
+    ...(historial || []),
   ].forEach((fila) => {
     const coincidencia =
       String(
