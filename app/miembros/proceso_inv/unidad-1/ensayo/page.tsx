@@ -692,30 +692,38 @@ export default function TrabajoUnidad1Page() {
         <strong>Tema del análisis breve *</strong>
         </label>
 
-        <select
+        <input
+          type="text"
+          list="temas-sugeridos-inv"
           value={tema}
           disabled={!puedeEditar}
           onChange={(e) => setTema(e.target.value)}
+          placeholder="Seleccione una sugerencia o escriba un tema propio"
           style={{
             width: "100%",
             padding: "0.75rem",
             marginTop: "0.5rem",
+            marginBottom: "0.35rem",
+          }}
+        />
+
+        <datalist id="temas-sugeridos-inv">
+          {TEMAS_UNIDAD.map((item) => (
+            <option key={item} value={item} />
+          ))}
+        </datalist>
+
+        <p
+          style={{
+            marginTop: 0,
             marginBottom: "1.5rem",
+            color: "#665c50",
+            fontSize: "0.9rem",
+            lineHeight: 1.5,
           }}
         >
-          <option value="">
-            Seleccione un tema
-          </option>
-
-          {TEMAS_UNIDAD.map((item) => (
-            <option
-              key={item}
-              value={item}
-            >
-              {item}
-            </option>
-          ))}
-        </select>
+          Puede elegir una sugerencia o proponer un tema propio relacionado con la unidad.
+        </p>
 
         <label>
           <strong>Título del análisis breve *</strong>
