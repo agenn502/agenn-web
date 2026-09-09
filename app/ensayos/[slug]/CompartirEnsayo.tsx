@@ -22,7 +22,7 @@ export default function CompartirEnsayo({
 
   const textoCompartir = `${titulo}
 
-Ensayo publicado en AGENN como parte del proceso formativo del Nivel Investigador.
+Trabajo académico publicado en AGENN como parte del proceso formativo del Nivel Investigador.
 
 Código de verificación: ${codigoVerificacion}
 
@@ -55,7 +55,7 @@ ${urlCanonica}`;
           color: "#4d371c",
         }}
       >
-        Compartir este ensayo
+        Compartir este trabajo
       </p>
 
       <p
@@ -67,7 +67,7 @@ ${urlCanonica}`;
         }}
       >
         Puede copiar el texto sugerido o compartir directamente el enlace
-        público del ensayo.
+        público del trabajo.
       </p>
 
       <div

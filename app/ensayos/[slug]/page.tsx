@@ -23,6 +23,13 @@ type Ensayo = {
   created_at: string;
   fuente_imagen: string | null;
   tema: string | null;
+  tipo_trabajo: string | null;
+};
+
+const NOMBRES_TIPO: Record<string, string> = {
+  ANALISIS_BREVE: "Análisis breve",
+  NOTA_INVESTIGACION: "Nota de investigación",
+  ENSAYO_ACADEMICO: "Ensayo académico",
 };
 
 type PageProps = {
@@ -42,6 +49,10 @@ const SITE_URL = (
 
 function limpiarMarkdown(texto: string) {
   return texto
+    .replace("<!--AGENN_RICH_HTML_V1-->", " ")
+    .replace(/<p\b[^>]*data-agenn-imagen-id=["']\d+["'][^>]*>[\s\S]*?<\/p>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\[\[(?:IMAGEN:\d+|ESPACIO)\]\]/g, " ")
     .replace(/!\[[^\]]*]\([^)]*\)/g, "")
     .replace(/\[([^\]]+)]\([^)]*\)/g, "$1")
     .replace(/[`*_>#~-]/g, " ")
@@ -49,11 +60,42 @@ function limpiarMarkdown(texto: string) {
     .trim();
 }
 
+const PREFIJO_HTML_ENRIQUECIDO = "<!--AGENN_RICH_HTML_V1-->";
+
+function quitarBloquesVacios(html: string) {
+  return html.replace(
+    /<(p|h[1-6])\b[^>]*>(?:\s|<br\s*\/?\s*>|<span\b[^>]*>|<\/span>)*<\/\1>/gi,
+    ""
+  );
+}
+
+function contenidoAcademico(contenido: string) {
+  if (contenido.trimStart().startsWith(PREFIJO_HTML_ENRIQUECIDO)) {
+    const html = quitarBloquesVacios(contenido
+      .trimStart()
+      .slice(PREFIJO_HTML_ENRIQUECIDO.length)
+      .replace(
+        /<p\b[^>]*data-agenn-imagen-id=["']\d+["'][^>]*>[\s\S]*?<\/p>/gi,
+        ""
+      )
+      .replace(/\[\[(?:IMAGEN:\d+|ESPACIO)\]\]/g, ""));
+
+    return (
+      <div
+        style={{ textAlign: "justify", lineHeight: 1.85 }}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    );
+  }
+
+  return <ReactMarkdown>{contenido}</ReactMarkdown>;
+}
+
 function descripcionEnsayo(ensayo: Ensayo) {
   const base = limpiarMarkdown(ensayo.contenido);
 
   if (base.length <= 180) {
-    return base || `Ensayo de ${ensayo.autor_nombre} publicado en AGENN.`;
+    return base || `Trabajo académico de ${ensayo.autor_nombre} publicado en AGENN.`;
   }
 
   return `${base.slice(0, 177).trim()}...`;
@@ -79,11 +121,14 @@ async function obtenerEnsayo(slug: string): Promise<Ensayo | null> {
       estado,
       created_at,
       fuente_imagen,
-      tema
+      tema,
+      tipo_trabajo
       `
     )
     .eq("slug", slug)
     .eq("estado", "publicado")
+    .eq("estado_revision", "aprobado")
+    .eq("origen_ensayo", "FORMACION")
     .maybeSingle();
 
   if (error) {
@@ -103,9 +148,9 @@ export async function generateMetadata({
   if (!ensayo) {
     return {
       metadataBase: new URL(SITE_URL),
-      title: "Ensayo no encontrado | AGENN",
+      title: "Trabajo académico no encontrado | AGENN",
       description:
-        "El ensayo solicitado no se encuentra disponible en AGENN.",
+        "El trabajo académico solicitado no se encuentra disponible en AGENN.",
       robots: {
         index: false,
         follow: false,
@@ -165,8 +210,8 @@ export default async function EnsayoDetallePage({
   if (!ensayo) {
     return (
       <main style={{ padding: "2rem" }}>
-        <p>No se encontró el ensayo.</p>
-        <a href="/ensayos">Volver a ensayos</a>
+        <p>No se encontró el trabajo académico.</p>
+        <a href="/ensayos">Volver a trabajos académicos</a>
       </main>
     );
   }
@@ -191,7 +236,7 @@ export default async function EnsayoDetallePage({
   const volverHref = volverARevista ? volverRecibido : "/ensayos";
   const volverTexto = volverARevista
     ? "Volver a Revista AGENN"
-    : "Volver a ensayos";
+    : "Volver a trabajos académicos";
 
   const urlCanonica = `${SITE_URL}/ensayos/${ensayo.slug}`;
 
@@ -268,7 +313,7 @@ export default async function EnsayoDetallePage({
             >
               {nombreNivel(ensayo.nivel)}
             </span>{" "}
-            · {ensayo.proceso} · {ensayo.unidad_slug}
+            · {NOMBRES_TIPO[ensayo.tipo_trabajo || ""] || "Trabajo escrito"} · {ensayo.unidad_slug}
           </p>
 
           <h1
@@ -299,7 +344,7 @@ export default async function EnsayoDetallePage({
               marginBottom: "2rem",
             }}
           >
-            <ReactMarkdown>{ensayo.contenido}</ReactMarkdown>
+            {contenidoAcademico(ensayo.contenido)}
           </div>
 
           <CompartirEnsayo

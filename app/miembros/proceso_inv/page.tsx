@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
+import { obtenerReglaTrabajoInv } from "@/content/proceso_inv/config";
 
 type User = {
   codigo: string;
@@ -25,12 +26,7 @@ type EnsayoRevision = {
   estado: string | null;
   estado_revision: string | null;
   observaciones_revision: string | null;
-  estado_difusion: string | null;
-  observaciones_difusion: string | null;
-  url_social: string | null;
-  fecha_evidencia: string | null;
   fecha_revision: string | null;
-  fecha_revision_difusion: string | null;
   slug: string | null;
 };
 
@@ -55,70 +51,70 @@ export default function ProcesoInvPage() {
         slug: "unidad-1",
         titulo: "Unidad 1",
         subtitulo:
-          "Economía y medios de intercambio en la Guatemala prehispánica",
+          "Introducción a la investigación numismática y notafílica",
         href: "/miembros/proceso_inv/unidad-1",
       },
       {
         slug: "unidad-2",
         titulo: "Unidad 2",
         subtitulo:
-          "El sistema monetario en la época colonial (1524–1733)",
+          "Búsqueda de evidencia y construcción del corpus documental",
         href: "/miembros/proceso_inv/unidad-2",
       },
       {
         slug: "unidad-3",
         titulo: "Unidad 3",
         subtitulo:
-          "La Casa de Moneda de Guatemala y la acuñación colonial (1733–1821)",
+          "Evaluación crítica y contraste de fuentes",
         href: "/miembros/proceso_inv/unidad-3",
       },
       {
         slug: "unidad-4",
         titulo: "Unidad 4",
         subtitulo:
-          "Independencia y transición monetaria en Centroamérica",
+          "Identificación, clasificación y catalogación numismática",
         href: "/miembros/proceso_inv/unidad-4",
       },
       {
         slug: "unidad-5",
         titulo: "Unidad 5",
         subtitulo:
-          "La República y las primeras reformas monetarias",
+          "Reconstrucción de sistemas monetarios mediante evidencia",
         href: "/miembros/proceso_inv/unidad-5",
       },
       {
         slug: "unidad-6",
         titulo: "Unidad 6",
         subtitulo:
-          "La reforma de 1924 y el nacimiento del quetzal",
+          "La exonumia como campo de investigación histórica",
         href: "/miembros/proceso_inv/unidad-6",
       },
       {
         slug: "unidad-7",
         titulo: "Unidad 7",
         subtitulo:
-          "Evolución del sistema bancario en Guatemala",
+          "El billete como documento y fuente histórica",
         href: "/miembros/proceso_inv/unidad-7",
       },
       {
         slug: "unidad-8",
         titulo: "Unidad 8",
         subtitulo:
-          "Historia del papel moneda guatemalteco",
+          "De la evidencia a la inferencia y la explicación",
         href: "/miembros/proceso_inv/unidad-8",
       },
       {
         slug: "unidad-9",
         titulo: "Unidad 9",
         subtitulo:
-          "Fundamentos de notafilia y clasificación de billetes",
+          "Argumentación y escritura del ensayo académico",
         href: "/miembros/proceso_inv/unidad-9",
       },
       {
         slug: "unidad-10",
         titulo: "Unidad 10",
         subtitulo:
-          "Coleccionismo, conservación y mercado numismático",
+          "Diseño de una propuesta de investigación propia",
         href: "/miembros/proceso_inv/unidad-10",
       },
     ],
@@ -176,12 +172,7 @@ export default function ProcesoInvPage() {
             estado,
             estado_revision,
             observaciones_revision,
-            estado_difusion,
-            observaciones_difusion,
-            url_social,
-            fecha_evidencia,
             fecha_revision,
-            fecha_revision_difusion,
             slug,
             updated_at
           `)
@@ -267,18 +258,11 @@ export default function ProcesoInvPage() {
   };
 
   /*
-   * Por ahora solamente U1 tiene implementado
-   * el producto investigativo / ensayo.
-   *
-   * Cuando creemos las demás unidades, bastará
-   * agregar aquí sus rutas de producto.
+   * Cada unidad dispone de una página para desarrollar su trabajo académico.
    */
-  const rutaEnsayo = (slug: string) => {
-    if (slug === "unidad-1") {
-      return "/miembros/proceso_inv/unidad-1/ensayo";
-    }
-
-    return null;
+  const rutaTrabajo = (slug: string) => {
+    if (!/^unidad-(?:[1-9]|10)$/.test(slug)) return null;
+    return `/miembros/proceso_inv/${slug}/ensayo`;
   };
 
   const obtenerAccionUnidad = (
@@ -287,7 +271,8 @@ export default function ProcesoInvPage() {
     completada: boolean,
     ensayo?: EnsayoRevision
   ) => {
-    const ensayoHref = rutaEnsayo(unidad.slug);
+    const trabajoHref = rutaTrabajo(unidad.slug);
+    const reglaTrabajo = obtenerReglaTrabajoInv(unidad.slug);
 
     if (completada || porcentaje >= 100) {
       return {
@@ -313,10 +298,9 @@ export default function ProcesoInvPage() {
     }
 
     /*
-     * U2-U10 todavía no tienen implementado
-     * el producto investigativo.
+     * Si se recibe un identificador de unidad inválido, no se ofrece ruta de trabajo.
      */
-    if (!ensayoHref) {
+    if (!trabajoHref) {
       return {
         texto: "Ingresar",
         href: unidad.href,
@@ -326,12 +310,12 @@ export default function ProcesoInvPage() {
 
     /*
      * Cuestionario terminado pero todavía
-     * no existe ensayo.
+     * no existe trabajo escrito.
      */
     if (!ensayo) {
       return {
-        texto: "Iniciar ensayo",
-        href: ensayoHref,
+        texto: `Iniciar ${reglaTrabajo?.nombre.toLowerCase() || "trabajo académico"}`,
+        href: trabajoHref,
         bloqueado: false,
       };
     }
@@ -344,19 +328,19 @@ export default function ProcesoInvPage() {
       !ensayo.estado_revision
     ) {
       return {
-        texto: "Continuar ensayo",
-        href: ensayoHref,
+        texto: `Continuar ${reglaTrabajo?.nombre.toLowerCase() || "trabajo académico"}`,
+        href: trabajoHref,
         bloqueado: false,
       };
     }
 
     /*
-     * Primera revisión: ensayo enviado al CA.
+     * Trabajo enviado al CA.
      */
     if (ensayo.estado_revision === "pendiente") {
       return {
-        texto: "Ensayo en revisión",
-        href: ensayoHref,
+        texto: "Trabajo en revisión",
+        href: trabajoHref,
         bloqueado: false,
       };
     }
@@ -370,53 +354,24 @@ export default function ProcesoInvPage() {
       ensayo.estado_revision === "rechazado"
     ) {
       return {
-        texto: "Corregir ensayo",
-        href: ensayoHref,
+        texto: "Corregir trabajo",
+        href: trabajoHref,
         bloqueado: false,
       };
     }
 
-    /*
-     * Ensayo aprobado académicamente.
-     */
+    /* El CA completa la unidad al aprobar el trabajo. */
     if (ensayo.estado_revision === "aprobado") {
-      if (ensayo.estado_difusion === "pendiente") {
-        return {
-          texto: "Ver evidencia enviada",
-          href: ensayoHref,
-          bloqueado: false,
-        };
-      }
-
-      if (
-        ensayo.estado_difusion === "correcciones" ||
-        ensayo.estado_difusion === "rechazado"
-      ) {
-        return {
-          texto: "Corregir evidencia",
-          href: ensayoHref,
-          bloqueado: false,
-        };
-      }
-
-      if (ensayo.estado_difusion === "aprobado") {
-        return {
-          texto: "Revisar unidad",
-          href: unidad.href,
-          bloqueado: false,
-        };
-      }
-
       return {
-        texto: "Divulgar ensayo",
-        href: ensayoHref,
+        texto: "Revisar unidad",
+        href: unidad.href,
         bloqueado: false,
       };
     }
 
     return {
-      texto: "Continuar ensayo",
-      href: ensayoHref,
+      texto: "Continuar trabajo",
+      href: trabajoHref,
       bloqueado: false,
     };
   };
@@ -520,9 +475,63 @@ export default function ProcesoInvPage() {
         unidades de formación. En cada una, el participante
         deberá estudiar el contenido, completar un
         cuestionario de retroalimentación y desarrollar un
-        producto investigativo cuya exigencia aumentará
+        trabajo académico cuya extensión y exigencia aumentarán
         progresivamente a lo largo del nivel.
       </p>
+
+      <div
+        style={{
+          display: "grid",
+          gap: "12px",
+          gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
+          margin: "1.25rem 0 1.75rem",
+        }}
+      >
+        {[
+          {
+            unidades: "Unidades 1–3",
+            producto: "Análisis breve",
+            extension: "Entre 1 y 2 páginas; mínimo 500 palabras.",
+          },
+          {
+            unidades: "Unidades 4–6",
+            producto: "Nota de investigación",
+            extension: "Entre 2 y 3 páginas; mínimo 800 palabras.",
+          },
+          {
+            unidades: "Unidades 7–10",
+            producto: "Ensayo académico",
+            extension: "Más de 3 páginas; mínimo 1,200 palabras.",
+          },
+        ].map((etapa) => (
+          <div
+            key={etapa.unidades}
+            style={{
+              background: "#f8f5ee",
+              border: "1px solid #ddd4c7",
+              borderRadius: "12px",
+              padding: "1rem",
+            }}
+          >
+            <p
+              style={{
+                margin: 0,
+                color: "#6b6f1a",
+                fontSize: "0.8rem",
+                fontWeight: 700,
+                letterSpacing: "0.04em",
+                textTransform: "uppercase",
+              }}
+            >
+              {etapa.unidades}
+            </p>
+            <h3 style={{ margin: "0.45rem 0" }}>{etapa.producto}</h3>
+            <p style={{ margin: 0, color: "#555", lineHeight: 1.6 }}>
+              {etapa.extension}
+            </p>
+          </div>
+        ))}
+      </div>
 
       <h2>Instrucciones para el participante</h2>
 
@@ -531,12 +540,14 @@ export default function ProcesoInvPage() {
         previa a la investigación. Su finalidad es comprobar
         que el participante comprende los conceptos y
         herramientas necesarios antes de desarrollar el
-        producto académico correspondiente.
+        trabajo académico correspondiente. El cuestionario representa
+        el 50 % del avance de la unidad y el trabajo escrito completa
+        el 50 % restante después de su aprobación.
       </p>
 
       <p style={{ lineHeight: 1.8 }}>
         Una vez completado el cuestionario, deberá elaborar
-        el producto investigativo solicitado en la unidad.
+        el trabajo académico solicitado en la unidad.
         Podrá guardar su trabajo como borrador y continuar
         desarrollándolo en sesiones posteriores.
       </p>
@@ -545,16 +556,23 @@ export default function ProcesoInvPage() {
         Cuando considere finalizado su trabajo, deberá
         enviarlo al <strong>Consejo Académico</strong>. El
         Consejo podrá aprobarlo o devolverlo con
-        observaciones para su corrección. Una vez aprobado
-        académicamente, el participante deberá divulgarlo y
-        presentar la evidencia correspondiente.
+        observaciones para su corrección.
+        El Consejo podrá seleccionar trabajos destacados para su
+        incorporación al proceso editorial de Revista AGENN; esta
+        selección es independiente de la aprobación académica.
       </p>
 
       <p style={{ lineHeight: 1.8 }}>
-        La unidad se considerará completada únicamente
-        después de que el Consejo Académico valide también
-        la evidencia de difusión. Solo entonces se
-        desbloqueará la siguiente unidad.
+        Los trabajos aprobados formarán parte de la sección de{" "}
+        <strong>Producción académica</strong>, donde podrán consultarse
+        según su tipo. Su incorporación a Revista AGENN no será automática:
+        dependerá de la selección y del proceso editorial correspondientes.
+      </p>
+
+      <p style={{ lineHeight: 1.8 }}>
+        La unidad se considerará completada cuando el Consejo
+        Académico apruebe el trabajo escrito. Solo entonces
+        se desbloqueará la siguiente unidad.
       </p>
 
       <p style={{ lineHeight: 1.8 }}>
@@ -591,6 +609,7 @@ export default function ProcesoInvPage() {
         {unidades.map((unidad, index) => {
           const desbloqueada = estaDesbloqueada(index);
           const estado = estadoUnidad(unidad.slug);
+          const reglaTrabajo = obtenerReglaTrabajoInv(unidad.slug);
           const revision =
             ensayoRevisionMap.get(unidad.slug);
 
@@ -610,13 +629,6 @@ export default function ProcesoInvPage() {
 
           const aprobadoAcademicamente =
             revision?.estado_revision === "aprobado";
-
-          const difusionPendiente =
-            revision?.estado_difusion === "pendiente";
-
-          const correccionesDifusion =
-            revision?.estado_difusion === "correcciones" ||
-            revision?.estado_difusion === "rechazado";
 
           return (
             <div
@@ -662,6 +674,24 @@ export default function ProcesoInvPage() {
                 >
                   {unidad.subtitulo}
                 </p>
+              )}
+
+              {reglaTrabajo && (
+                <div
+                  style={{
+                    background: "#f8f5ee",
+                    borderRadius: "8px",
+                    padding: "0.65rem 0.75rem",
+                    marginBottom: "0.9rem",
+                    color: "#4d4337",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  <strong>{reglaTrabajo.nombre}</strong>
+                  <br />
+                  {reglaTrabajo.indicacionExtension} Mínimo{" "}
+                  {reglaTrabajo.palabrasMinimas.toLocaleString("es-GT")} palabras.
+                </div>
               )}
 
               <p
@@ -745,7 +775,7 @@ export default function ProcesoInvPage() {
                 !estado.completada &&
                 estado.porcentaje >= 50 &&
                 !revision &&
-                rutaEnsayo(unidad.slug) && (
+                rutaTrabajo(unidad.slug) && (
                   <div
                     style={{
                       background: "#f4f1e8",
@@ -781,7 +811,7 @@ export default function ProcesoInvPage() {
                     }}
                   >
                     <strong>
-                      ✎ Ensayo guardado como borrador
+                      ✎ Trabajo guardado como borrador
                     </strong>
                     <br />
                     Puede continuar desarrollando su
@@ -803,7 +833,7 @@ export default function ProcesoInvPage() {
                     }}
                   >
                     <strong>
-                      ⏳ Ensayo pendiente de revisión
+                      ⏳ Trabajo pendiente de revisión
                     </strong>
                     <br />
                     Su trabajo fue enviado al Consejo
@@ -832,14 +862,12 @@ export default function ProcesoInvPage() {
                     <br />
                     El Consejo Académico devolvió su
                     trabajo con observaciones. Ingrese al
-                    ensayo para revisarlas y presentar una
+                    trabajo para revisarlas y presentar una
                     nueva versión.
                   </div>
                 )}
 
               {aprobadoAcademicamente &&
-                !difusionPendiente &&
-                !correccionesDifusion &&
                 !estado.completada && (
                   <div
                     style={{
@@ -853,60 +881,11 @@ export default function ProcesoInvPage() {
                     }}
                   >
                     <strong>
-                      ✓ Ensayo aprobado académicamente
+                      ✓ Trabajo aprobado académicamente
                     </strong>
                     <br />
-                    Su trabajo fue aprobado. Ahora debe
-                    divulgarlo y presentar la evidencia
-                    correspondiente.
-                  </div>
-                )}
-
-              {difusionPendiente &&
-                !estado.completada && (
-                  <div
-                    style={{
-                      background: "#fff8e5",
-                      border: "1px solid #e0c46c",
-                      borderRadius: "10px",
-                      padding: "0.75rem",
-                      marginBottom: "1rem",
-                      color: "#6a5200",
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    <strong>
-                      ⏳ Evidencia pendiente de aprobación
-                    </strong>
-                    <br />
-                    El Consejo Académico está verificando
-                    la evidencia de difusión. La unidad se
-                    completará cuando sea aprobada.
-                  </div>
-                )}
-
-              {correccionesDifusion &&
-                !estado.completada && (
-                  <div
-                    style={{
-                      background: "#fff3f3",
-                      border: "1px solid #d28b8b",
-                      borderRadius: "10px",
-                      padding: "0.75rem",
-                      marginBottom: "1rem",
-                      color: "#7a1f1f",
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    <strong>
-                      ⚠ Corrección de evidencia pendiente
-                    </strong>
-                    <br />
-                    El Consejo Académico encontró un
-                    inconveniente con la evidencia de
-                    difusión. Ingrese para revisar las
-                    observaciones y enviar el enlace
-                    corregido.
+                    Su trabajo fue aprobado y la unidad ha
+                    quedado completada.
                   </div>
                 )}
 

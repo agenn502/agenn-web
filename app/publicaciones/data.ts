@@ -1,149 +1,326 @@
-export const publicaciones = [
-  {
-    slug: "cuartillos",
-    titulo: "Cuartillos: la moneda del pueblo",
-    autores: ["Edgar Daniel Quisquinay Rojas"],
-    anio: 2024,
-    serie: "Libro",
-    editorial: "Ediciones Numismática NG",
-    descripcion:
-      "Estudio dedicado al análisis histórico y económico de los cuartillos, como expresión monetaria popular en Guatemala. 'La moneda menuda, aquella que se usó en las llamadas transacciones bajas, la del mercado para comprar tomate o una olla pequeñita, una vela carbón... la moneda que recibió como jornal la mujer que faenó la cochinilla, el niño que cortó café, dinero del que barrió las calles, del que cortó el zacate para darle de comer a los bueyes que halaron la carreta, el del pago del carretero, o del pago de la señora que llegó a cuidar los niños o a barrer la casa o a lavar la ropa, esa moneda menuda era, fue, por eso, la salvación de la clase pobre y explotada durante esos ya lejanos 107 años.'",
-    portada: "/publicaciones/portadas/port1.jpg",
-    enlace: "https://tienda.sophosenlinea.com/libro/cuartillos-la-moneda-del-pueblo_359287",
-  },
-  {
-    slug: "notafilia-guatemalteca",
-    titulo:
-      "Notafilia Guatemalteca. Un recorrido por la historia y el arte de los billetes de Guatemala",
-    autores: ["Gerónimo Estuardo Pérez Irungaray"],
-    anio: 2025,
-    serie: "Libro",
-    editorial: "Universidad Rafael Landívar",
-    descripcion:
-      "Obra que recorre la evolución histórica, artística y técnica de los billetes guatemaltecos, destacando su valor cultural y documental. Este libro no es únicamente una colección de imágenes y datos históricos; es una invitación a redescubrir la memoria colectiva de Guatemala a través de sus billetes. Más allá de su función en la economía, estos objetos cotidianos encierran símbolos, personajes y relatos que reflejan las dinámicas y transformaciones de un país y quizá del mundo. Cada pieza es testimonio del contexto en que fue emitida, y al observarlas desde una mirada crítica y estética, nos acercamos al espíritu de cada época.",
-    portada: "/publicaciones/portadas/port2.jpg",
-    enlace:
-      "https://biblioteca.url.edu.gt/vrip/notafilia-guatemalteca/",
-  },
-  {
-    slug: "sub-cono-monetario",
-    titulo:
-      "El sub cono monetario de monedas de sistema decimal en Guatemala (1870-2023). Su historia y sus transformaciones.",
-    autores: ["Luis Alberto Rodriguez Orozco"],
-    anio: 2024,
-    serie: "Libro",
-    editorial: "Ediciones Creativas",
-    descripcion:
-      "El cono monetario de un pais evidencia en su estructura y composición, la forma en que las especies monetarias se acomodan históricamente dentro de la evolución económica de la nación, brindan noción del desarrollo monetario y comercial en diversas épocas históricas y reflejan en buena medida, el comportamiento de la unidad y el sistema monetario oficialmente adoptados. Para la numismática, la investigación de la formación de los conos monetarios y su prolongación en el tiempo, esta íntimamente ligada con otros aspectos numismáticos como: la emisión y la acuñación de moneda en sus distintas demominaciones en los distinos períodos, la extensión y traslape de especies monetarias entre distintos períodos, la emisión y acuñación de monedas extraordinarias fuera del numerario usual, el estudio de las series anuales e internanuales, etc.",
-    portada: "/publicaciones/portadas/port4.jpg",
-    enlace:
-      "https://isbnguatemala.ageg.cerlalc.org/catalogo.php?mode=detalle&nt=22669",
-  },
-  {
-    slug: "exonumia-medallistica",
-    titulo:
-      "Exonumia e Historia: Dictadura y Medallística. Manuel Estrada Cabrera 1898-1920",
-    autores: ["Manfred Michel Morales Osterberg"],
-    anio: 2022,
-    serie: "Libro",
-    editorial: "Exonumia Editores",
-    descripcion:
-      "El objeto de estudio del libro se centró en la medallística comprendida en el periodo presidencial del Licenciado Manuel Estrada Cabrera (1898-1920), a pesar de no ser un fenómeno único de este régimen, esta época se caracterizó por la profusa acuñación de medallas de tipo militar, honorificas, de recuerdo, inauguración de obras, monumentos, fiestas y periodos presidenciales. El propósito elemental de este trabajo fue la utilización del objeto medalla como fuente de análisis de la historia nacional y, a su vez enriquecer el acervo bibliográfico numismático en la rama de exonumia, por ser la medallística una forma de exonumia poco estudiada. El libro se divide en tres partes: la primera destinada a describir el perfil del presidente Manuel Estrada Cabrera y la historia de su ascenso y derrocamiento del poder. En el segundo apartado se abordará el objeto medalla como una fuente de análisis histórico, por medio de la descripción de cada pieza como un elemento pedagógico que nos narra la historia detrás de la medalla. En el último apartado se incluirá un catálogo ilustrado de todas las medallas conocidas de este periodo.",
-    portada: "/publicaciones/portadas/port3.jpg",
-    enlace:
-      "https://tienda.sophosenlinea.com/libro/exonumia-e-historia-dictadura-y-medallistica-manuel-estrada-cabrera-1898-1920_310280",
-  },
-  {
-    slug: "símbolo-transatlántico",
-    titulo:
-      "El símbolo transatlántico: la anomalía iconográfica del billete de 5 pesos del banco de Guatemala de 1922 en clave poscolonial.",
-    autores: ["Gerónimo Estuardo Pérez Irungaray"],
-    anio: 2025,
-    serie: "Artículo",
-    editorial: "Revista Numismática Hécate. 12(2025), 136-151",
-    descripcion: "Este artículo analiza el billete de 5 pesos de 1922 del Banco de Guatemala, impreso por Waterlow & Sons, como una anomalía iconográfica que sustituye una locomotora por un vapor transatlántico, rompiendo con los diseños del banco. Mediante un análisis semiótico (Lotman, 1990) y codificación iconográfica de 10 billetes guatemaltecos (1874–1945), se explora su simbolismo poscolonial. Basado en teorías de dinero (Helleiner, 2003) y poscolonialidad (Mignolo, 2011), el estudio contrasta el billete con otros diseños guatemaltecos y regionales, resaltando su proyección transnacional. Los resultados contribuyen a la numismática e historia económica, iluminando tensiones entre lo local y lo global.",
-    portada: "/publicaciones/portadas/port5.jpg",
-    enlace:
-      "https://revista-hecate.org/wp-content/uploads/2025/12/perez.irungaray.pdf",
-  },
-  {
-    slug: "primeros-billetes",
-    titulo:
-      "Primeros billetes de banco en Guatemala: BancoNacional de Guatemala (1874-1876).",
-    autores: ["Edgar Daniel Quisquinay Rojas"],
-    anio: 2022,
-    serie: "Artículo",
-    editorial: "Revista de Investigación Proyección CientíficaCentro Universitario de San Marcos. 4(1), 141-153",
-    descripcion: 
-	  "El uso de papel moneda en Guatemalano es tan antiguo como el de monedametálica. Aunque se dieron varios intentospara su instauración y circulación, sobretodo durante la fase de independenciatemprana, no es sino hasta 1874, duranteel gobierno de Justo Rufino Barrios, quese logra, no solo poner en circulaciónbilletes, sino fundar el Banco Nacional,institución que los respaldaba. La crisis decirculante, la caída de los precios de losproductos de exportación y el inicio delcultivo del café dan pie a este fenómenoque, a su vez, iniciará la apertura de bancosprivados.",
-	portada: "/publicaciones/portadas/port6.jpg",
-    enlace:
-      "https://www.researchgate.net/publication/365248966_Primeros_billetes_de_banco_en_Guatemala_Banco_Nacional_de_Guatemala_1874-1876",
-  },
-    {
-    slug: "evolucion-moneda-25c",
-    titulo:
-      "Evolución del diseño de la moneda de 25 centavos de Guatemala (1925-presente).",
-    autores: ["Cristian A. Vargas C."],
-    anio: 2018,
-    serie: "Artículo Web",
-    editorial: "Círculo Numismático de Occidente",
-    descripcion: 
-	  "Este artículo traza la evolución del diseño de la moneda de 25 centavos de Guatemala desde 1925 hasta la actualidad. Comienza con el nacimiento del Quetzal como unidad monetaria en 1924 y la emisión de la primera moneda con el diseño del 'Quetzal sobre pedestal' (1925-1949), obra del escultor estadounidense William Clark Noble. Incluye una mención especial a la moneda conmemorativa de 1943 por la inauguración del Palacio Nacional. Luego explica el cambio radical de 1950, cuando se introdujo por primera vez el perfil de una mujer indígena en el reverso, diseño del artista Antonio Tejeda Fonseca. Finalmente, detalla el proceso de renovación de 1959-1960 que derivó en el diseño actual, creado por el dibujante Ovidio Villeda, quien combinó rasgos de tres modelos fotografiadas en Santiago Atitlán. El artículo desmiente la creencia popular de que el rostro pertenece a doña Concepción 'Chonita' Ramírez, demostrando que el diseño fue una composición artística basada en características étnicas mayas, no en una persona específica.",
-	portada: "/publicaciones/portadas/port7.jpg",
-    enlace:
-      "https://numisguatemala.blogspot.com/2018/05/evolucion-del-diseno-de-la-moneda-de-25.html",
-  },
-    {
-    slug: "clasificacion_billetes",
-    titulo:
-      "Un sistema de clasificación para los billetes de Guatemala, 1874-2023: una propuesta metodológica",
-    autores: ["Gerónimo Estuardo Pérez Irungaray"],
-    anio: 2026,
-    serie: "Artículo",
-    editorial: "América Latina En La Historia Económica. 33(2), e1603",
-    descripcion: "Este artículo presenta un sistema de clasificación para los 299 billetes emitidos en Guatemala entre 1874 y 2023, incluyendo diseños, variantes y subvariantes de las emisiones monetarias del país. Desarrollado tras tres años de investigación, propone una metodología flexible y escalable que organiza sistemáticamente la historia numismática guatemalteca. El sistema integra análisis histórico y notafílico para examinar cómo los billetes reflejan transformaciones institucionales, económicas y simbólicas a lo largo de siglo y medio. Ilustrado con piezas provenientes de colecciones privadas y del Museo Numismático del Banco de Guatemala, ofrece una herramienta práctica para investigadores, numismáticos y coleccionistas interesados en la historia monetaria latinoamericana. El estudio subraya el valor del papel moneda como documento histórico y propone un modelo replicable para contextos monetarios comparables en América Latina.",
-    portada: "/publicaciones/portadas/port8.jpg",
-    enlace:
-      "https://alhe.mora.edu.mx/index.php/ALHE/article/view/1603",
-  },
-  {
-    slug: "exonumia_fichas",
-    titulo:
-      "Exonumia e historia: fichas particulares de Guatemala",
-    autores: ["Manfred Michel Morales Osterberg"],
-    anio: 2026,
-    serie: "Libro",
-    editorial: "Exonumis Editores",
-    descripcion: "Las fichas particulares son especímenes que forman parte de la exonumia. Esta rama especializada de la numismática se encarga de estudiar los objetos con forma de moneda que carecen de valor monetario, estos objetos suelen ser de emisión privada o conmemorativos como, por ejemplo: tokens de juegos, fichas de emisión privada, medallas etc.",
-    portada: "/publicaciones/portadas/port9.jpg",
-    enlace:
-      "https://tienda.sophosenlinea.com/libro/exonumia-e-historia-fichas-particulares-de-guatemala_358761",
-  },
-    {
-    slug: "ensayos_numismatica",
-    titulo:
-      "Ensayos de Numismática Guatemalteca",
-    autores: ["Edgar Daniel Quisquinay Rojas"],
-    anio: 2026,
-    serie: "Libro",
-    editorial: "Cholsamaj",
-    descripcion: "Este libro es una recopilación, revisada, corregida y aumentada, de ensayos con tema histórico y numismática, realizados por el autor en los recientes cinco años. El enfoque es crítico desde la perspectiva de la numismática como ente independiente, una ciencia, que produce conocimiento propio que se sitúa siempre como trabajo en proceso de actualización constante.",
-    portada: "/publicaciones/portadas/port10.jpg",
-    enlace:
-      "https://tienda.sophosenlinea.com/libro/cuartillos-la-moneda-del-pueblo_359287",
-  },
-  {
-    slug: "museo_virtual_unan",
-    titulo:
-      "El Museo virtual de notafilia guatemalteca: historia, arte y preservación del legado monetario de Guatemala",
-    autores: ["Gerónimo Estuardo Pérez Irungaray"],
-    anio: 2026,
-    serie: "Artículo",
-    editorial: "Revista de la Unión Americana de Numismática. 11(64), 53-60",
-    descripcion: "El artículo presenta el Museo Virtual de Notafilia Guatemalteca como una iniciativa para preservar, organizar y difundir digitalmente el patrimonio monetario nacional mediante un sistema de clasificación jerárquico. Describe el proceso de construcción de la plataforma, su estructura museográfica y su aporte a la investigación, la educación y la conservación del legado histórico de los billetes guatemaltecos.",
-    portada: "/publicaciones/portadas/port11.jpg",
-    enlace:
-      "https://infoiarna.url.edu.gt/publicaciones-academicas/el-museo-virtual-de-notafilia-guatemalteca-historia-arte-y-preservacion-del-legado-monetario-de-guatemala/",
-  },
-];
+
+
+import type { Metadata } from "next";
+import ReactMarkdown from "react-markdown";
+import { supabaseServer } from "@/lib/supabaseServer";
+import { nombreNivel, colorNivel } from "@/lib/niveles";
+import CompartirEnsayo from "./CompartirEnsayo";
+
+type Ensayo = {
+  id: number;
+  titulo: string;
+  slug: string;
+  autor_nombre: string;
+  autor_codigo: string;
+  nivel: string;
+  proceso: string;
+  unidad_slug: string;
+  imagen_url: string | null;
+  contenido: string;
+  codigo_verificacion: string;
+  url_social: string | null;
+  estado: string;
+  created_at: string;
+  fuente_imagen: string | null;
+  tema: string | null;
+  tipo_trabajo: string | null;
+};
+
+const NOMBRES_TIPO: Record<string, string> = {
+  ANALISIS_BREVE: "Análisis breve",
+  NOTA_INVESTIGACION: "Nota de investigación",
+  ENSAYO_ACADEMICO: "Ensayo académico",
+};
+
+type PageProps = {
+  params: Promise<{
+    slug: string;
+  }>;
+  searchParams: Promise<{
+    origen?: string | string[];
+    volver?: string | string[];
+  }>;
+};
+
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://agenn-web.vercel.app"
+).replace(/\/+$/, "");
+
+function limpiarMarkdown(texto: string) {
+  return texto
+    .replace(/!\[[^\]]*]\([^)]*\)/g, "")
+    .replace(/\[([^\]]+)]\([^)]*\)/g, "$1")
+    .replace(/[`*_>#~-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function descripcionEnsayo(ensayo: Ensayo) {
+  const base = limpiarMarkdown(ensayo.contenido);
+
+  if (base.length <= 180) {
+    return base || `Trabajo académico de ${ensayo.autor_nombre} publicado en AGENN.`;
+  }
+
+  return `${base.slice(0, 177).trim()}...`;
+}
+
+async function obtenerEnsayo(slug: string): Promise<Ensayo | null> {
+  const { data, error } = await supabaseServer
+    .from("ensayos")
+    .select(
+      `
+      id,
+      titulo,
+      slug,
+      autor_nombre,
+      autor_codigo,
+      nivel,
+      proceso,
+      unidad_slug,
+      imagen_url,
+      contenido,
+      codigo_verificacion,
+      url_social,
+      estado,
+      created_at,
+      fuente_imagen,
+      tema,
+      tipo_trabajo
+      `
+    )
+    .eq("slug", slug)
+    .eq("estado", "publicado")
+    .eq("estado_revision", "aprobado")
+    .eq("origen_ensayo", "FORMACION")
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error cargando ensayo público:", error);
+    return null;
+  }
+
+  return (data as Ensayo | null) || null;
+}
+
+export async function generateMetadata({
+  params,
+}: Pick<PageProps, "params">): Promise<Metadata> {
+  const { slug } = await params;
+  const ensayo = await obtenerEnsayo(String(slug || ""));
+
+  if (!ensayo) {
+    return {
+      metadataBase: new URL(SITE_URL),
+      title: "Ensayo no encontrado | AGENN",
+      description:
+        "El ensayo solicitado no se encuentra disponible en AGENN.",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const urlCanonica = `${SITE_URL}/ensayos/${ensayo.slug}`;
+  const descripcion = descripcionEnsayo(ensayo);
+
+  const imagenes = ensayo.imagen_url
+    ? [
+        {
+          url: ensayo.imagen_url,
+          alt: ensayo.titulo,
+        },
+      ]
+    : undefined;
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: `${ensayo.titulo} | AGENN`,
+    description: descripcion,
+    alternates: {
+      canonical: urlCanonica,
+    },
+    openGraph: {
+      type: "article",
+      locale: "es_GT",
+      url: urlCanonica,
+      siteName:
+        "Academia Guatemalteca de Estudios Numismáticos y Notafílicos",
+      title: ensayo.titulo,
+      description: descripcion,
+      publishedTime: ensayo.created_at,
+      authors: [ensayo.autor_nombre],
+      images: imagenes,
+    },
+    twitter: {
+      card: ensayo.imagen_url ? "summary_large_image" : "summary",
+      title: ensayo.titulo,
+      description: descripcion,
+      images: ensayo.imagen_url ? [ensayo.imagen_url] : undefined,
+    },
+  };
+}
+
+export default async function EnsayoDetallePage({
+  params,
+  searchParams,
+}: PageProps) {
+  const { slug } = await params;
+  const query = await searchParams;
+
+  const ensayo = await obtenerEnsayo(String(slug || ""));
+
+  if (!ensayo) {
+    return (
+      <main style={{ padding: "2rem" }}>
+        <p>No se encontró el ensayo.</p>
+        <a href="/ensayos">Volver a ensayos</a>
+      </main>
+    );
+  }
+
+  const origen = Array.isArray(query.origen)
+    ? query.origen[0]
+    : query.origen;
+
+  const volverRecibido = Array.isArray(query.volver)
+    ? query.volver[0]
+    : query.volver;
+
+  /*
+   * Solo aceptamos una ruta interna de Revista AGENN.
+   * Así evitamos utilizar como retorno una URL externa recibida por query.
+   */
+  const volverARevista =
+    origen === "revista" &&
+    typeof volverRecibido === "string" &&
+    volverRecibido.startsWith("/revista");
+
+  const volverHref = volverARevista ? volverRecibido : "/ensayos";
+  const volverTexto = volverARevista
+    ? "Volver a Revista AGENN"
+    : "Volver a ensayos";
+
+  const urlCanonica = `${SITE_URL}/ensayos/${ensayo.slug}`;
+
+  return (
+    <main
+      style={{
+        background: "#faf8f2",
+        minHeight: "100vh",
+        padding: "2rem",
+      }}
+    >
+      <article
+        style={{
+          maxWidth: "920px",
+          margin: "0 auto",
+          background: "white",
+          border: "1px solid #ddd4c7",
+          borderRadius: "16px",
+          overflow: "hidden",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+        }}
+      >
+        {ensayo.imagen_url && (
+          <div
+            style={{
+              width: "100%",
+              maxHeight: "380px",
+              overflow: "hidden",
+            }}
+          >
+            <img
+              src={ensayo.imagen_url}
+              alt={ensayo.titulo}
+              style={{
+                width: "100%",
+                height: "100%",
+                maxHeight: "380px",
+                objectFit: "cover",
+                display: "block",
+              }}
+            />
+          </div>
+        )}
+
+        {ensayo.fuente_imagen && (
+          <p
+            style={{
+              fontSize: "0.85rem",
+              color: "#666",
+              padding: "0.6rem 2rem 0",
+              margin: 0,
+            }}
+          >
+            Fuente de imagen: {ensayo.fuente_imagen}
+          </p>
+        )}
+
+        <div style={{ padding: "2rem" }}>
+          <p
+            style={{
+              margin: "0 0 0.6rem 0",
+              fontSize: "0.82rem",
+              color: "#6b6f1a",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.04em",
+            }}
+          >
+            <span
+              style={{
+                color: colorNivel(ensayo.nivel),
+                fontWeight: 700,
+              }}
+            >
+              {nombreNivel(ensayo.nivel)}
+            </span>{" "}
+            · {NOMBRES_TIPO[ensayo.tipo_trabajo || ""] || "Trabajo escrito"} · {ensayo.unidad_slug}
+          </p>
+
+          <h1
+            style={{
+              marginTop: 0,
+              fontSize: "2rem",
+              lineHeight: 1.2,
+            }}
+          >
+            {ensayo.titulo}
+          </h1>
+
+          {ensayo.tema && (
+            <p style={{ color: "#555", lineHeight: 1.7 }}>
+              <strong>Tema:</strong> {ensayo.tema}
+            </p>
+          )}
+
+          <p style={{ color: "#555", marginBottom: "1.5rem" }}>
+            Por <strong>{ensayo.autor_nombre}</strong> ·{" "}
+            {ensayo.autor_codigo}
+          </p>
+
+          <div
+            style={{
+              lineHeight: 1.85,
+              fontSize: "1.03rem",
+              marginBottom: "2rem",
+            }}
+          >
+            <ReactMarkdown>{ensayo.contenido}</ReactMarkdown>
+          </div>
+
+          <CompartirEnsayo
+            titulo={ensayo.titulo}
+            codigoVerificacion={ensayo.codigo_verificacion}
+            urlCanonica={urlCanonica}
+            volverHref={volverHref}
+            volverTexto={volverTexto}
+          />
+        </div>
+      </article>
+    </main>
+  );
+}

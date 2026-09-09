@@ -84,6 +84,38 @@ async function obtenerNumero(id: number) {
   return data;
 }
 
+async function actualizarSeccionAutomatica(
+  revistaId: number,
+  manuscritoId: number,
+) {
+  const { data: manuscrito, error: manuscritoError } = await supabaseServer
+    .from("manuscritos_editoriales")
+    .select("tipo_contenido")
+    .eq("id", manuscritoId)
+    .maybeSingle();
+
+  if (manuscritoError) throw new Error(manuscritoError.message);
+
+  const seccionPorTipo: Record<string, string> = {
+    ENSAYO: "Ensayos",
+    NOTA_INVESTIGACION: "Notas de investigación",
+    NOTA_BREVE: "Notas breves",
+    RESENA: "Reseñas",
+    ARTICULO: "Artículos",
+    ESTUDIO: "Estudios",
+  };
+  const seccion =
+    seccionPorTipo[String(manuscrito?.tipo_contenido || "")] || "Ensayos";
+
+  const { error } = await supabaseServer
+    .from("revista_articulos")
+    .update({ seccion })
+    .eq("revista_id", revistaId)
+    .eq("manuscrito_id", manuscritoId);
+
+  if (error) throw new Error(error.message);
+}
+
 export async function GET(
   req: NextRequest,
   context: { params: Promise<{ id: string }> },
@@ -468,6 +500,7 @@ export async function PATCH(
           .maybeSingle();
 
         if (incorporado) {
+          await actualizarSeccionAutomatica(id, manuscritoId);
           return NextResponse.json({
             ok: true,
             localizador: incorporado.localizador,
@@ -477,6 +510,8 @@ export async function PATCH(
 
         throw new Error(asignarError.message);
       }
+
+      await actualizarSeccionAutomatica(id, manuscritoId);
 
       return NextResponse.json({ ok: true, ...(data || {}) });
     }

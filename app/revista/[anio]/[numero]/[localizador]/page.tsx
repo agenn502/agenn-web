@@ -475,6 +475,8 @@ export default async function ArticuloPublicoPage({
   const descripcionTipo =
     publicacion.manuscrito.tipo_contenido === "NOTA_BREVE"
       ? "[Nota breve]. "
+      : publicacion.manuscrito.tipo_contenido === "NOTA_INVESTIGACION"
+        ? "[Nota de investigación]. "
       : descripcionResena;
   const referenciaAntes = `${autorNombre}. (${publicacion.numero.anio}). ${sinPuntoFinal(titulo)}. ${descripcionTipo}`;
   const referenciaRevistaYVolumen = `Revista AGENN, ${volumen}`;
@@ -613,7 +615,7 @@ export default async function ArticuloPublicoPage({
             publicacion.imagenes,
           )
         ) : (
-          <p>Este ensayo no contiene texto disponible.</p>
+          <p>Este trabajo no contiene texto disponible.</p>
         )}
       </article>
 

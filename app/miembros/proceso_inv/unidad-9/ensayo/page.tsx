@@ -6,8 +6,8 @@ import { TEMAS_TRABAJOS_INV } from "@/content/proceso_inv/temas_trabajos_inv";
 import { obtenerReglaTrabajoInv } from "@/content/proceso_inv/config";
 import { nombreNivel, colorNivel } from "@/lib/niveles";
 
-const REGLA_UNIDAD = obtenerReglaTrabajoInv("unidad-1")!;
-const TEMAS_UNIDAD = TEMAS_TRABAJOS_INV["unidad-1"] || [];
+const REGLA_UNIDAD = obtenerReglaTrabajoInv("unidad-9")!;
+const TEMAS_UNIDAD = TEMAS_TRABAJOS_INV["unidad-9"] || [];
 
 type Miembro = {
   id: number;
@@ -29,7 +29,7 @@ type Ensayo = {
   observaciones_revision: string | null;
 };
 
-export default function TrabajoUnidad1Page() {
+export default function TrabajoUnidad9Page() {
   const [tema, setTema] = useState("");
   const [titulo, setTitulo] = useState("");
   const [imagen, setImagen] = useState<File | null>(null);
@@ -76,7 +76,7 @@ export default function TrabajoUnidad1Page() {
         .from("ensayos")
         .select("*")
         .eq("autor_codigo", miembroData.codigo)
-        .eq("unidad_slug", "unidad-1")
+        .eq("unidad_slug", "unidad-9")
         .in("estado", ["borrador", "en_revision", "correcciones", "publicado"])
         .order("updated_at", { ascending: false })
         .limit(1)
@@ -104,7 +104,7 @@ export default function TrabajoUnidad1Page() {
         .from("progreso_inv")
         .select("completada")
         .eq("user_codigo", miembroData.codigo)
-        .eq("unidad_slug", "unidad-1")
+        .eq("unidad_slug", "unidad-9")
         .maybeSingle();
 
       setUnidadCompletada(Boolean(progresoUnidad?.completada));
@@ -236,14 +236,14 @@ export default function TrabajoUnidad1Page() {
       .substring(2, 8)
       .toUpperCase();
 
-    return `AGENN-INV-U1-${miembro?.codigo || "USER"}-${random}`;
+    return `AGENN-INV-U9-${miembro?.codigo || "USER"}-${random}`;
   };
 
   const subirImagen = async () => {
     if (!imagen || !miembro) return null;
 
     const nombreArchivo =
-      `unidad-1/${miembro.codigo}-u1.jpg`;
+      `unidad-9/${miembro.codigo}-u9.jpg`;
 
     const { error } = await supabase.storage
       .from("ensayos")
@@ -278,14 +278,14 @@ export default function TrabajoUnidad1Page() {
 
       if (contenido.length < REGLA_UNIDAD.caracteresMinimos) {
         alert(
-          `El análisis breve debe tener al menos ${REGLA_UNIDAD.caracteresMinimos.toLocaleString("es-GT")} caracteres.`
+          `El ensayo académico debe tener al menos ${REGLA_UNIDAD.caracteresMinimos.toLocaleString("es-GT")} caracteres.`
         );
         return false;
       }
 
       if (palabras < REGLA_UNIDAD.palabrasMinimas) {
         alert(
-          `El análisis breve debe tener al menos ${REGLA_UNIDAD.palabrasMinimas.toLocaleString("es-GT")} palabras.`
+          `El ensayo académico debe tener al menos ${REGLA_UNIDAD.palabrasMinimas.toLocaleString("es-GT")} palabras.`
         );
         return false;
       }
@@ -302,7 +302,7 @@ export default function TrabajoUnidad1Page() {
     if (
       enviarRevision &&
       !confirm(
-        "¿Está seguro de que desea enviar el análisis breve al Consejo Académico? Mientras esté en revisión no podrá editarlo."
+        "¿Está seguro de que desea enviar el ensayo académico al Consejo Académico? Mientras esté en revisión no podrá editarlo."
       )
     ) {
       return;
@@ -315,7 +315,7 @@ export default function TrabajoUnidad1Page() {
 
       const slug =
         slugTrabajo ||
-        `${generarSlug(titulo)}-${miembro.codigo.toLowerCase()}-u1`;
+        `${generarSlug(titulo)}-${miembro.codigo.toLowerCase()}-u9`;
 
       const ahora = new Date().toISOString();
 
@@ -326,7 +326,7 @@ export default function TrabajoUnidad1Page() {
         autor_codigo: miembro.codigo,
         nivel: miembro.nivel,
         proceso: "INV",
-        unidad_slug: "unidad-1",
+        unidad_slug: "unidad-9",
         origen_ensayo: "FORMACION",
         autor_miembro_id: miembro.id,
         tipo_trabajo: REGLA_UNIDAD.tipo,
@@ -414,10 +414,10 @@ export default function TrabajoUnidad1Page() {
             fecha_actualizacion: ahora,
           })
           .eq("user_codigo", miembro.codigo)
-          .eq("unidad_slug", "unidad-1");
+          .eq("unidad_slug", "unidad-9");
 
         alert(
-          "Análisis breve enviado al Consejo Académico para revisión."
+          "Ensayo académico enviado al Consejo Académico para revisión."
         );
 
         window.location.href = "/miembros/proceso_inv";
@@ -492,7 +492,7 @@ export default function TrabajoUnidad1Page() {
   if (unidadCompletada || aprobadoAcademicamente) {
     return (
       <div style={{ maxWidth: "900px" }}>
-        <h1>Análisis breve de la Unidad 1</h1>
+        <h1>Ensayo académico de la Unidad 9</h1>
 
         <div
           style={{
@@ -513,7 +513,7 @@ export default function TrabajoUnidad1Page() {
             }}
           >
             El Consejo Académico aprobó el trabajo escrito.
-            La Unidad 1 ha sido completada y puede continuar
+            La Unidad 9 ha sido completada y puede continuar
             con la siguiente unidad del Nivel Investigador.
           </p>
         </div>
@@ -522,7 +522,7 @@ export default function TrabajoUnidad1Page() {
   }
   return (
     <div style={{ maxWidth: "900px" }}>
-      <h1>Análisis breve de la Unidad 1</h1>
+      <h1>Ensayo académico de la Unidad 9</h1>
 
       <div
         style={{
@@ -535,13 +535,13 @@ export default function TrabajoUnidad1Page() {
         }}
       >
         <strong>
-          Puede desarrollar su análisis breve en varias sesiones.
+          Puede desarrollar su ensayo académico en varias sesiones.
         </strong>
         <br />
         Utilice <strong>Guardar borrador</strong> para
         conservar su avance y regresar posteriormente.
         Seleccione{" "}
-        <strong>Enviar análisis breve a revisión</strong>{" "}
+        <strong>Enviar ensayo académico a revisión</strong>{" "}
         únicamente cuando considere que el trabajo está
         finalizado. Una vez enviado, quedará pendiente de
         revisión por el Consejo Académico y no podrá
@@ -574,7 +574,7 @@ export default function TrabajoUnidad1Page() {
           }}
         >
           <h3 style={{ marginTop: 0 }}>
-            ⏳ Análisis breve pendiente de revisión académica
+            ⏳ Ensayo académico pendiente de revisión académica
           </h3>
 
           <p
@@ -583,7 +583,7 @@ export default function TrabajoUnidad1Page() {
               lineHeight: 1.7,
             }}
           >
-            El análisis breve fue enviado al Consejo Académico.
+            El ensayo académico fue enviado al Consejo Académico.
             Mientras se encuentre en revisión puede
             consultarlo, pero no editarlo.
           </p>
@@ -606,7 +606,7 @@ export default function TrabajoUnidad1Page() {
               color: "#7a1f1f",
             }}
           >
-            ⚠ Análisis breve devuelto para correcciones
+            ⚠ Ensayo académico devuelto para correcciones
           </h3>
 
           <p style={{ lineHeight: 1.7 }}>
@@ -645,7 +645,7 @@ export default function TrabajoUnidad1Page() {
 
 
       <p style={{ lineHeight: 1.8 }}>
-        Para completar esta unidad deberá elaborar un análisis breve
+        Para completar esta unidad deberá elaborar un ensayo académico
         basado en uno de los temas propuestos y someterlo a revisión
         del Consejo Académico. La aprobación del trabajo completará
         la unidad al 100 %.
@@ -689,7 +689,7 @@ export default function TrabajoUnidad1Page() {
         }}
       >
         <label>
-        <strong>Tema del análisis breve *</strong>
+        <strong>Tema del ensayo académico *</strong>
         </label>
 
         <select
@@ -718,7 +718,7 @@ export default function TrabajoUnidad1Page() {
         </select>
 
         <label>
-          <strong>Título del análisis breve *</strong>
+          <strong>Título del ensayo académico *</strong>
         </label>
 
         <input
@@ -728,7 +728,7 @@ export default function TrabajoUnidad1Page() {
           onChange={(e) =>
             setTitulo(e.target.value)
           }
-          placeholder="Ingrese el título de su análisis breve"
+          placeholder="Ingrese el título de su ensayo académico"
           style={{
             width: "100%",
             padding: "0.75rem",
@@ -849,7 +849,7 @@ export default function TrabajoUnidad1Page() {
         />
 
         <label>
-          <strong>Contenido del análisis breve *</strong>
+          <strong>Contenido del ensayo académico *</strong>
         </label>
 
         {puedeEditar && (
@@ -906,7 +906,7 @@ export default function TrabajoUnidad1Page() {
           onChange={(e) =>
             setContenido(e.target.value)
           }
-          placeholder="Redacte aquí su análisis breve..."
+          placeholder="Redacte aquí su ensayo académico..."
           rows={18}
           style={{
             width: "100%",
@@ -969,7 +969,7 @@ export default function TrabajoUnidad1Page() {
                   : "pointer",
               }}
             >
-              Enviar análisis breve a revisión
+              Enviar ensayo académico a revisión
             </button>
           </div>
         )}

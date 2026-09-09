@@ -136,7 +136,7 @@ export default function Unidad1InvestigadorPage() {
           user_codigo: user.codigo,
           unidad_slug: "unidad-1",
           completada: false,
-          porcentaje: 25,
+          porcentaje: 50,
           respuestas: {
             cuestionario_completado: true,
             total_preguntas: QUESTIONS.length,
@@ -221,12 +221,11 @@ export default function Unidad1InvestigadorPage() {
       </p>
 
       <h1 style={{ marginTop: 0 }}>
-        Unidad 1: Economía y medios de intercambio en la Guatemala prehispánica
+        Unidad 1: Introducción a la investigación numismática y notafílica
       </h1>
 
       <p style={{ color: "#555", lineHeight: 1.8 }}>
-        Economía y medios de intercambio en la Guatemala prehispánica: el origen
-        del valor antes de la moneda.
+        Introducción a la investigación numismática y notafílica.
       </p>
 
       <div
@@ -282,7 +281,7 @@ export default function Unidad1InvestigadorPage() {
 
         <p style={{ lineHeight: 1.8, color: "#555" }}>
           Este cuestionario no tiene nota de aprobación. Su objetivo es reforzar
-          los conceptos clave de la unidad antes de elaborar el ensayo.
+          los conceptos clave de la unidad antes de elaborar el trabajo escrito.
         </p>
 
         {cuestionarioBloqueado && (
@@ -335,7 +334,37 @@ export default function Unidad1InvestigadorPage() {
                 Pregunta {preguntaActual + 1} de {QUESTIONS.length}
               </p>
 
-              <h3>{pregunta.pregunta}</h3>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "0.65rem",
+                }}
+              >
+                <h3 style={{ margin: 0, flex: 1 }}>{pregunta.pregunta}</h3>
+                {respuestaSeleccionada !== null && (
+                  <span
+                    role="status"
+                    aria-label={
+                      respuestaSeleccionada === pregunta.correcta
+                        ? "Respuesta correcta"
+                        : "Respuesta incorrecta"
+                    }
+                    style={{
+                      flex: "0 0 auto",
+                      color:
+                        respuestaSeleccionada === pregunta.correcta
+                          ? "#2f6a22"
+                          : "#b3261e",
+                      fontSize: "1.65rem",
+                      fontWeight: 800,
+                      lineHeight: 1,
+                    }}
+                  >
+                    {respuestaSeleccionada === pregunta.correcta ? "✓" : "✕"}
+                  </span>
+                )}
+              </div>
 
               <div
                 style={{ display: "grid", gap: "0.75rem", marginTop: "1rem" }}
@@ -385,7 +414,7 @@ export default function Unidad1InvestigadorPage() {
                   <ReactMarkdown>{pregunta.explicacion}</ReactMarkdown>
 
                   <p style={{ marginBottom: 0 }}>
-                    Vuelve a intentarlo seleccionando la respuesta correcta.
+                    Vuelva a intentarlo seleccionando la respuesta correcta.
                   </p>
                 </div>
               )}
@@ -431,13 +460,11 @@ export default function Unidad1InvestigadorPage() {
                 <h3 style={{ marginTop: 0 }}>Cuestionario completado</h3>
 
                 <p style={{ lineHeight: 1.8 }}>
-                  Has completado las 25 preguntas de retroalimentación de esta
-                  unidad. El siguiente paso consiste en elaborar y publicar un
-                  ensayo académico basado en uno de los temas propuestos para
-                  esta unidad. La Unidad 1 únicamente se considerará completada
-                  cuando el ensayo haya sido publicado en la plataforma de la
-                  Academia y se haya registrado correctamente la evidencia de su
-                  difusión en redes sociales.
+                  Ha completado las 25 preguntas de retroalimentación de esta
+                  unidad y alcanzado el 50 %. El siguiente paso consiste en
+                  elaborar un análisis breve basado en uno de los temas
+                  propuestos. La Unidad 1 se considerará completada cuando el
+                  Consejo Académico apruebe el trabajo escrito.
                 </p>
 
                 <Link
@@ -452,7 +479,7 @@ export default function Unidad1InvestigadorPage() {
                     textDecoration: "none",
                   }}
                 >
-                  Continuar al ensayo
+                  Continuar al análisis breve
                 </Link>
 
                 <p
@@ -463,8 +490,8 @@ export default function Unidad1InvestigadorPage() {
                   }}
                 >
                   Nota: completar el cuestionario no desbloquea la siguiente
-                  unidad. El desbloqueo ocurre al finalizar satisfactoriamente
-                  el proceso de ensayo y difusión correspondiente.
+                  unidad. El desbloqueo ocurre cuando el Consejo Académico
+                  aprueba el trabajo escrito correspondiente.
                 </p>
               </>
             )}

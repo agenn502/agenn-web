@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
-import { TEORIA, QUESTIONS } from "@/content/proceso_inv/unidad2";
+import { TEORIA, QUESTIONS } from "@/content/proceso_inv/unidad3";
 import { CUESTIONARIOS_INV_DISPONIBLES_PARA_NUEVOS } from "@/content/proceso_inv/config";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -82,7 +82,7 @@ function TablaAcademica({
   );
 }
 
-export default function Unidad2InvestigadorPage() {
+export default function Unidad3InvestigadorPage() {
   const secciones = TEORIA as Seccion[];
 
   const [mostrarCuestionario, setMostrarCuestionario] = useState(false);
@@ -134,7 +134,7 @@ export default function Unidad2InvestigadorPage() {
       [
         {
           user_codigo: user.codigo,
-          unidad_slug: "unidad-2",
+          unidad_slug: "unidad-3",
           completada: false,
           porcentaje: 50,
           respuestas: {
@@ -175,7 +175,7 @@ export default function Unidad2InvestigadorPage() {
         .from("progreso_inv")
         .select("respuestas, completada")
         .eq("user_codigo", user.codigo)
-        .eq("unidad_slug", "unidad-2")
+        .eq("unidad_slug", "unidad-3")
         .maybeSingle();
 
       if (!data && !CUESTIONARIOS_INV_DISPONIBLES_PARA_NUEVOS) {
@@ -221,11 +221,11 @@ export default function Unidad2InvestigadorPage() {
       </p>
 
       <h1 style={{ marginTop: 0 }}>
-        Unidad 2: Búsqueda de evidencia y construcción del corpus documental
+        Unidad 3: Evaluación crítica y contraste de fuentes
       </h1>
 
       <p style={{ color: "#555", lineHeight: 1.8 }}>
-        Búsqueda de evidencia y construcción del corpus documental.
+        Evaluación crítica y contraste de fuentes.
       </p>
 
       <div
@@ -463,12 +463,12 @@ export default function Unidad2InvestigadorPage() {
                   Ha completado las 25 preguntas de retroalimentación de esta
                   unidad y alcanzado el 50 %. El siguiente paso consiste en
                   elaborar un análisis breve basado en uno de los temas
-                  propuestos. La Unidad 2 se considerará completada cuando el
+                  propuestos. La Unidad 3 se considerará completada cuando el
                   Consejo Académico apruebe el trabajo escrito.
                 </p>
 
                 <Link
-                  href="/miembros/proceso_inv/unidad-2/ensayo"
+                  href="/miembros/proceso_inv/unidad-3/ensayo"
                   style={{
                     display: "inline-block",
                     marginTop: "0.5rem",

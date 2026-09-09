@@ -364,6 +364,8 @@ export default function ArticuloRevistaPage() {
       antes: `${autor}. (${numero.anio}). ${sinPuntoFinal(titulo)}. ${
         articulo.manuscrito?.tipo_contenido === "NOTA_BREVE"
           ? "[Nota breve]. "
+          : articulo.manuscrito?.tipo_contenido === "NOTA_INVESTIGACION"
+            ? "[Nota de investigación]. "
           : ""
       }`,
       resena:

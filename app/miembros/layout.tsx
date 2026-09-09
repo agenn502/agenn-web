@@ -303,9 +303,6 @@ export default function MiembrosLayout({
     );
   }
 
-  const esPropietario =
-    user.codigo === "NUM0002";
-
   const esInvAcreditado =
     user.nivel === "INV" &&
     user.estado_academico ===
@@ -348,7 +345,7 @@ export default function MiembrosLayout({
             href: "/miembros/biblioteca",
           },
           {
-            label: "Ensayos académicos",
+            label: "Trabajos académicos",
             href: "/miembros/ensayos",
           },
 		  {
@@ -379,14 +376,6 @@ export default function MiembrosLayout({
               href: "/miembros/proceso-aprobacion",
             }
           );
-        }
-
-        if (esPropietario) {
-          baseMenu.push({
-            label:
-              "🧭 Estado del proyecto",
-            href: "/miembros/diagnostico",
-          });
         }
 
         return baseMenu;
@@ -453,7 +442,7 @@ export default function MiembrosLayout({
             },
             {
               label:
-                "Ensayos académicos",
+                "Trabajos académicos",
               href: "/miembros/ensayos",
             }
           );
@@ -474,7 +463,7 @@ export default function MiembrosLayout({
           },
           {
             label:
-              "Ensayos académicos",
+              "Trabajos académicos",
             href: "/miembros/ensayos",
           }
         );
@@ -522,7 +511,7 @@ export default function MiembrosLayout({
 			  href: "/miembros/revista",
 			},
           {
-            label: "Ensayos académicos",
+            label: "Trabajos académicos",
             href: "/miembros/ensayos",
           },
         ];
@@ -557,7 +546,13 @@ export default function MiembrosLayout({
     }
   };
 
-  const menu = getMenu();
+  const menu: MenuItem[] = [
+    {
+      label: "Inicio",
+      href: "/miembros",
+    },
+    ...getMenu(),
+  ];
 
   return (
     <div className="miembros-layout">

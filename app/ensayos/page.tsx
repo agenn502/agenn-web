@@ -19,6 +19,13 @@ type Ensayo = {
   url_social: string | null;
   estado: string;
   created_at: string;
+  tipo_trabajo: string | null;
+};
+
+const NOMBRES_TIPO: Record<string, string> = {
+  ANALISIS_BREVE: "Análisis breve",
+  NOTA_INVESTIGACION: "Nota de investigación",
+  ENSAYO_ACADEMICO: "Ensayo académico",
 };
 
 export default function EnsayosPage() {
@@ -35,6 +42,8 @@ export default function EnsayosPage() {
         .from("ensayos")
         .select("*")
         .eq("estado", "publicado")
+        .eq("estado_revision", "aprobado")
+        .eq("origen_ensayo", "FORMACION")
         .order("created_at", { ascending: false });
 
       if (!error) {
@@ -77,12 +86,12 @@ export default function EnsayosPage() {
   return (
     <main style={{ padding: "2rem", background: "#faf8f2", minHeight: "100vh" }}>
       <div style={{ maxWidth: "1180px", margin: "0 auto" }}>
-        <h1 style={{ marginBottom: "0.5rem" }}>Ensayos AGENN</h1>
+        <h1 style={{ marginBottom: "0.5rem" }}>Producción académica</h1>
 
         <p style={{ lineHeight: 1.8, maxWidth: "850px", color: "#555" }}>
-          Esta sección reúne textos breves elaborados por miembros en formación
-          de la Academia Guatemalteca de Estudios Numismáticos y Notafílicos,
-          como parte de su proceso académico y de difusión del conocimiento.
+          Esta sección reúne los análisis breves, notas de investigación y
+          ensayos académicos aprobados durante el proceso formativo del Nivel
+          Investigador de AGENN.
         </p>
 
         <div
@@ -144,7 +153,7 @@ export default function EnsayosPage() {
         </div>
 
         <p style={{ color: "#555" }}>
-          {resultados.length} ensayo{resultados.length !== 1 ? "s" : ""} encontrado
+          {resultados.length} trabajo{resultados.length !== 1 ? "s" : ""} encontrado
           {resultados.length !== 1 ? "s" : ""}
         </p>
 
@@ -169,7 +178,7 @@ export default function EnsayosPage() {
                 flexDirection: "column",
               }}
             >
-              <div
+              {ensayo.imagen_url && <div
                 style={{
                   height: "165px",
                   background: "#eee",
@@ -177,7 +186,7 @@ export default function EnsayosPage() {
                 }}
               >
                 <img
-                  src={ensayo.imagen_url || "/placeholder-miembro.jpg"}
+                  src={ensayo.imagen_url}
                   alt={ensayo.titulo}
                   style={{
                     width: "100%",
@@ -186,7 +195,7 @@ export default function EnsayosPage() {
                     display: "block",
                   }}
                 />
-              </div>
+              </div>}
 
               <div
                 style={{
@@ -206,7 +215,7 @@ export default function EnsayosPage() {
                     letterSpacing: "0.04em",
                   }}
                 >
-                  {ensayo.nivel} · {ensayo.unidad_slug}
+                  {NOMBRES_TIPO[ensayo.tipo_trabajo || ""] || "Trabajo escrito"} · {ensayo.unidad_slug}
                 </p>
 
                 <h2
@@ -246,7 +255,7 @@ export default function EnsayosPage() {
                     textDecoration: "none",
                   }}
                 >
-                  Leer ensayo
+                  Leer trabajo
                 </Link>
               </div>
             </article>
@@ -263,7 +272,7 @@ export default function EnsayosPage() {
               marginTop: "1rem",
             }}
           >
-            No se encontraron ensayos publicados.
+            No se encontraron trabajos académicos aprobados.
           </div>
         )}
       </div>

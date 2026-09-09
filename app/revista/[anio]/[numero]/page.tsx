@@ -40,6 +40,15 @@ type ArticuloPublico = {
   autor: Autor | null;
 };
 
+const NOMBRES_TIPO: Record<string, string> = {
+  ENSAYO: "Ensayo",
+  NOTA_INVESTIGACION: "Nota de investigación",
+  NOTA_BREVE: "Nota breve",
+  RESENA: "Reseña",
+  ARTICULO: "Artículo",
+  ESTUDIO: "Estudio",
+};
+
 const obtenerNumero = cache(
   async (anio: number, numero: number): Promise<Numero | null> => {
     const { data, error } = await supabaseServer
@@ -143,7 +152,9 @@ async function obtenerArticulos(revistaId: number): Promise<ArticuloPublico[]> {
       titulo: String(
         version?.titulo || manuscrito?.titulo_actual || "Trabajo sin título",
       ),
-      tipo: String(manuscrito?.tipo_contenido || "Ensayo"),
+      tipo:
+        NOMBRES_TIPO[String(manuscrito?.tipo_contenido || "")] ||
+        "Trabajo editorial",
       tema: manuscrito?.tema ? String(manuscrito.tema) : null,
       tipo_autoria: String(manuscrito?.tipo_autoria || "MIEMBRO"),
       autor_corporativo: manuscrito?.autor_corporativo

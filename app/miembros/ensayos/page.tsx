@@ -19,13 +19,36 @@ type Ensayo = {
   url_social: string | null;
   estado: string;
   created_at: string;
+  tipo_trabajo: string | null;
 };
+
+const NOMBRES_TIPO: Record<string, string> = {
+  ANALISIS_BREVE: "Análisis breve",
+  NOTA_INVESTIGACION: "Nota de investigación",
+  ENSAYO_ACADEMICO: "Ensayo académico",
+};
+
+function textoPlano(contenido: string) {
+  return contenido
+    .replace("<!--AGENN_RICH_HTML_V1-->", " ")
+    .replace(/<p\b[^>]*data-agenn-imagen-id=["']\d+["'][^>]*>[\s\S]*?<\/p>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\[\[(?:IMAGEN:\d+|ESPACIO)\]\]/g, " ")
+    .replace(/&nbsp;|&#160;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#039;|&apos;/gi, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
 export default function EnsayosPage() {
   const [ensayos, setEnsayos] = useState<Ensayo[]>([]);
   const [loading, setLoading] = useState(true);
   const [busqueda, setBusqueda] = useState("");
-  const [nivelFiltro, setNivelFiltro] = useState("");
+  const [tipoFiltro, setTipoFiltro] = useState("");
 
   useEffect(() => {
     const cargar = async () => {
@@ -35,6 +58,8 @@ export default function EnsayosPage() {
         .from("ensayos")
         .select("*")
         .eq("estado", "publicado")
+        .eq("estado_revision", "aprobado")
+        .eq("origen_ensayo", "FORMACION")
         .order("created_at", { ascending: false });
 
       if (!error) {
@@ -47,10 +72,6 @@ export default function EnsayosPage() {
     cargar();
   }, []);
 
-  const niveles = Array.from(
-    new Set(ensayos.map((e) => e.nivel).filter(Boolean))
-  ).sort();
-
   const resultados = useMemo(() => {
     const t = busqueda.toLowerCase().trim();
 
@@ -60,29 +81,30 @@ export default function EnsayosPage() {
         ensayo.autor_nombre,
         ensayo.autor_codigo,
         ensayo.nivel,
-        ensayo.contenido,
+        NOMBRES_TIPO[ensayo.tipo_trabajo || ""] || "Trabajo escrito",
+        textoPlano(ensayo.contenido),
       ]
         .join(" ")
         .toLowerCase();
 
       return (
         (!t || texto.includes(t)) &&
-        (!nivelFiltro || ensayo.nivel === nivelFiltro)
+        (!tipoFiltro || ensayo.tipo_trabajo === tipoFiltro)
       );
     });
-  }, [ensayos, busqueda, nivelFiltro]);
+  }, [ensayos, busqueda, tipoFiltro]);
 
-  if (loading) return <main style={{ padding: "2rem" }}>Cargando ensayos...</main>;
+  if (loading) return <main style={{ padding: "2rem" }}>Cargando trabajos académicos...</main>;
 
   return (
     <main style={{ padding: "2rem", background: "#faf8f2", minHeight: "100vh" }}>
       <div style={{ maxWidth: "1180px", margin: "0 auto" }}>
-        <h1 style={{ marginBottom: "0.5rem" }}>Ensayos AGENN</h1>
+        <h1 style={{ marginBottom: "0.5rem" }}>Trabajos académicos</h1>
 
         <p style={{ lineHeight: 1.8, maxWidth: "850px", color: "#555" }}>
-          Esta sección reúne textos breves elaborados por miembros en formación
-          de la Academia Guatemalteca de Estudios Numismáticos y Notafílicos,
-          como parte de su proceso académico y de difusión del conocimiento.
+          Esta sección reúne los análisis breves, notas de investigación y
+          ensayos académicos aprobados durante el proceso formativo del Nivel
+          Investigador de AGENN.
         </p>
 
         <div
@@ -108,8 +130,9 @@ export default function EnsayosPage() {
           />
 
           <select
-            value={nivelFiltro}
-            onChange={(e) => setNivelFiltro(e.target.value)}
+            value={tipoFiltro}
+            onChange={(e) => setTipoFiltro(e.target.value)}
+            aria-label="Filtrar por tipo de trabajo"
             style={{
               padding: "0.85rem 1rem",
               border: "1px solid #ddd4c7",
@@ -117,18 +140,16 @@ export default function EnsayosPage() {
               background: "white",
             }}
           >
-            <option value="">Todos los niveles</option>
-            {niveles.map((nivel) => (
-              <option key={nivel} value={nivel}>
-                {nivel}
-              </option>
-            ))}
+            <option value="">Todos los tipos</option>
+            <option value="ANALISIS_BREVE">Análisis breve</option>
+            <option value="NOTA_INVESTIGACION">Nota de investigación</option>
+            <option value="ENSAYO_ACADEMICO">Ensayo académico</option>
           </select>
 
           <button
             onClick={() => {
               setBusqueda("");
-              setNivelFiltro("");
+              setTipoFiltro("");
             }}
             style={{
               padding: "0.85rem 1rem",
@@ -144,7 +165,7 @@ export default function EnsayosPage() {
         </div>
 
         <p style={{ color: "#555" }}>
-          {resultados.length} ensayo{resultados.length !== 1 ? "s" : ""} encontrado
+          {resultados.length} trabajo{resultados.length !== 1 ? "s" : ""} encontrado
           {resultados.length !== 1 ? "s" : ""}
         </p>
 
@@ -169,7 +190,7 @@ export default function EnsayosPage() {
                 flexDirection: "column",
               }}
             >
-              <div
+              {ensayo.imagen_url && <div
                 style={{
                   height: "165px",
                   background: "#eee",
@@ -177,7 +198,7 @@ export default function EnsayosPage() {
                 }}
               >
                 <img
-                  src={ensayo.imagen_url || "/placeholder-miembro.jpg"}
+                  src={ensayo.imagen_url}
                   alt={ensayo.titulo}
                   style={{
                     width: "100%",
@@ -186,7 +207,7 @@ export default function EnsayosPage() {
                     display: "block",
                   }}
                 />
-              </div>
+              </div>}
 
               <div
                 style={{
@@ -206,7 +227,7 @@ export default function EnsayosPage() {
                     letterSpacing: "0.04em",
                   }}
                 >
-                  {ensayo.nivel} · {ensayo.unidad_slug}
+                  {NOMBRES_TIPO[ensayo.tipo_trabajo || ""] || "Trabajo escrito"} · {ensayo.unidad_slug}
                 </p>
 
                 <h2
@@ -231,9 +252,9 @@ export default function EnsayosPage() {
                     flex: 1,
                   }}
                 >
-                  {ensayo.contenido.length > 180
-                    ? ensayo.contenido.slice(0, 180) + "..."
-                    : ensayo.contenido}
+                  {textoPlano(ensayo.contenido).length > 180
+                    ? textoPlano(ensayo.contenido).slice(0, 180) + "..."
+                    : textoPlano(ensayo.contenido)}
                 </p>
 
                 <Link
@@ -246,7 +267,7 @@ export default function EnsayosPage() {
                     textDecoration: "none",
                   }}
                 >
-                  Leer ensayo
+                  Leer trabajo
                 </Link>
               </div>
             </article>
@@ -263,7 +284,7 @@ export default function EnsayosPage() {
               marginTop: "1rem",
             }}
           >
-            No se encontraron ensayos publicados.
+            No se encontraron trabajos académicos aprobados.
           </div>
         )}
       </div>

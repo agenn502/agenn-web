@@ -6,8 +6,8 @@ import { TEMAS_TRABAJOS_INV } from "@/content/proceso_inv/temas_trabajos_inv";
 import { obtenerReglaTrabajoInv } from "@/content/proceso_inv/config";
 import { nombreNivel, colorNivel } from "@/lib/niveles";
 
-const REGLA_UNIDAD = obtenerReglaTrabajoInv("unidad-1")!;
-const TEMAS_UNIDAD = TEMAS_TRABAJOS_INV["unidad-1"] || [];
+const REGLA_UNIDAD = obtenerReglaTrabajoInv("unidad-2")!;
+const TEMAS_UNIDAD = TEMAS_TRABAJOS_INV["unidad-2"] || [];
 
 type Miembro = {
   id: number;
@@ -29,7 +29,7 @@ type Ensayo = {
   observaciones_revision: string | null;
 };
 
-export default function TrabajoUnidad1Page() {
+export default function TrabajoUnidad2Page() {
   const [tema, setTema] = useState("");
   const [titulo, setTitulo] = useState("");
   const [imagen, setImagen] = useState<File | null>(null);
@@ -76,7 +76,7 @@ export default function TrabajoUnidad1Page() {
         .from("ensayos")
         .select("*")
         .eq("autor_codigo", miembroData.codigo)
-        .eq("unidad_slug", "unidad-1")
+        .eq("unidad_slug", "unidad-2")
         .in("estado", ["borrador", "en_revision", "correcciones", "publicado"])
         .order("updated_at", { ascending: false })
         .limit(1)
@@ -104,7 +104,7 @@ export default function TrabajoUnidad1Page() {
         .from("progreso_inv")
         .select("completada")
         .eq("user_codigo", miembroData.codigo)
-        .eq("unidad_slug", "unidad-1")
+        .eq("unidad_slug", "unidad-2")
         .maybeSingle();
 
       setUnidadCompletada(Boolean(progresoUnidad?.completada));
@@ -236,14 +236,14 @@ export default function TrabajoUnidad1Page() {
       .substring(2, 8)
       .toUpperCase();
 
-    return `AGENN-INV-U1-${miembro?.codigo || "USER"}-${random}`;
+    return `AGENN-INV-U2-${miembro?.codigo || "USER"}-${random}`;
   };
 
   const subirImagen = async () => {
     if (!imagen || !miembro) return null;
 
     const nombreArchivo =
-      `unidad-1/${miembro.codigo}-u1.jpg`;
+      `unidad-2/${miembro.codigo}-u2.jpg`;
 
     const { error } = await supabase.storage
       .from("ensayos")
@@ -315,7 +315,7 @@ export default function TrabajoUnidad1Page() {
 
       const slug =
         slugTrabajo ||
-        `${generarSlug(titulo)}-${miembro.codigo.toLowerCase()}-u1`;
+        `${generarSlug(titulo)}-${miembro.codigo.toLowerCase()}-u2`;
 
       const ahora = new Date().toISOString();
 
@@ -326,7 +326,7 @@ export default function TrabajoUnidad1Page() {
         autor_codigo: miembro.codigo,
         nivel: miembro.nivel,
         proceso: "INV",
-        unidad_slug: "unidad-1",
+        unidad_slug: "unidad-2",
         origen_ensayo: "FORMACION",
         autor_miembro_id: miembro.id,
         tipo_trabajo: REGLA_UNIDAD.tipo,
@@ -414,7 +414,7 @@ export default function TrabajoUnidad1Page() {
             fecha_actualizacion: ahora,
           })
           .eq("user_codigo", miembro.codigo)
-          .eq("unidad_slug", "unidad-1");
+          .eq("unidad_slug", "unidad-2");
 
         alert(
           "Análisis breve enviado al Consejo Académico para revisión."
@@ -492,7 +492,7 @@ export default function TrabajoUnidad1Page() {
   if (unidadCompletada || aprobadoAcademicamente) {
     return (
       <div style={{ maxWidth: "900px" }}>
-        <h1>Análisis breve de la Unidad 1</h1>
+        <h1>Análisis breve de la Unidad 2</h1>
 
         <div
           style={{
@@ -513,7 +513,7 @@ export default function TrabajoUnidad1Page() {
             }}
           >
             El Consejo Académico aprobó el trabajo escrito.
-            La Unidad 1 ha sido completada y puede continuar
+            La Unidad 2 ha sido completada y puede continuar
             con la siguiente unidad del Nivel Investigador.
           </p>
         </div>
@@ -522,7 +522,7 @@ export default function TrabajoUnidad1Page() {
   }
   return (
     <div style={{ maxWidth: "900px" }}>
-      <h1>Análisis breve de la Unidad 1</h1>
+      <h1>Análisis breve de la Unidad 2</h1>
 
       <div
         style={{
