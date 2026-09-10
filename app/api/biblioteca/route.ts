@@ -1,5 +1,37 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+
+async function validarMiembro(req: NextRequest) {
+  const codigo = (req.headers.get("x-user-codigo") || "")
+    .trim()
+    .toUpperCase();
+  if (!codigo) return null;
+
+  const { data, error } = await supabaseServer
+    .from("users")
+    .select("codigo,nivel,consejo")
+    .eq("codigo", codigo)
+    .maybeSingle();
+
+  if (error || !data || !["NOV", "INV", "NUM"].includes(data.nivel)) {
+    return null;
+  }
+
+  return data;
+}
+
+async function validarConsejo(req: NextRequest) {
+  const usuario = await validarMiembro(req);
+  const valor = usuario?.consejo;
+
+  return Boolean(
+    usuario &&
+      (valor === true ||
+        valor === "true" ||
+        valor === "TRUE" ||
+        valor === 1),
+  );
+}
 
 const generarSlug = (texto: string) =>
   texto
@@ -37,8 +69,15 @@ async function subirPortada(file: File) {
   return data.publicUrl;
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    if (!(await validarMiembro(req))) {
+      return NextResponse.json(
+        { ok: false, error: "Acceso no autorizado." },
+        { status: 403 },
+      );
+    }
+
     const { data, error } = await supabaseServer
       .from("biblioteca")
       .select("*")
@@ -64,8 +103,15 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    if (!(await validarConsejo(req))) {
+      return NextResponse.json(
+        { ok: false, error: "Acceso exclusivo del Consejo Académico." },
+        { status: 403 },
+      );
+    }
+
     const formData = await req.formData();
 
     const titulo = String(formData.get("titulo") || "").trim();

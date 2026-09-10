@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { TEORIA, QUESTIONS } from "@/content/proceso_inv/unidad8";
@@ -84,6 +84,7 @@ function TablaAcademica({
 
 export default function Unidad8InvestigadorPage() {
   const secciones = TEORIA as Seccion[];
+  const contenidoLecturaRef = useRef<HTMLDivElement | null>(null);
 
   const [mostrarCuestionario, setMostrarCuestionario] = useState(false);
   const [preguntaActual, setPreguntaActual] = useState(0);
@@ -204,6 +205,88 @@ export default function Unidad8InvestigadorPage() {
 
     cargarProgreso();
   }, []);
+
+  useEffect(() => {
+    if (!progresoCargado) return;
+
+    const stored = localStorage.getItem("user");
+    if (!stored) return;
+
+    let codigo = "";
+
+    try {
+      codigo = String(JSON.parse(stored)?.codigo || "").trim();
+    } catch {
+      return;
+    }
+
+    if (!codigo) return;
+
+    const claveMemoria = `agenn:lectura:inv:unidad-8:${codigo}`;
+    const contenido = contenidoLecturaRef.current;
+    if (!contenido) return;
+
+    const guardarPosicion = () => {
+      const inicio = contenido.offsetTop;
+      const final = inicio + contenido.offsetHeight;
+      const posicion = window.scrollY;
+
+      if (posicion >= inicio - 40 && posicion < final) {
+        localStorage.setItem(
+          claveMemoria,
+          JSON.stringify({ posicion, fecha: new Date().toISOString() }),
+        );
+      }
+    };
+
+    let frame: number | null = null;
+    const alDesplazarse = () => {
+      if (frame !== null) return;
+
+      frame = window.requestAnimationFrame(() => {
+        guardarPosicion();
+        frame = null;
+      });
+    };
+
+    const memoriaGuardada = localStorage.getItem(claveMemoria);
+
+    if (memoriaGuardada) {
+      try {
+        const { posicion } = JSON.parse(memoriaGuardada) as {
+          posicion?: number;
+        };
+
+        if (typeof posicion === "number" && Number.isFinite(posicion)) {
+          window.requestAnimationFrame(() => {
+            const inicio = contenido.offsetTop;
+            const maximo = Math.max(
+              inicio,
+              contenido.offsetTop + contenido.offsetHeight - window.innerHeight,
+            );
+
+            window.scrollTo({
+              top: Math.min(Math.max(posicion, inicio), maximo),
+              behavior: "auto",
+            });
+          });
+        }
+      } catch {
+        localStorage.removeItem(claveMemoria);
+      }
+    }
+
+    window.addEventListener("scroll", alDesplazarse, { passive: true });
+    window.addEventListener("pagehide", guardarPosicion);
+
+    return () => {
+      guardarPosicion();
+      window.removeEventListener("scroll", alDesplazarse);
+      window.removeEventListener("pagehide", guardarPosicion);
+      if (frame !== null) window.cancelAnimationFrame(frame);
+    };
+  }, [progresoCargado]);
+
   if (!progresoCargado) {
     return <p>Cargando progreso...</p>;
   }
@@ -254,6 +337,7 @@ export default function Unidad8InvestigadorPage() {
       )}
 
       <div
+        ref={contenidoLecturaRef}
         style={{
           background: "white",
           border: "1px solid #ddd4c7",

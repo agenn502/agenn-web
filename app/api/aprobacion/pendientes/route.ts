@@ -39,6 +39,7 @@ export async function GET(req: NextRequest) {
     { count: candidatos, error: candidatosError },
     { count: investigadores, error: investigadoresError },
     { count: asimilaciones, error: asimilacionesError },
+    { count: biblioteca, error: bibliotecaError },
   ] = await Promise.all([
     supabaseServer
       .from("candidatos")
@@ -57,12 +58,18 @@ export async function GET(req: NextRequest) {
       .from("asimilaciones")
       .select("*", { count: "exact", head: true })
       .eq("estado", "pendiente"),
+
+    supabaseServer
+      .from("biblioteca_solicitudes")
+      .select("*", { count: "exact", head: true })
+      .eq("estado", "PENDIENTE"),
   ]);
 
   if (
     candidatosError ||
     investigadoresError ||
-    asimilacionesError
+    asimilacionesError ||
+    bibliotecaError
   ) {
     return NextResponse.json(
       {
@@ -70,7 +77,8 @@ export async function GET(req: NextRequest) {
         error:
           candidatosError?.message ||
           investigadoresError?.message ||
-          asimilacionesError?.message,
+          asimilacionesError?.message ||
+          bibliotecaError?.message,
       },
       { status: 500 }
     );
@@ -82,6 +90,7 @@ export async function GET(req: NextRequest) {
     novicios: 0,
     investigadores: investigadores || 0,
     asimilaciones: asimilaciones || 0,
+    biblioteca: biblioteca || 0,
   };
 
   return NextResponse.json({

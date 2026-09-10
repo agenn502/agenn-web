@@ -1,5 +1,28 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+
+async function validarConsejo(req: NextRequest) {
+  const codigo = (req.headers.get("x-user-codigo") || "")
+    .trim()
+    .toUpperCase();
+  if (!codigo) return false;
+
+  const { data, error } = await supabaseServer
+    .from("users")
+    .select("consejo")
+    .eq("codigo", codigo)
+    .maybeSingle();
+
+  const valor = data?.consejo;
+  return Boolean(
+    !error &&
+      data &&
+      (valor === true ||
+        valor === "true" ||
+        valor === "TRUE" ||
+        valor === 1),
+  );
+}
 
 const generarSlug = (texto: string) =>
   texto
@@ -38,10 +61,17 @@ async function subirPortada(file: File) {
 }
 
 export async function PUT(
-  req: Request,
+  req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
   try {
+    if (!(await validarConsejo(req))) {
+      return NextResponse.json(
+        { ok: false, error: "Acceso exclusivo del Consejo Académico." },
+        { status: 403 },
+      );
+    }
+
     const { id } = await context.params;
     const formData = await req.formData();
 
@@ -133,10 +163,17 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _req: Request,
+  req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
   try {
+    if (!(await validarConsejo(req))) {
+      return NextResponse.json(
+        { ok: false, error: "Acceso exclusivo del Consejo Académico." },
+        { status: 403 },
+      );
+    }
+
     const { id } = await context.params;
 
     const { error } = await supabaseServer

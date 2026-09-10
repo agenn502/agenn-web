@@ -419,6 +419,10 @@ export default function MiembrosLayout({
             href: "/miembros/eventos",
           },
 		  {
+			  label: "Biblioteca",
+			  href: "/miembros/biblioteca",
+			},
+		  {
 			  label: "Revista AGENN",
 			  href: "/miembros/revista",
 			},
@@ -500,6 +504,10 @@ export default function MiembrosLayout({
           {
             label: "Eventos",
             href: "/miembros/eventos",
+          },
+          {
+            label: "Biblioteca",
+            href: "/miembros/biblioteca",
           },
           {
             label: "Documentos oficiales",
