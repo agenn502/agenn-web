@@ -6,6 +6,7 @@ import CandidatosPanel from "@/components/aprobacion/CandidatosPanel";
 import InvestigadoresPanel from "@/components/aprobacion/InvestigadoresPanel";
 import NoviciosPanel from "@/components/aprobacion/NoviciosPanel";
 import AsimilacionesPanel from "@/components/aprobacion/AsimilacionesPanel";
+import BibliotecaPanel from "@/components/aprobacion/BibliotecaPanel";
 
 type User = {
   codigo: string;
@@ -19,7 +20,8 @@ type Pestana =
   | "aspirantes"
   | "novicios"
   | "investigadores"
-  | "asimilaciones";
+  | "asimilaciones"
+  | "biblioteca";
 
 type Conteos = {
   candidatos: number;
@@ -27,6 +29,7 @@ type Conteos = {
   novicios: number;
   investigadores: number;
   asimilaciones: number;
+  biblioteca: number;
 };
 
 export default function ProcesoAprobacionPage() {
@@ -41,6 +44,7 @@ export default function ProcesoAprobacionPage() {
     novicios: 0,
     investigadores: 0,
     asimilaciones: 0,
+    biblioteca: 0,
   });
 
   useEffect(() => {
@@ -86,6 +90,21 @@ export default function ProcesoAprobacionPage() {
               Number(result.conteos?.asimilaciones) || 0,
           }));
         }
+
+        const responseInv = await fetch("/api/aprobacion/investigadores", {
+          headers: { "x-user-codigo": parsed.codigo },
+          cache: "no-store",
+        });
+        const resultInv = await responseInv.json();
+
+        if (responseInv.ok && resultInv.ok) {
+          setConteos((actual) => ({
+            ...actual,
+            investigadores: Array.isArray(resultInv.ensayos)
+              ? resultInv.ensayos.length
+              : 0,
+          }));
+        }
       } catch (error) {
         console.error(
           "Error cargando conteos del proceso de aprobación:",
@@ -117,6 +136,7 @@ export default function ProcesoAprobacionPage() {
     { id: "novicios", label: "Novicios" },
     { id: "investigadores", label: "Investigadores" },
     { id: "asimilaciones", label: "Asimilaciones" },
+    { id: "biblioteca", label: "Biblioteca" },
   ];
 
   const tituloActivo =
@@ -212,6 +232,18 @@ export default function ProcesoAprobacionPage() {
       )}
 
       {activa === "asimilaciones" && <AsimilacionesPanel />}
+
+      {activa === "biblioteca" && (
+        <BibliotecaPanel
+          user={user}
+          onConteoChange={(numero) =>
+            setConteos((actual) => ({
+              ...actual,
+              biblioteca: numero,
+            }))
+          }
+        />
+      )}
     </div>
   );
 }
