@@ -89,6 +89,7 @@ export default function Unidad5NovicioPage() {
   const [respuestaSeleccionada, setRespuestaSeleccionada] = useState<number | null>(null);
   const [mostrarRetroalimentacion, setMostrarRetroalimentacion] = useState(false);
   const [completado, setCompletado] = useState(false);
+  const [modoRepaso, setModoRepaso] = useState(false);
   const [progresoCargado, setProgresoCargado] = useState(false);
   const [avanceGuardado, setAvanceGuardado] = useState(0);
   const [guardando, setGuardando] = useState(false);
@@ -97,6 +98,7 @@ export default function Unidad5NovicioPage() {
   const pregunta = QUESTIONS[preguntaActual];
 
   const guardarAvanceParcial = async (preguntasCompletadas: number) => {
+    if (modoRepaso) return true;
     const stored = localStorage.getItem("user");
     if (!stored) return false;
 
@@ -135,6 +137,7 @@ export default function Unidad5NovicioPage() {
   };
 
   const guardarProgresoCuestionario = async () => {
+    if (modoRepaso) return true;
     const stored = localStorage.getItem("user");
 
     if (!stored) {
@@ -238,6 +241,14 @@ export default function Unidad5NovicioPage() {
       }
 
       const user = JSON.parse(stored);
+      const repasoSolicitado =
+        new URLSearchParams(window.location.search).get("modo") === "repaso";
+      const nivelSuperior = user.nivel === "INV" || user.nivel === "NUM";
+      const esRepaso = repasoSolicitado || nivelSuperior;
+
+      if (esRepaso) {
+        setModoRepaso(true);
+      }
 
       const { data, error } = await supabase
         .from("progreso_novicio")
@@ -300,7 +311,28 @@ export default function Unidad5NovicioPage() {
         De la moneda federal a las acuñaciones republicanas de Rafael Carrera: continuidad de reales, pesos y circulación internacional.
       </p>
 
-      {avanceGuardado > 0 && !completado && (
+      {modoRepaso && (
+        <div
+          style={{
+            background: "#eef7ea",
+            border: "1px solid #b9d7ad",
+            borderRadius: "10px",
+            padding: "0.9rem 1rem",
+            margin: "1rem 0 1.25rem",
+            color: "#2f5f24",
+            lineHeight: 1.7,
+          }}
+        >
+          <strong>Modo repaso — Nivel Novicio</strong>
+          <br />
+          Esta unidad forma parte de su formación académica disponible para
+          consulta permanente. Puede volver a estudiar el contenido y realizar
+          el cuestionario como ejercicio de actualización. Las actividades
+          realizadas en este modo no modificarán su progreso académico.
+        </div>
+      )}
+
+      {avanceGuardado > 0 && !completado && !modoRepaso && (
         <div
           style={{
             background: "#f4f1e8",
@@ -388,10 +420,10 @@ export default function Unidad5NovicioPage() {
           una explicación y podrá intentarlo nuevamente.
         </p>
 
-        {!mostrarCuestionario && !completado && (
+        {!mostrarCuestionario && (!completado || modoRepaso) && (
           <button
             onClick={() => {
-              setPreguntaActual(avanceGuardado > 0 ? avanceGuardado : 0);
+              setPreguntaActual(modoRepaso ? 0 : avanceGuardado > 0 ? avanceGuardado : 0);
               setRespuestaSeleccionada(null);
               setMostrarRetroalimentacion(false);
               setErrorGuardado(null);
@@ -406,11 +438,11 @@ export default function Unidad5NovicioPage() {
               cursor: "pointer",
             }}
           >
-            {avanceGuardado > 0 ? "Continuar cuestionario" : "Iniciar cuestionario"}
+            {modoRepaso ? "Repasar cuestionario" : avanceGuardado > 0 ? "Continuar cuestionario" : "Iniciar cuestionario"}
           </button>
         )}
 
-        {mostrarCuestionario && !completado && pregunta && (
+        {mostrarCuestionario && (!completado || modoRepaso) && pregunta && (
           <div style={{ marginTop: "1.5rem" }}>
             <div
 			  style={{
@@ -552,7 +584,7 @@ export default function Unidad5NovicioPage() {
           </div>
         )}
 
-        {completado && (
+        {completado && !modoRepaso && (
           <div
             style={{
               marginTop: "1.5rem",

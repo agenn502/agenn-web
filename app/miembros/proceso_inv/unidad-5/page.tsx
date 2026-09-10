@@ -161,6 +161,9 @@ export default function Unidad5InvestigadorPage() {
   };
   useEffect(() => {
     const cargarProgreso = async () => {
+      const esRepaso = new URLSearchParams(window.location.search).get("modo") === "repaso";
+      if (esRepaso) setModoRepaso(true);
+
       const stored = localStorage.getItem("user");
 
       if (!stored) {
@@ -227,6 +230,28 @@ export default function Unidad5InvestigadorPage() {
       <p style={{ color: "#555", lineHeight: 1.8 }}>
         Reconstrucción de sistemas monetarios mediante evidencia.
       </p>
+
+      {modoRepaso && unidadCompletada && (
+        <div
+          style={{
+            background: "#eef7ea",
+            border: "1px solid #b9d7ad",
+            borderRadius: "10px",
+            padding: "1rem",
+            marginTop: "1.5rem",
+            color: "#2f5f24",
+            lineHeight: 1.7,
+          }}
+        >
+          <strong>Modo repaso — Unidad aprobada</strong>
+          <br />
+          Esta unidad ya forma parte de su formación aprobada. Puede volver a
+          consultar todo el contenido y realizar el cuestionario como ejercicio
+          de actualización. Las actividades realizadas en este modo no
+          modificarán su progreso académico ni generarán una nueva revisión del
+          Consejo Académico.
+        </div>
+      )}
 
       <div
         style={{
@@ -437,7 +462,7 @@ export default function Unidad5InvestigadorPage() {
 
                 <p style={{ lineHeight: 1.8 }}>
                   Esta unidad ya fue aprobada por el Consejo Académico. Puede
-                  continuar con la siguiente unidad del proceso de ascenso.
+                  continuar con la siguiente unidad del proceso de formación.
                 </p>
 
                 <Link
@@ -452,7 +477,7 @@ export default function Unidad5InvestigadorPage() {
                     textDecoration: "none",
                   }}
                 >
-                  Volver al proceso de ascenso
+                  Volver al proceso de formación
                 </Link>
               </>
             ) : (

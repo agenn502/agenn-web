@@ -40,6 +40,7 @@ type Unidad = {
 export default function ProcesoInvPage() {
   const [user, setUser] = useState<User | null>(null);
   const [esConsejo, setEsConsejo] = useState(false);
+  const [esNumerario, setEsNumerario] = useState(false);
   const [progreso, setProgreso] = useState<ProgresoRow[]>([]);
   const [ensayosRevision, setEnsayosRevision] = useState<EnsayoRevision[]>([]);
   const [loading, setLoading] = useState(true);
@@ -138,12 +139,19 @@ export default function ProcesoInvPage() {
         parsed.consejo === "TRUE" ||
         parsed.consejo === 1;
 
+      const numerario = parsed.nivel === "NUM";
+
       setUser(parsed);
       setEsConsejo(consejoNormalizado);
+      setEsNumerario(numerario);
 
-      if (!consejoNormalizado && parsed.nivel !== "INV") {
+      if (
+        !consejoNormalizado &&
+        parsed.nivel !== "INV" &&
+        parsed.nivel !== "NUM"
+      ) {
         setError(
-          "Esta sección corresponde al proceso de ascenso del Nivel Investigador."
+          "Esta sección corresponde al proceso de formación del Nivel Investigador."
         );
         setLoading(false);
         return;
@@ -232,7 +240,7 @@ export default function ProcesoInvPage() {
   }, [unidades, progresoMap]);
 
   const estaDesbloqueada = (index: number) => {
-    if (esConsejo) return true;
+    if (esConsejo || esNumerario) return true;
 
     if (index === 0) return true;
 
@@ -274,10 +282,18 @@ export default function ProcesoInvPage() {
     const trabajoHref = rutaTrabajo(unidad.slug);
     const reglaTrabajo = obtenerReglaTrabajoInv(unidad.slug);
 
+    if (esNumerario) {
+      return {
+        texto: "Repasar unidad",
+        href: `${unidad.href}?modo=repaso`,
+        bloqueado: false,
+      };
+    }
+
     if (completada || porcentaje >= 100) {
       return {
-        texto: "Revisar unidad",
-        href: unidad.href,
+        texto: "Volver a repasar la unidad",
+        href: `${unidad.href}?modo=repaso`,
         bloqueado: false,
       };
     }
@@ -363,8 +379,8 @@ export default function ProcesoInvPage() {
     /* El CA completa la unidad al aprobar el trabajo. */
     if (ensayo.estado_revision === "aprobado") {
       return {
-        texto: "Revisar unidad",
-        href: unidad.href,
+        texto: "Volver a repasar la unidad",
+        href: `${unidad.href}?modo=repaso`,
         bloqueado: false,
       };
     }
@@ -377,7 +393,7 @@ export default function ProcesoInvPage() {
   };
 
   if (loading) {
-    return <div>Cargando proceso de ascenso...</div>;
+    return <div>Cargando proceso de formación...</div>;
   }
 
   if (error) {
@@ -464,6 +480,19 @@ export default function ProcesoInvPage() {
           >
             Modo Consejo Académico: todas las unidades
             están visibles sin restricción.
+          </p>
+        )}
+
+        {esNumerario && !esConsejo && (
+          <p
+            style={{
+              marginBottom: 0,
+              marginTop: "0.8rem",
+              color: "#555",
+            }}
+          >
+            Modo Académico Numerario: las unidades del Nivel Investigador
+            están disponibles como material permanente de consulta y repaso.
           </p>
         )}
       </div>
@@ -676,7 +705,7 @@ export default function ProcesoInvPage() {
                 </p>
               )}
 
-              {reglaTrabajo && (
+              {!esNumerario && reglaTrabajo && (
                 <div
                   style={{
                     background: "#f8f5ee",
@@ -694,37 +723,58 @@ export default function ProcesoInvPage() {
                 </div>
               )}
 
-              <p
-                style={{
-                  marginBottom: "0.5rem",
-                }}
-              >
-                <strong>Avance:</strong>{" "}
-                {estado.porcentaje}%
-              </p>
-
-              <div
-                style={{
-                  width: "100%",
-                  height: "10px",
-                  background: "#e6dfd1",
-                  borderRadius: "999px",
-                  overflow: "hidden",
-                  marginBottom: "0.8rem",
-                }}
-              >
+              {esNumerario ? (
                 <div
                   style={{
-                    width: `${estado.porcentaje}%`,
-                    height: "100%",
-                    background: estado.completada
-                      ? "#4f7f3b"
-                      : "#6b6f1a",
+                    background: "#eef7ea",
+                    border: "1px solid #b9d7ad",
+                    borderRadius: "10px",
+                    padding: "0.75rem",
+                    marginBottom: "1rem",
+                    color: "#2f5f24",
+                    lineHeight: 1.6,
                   }}
-                />
-              </div>
+                >
+                  <strong>Material de consulta</strong>
+                  <br />
+                  Como Académico Numerario, puede consultar libremente esta
+                  unidad como material de actualización y referencia.
+                </div>
+              ) : (
+                <>
+                  <p
+                    style={{
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    <strong>Avance:</strong>{" "}
+                    {estado.porcentaje}%
+                  </p>
 
-              {!desbloqueada && (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "10px",
+                      background: "#e6dfd1",
+                      borderRadius: "999px",
+                      overflow: "hidden",
+                      marginBottom: "0.8rem",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: `${estado.porcentaje}%`,
+                        height: "100%",
+                        background: estado.completada
+                          ? "#4f7f3b"
+                          : "#6b6f1a",
+                      }}
+                    />
+                  </div>
+                </>
+              )}
+
+              {!esNumerario && !desbloqueada && (
                 <p
                   style={{
                     marginTop: 0,
@@ -737,7 +787,7 @@ export default function ProcesoInvPage() {
                 </p>
               )}
 
-              {desbloqueada &&
+              {!esNumerario && desbloqueada &&
                 !estado.completada &&
                 estado.porcentaje < 50 && (
                   <div
@@ -771,7 +821,7 @@ export default function ProcesoInvPage() {
                   </div>
                 )}
 
-              {desbloqueada &&
+              {!esNumerario && desbloqueada &&
                 !estado.completada &&
                 estado.porcentaje >= 50 &&
                 !revision &&
@@ -796,7 +846,7 @@ export default function ProcesoInvPage() {
                   </div>
                 )}
 
-              {revision?.estado === "borrador" &&
+              {!esNumerario && revision?.estado === "borrador" &&
                 !revision.estado_revision &&
                 !estado.completada && (
                   <div
@@ -819,7 +869,7 @@ export default function ProcesoInvPage() {
                   </div>
                 )}
 
-              {revisionAcademicaPendiente &&
+              {!esNumerario && revisionAcademicaPendiente &&
                 !estado.completada && (
                   <div
                     style={{
@@ -842,7 +892,7 @@ export default function ProcesoInvPage() {
                   </div>
                 )}
 
-              {correccionesAcademicas &&
+              {!esNumerario && correccionesAcademicas &&
                 !estado.completada && (
                   <div
                     style={{
@@ -867,7 +917,7 @@ export default function ProcesoInvPage() {
                   </div>
                 )}
 
-              {aprobadoAcademicamente &&
+              {!esNumerario && aprobadoAcademicamente &&
                 !estado.completada && (
                   <div
                     style={{
@@ -889,7 +939,7 @@ export default function ProcesoInvPage() {
                   </div>
                 )}
 
-              {estado.completada && (
+              {!esNumerario && estado.completada && (
                 <div
                   style={{
                     background: "#eef7ea",
@@ -903,8 +953,8 @@ export default function ProcesoInvPage() {
                 >
                   <strong>✓ Unidad aprobada</strong>
                   <br />
-                  El Consejo Académico aprobó esta unidad.
-                  Puede continuar con la siguiente.
+                  El Consejo Académico aprobó esta unidad. Su avance se conserva permanentemente.
+                  Puede continuar con la siguiente unidad o volver a consultar este contenido en modo repaso.
                 </div>
               )}
 

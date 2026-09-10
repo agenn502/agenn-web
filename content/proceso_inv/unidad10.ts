@@ -2,17 +2,26 @@ export const TEORIA = [
   { titulo: "1. De estudiante a investigador", bloques: [{ tipo: "texto", contenido: `
 Durante las primeras nueve unidades del nivel Investigador se construyeron progresivamente las competencias necesarias para formular preguntas, localizar y criticar fuentes, organizar corpus, clasificar objetos, reconstruir sistemas, interpretar evidencia y comunicar resultados.
 
-En U10 cambia deliberadamente la lógica del proceso.
+En unidad 10 cambia deliberadamente la lógica del proceso.
 
 Hasta ahora, AGENN propuso problemas, casos, ejemplos o marcos de trabajo relativamente delimitados. En esta unidad, **el problema deberá ser formulado por usted**.
 
 La pregunta rectora será:
 
-**¿Puede usted formular, desarrollar, documentar y comunicar una investigación numismática propia utilizando con autonomía las herramientas aprendidas durante el nivel Investigador?**
+**¿Puede usted formular, desarrollar, documentar y defender una investigación numismática propia utilizando con autonomía las herramientas aprendidas durante el nivel Investigador?**
 
 La aprobación de esta unidad no dependerá principalmente del cuestionario. La evidencia central será su investigación.
 
-U10 funciona como integración final de las competencias del nivel.
+unidad 10 funciona como integración final de las competencias del nivel.
+
+
+### Profundización académica
+
+La autonomía investigativa no significa trabajar sin crítica ni orientación. Significa poder justificar la elección del problema, las fuentes, el método y las conclusiones. El proyecto final debe mostrar dominio del proceso completo y capacidad para responder responsablemente ante observaciones académicas. Esta perspectiva se apoya en Booth et al. (2016), Howell y Prevenier (2001) y American Psychological Association (2020). En esta sección, el eje de **integración de competencias** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El proyecto final integra diseño, búsqueda, crítica, análisis y comunicación. Booth et al. (2016) ofrecen un marco útil para pasar de interés a problema, de problema a afirmación y de afirmación a argumento; Howell y Prevenier (2001) refuerzan la evaluación histórica de las fuentes. La autonomía se demuestra cuando el estudiante puede explicar por qué eligió una fuente, qué limitación reconoce, qué alternativa consideró y qué hallazgo podría obligarlo a modificar su conclusión.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *integración de competencias*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "2. Una investigación comienza con algo que todavía no sabemos", bloques: [{ tipo: "texto", contenido: `
 Un tema amplio todavía no constituye una investigación.
@@ -39,6 +48,15 @@ La pregunta fundamental es:
 La originalidad no exige descubrir una pieza desconocida. Puede consistir en localizar nueva evidencia, corregir una atribución, refinar una clasificación, reunir información dispersa, contrastar una tradición bibliográfica o demostrar que una afirmación todavía no puede sostenerse con las fuentes disponibles.
 
 **Originalidad significa aporte identificable, no espectacularidad.**
+
+
+### Profundización académica
+
+La autonomía investigativa no significa trabajar sin crítica ni orientación. Significa poder justificar la elección del problema, las fuentes, el método y las conclusiones. El proyecto final debe mostrar dominio del proceso completo y capacidad para responder responsablemente ante observaciones académicas. Esta perspectiva se apoya en Booth et al. (2016), Howell y Prevenier (2001) y American Psychological Association (2020). En esta sección, el eje de **vacío de conocimiento** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El proyecto final integra diseño, búsqueda, crítica, análisis y comunicación. Booth et al. (2016) ofrecen un marco útil para pasar de interés a problema, de problema a afirmación y de afirmación a argumento; Howell y Prevenier (2001) refuerzan la evaluación histórica de las fuentes. La autonomía se demuestra cuando el estudiante puede explicar por qué eligió una fuente, qué limitación reconoce, qué alternativa consideró y qué hallazgo podría obligarlo a modificar su conclusión.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *vacío de conocimiento*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "3. Del interés personal al problema investigable", bloques: [{ tipo: "texto", contenido: `
 Antes de presentar su proyecto, someta la idea a varias pruebas.
@@ -51,14 +69,23 @@ Antes de presentar su proyecto, someta la idea a varias pruebas.
 
 **Vacío real:** ¿existe algo por esclarecer, revisar, sistematizar o contrastar?
 
-**Alcance:** ¿puede desarrollarse dentro del ensayo académico de la unidad sin convertirse en un proyecto excesivamente amplio?
+**Alcance:** ¿puede desarrollarse como investigación final del nivel sin convertirse en un proyecto excesivamente amplio?
 
 Una pregunta excelente pero imposible de investigar con los recursos disponibles puede necesitar reformulación.
 
 La calidad del proyecto no depende de su tamaño. Una investigación bien delimitada sobre un problema pequeño puede ser metodológicamente superior a un trabajo extenso que pretende abarcar demasiado.
+
+
+### Profundización académica
+
+La autonomía investigativa no significa trabajar sin crítica ni orientación. Significa poder justificar la elección del problema, las fuentes, el método y las conclusiones. El proyecto final debe mostrar dominio del proceso completo y capacidad para responder responsablemente ante observaciones académicas. Esta perspectiva se apoya en Booth et al. (2016), Howell y Prevenier (2001) y American Psychological Association (2020). En esta sección, el eje de **viabilidad** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El proyecto final integra diseño, búsqueda, crítica, análisis y comunicación. Booth et al. (2016) ofrecen un marco útil para pasar de interés a problema, de problema a afirmación y de afirmación a argumento; Howell y Prevenier (2001) refuerzan la evaluación histórica de las fuentes. La autonomía se demuestra cuando el estudiante puede explicar por qué eligió una fuente, qué limitación reconoce, qué alternativa consideró y qué hallazgo podría obligarlo a modificar su conclusión.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *viabilidad*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "4. La propuesta de investigación", bloques: [{ tipo: "texto", contenido: `
-Antes de comenzar la redacción, conviene preparar una **propuesta breve de trabajo**.
+Antes de comenzar el desarrollo completo, deberá presentar una **propuesta breve al Consejo Académico**.
 
 La propuesta deberá incluir:
 
@@ -75,9 +102,24 @@ La propuesta deberá incluir:
 11. metodología propuesta;
 12. resultado o aporte esperado.
 
-Esta propuesta orientará el ensayo y permitirá verificar que el proyecto sea investigable antes de invertir demasiado tiempo en una dirección metodológicamente débil. No constituye un hito independiente ni requiere aprobación previa para comenzar el trabajo.
+El Consejo Académico podrá:
+
+- **aprobar**;
+- **solicitar ajustes**;
+- **pedir reformulación**.
+
+La finalidad no es controlar el tema del investigador, sino asegurar que el proyecto sea investigable antes de invertir demasiado tiempo en una dirección metodológicamente débil.
 
 La aprobación de la propuesta no garantiza que la hipótesis inicial deba conservarse. La investigación podrá modificarla cuando la evidencia lo exija.
+
+
+### Profundización académica
+
+La autonomía investigativa no significa trabajar sin crítica ni orientación. Significa poder justificar la elección del problema, las fuentes, el método y las conclusiones. El proyecto final debe mostrar dominio del proceso completo y capacidad para responder responsablemente ante observaciones académicas. Esta perspectiva se apoya en Booth et al. (2016), Howell y Prevenier (2001) y American Psychological Association (2020). En esta sección, el eje de **propuesta** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El proyecto final integra diseño, búsqueda, crítica, análisis y comunicación. Booth et al. (2016) ofrecen un marco útil para pasar de interés a problema, de problema a afirmación y de afirmación a argumento; Howell y Prevenier (2001) refuerzan la evaluación histórica de las fuentes. La autonomía se demuestra cuando el estudiante puede explicar por qué eligió una fuente, qué limitación reconoce, qué alternativa consideró y qué hallazgo podría obligarlo a modificar su conclusión.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *propuesta*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "5. Construir el corpus de investigación", bloques: [{ tipo: "texto", contenido: `
 Una vez aprobada la propuesta, deberá reunir un corpus pertinente.
@@ -110,6 +152,15 @@ No todas las fuentes tendrán el mismo peso ni cumplirán la misma función.
 Una fotografía puede documentar un ejemplar. Un decreto puede demostrar autorización. Un registro administrativo puede documentar producción o entrega. Una publicación secundaria puede proporcionar contexto y conducir hacia fuentes primarias.
 
 La calidad del corpus depende de su pertinencia respecto de la pregunta.
+
+
+### Profundización académica
+
+La autonomía investigativa no significa trabajar sin crítica ni orientación. Significa poder justificar la elección del problema, las fuentes, el método y las conclusiones. El proyecto final debe mostrar dominio del proceso completo y capacidad para responder responsablemente ante observaciones académicas. Esta perspectiva se apoya en Booth et al. (2016), Howell y Prevenier (2001) y American Psychological Association (2020). En esta sección, el eje de **corpus** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El proyecto final integra diseño, búsqueda, crítica, análisis y comunicación. Booth et al. (2016) ofrecen un marco útil para pasar de interés a problema, de problema a afirmación y de afirmación a argumento; Howell y Prevenier (2001) refuerzan la evaluación histórica de las fuentes. La autonomía se demuestra cuando el estudiante puede explicar por qué eligió una fuente, qué limitación reconoce, qué alternativa consideró y qué hallazgo podría obligarlo a modificar su conclusión.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *corpus*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "6. Documentar también lo que no aparece", bloques: [{ tipo: "texto", contenido: `
 La investigación no debe registrar únicamente los hallazgos positivos.
@@ -127,7 +178,7 @@ Registrar una búsqueda negativa puede ser útil para:
 - justificar límites;
 - orientar futuras investigaciones.
 
-Pero debe conservarse la regla aprendida desde U3:
+Pero debe conservarse la regla aprendida desde unidad 3:
 
 **no encontrado ≠ inexistente**
 
@@ -136,6 +187,15 @@ Si una búsqueda no produjo resultados, la redacción debe reflejar exactamente 
 **“No se localizó evidencia en los repositorios y series examinados.”**
 
 La fuerza de una ausencia dependerá de la calidad, completitud y pertinencia del corpus consultado.
+
+
+### Profundización académica
+
+La autonomía investigativa no significa trabajar sin crítica ni orientación. Significa poder justificar la elección del problema, las fuentes, el método y las conclusiones. El proyecto final debe mostrar dominio del proceso completo y capacidad para responder responsablemente ante observaciones académicas. Esta perspectiva se apoya en Booth et al. (2016), Howell y Prevenier (2001) y American Psychological Association (2020). En esta sección, el eje de **bitácora** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El proyecto final integra diseño, búsqueda, crítica, análisis y comunicación. Booth et al. (2016) ofrecen un marco útil para pasar de interés a problema, de problema a afirmación y de afirmación a argumento; Howell y Prevenier (2001) refuerzan la evaluación histórica de las fuentes. La autonomía se demuestra cuando el estudiante puede explicar por qué eligió una fuente, qué limitación reconoce, qué alternativa consideró y qué hallazgo podría obligarlo a modificar su conclusión.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *bitácora*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "7. La investigación puede cambiar de rumbo", bloques: [{ tipo: "texto", contenido: `
 Una investigación real no tiene obligación de confirmar la hipótesis con la que comenzó.
@@ -155,6 +215,15 @@ Si una fuente sólida contradice el planteamiento inicial, la respuesta correcta
 Una investigación puede comenzar intentando demostrar A y terminar mostrando que B explica mejor la evidencia.
 
 **El objetivo de una investigación no es demostrar que el investigador tenía razón al comenzar. Es descubrir qué explicación resiste mejor el examen de las fuentes.**
+
+
+### Profundización académica
+
+La autonomía investigativa no significa trabajar sin crítica ni orientación. Significa poder justificar la elección del problema, las fuentes, el método y las conclusiones. El proyecto final debe mostrar dominio del proceso completo y capacidad para responder responsablemente ante observaciones académicas. Esta perspectiva se apoya en Booth et al. (2016), Howell y Prevenier (2001) y American Psychological Association (2020). En esta sección, el eje de **cambio de hipótesis** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El proyecto final integra diseño, búsqueda, crítica, análisis y comunicación. Booth et al. (2016) ofrecen un marco útil para pasar de interés a problema, de problema a afirmación y de afirmación a argumento; Howell y Prevenier (2001) refuerzan la evaluación histórica de las fuentes. La autonomía se demuestra cuando el estudiante puede explicar por qué eligió una fuente, qué limitación reconoce, qué alternativa consideró y qué hallazgo podría obligarlo a modificar su conclusión.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *cambio de hipótesis*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "8. Identificar el aporte original", bloques: [{ tipo: "texto", contenido: `
 Antes de redactar el manuscrito final deberá responder:
@@ -177,14 +246,23 @@ El aporte puede ser:
 
 **Sintético:** reunir y relacionar fuentes dispersas de manera que produzcan una conclusión nueva.
 
-El aporte debe ser proporcional al alcance de U10.
+El aporte debe ser proporcional al alcance de unidad 10.
 
 Una contribución pequeña pero demostrable es preferible a una afirmación extraordinaria sin evidencia.
-` }] },
-  { titulo: "9. Escribir el ensayo académico de U10", bloques: [{ tipo: "texto", contenido: `
-El producto escrito será el **ensayo académico correspondiente a la unidad 10**. Es el cuarto ensayo académico del nivel y se rige por el mismo proceso de presentación, revisión y corrección que los trabajos de U7, U8 y U9.
 
-Su extensión esperada será de **1,200 a 2,000 palabras**, con el mínimo técnico establecido por la plataforma. La longitud no será por sí sola un criterio de calidad.
+
+### Profundización académica
+
+La autonomía investigativa no significa trabajar sin crítica ni orientación. Significa poder justificar la elección del problema, las fuentes, el método y las conclusiones. El proyecto final debe mostrar dominio del proceso completo y capacidad para responder responsablemente ante observaciones académicas. Esta perspectiva se apoya en Booth et al. (2016), Howell y Prevenier (2001) y American Psychological Association (2020). En esta sección, el eje de **aporte** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El proyecto final integra diseño, búsqueda, crítica, análisis y comunicación. Booth et al. (2016) ofrecen un marco útil para pasar de interés a problema, de problema a afirmación y de afirmación a argumento; Howell y Prevenier (2001) refuerzan la evaluación histórica de las fuentes. La autonomía se demuestra cuando el estudiante puede explicar por qué eligió una fuente, qué limitación reconoce, qué alternativa consideró y qué hallazgo podría obligarlo a modificar su conclusión.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *aporte*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
+` }] },
+  { titulo: "9. Escribir el trabajo final", bloques: [{ tipo: "texto", contenido: `
+El producto principal será un **trabajo final de investigación**.
+
+No se impondrá una extensión rígida, aunque muchos trabajos razonablemente delimitados podrán situarse aproximadamente entre **3,000 y 5,000 palabras**. La longitud no será un criterio de calidad.
 
 El manuscrito deberá incluir, según corresponda:
 
@@ -207,9 +285,18 @@ El manuscrito deberá incluir, según corresponda:
 La estructura deberá responder a la lógica de la investigación y no a una plantilla rígida.
 
 El trabajo debe hacer visible qué parte corresponde a evidencia, qué parte a inferencia y cuál constituye el aporte interpretativo del autor.
+
+
+### Profundización académica
+
+La autonomía investigativa no significa trabajar sin crítica ni orientación. Significa poder justificar la elección del problema, las fuentes, el método y las conclusiones. El proyecto final debe mostrar dominio del proceso completo y capacidad para responder responsablemente ante observaciones académicas. Esta perspectiva se apoya en Booth et al. (2016), Howell y Prevenier (2001) y American Psychological Association (2020). En esta sección, el eje de **manuscrito** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El proyecto final integra diseño, búsqueda, crítica, análisis y comunicación. Booth et al. (2016) ofrecen un marco útil para pasar de interés a problema, de problema a afirmación y de afirmación a argumento; Howell y Prevenier (2001) refuerzan la evaluación histórica de las fuentes. La autonomía se demuestra cuando el estudiante puede explicar por qué eligió una fuente, qué limitación reconoce, qué alternativa consideró y qué hallazgo podría obligarlo a modificar su conclusión.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *manuscrito*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "10. Trazabilidad completa", bloques: [{ tipo: "texto", contenido: `
-U9 enseñó a auditar citas y afirmaciones. En U10 esta exigencia se convierte en criterio central de aprobación.
+unidad 9 enseñó a auditar citas y afirmaciones. En unidad 10 esta exigencia se convierte en criterio central de aprobación.
 
 El Consejo Académico deberá poder seleccionar cualquier afirmación relevante y preguntar:
 
@@ -233,29 +320,50 @@ La trazabilidad permite distinguir entre:
 - hipótesis;
 - conclusión.
 
-La investigación debe poder ser examinada por otras personas sin depender exclusivamente de la memoria o autoridad de quien la redactó.
+La investigación final debe poder ser examinada por otras personas sin depender exclusivamente de la memoria o autoridad de quien la redactó.
+
+
+### Profundización académica
+
+La autonomía investigativa no significa trabajar sin crítica ni orientación. Significa poder justificar la elección del problema, las fuentes, el método y las conclusiones. El proyecto final debe mostrar dominio del proceso completo y capacidad para responder responsablemente ante observaciones académicas. Esta perspectiva se apoya en Booth et al. (2016), Howell y Prevenier (2001) y American Psychological Association (2020). En esta sección, el eje de **trazabilidad** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El proyecto final integra diseño, búsqueda, crítica, análisis y comunicación. Booth et al. (2016) ofrecen un marco útil para pasar de interés a problema, de problema a afirmación y de afirmación a argumento; Howell y Prevenier (2001) refuerzan la evaluación histórica de las fuentes. La autonomía se demuestra cuando el estudiante puede explicar por qué eligió una fuente, qué limitación reconoce, qué alternativa consideró y qué hallazgo podría obligarlo a modificar su conclusión.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *trazabilidad*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
-  { titulo: "11. Revisión por el Consejo Académico", bloques: [{ tipo: "texto", contenido: `
-Como en las unidades anteriores, el ensayo será revisado por el **Consejo Académico**.
+  { titulo: "11. Defensa ante el Consejo Académico", bloques: [{ tipo: "texto", contenido: `
+unidad 10 no termina con la entrega del manuscrito.
 
-La revisión considerará, entre otros aspectos:
+El estudiante realizará una **defensa académica breve ante el Consejo Académico**, aproximadamente de 15 a 20 minutos.
 
-- claridad y delimitación del problema;
-- pertinencia del corpus y de las fuentes;
-- coherencia del método utilizado;
-- relación entre afirmaciones y evidencia;
-- proporcionalidad de las conclusiones;
-- reconocimiento de límites e hipótesis alternativas;
-- claridad de la redacción académica.
+Podrá utilizar unos 8 a 10 minutos para presentar:
 
-El Consejo podrá aprobar el trabajo o formular observaciones y solicitar correcciones. La revisión se realizará sobre el manuscrito presentado; **no exige una defensa ni una exposición oral**.
+- qué investigó;
+- por qué eligió el problema;
+- qué fuentes utilizó;
+- qué encontró;
+- cuál considera su aporte;
+- qué no pudo resolver.
 
-Las herramientas tecnológicas, incluida la inteligencia artificial, pueden apoyar tareas de búsqueda, organización o redacción. Sin embargo, el estudiante conserva la responsabilidad de comprender, comprobar y asumir cada decisión sustantiva de su investigación.
+Después responderá preguntas del Consejo.
 
-La autoría académica implica dominio intelectual y responsabilidad sobre el trabajo presentado.
+La defensa no pretende reproducir una ceremonia universitaria ni sorprender al estudiante con preguntas capciosas. Su finalidad es comprobar que comprende las decisiones metodológicas, las fuentes y las conclusiones del trabajo que presenta.
+
+Las herramientas tecnológicas, incluida la inteligencia artificial, pueden apoyar tareas de búsqueda, organización o redacción. Sin embargo, el estudiante debe poder **explicar y defender personalmente cada decisión sustantiva de su investigación**.
+
+La autoría académica implica dominio intelectual del trabajo presentado.
+
+
+### Profundización académica
+
+La autonomía investigativa no significa trabajar sin crítica ni orientación. Significa poder justificar la elección del problema, las fuentes, el método y las conclusiones. El proyecto final debe mostrar dominio del proceso completo y capacidad para responder responsablemente ante observaciones académicas. Esta perspectiva se apoya en Booth et al. (2016), Howell y Prevenier (2001) y American Psychological Association (2020). En esta sección, el eje de **defensa** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El proyecto final integra diseño, búsqueda, crítica, análisis y comunicación. Booth et al. (2016) ofrecen un marco útil para pasar de interés a problema, de problema a afirmación y de afirmación a argumento; Howell y Prevenier (2001) refuerzan la evaluación histórica de las fuentes. La autonomía se demuestra cuando el estudiante puede explicar por qué eligió una fuente, qué limitación reconoce, qué alternativa consideró y qué hallazgo podría obligarlo a modificar su conclusión.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *defensa*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
-  { titulo: "12. La revisión crítica también forma parte del proceso", bloques: [{ tipo: "texto", contenido: `
-Después de revisar el manuscrito, el Consejo Académico podrá resolver:
+  { titulo: "12. La crítica final también forma parte del proceso", bloques: [{ tipo: "texto", contenido: `
+Después de revisar el manuscrito y realizar la defensa, el Consejo Académico podrá resolver:
 
 **Aprobado:** el trabajo demuestra las competencias requeridas.
 
@@ -273,10 +381,19 @@ Un trabajo con potencial de publicación todavía podrá requerir:
 
 **revisión → correcciones → adecuación editorial → evaluación → publicación**
 
-Las observaciones críticas permiten reconocer debilidades, precisar argumentos y mejorar el manuscrito. Forman parte del aprendizaje y de la circulación responsable del conocimiento; no constituyen una defensa oral.
+La crítica académica no termina con la defensa. Forma parte de la circulación responsable del conocimiento.
+
+
+### Profundización académica
+
+La autonomía investigativa no significa trabajar sin crítica ni orientación. Significa poder justificar la elección del problema, las fuentes, el método y las conclusiones. El proyecto final debe mostrar dominio del proceso completo y capacidad para responder responsablemente ante observaciones académicas. Esta perspectiva se apoya en Booth et al. (2016), Howell y Prevenier (2001) y American Psychological Association (2020). En esta sección, el eje de **evaluación** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El proyecto final integra diseño, búsqueda, crítica, análisis y comunicación. Booth et al. (2016) ofrecen un marco útil para pasar de interés a problema, de problema a afirmación y de afirmación a argumento; Howell y Prevenier (2001) refuerzan la evaluación histórica de las fuentes. La autonomía se demuestra cuando el estudiante puede explicar por qué eligió una fuente, qué limitación reconoce, qué alternativa consideró y qué hallazgo podría obligarlo a modificar su conclusión.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *evaluación*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "13. ¿Qué significa aprobar el nivel Investigador?", bloques: [{ tipo: "texto", contenido: `
-Aprobar U10 significa haber demostrado capacidad para:
+Aprobar unidad 10 significa haber demostrado capacidad para:
 
 - formular problemas propios;
 - localizar y evaluar fuentes;
@@ -289,7 +406,7 @@ Aprobar U10 significa haber demostrado capacidad para:
 - reconocer límites;
 - producir una interpretación propia;
 - comunicarla académicamente;
-- comunicarla y someterla a revisión crítica.
+- defenderla ante otros investigadores.
 
 Con las diez unidades aprobadas, el participante podrá ser acreditado como **Investigador AGENN**, conforme al proceso académico e institucional vigente.
 
@@ -299,6 +416,15 @@ La diferencia esencial entre NOV e INV puede expresarse así:
 
 **NOV proporciona fundamentos numismáticos.  
 INV exige demostrar capacidad para investigar numismática con método.**
+
+
+### Profundización académica
+
+La autonomía investigativa no significa trabajar sin crítica ni orientación. Significa poder justificar la elección del problema, las fuentes, el método y las conclusiones. El proyecto final debe mostrar dominio del proceso completo y capacidad para responder responsablemente ante observaciones académicas. Esta perspectiva se apoya en Booth et al. (2016), Howell y Prevenier (2001) y American Psychological Association (2020). En esta sección, el eje de **acreditación** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El proyecto final integra diseño, búsqueda, crítica, análisis y comunicación. Booth et al. (2016) ofrecen un marco útil para pasar de interés a problema, de problema a afirmación y de afirmación a argumento; Howell y Prevenier (2001) refuerzan la evaluación histórica de las fuentes. La autonomía se demuestra cuando el estudiante puede explicar por qué eligió una fuente, qué limitación reconoce, qué alternativa consideró y qué hallazgo podría obligarlo a modificar su conclusión.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *acreditación*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "Actividad complementaria: Auditoría de mi propio proyecto", bloques: [{ tipo: "texto", contenido: `
 Antes de presentar su propuesta de investigación, responda por escrito:
@@ -316,26 +442,35 @@ Antes de presentar su propuesta de investigación, responda por escrito:
 
 Revise después cada respuesta y pregúntese si el proyecto puede desarrollarse con los recursos disponibles.
 
-Esta actividad funciona como **autodiagnóstico** y preparación para redactar el ensayo académico de la unidad.
+Esta actividad funciona como **autodiagnóstico**. No sustituye la propuesta formal al Consejo Académico.
 ` }] },
-  { titulo: "Ensayo académico de la unidad 10 — Investigación numismática propia", bloques: [{ tipo: "texto", contenido: `
-El trabajo de U10 seguirá el mismo esquema de evaluación establecido para el nivel Investigador:
+  { titulo: "Trabajo final de la unidad 10 — Investigación numismática aplicada", bloques: [{ tipo: "texto", contenido: `
+El trabajo final se desarrollará mediante **cuatro hitos**.
 
-1. completar el cuestionario formativo de la unidad;
-2. redactar y enviar el ensayo académico;
-3. atender las observaciones y correcciones que formule el Consejo Académico;
-4. obtener la aprobación del manuscrito.
+### Hito 1 — Propuesta
 
-La U10 no añade una tesis, un trabajo extraordinario ni una defensa oral. Su particularidad consiste en que el estudiante formula con mayor autonomía el problema, selecciona las fuentes y aplica de manera integrada las competencias desarrolladas durante el nivel.
+Presentación y aprobación del problema de investigación por el Consejo Académico.
 
-Los ensayos de U7, U8 y U9 son trabajos académicos completos de la misma categoría. U10 no los convierte en ejercicios menores; representa una nueva aplicación, más autónoma e integradora, de las capacidades ya practicadas.
+### Hito 2 — Corpus y avance
+
+Presentación del corpus inicial, bitácora de búsqueda, fuentes localizadas y evidencia preliminar. El Consejo podrá advertir problemas metodológicos importantes, pero no resolverá la investigación por el estudiante.
+
+### Hito 3 — Manuscrito
+
+Entrega del trabajo final completo. El Consejo podrá solicitar correcciones antes de pasar a defensa.
+
+### Hito 4 — Defensa
+
+Presentación y discusión académica del trabajo ante el Consejo Académico.
+
+La unidad 10 se considerará aprobada únicamente cuando el estudiante haya completado satisfactoriamente los cuatro hitos y las correcciones solicitadas.
 
 **Criterio central:** el trabajo debe demostrar autonomía metodológica. No se espera ausencia absoluta de orientación; se espera que el estudiante pueda justificar sus decisiones y sostener su investigación con evidencia propia y fuentes verificables.
 
-La aprobación del cuestionario formativo no sustituye la presentación y aprobación del ensayo académico.
+La aprobación del cuestionario formativo no sustituye ninguno de estos hitos.
 ` }] },
   { titulo: "Referencias metodológicas de la unidad 10", bloques: [{ tipo: "texto", contenido: `
-U10 no posee una bibliografía numismática cerrada. Cada estudiante deberá construir su propia bibliografía de acuerdo con el problema que haya seleccionado.
+unidad 10 no posee una bibliografía numismática cerrada. Cada estudiante deberá construir su propia bibliografía de acuerdo con el problema que haya seleccionado.
 
 Como referencias metodológicas generales pueden utilizarse:
 
@@ -344,134 +479,90 @@ Como referencias metodológicas generales pueden utilizarse:
 
 Además, podrán consultarse las obras generales y especializadas utilizadas en las unidades anteriores, siempre que sean pertinentes al problema específico.
 
-**La selección bibliográfica forma parte de la evaluación de U10.** El estudiante deberá demostrar que sabe identificar qué fuentes necesita sin depender de una lista cerrada proporcionada por AGENN.
+**La selección bibliográfica forma parte de la evaluación de unidad 10.** El estudiante deberá demostrar que sabe identificar qué fuentes necesita sin depender de una lista cerrada proporcionada por AGENN.
+
+
+### Bibliografía metodológica complementaria
+
+- Booth, W. C., Colomb, G. G., Williams, J. M., Bizup, J., & FitzGerald, W. T. (2016). *The Craft of Research* (4th ed.). University of Chicago Press.
+- Howell, M. C., & Prevenier, W. (2001). *From Reliable Sources: An Introduction to Historical Methods*. Cornell University Press.
 ` }] },
 ];
 
 export const QUESTIONS = [
-  { pregunta: "En U10, AGENN debe proporcionar al estudiante el problema exacto que investigará.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "En U10, AGENN debe proporcionar al estudiante el problema exacto que investigará.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La unidad final exige que el estudiante formule un problema propio y demuestre autonomía metodológica.
 ` },
-  { pregunta: "¿Qué convierte un tema general en un problema investigable?", tipo: "mc",
-    opciones: ["Que el tema sea muy amplio; esta respuesta debe evaluarse según la pregunta, el corpus y la trazabilidad de la evidencia.","Que tenga muchas imágenes; su validez debe analizarse considerando la pregunta, el corpus y la trazabilidad de la evidencia.","Que sea popular entre coleccionistas; corresponde contrastar esta afirmación con la pregunta, el corpus y la trazabilidad de la evidencia.","La existencia de una pregunta delimitada que pueda abordarse mediante evidencia; este planteamiento debe comprobarse mediante la pregunta, el corpus y la trazabilidad de la evidencia."],
-    correcta: 3, explicacion: `
+  { pregunta: "¿Qué convierte un tema general en un problema investigable?", tipo: "mc", opciones: ["La existencia de una pregunta delimitada que pueda abordarse mediante evidencia", "Que el tema sea muy amplio", "Que tenga muchas imágenes", "Que sea popular entre coleccionistas"], correcta: 0, explicacion: `
 El problema debe delimitar algo que todavía requiere explicación o comprobación.
 ` },
-  { pregunta: "Una investigación original debe descubrir necesariamente una moneda desconocida.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Una investigación original debe descubrir necesariamente una moneda desconocida.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La originalidad puede ser documental, catalográfica, cronológica, interpretativa, metodológica, negativa o sintética.
 ` },
-  { pregunta: "¿Cuál de estas opciones puede constituir un aporte original?", tipo: "mc",
-    opciones: ["Demostrar que una atribución repetida carece de evidencia suficiente; esta respuesta debe evaluarse según la pregunta, el corpus y la trazabilidad de la evidencia.","Repetir un catálogo sin análisis; su validez debe analizarse considerando la pregunta, el corpus y la trazabilidad de la evidencia.","Copiar una cronología conocida; corresponde contrastar esta afirmación con la pregunta, el corpus y la trazabilidad de la evidencia.","Acumular citas sin argumento; este planteamiento debe comprobarse mediante la pregunta, el corpus y la trazabilidad de la evidencia."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Cuál de estas opciones puede constituir un aporte original?", tipo: "mc", opciones: ["Demostrar que una atribución repetida carece de evidencia suficiente", "Repetir un catálogo sin análisis", "Copiar una cronología conocida", "Acumular citas sin argumento"], correcta: 0, explicacion: `
 Un resultado negativo bien demostrado puede ser una contribución académica.
 ` },
-  { pregunta: "Una pregunta excelente pero imposible de investigar con los recursos disponibles puede necesitar reformulación.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 1, explicacion: `
+  { pregunta: "Una pregunta excelente pero imposible de investigar con los recursos disponibles puede necesitar reformulación.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 La viabilidad forma parte del diseño del proyecto.
 ` },
-  { pregunta: "¿Qué conviene hacer antes de desarrollar completamente la investigación?", tipo: "mc",
-    opciones: ["Publicar inmediatamente el ensayo; esta respuesta ignora las etapas necesarias para investigar y revisar el trabajo.","Preparar una propuesta breve que delimite el problema, el corpus, las fuentes y el método previsto; esta planificación permite comprobar la viabilidad del proyecto.","Dar por aprobada automáticamente U10; el cuestionario y el trabajo académico requieren evaluación.","Esperar que el Consejo asigne obligatoriamente un tema; en esta unidad el estudiante formula su propio problema."],
-    correcta: 1, explicacion: `
-La propuesta de trabajo sirve como instrumento de planificación personal. No es una defensa ni un hito independiente sujeto a aprobación previa.
+  { pregunta: "¿Qué ocurre antes de desarrollar completamente la investigación?", tipo: "mc", opciones: ["El Consejo Académico revisa una propuesta breve", "Se publica el ensayo", "Se aprueba automáticamente U10", "Se asigna un tema obligatorio"], correcta: 0, explicacion: `
+La propuesta permite comprobar que el proyecto sea investigable antes de avanzar.
 ` },
-  { pregunta: "La aprobación de la propuesta obliga a conservar intacta la hipótesis inicial.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "La aprobación de la propuesta obliga a conservar intacta la hipótesis inicial.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La hipótesis puede modificarse cuando la evidencia lo exige.
 ` },
-  { pregunta: "¿Qué debe registrarse para cada fuente del corpus?", tipo: "mc",
-    opciones: ["Solo el título; esta respuesta debe evaluarse según la pregunta, el corpus y la trazabilidad de la evidencia.","Solo si coincide con la hipótesis; su validez debe analizarse considerando la pregunta, el corpus y la trazabilidad de la evidencia.","Solo el número de páginas; corresponde contrastar esta afirmación con la pregunta, el corpus y la trazabilidad de la evidencia.","Qué es, de dónde procede, qué aporta, sus límites y qué puede sostener; este planteamiento debe comprobarse mediante la pregunta, el corpus y la trazabilidad de la evidencia."],
-    correcta: 3, explicacion: `
+  { pregunta: "¿Qué debe registrarse para cada fuente del corpus?", tipo: "mc", opciones: ["Qué es, de dónde procede, qué aporta, sus límites y qué puede sostener", "Solo el título", "Solo si coincide con la hipótesis", "Solo el número de páginas"], correcta: 0, explicacion: `
 El corpus debe ser trazable y funcional respecto de la pregunta.
 ` },
-  { pregunta: "Las búsquedas que no producen resultados deben omitirse porque no aportan nada.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Las búsquedas que no producen resultados deben omitirse porque no aportan nada.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Pueden documentar el trabajo realizado, los límites y los caminos ya revisados.
 ` },
-  { pregunta: "¿Qué significa correctamente “no encontrado”?", tipo: "mc",
-    opciones: ["Que el fenómeno nunca existió; esta respuesta debe evaluarse según la pregunta, el corpus y la trazabilidad de la evidencia.","Que no se localizó evidencia dentro del corpus o repositorios examinados; su validez debe analizarse considerando la pregunta, el corpus y la trazabilidad de la evidencia.","Que la hipótesis contraria quedó demostrada; corresponde contrastar esta afirmación con la pregunta, el corpus y la trazabilidad de la evidencia.","Que ya no es necesario investigar; este planteamiento debe comprobarse mediante la pregunta, el corpus y la trazabilidad de la evidencia."],
-    correcta: 1, explicacion: `
+  { pregunta: "¿Qué significa correctamente “no encontrado”?", tipo: "mc", opciones: ["Que no se localizó evidencia dentro del corpus o repositorios examinados", "Que el fenómeno nunca existió", "Que la hipótesis contraria quedó demostrada", "Que ya no es necesario investigar"], correcta: 0, explicacion: `
 La ausencia debe expresarse según el alcance real de la búsqueda.
 ` },
-  { pregunta: "Si nueva evidencia contradice la hipótesis inicial, la investigación ha fracasado.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Si nueva evidencia contradice la hipótesis inicial, la investigación ha fracasado.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Modificar una hipótesis frente a evidencia nueva es parte normal del proceso.
 ` },
-  { pregunta: "¿Qué debe hacer el investigador si la evidencia favorece una explicación distinta de la inicial?", tipo: "mc",
-    opciones: ["Revisar la interpretación y explicar el cambio; esta respuesta debe evaluarse según la pregunta, el corpus y la trazabilidad de la evidencia.","Ocultar la evidencia; su validez debe analizarse considerando la pregunta, el corpus y la trazabilidad de la evidencia.","Mantener la hipótesis original por coherencia; corresponde contrastar esta afirmación con la pregunta, el corpus y la trazabilidad de la evidencia.","Eliminar la fuente contradictoria; este planteamiento debe comprobarse mediante la pregunta, el corpus y la trazabilidad de la evidencia."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Qué debe hacer el investigador si la evidencia favorece una explicación distinta de la inicial?", tipo: "mc", opciones: ["Revisar la interpretación y explicar el cambio", "Ocultar la evidencia", "Mantener la hipótesis original por coherencia", "Eliminar la fuente contradictoria"], correcta: 0, explicacion: `
 La conclusión debe depender de la evidencia, no del compromiso con una idea previa.
 ` },
-  { pregunta: "Un aporte pequeño pero demostrable puede ser superior a una afirmación extraordinaria sin evidencia.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 1, explicacion: `
+  { pregunta: "Un aporte pequeño pero demostrable puede ser superior a una afirmación extraordinaria sin evidencia.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 La calidad depende del soporte y la claridad del aporte.
 ` },
-  { pregunta: "¿Qué se espera del ensayo académico de U10 en cuanto a extensión?", tipo: "mc",
-    opciones: ["Exactamente 10,000 palabras, aunque el argumento pueda resolverse con menos extensión.","Nunca más de 500 palabras, aun cuando no alcancen para presentar la evidencia.","Que la longitud determine por sí sola la calidad del trabajo.","Entre 1,200 y 2,000 palabras, además del mínimo técnico de la plataforma, con una extensión proporcional al problema y al argumento."],
-    correcta: 3, explicacion: `
-U10 conserva la extensión acordada para los ensayos académicos de U7 a U10. La calidad depende del método, la evidencia y la argumentación, no de inflar el texto.
+  { pregunta: "¿Qué se espera del trabajo final en cuanto a extensión?", tipo: "mc", opciones: ["No hay un límite rígido; aproximadamente 3,000–5,000 palabras puede ser razonable según el proyecto", "Exactamente 10,000 palabras", "Nunca más de 500 palabras", "La longitud determina la nota"], correcta: 0, explicacion: `
+La extensión debe responder a la investigación, no convertirse en criterio principal de calidad.
 ` },
-  { pregunta: "El ensayo de U10 debe seguir obligatoriamente una plantilla rígida idéntica para todos los proyectos.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "El trabajo final debe seguir obligatoriamente una plantilla rígida idéntica para todos los proyectos.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La estructura debe responder a la lógica del problema y del argumento.
 ` },
-  { pregunta: "¿Qué significa trazabilidad completa?", tipo: "mc",
-    opciones: ["Tener muchas citas; esta respuesta debe evaluarse según la pregunta, el corpus y la trazabilidad de la evidencia.","Usar solo fuentes primarias; su validez debe analizarse considerando la pregunta, el corpus y la trazabilidad de la evidencia.","Poder relacionar una afirmación con su evidencia, fuente y ubicación concreta; corresponde contrastar esta afirmación con la pregunta, el corpus y la trazabilidad de la evidencia.","Recordar de memoria toda la bibliografía; este planteamiento debe comprobarse mediante la pregunta, el corpus y la trazabilidad de la evidencia."],
-    correcta: 2, explicacion: `
+  { pregunta: "¿Qué significa trazabilidad completa?", tipo: "mc", opciones: ["Poder relacionar una afirmación con su evidencia, fuente y ubicación concreta", "Tener muchas citas", "Usar solo fuentes primarias", "Recordar de memoria toda la bibliografía"], correcta: 0, explicacion: `
 La trazabilidad permite verificar cómo se sostiene cada afirmación.
 ` },
-  { pregunta: "Una inferencia propia no necesita explicación porque pertenece al autor.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Una inferencia propia no necesita explicación porque pertenece al autor.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Debe mostrarse qué evidencias y razonamiento permiten construirla.
 ` },
-  { pregunta: "¿Qué finalidad tiene la revisión del ensayo por el Consejo Académico?", tipo: "mc",
-    opciones: ["Hacer tropezar al estudiante mediante preguntas imprevistas.","Repetir el cuestionario de la unidad.","Valorar la coherencia metodológica, la relación entre evidencia y conclusiones, y señalar correcciones que fortalezcan el manuscrito.","Sustituir la lectura del manuscrito por una exposición oral."],
-    correcta: 2, explicacion: `
-La revisión es escrita y académica: permite aprobar el manuscrito o formular observaciones fundamentadas. No incluye una defensa oral.
+  { pregunta: "¿Qué finalidad tiene la defensa ante el Consejo Académico?", tipo: "mc", opciones: ["Comprobar dominio intelectual y metodológico del trabajo presentado", "Hacer tropezar al estudiante", "Repetir el cuestionario", "Sustituir la revisión del manuscrito"], correcta: 0, explicacion: `
+La defensa permite verificar que el estudiante comprende y puede justificar su investigación.
 ` },
-  { pregunta: "El uso de herramientas de inteligencia artificial elimina la responsabilidad del estudiante sobre las decisiones sustantivas del trabajo.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
-La autoría académica exige comprender, comprobar y asumir personalmente el contenido y el método utilizados.
+  { pregunta: "El uso de herramientas de inteligencia artificial elimina la responsabilidad del estudiante sobre las decisiones sustantivas del trabajo.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+La autoría académica exige que pueda explicar y defender personalmente el contenido y método utilizados.
 ` },
-  { pregunta: "¿Qué resolución puede emitir el Consejo después de revisar el trabajo?", tipo: "mc",
-    opciones: ["Aprobarlo, solicitar correcciones o requerir una reformulación sustantiva, según los problemas encontrados.","Únicamente aprobarlo o expulsar al estudiante.","Ordenar su publicación automática en la revista.","Conceder el ascenso inmediato a Numerario."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Qué resolución puede emitir el Consejo después de revisar y defender el trabajo?", tipo: "mc", opciones: ["Aprobado, correcciones requeridas o reformulación sustantiva", "Solo aprobado o expulsado", "Publicación automática", "Ascenso inmediato a Numerario"], correcta: 0, explicacion: `
 La evaluación final admite distintos estados según la calidad metodológica del trabajo.
 ` },
-  { pregunta: "Un trabajo con potencial de publicación está automáticamente aceptado en Revista AGENN.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Un trabajo con potencial de publicación está automáticamente aceptado en Revista AGENN.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Debe pasar por el proceso editorial correspondiente.
 ` },
-  { pregunta: "¿Qué distingue al ensayo académico de U10 respecto de los ensayos de U7, U8 y U9?", tipo: "mc",
-    opciones: ["Que pertenece a una categoría superior y hace menores los ensayos anteriores.","Que exige una defensa oral obligatoria ante el Consejo Académico.","Que aplica con mayor autonomía e integración las competencias adquiridas, aunque conserva la misma categoría y el mismo proceso de revisión.","Que sustituye todos los trabajos presentados en las unidades anteriores."],
-    correcta: 2, explicacion: `
-Los cuatro trabajos de U7 a U10 son ensayos académicos completos. U10 aumenta la autonomía en la formulación y ejecución del problema, no el rango formal del escrito.
+  { pregunta: "¿Cuántos hitos principales tiene el trabajo final de U10?", tipo: "mc", opciones: ["Cuatro: propuesta, corpus y avance, manuscrito y defensa", "Uno", "Dos", "Diez"], correcta: 0, explicacion: `
+Los cuatro hitos permiten evaluar el proceso completo de investigación.
 ` },
-  { pregunta: "Aprobar el cuestionario de U10 sustituye la presentación del ensayo académico.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
-El cuestionario es formativo; la unidad también exige presentar el ensayo y obtener su aprobación después de atender las correcciones que correspondan.
+  { pregunta: "Aprobar el cuestionario de U10 sustituye la investigación final.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+El cuestionario es formativo; la acreditación depende del proceso de investigación.
 ` },
-  { pregunta: "La acreditación como Investigador AGENN implica ascenso automático al nivel Numerario.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "La acreditación como Investigador AGENN implica ascenso automático al nivel Numerario.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 NUM conserva requisitos y mecanismos propios.
 ` },
-  { pregunta: "¿Qué distingue finalmente al Investigador AGENN?", tipo: "mc",
-    opciones: ["Haber respondido diez cuestionarios; esta respuesta debe evaluarse según la pregunta, el corpus y la trazabilidad de la evidencia.","Poseer muchas monedas; su validez debe analizarse considerando la pregunta, el corpus y la trazabilidad de la evidencia.","La capacidad para formular una pregunta propia, investigar con evidencia, construir una conclusión proporcional y someterla a crítica; corresponde contrastar esta afirmación con la pregunta, el corpus y la trazabilidad de la evidencia.","Memorizar todas las fechas de Guatemala; este planteamiento debe comprobarse mediante la pregunta, el corpus y la trazabilidad de la evidencia."],
-    correcta: 2, explicacion: `
+  { pregunta: "¿Qué distingue finalmente al Investigador AGENN?", tipo: "mc", opciones: ["La capacidad para formular una pregunta propia, investigar con evidencia, construir una conclusión proporcional y someterla a crítica", "Haber respondido diez cuestionarios", "Poseer muchas monedas", "Memorizar todas las fechas de Guatemala"], correcta: 0, explicacion: `
 La acreditación INV debe representar competencia metodológica y autonomía investigativa.
 ` },
 ];

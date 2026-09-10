@@ -10,11 +10,20 @@ El proceso puede representarse así:
 
 El dato es información registrada. Se convierte en evidencia cuando se utiliza para sostener o poner a prueba una afirmación relacionada con la pregunta de investigación. El argumento explica por qué esa evidencia permite sostener una conclusión.
 
-La pregunta rectora de U8 será:
+La pregunta rectora de unidad 8 será:
 
 **¿Cómo se pasa de un conjunto de evidencias a una explicación histórica sin afirmar más de lo que esas evidencias permiten demostrar?**
 
 La acumulación documental no sustituye el razonamiento.
+
+
+### Profundización académica
+
+Interpretar significa explicar por qué un conjunto de evidencias permite sostener una conclusión y no otra. La calidad del razonamiento depende de hacer visibles las inferencias, considerar hipótesis rivales y ajustar el lenguaje al grado de certeza realmente alcanzado. Esta perspectiva se apoya en Bloch (1953), Howell y Prevenier (2001) y Booth et al. (2016). En esta sección, el eje de **evidencia y explicación** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Bloch (1953) y Howell y Prevenier (2001) ofrecen una base clásica para comprender que la explicación histórica se construye mediante crítica y comparación de testimonios. Booth et al. (2016) añade una formulación especialmente útil para el trabajo académico: las afirmaciones deben estar sostenidas por razones y evidencia, y deben anticipar objeciones razonables. En numismática, esta disciplina obliga a distinguir entre una coincidencia cronológica, una asociación plausible y una relación causal realmente documentada.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *evidencia y explicación*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "2. Hecho documentado, evidencia, inferencia e interpretación", bloques: [{ tipo: "texto", contenido: `
 Conviene distinguir niveles de razonamiento.
@@ -34,6 +43,15 @@ Ejemplo: una reforma monetaria se materializó mediante un proceso de transició
 Cada nivel amplía el alcance de la afirmación. Por ello también aumenta la obligación de mostrar **cómo se pasó de la fuente a la conclusión**.
 
 Una interpretación sólida no oculta sus inferencias: permite reconocerlas y evaluarlas.
+
+
+### Profundización académica
+
+Interpretar significa explicar por qué un conjunto de evidencias permite sostener una conclusión y no otra. La calidad del razonamiento depende de hacer visibles las inferencias, considerar hipótesis rivales y ajustar el lenguaje al grado de certeza realmente alcanzado. Esta perspectiva se apoya en Bloch (1953), Howell y Prevenier (2001) y Booth et al. (2016). En esta sección, el eje de **niveles de afirmación** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Bloch (1953) y Howell y Prevenier (2001) ofrecen una base clásica para comprender que la explicación histórica se construye mediante crítica y comparación de testimonios. Booth et al. (2016) añade una formulación especialmente útil para el trabajo académico: las afirmaciones deben estar sostenidas por razones y evidencia, y deben anticipar objeciones razonables. En numismática, esta disciplina obliga a distinguir entre una coincidencia cronológica, una asociación plausible y una relación causal realmente documentada.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *niveles de afirmación*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "3. Correlación no significa causalidad", bloques: [{ tipo: "texto", contenido: `
 Dos acontecimientos próximos en el tiempo pueden estar relacionados, pero la simultaneidad no demuestra causalidad.
@@ -50,6 +68,15 @@ Lo mismo ocurre con relaciones como:
 El investigador debe buscar el **puente documental entre A y B**: disposiciones, correspondencia, actas, contratos, memorias, testimonios contemporáneos u otra evidencia pertinente.
 
 Sin ese puente, la causalidad continúa siendo una hipótesis, aunque la coincidencia resulte sugerente.
+
+
+### Profundización académica
+
+Interpretar significa explicar por qué un conjunto de evidencias permite sostener una conclusión y no otra. La calidad del razonamiento depende de hacer visibles las inferencias, considerar hipótesis rivales y ajustar el lenguaje al grado de certeza realmente alcanzado. Esta perspectiva se apoya en Bloch (1953), Howell y Prevenier (2001) y Booth et al. (2016). En esta sección, el eje de **causalidad** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Bloch (1953) y Howell y Prevenier (2001) ofrecen una base clásica para comprender que la explicación histórica se construye mediante crítica y comparación de testimonios. Booth et al. (2016) añade una formulación especialmente útil para el trabajo académico: las afirmaciones deben estar sostenidas por razones y evidencia, y deben anticipar objeciones razonables. En numismática, esta disciplina obliga a distinguir entre una coincidencia cronológica, una asociación plausible y una relación causal realmente documentada.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *causalidad*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "4. La explicación más atractiva no siempre es la mejor", bloques: [{ tipo: "texto", contenido: `
 Los objetos numismáticos invitan a construir relatos. Una imagen, una fecha o un símbolo pueden parecer encajar perfectamente con un acontecimiento histórico.
@@ -67,6 +94,15 @@ Cuando la evidencia no permite determinar intención, una conclusión como:
 es metodológicamente superior a presentar una interpretación posible como hecho.
 
 La prudencia no empobrece la investigación: define con precisión dónde termina el conocimiento disponible.
+
+
+### Profundización académica
+
+Interpretar significa explicar por qué un conjunto de evidencias permite sostener una conclusión y no otra. La calidad del razonamiento depende de hacer visibles las inferencias, considerar hipótesis rivales y ajustar el lenguaje al grado de certeza realmente alcanzado. Esta perspectiva se apoya en Bloch (1953), Howell y Prevenier (2001) y Booth et al. (2016). En esta sección, el eje de **plausibilidad** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Bloch (1953) y Howell y Prevenier (2001) ofrecen una base clásica para comprender que la explicación histórica se construye mediante crítica y comparación de testimonios. Booth et al. (2016) añade una formulación especialmente útil para el trabajo académico: las afirmaciones deben estar sostenidas por razones y evidencia, y deben anticipar objeciones razonables. En numismática, esta disciplina obliga a distinguir entre una coincidencia cronológica, una asociación plausible y una relación causal realmente documentada.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *plausibilidad*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "5. Hipótesis rivales: intentar refutar también es investigar", bloques: [{ tipo: "texto", contenido: `
 Una buena investigación no pregunta solamente qué evidencia confirma una hipótesis. También pregunta:
@@ -90,6 +126,15 @@ Una pregunta particularmente útil es:
 **¿Qué evidencia, si apareciera, me haría modificar o abandonar mi hipótesis?**
 
 Una explicación que ninguna evidencia posible pudiera modificar ha dejado de funcionar como hipótesis investigable.
+
+
+### Profundización académica
+
+Interpretar significa explicar por qué un conjunto de evidencias permite sostener una conclusión y no otra. La calidad del razonamiento depende de hacer visibles las inferencias, considerar hipótesis rivales y ajustar el lenguaje al grado de certeza realmente alcanzado. Esta perspectiva se apoya en Bloch (1953), Howell y Prevenier (2001) y Booth et al. (2016). En esta sección, el eje de **hipótesis rivales** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Bloch (1953) y Howell y Prevenier (2001) ofrecen una base clásica para comprender que la explicación histórica se construye mediante crítica y comparación de testimonios. Booth et al. (2016) añade una formulación especialmente útil para el trabajo académico: las afirmaciones deben estar sostenidas por razones y evidencia, y deben anticipar objeciones razonables. En numismática, esta disciplina obliga a distinguir entre una coincidencia cronológica, una asociación plausible y una relación causal realmente documentada.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *hipótesis rivales*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "6. Evidencia convergente e independencia de las fuentes", bloques: [{ tipo: "texto", contenido: `
 Varias publicaciones que repiten una afirmación no constituyen necesariamente varias corroboraciones.
@@ -110,6 +155,15 @@ El investigador deberá reconstruir, cuando sea posible, la genealogía de las a
 - ¿existen evidencias de naturaleza diferente que converjan?
 
 La convergencia tiene mayor fuerza cuando no es simplemente repetición.
+
+
+### Profundización académica
+
+Interpretar significa explicar por qué un conjunto de evidencias permite sostener una conclusión y no otra. La calidad del razonamiento depende de hacer visibles las inferencias, considerar hipótesis rivales y ajustar el lenguaje al grado de certeza realmente alcanzado. Esta perspectiva se apoya en Bloch (1953), Howell y Prevenier (2001) y Booth et al. (2016). En esta sección, el eje de **independencia** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Bloch (1953) y Howell y Prevenier (2001) ofrecen una base clásica para comprender que la explicación histórica se construye mediante crítica y comparación de testimonios. Booth et al. (2016) añade una formulación especialmente útil para el trabajo académico: las afirmaciones deben estar sostenidas por razones y evidencia, y deben anticipar objeciones razonables. En numismática, esta disciplina obliga a distinguir entre una coincidencia cronológica, una asociación plausible y una relación causal realmente documentada.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *independencia*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "7. Evidencia negativa y argumento del silencio", bloques: [{ tipo: "texto", contenido: `
 La ausencia puede ser informativa, pero debe utilizarse con cuidado.
@@ -132,6 +186,15 @@ Una formulación más rigurosa puede ser:
 Incluso esa afirmación debe delimitar cuáles fueron los registros.
 
 El argumento del silencio adquiere fuerza únicamente cuando existe una razón sólida para esperar que, de haber ocurrido el fenómeno, la fuente o serie examinada probablemente lo habría registrado.
+
+
+### Profundización académica
+
+Interpretar significa explicar por qué un conjunto de evidencias permite sostener una conclusión y no otra. La calidad del razonamiento depende de hacer visibles las inferencias, considerar hipótesis rivales y ajustar el lenguaje al grado de certeza realmente alcanzado. Esta perspectiva se apoya en Bloch (1953), Howell y Prevenier (2001) y Booth et al. (2016). En esta sección, el eje de **ausencia** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Bloch (1953) y Howell y Prevenier (2001) ofrecen una base clásica para comprender que la explicación histórica se construye mediante crítica y comparación de testimonios. Booth et al. (2016) añade una formulación especialmente útil para el trabajo académico: las afirmaciones deben estar sostenidas por razones y evidencia, y deben anticipar objeciones razonables. En numismática, esta disciplina obliga a distinguir entre una coincidencia cronológica, una asociación plausible y una relación causal realmente documentada.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *ausencia*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "8. ¿Cuánta evidencia es suficiente?", bloques: [{ tipo: "texto", contenido: `
 No existe un número universal de fuentes que convierta una conclusión en verdadera.
@@ -160,6 +223,15 @@ sino:
 **¿es esta la clase de evidencia que puede responder mi pregunta?**
 
 La suficiencia se evalúa respecto de la afirmación concreta, no mediante un conteo bibliográfico.
+
+
+### Profundización académica
+
+Interpretar significa explicar por qué un conjunto de evidencias permite sostener una conclusión y no otra. La calidad del razonamiento depende de hacer visibles las inferencias, considerar hipótesis rivales y ajustar el lenguaje al grado de certeza realmente alcanzado. Esta perspectiva se apoya en Bloch (1953), Howell y Prevenier (2001) y Booth et al. (2016). En esta sección, el eje de **suficiencia** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Bloch (1953) y Howell y Prevenier (2001) ofrecen una base clásica para comprender que la explicación histórica se construye mediante crítica y comparación de testimonios. Booth et al. (2016) añade una formulación especialmente útil para el trabajo académico: las afirmaciones deben estar sostenidas por razones y evidencia, y deben anticipar objeciones razonables. En numismática, esta disciplina obliga a distinguir entre una coincidencia cronológica, una asociación plausible y una relación causal realmente documentada.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *suficiencia*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "9. Las contradicciones pueden mejorar la investigación", bloques: [{ tipo: "texto", contenido: `
 Una fuente que contradice la hipótesis inicial no debe ocultarse ni descartarse únicamente porque dificulta la explicación.
@@ -181,6 +253,15 @@ La respuesta investigativa es:
 A veces la contradicción obliga a abandonar una hipótesis. Otras veces permite delimitarla mejor.
 
 Una investigación sólida muestra la evidencia incómoda y explica cómo afecta la conclusión. El lector debe poder saber si la interpretación sobrevivió a la contradicción porque fue explicada o simplemente porque fue ignorada.
+
+
+### Profundización académica
+
+Interpretar significa explicar por qué un conjunto de evidencias permite sostener una conclusión y no otra. La calidad del razonamiento depende de hacer visibles las inferencias, considerar hipótesis rivales y ajustar el lenguaje al grado de certeza realmente alcanzado. Esta perspectiva se apoya en Bloch (1953), Howell y Prevenier (2001) y Booth et al. (2016). En esta sección, el eje de **contradicciones** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Bloch (1953) y Howell y Prevenier (2001) ofrecen una base clásica para comprender que la explicación histórica se construye mediante crítica y comparación de testimonios. Booth et al. (2016) añade una formulación especialmente útil para el trabajo académico: las afirmaciones deben estar sostenidas por razones y evidencia, y deben anticipar objeciones razonables. En numismática, esta disciplina obliga a distinguir entre una coincidencia cronológica, una asociación plausible y una relación causal realmente documentada.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *contradicciones*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "10. Grados de certeza: no todas las conclusiones pesan igual", bloques: [{ tipo: "texto", contenido: `
 El lenguaje debe expresar la fuerza real de la evidencia.
@@ -200,6 +281,15 @@ Puede utilizarse una escala razonada:
 Estas categorías no deben aplicarse mecánicamente. El investigador debe explicar **por qué** asigna determinado grado.
 
 En AGENN, concluir que algo no puede determinarse es científicamente válido. Lo incorrecto sería transformar incertidumbre en certeza para producir una conclusión más llamativa.
+
+
+### Profundización académica
+
+Interpretar significa explicar por qué un conjunto de evidencias permite sostener una conclusión y no otra. La calidad del razonamiento depende de hacer visibles las inferencias, considerar hipótesis rivales y ajustar el lenguaje al grado de certeza realmente alcanzado. Esta perspectiva se apoya en Bloch (1953), Howell y Prevenier (2001) y Booth et al. (2016). En esta sección, el eje de **certeza** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Bloch (1953) y Howell y Prevenier (2001) ofrecen una base clásica para comprender que la explicación histórica se construye mediante crítica y comparación de testimonios. Booth et al. (2016) añade una formulación especialmente útil para el trabajo académico: las afirmaciones deben estar sostenidas por razones y evidencia, y deben anticipar objeciones razonables. En numismática, esta disciplina obliga a distinguir entre una coincidencia cronológica, una asociación plausible y una relación causal realmente documentada.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *certeza*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "11. Construir un argumento", bloques: [{ tipo: "texto", contenido: `
 Un argumento histórico debe mostrar la relación entre conclusión y evidencia.
@@ -218,6 +308,15 @@ Ejemplo:
 No todos los párrafos deben adoptar esta forma de manera rígida. La estructura funciona como herramienta de revisión.
 
 Si una afirmación importante no puede vincularse con evidencia, debe buscarse soporte, reducir su alcance, formularla como hipótesis o eliminarla.
+
+
+### Profundización académica
+
+Interpretar significa explicar por qué un conjunto de evidencias permite sostener una conclusión y no otra. La calidad del razonamiento depende de hacer visibles las inferencias, considerar hipótesis rivales y ajustar el lenguaje al grado de certeza realmente alcanzado. Esta perspectiva se apoya en Bloch (1953), Howell y Prevenier (2001) y Booth et al. (2016). En esta sección, el eje de **argumentación** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Bloch (1953) y Howell y Prevenier (2001) ofrecen una base clásica para comprender que la explicación histórica se construye mediante crítica y comparación de testimonios. Booth et al. (2016) añade una formulación especialmente útil para el trabajo académico: las afirmaciones deben estar sostenidas por razones y evidencia, y deben anticipar objeciones razonables. En numismática, esta disciplina obliga a distinguir entre una coincidencia cronológica, una asociación plausible y una relación causal realmente documentada.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *argumentación*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "12. De varias evidencias a una interpretación histórica", bloques: [{ tipo: "texto", contenido: `
 Una interpretación histórica sólida:
@@ -234,16 +333,25 @@ Una interpretación histórica sólida:
 
 La trayectoria construida hasta aquí puede resumirse:
 
-**U1:** formular la pregunta.  
-**U2:** localizar las fuentes.  
-**U3:** criticarlas y construir evidencia.  
-**U4:** ordenar y clasificar el corpus.  
-**U5:** reconstruir sistemas monetarios.  
-**U6:** investigar la función de objetos exonúmicos.  
-**U7:** utilizar billetes como documentos históricos.  
-**U8:** integrar evidencias para defender una interpretación.
+**unidad 1:** formular la pregunta.  
+**unidad 2:** localizar las fuentes.  
+**unidad 3:** criticarlas y construir evidencia.  
+**unidad 4:** ordenar y clasificar el corpus.  
+**unidad 5:** reconstruir sistemas monetarios.  
+**unidad 6:** investigar la función de objetos exonúmicos.  
+**unidad 7:** utilizar billetes como documentos históricos.  
+**unidad 8:** integrar evidencias para defender una interpretación.
 
 El investigador no se distingue porque siempre tenga respuestas definitivas. Se distingue porque puede explicar **qué sabe, cómo lo sabe, qué infiere y qué todavía no puede demostrar**.
+
+
+### Profundización académica
+
+Interpretar significa explicar por qué un conjunto de evidencias permite sostener una conclusión y no otra. La calidad del razonamiento depende de hacer visibles las inferencias, considerar hipótesis rivales y ajustar el lenguaje al grado de certeza realmente alcanzado. Esta perspectiva se apoya en Bloch (1953), Howell y Prevenier (2001) y Booth et al. (2016). En esta sección, el eje de **síntesis interpretativa** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Bloch (1953) y Howell y Prevenier (2001) ofrecen una base clásica para comprender que la explicación histórica se construye mediante crítica y comparación de testimonios. Booth et al. (2016) añade una formulación especialmente útil para el trabajo académico: las afirmaciones deben estar sostenidas por razones y evidencia, y deben anticipar objeciones razonables. En numismática, esta disciplina obliga a distinguir entre una coincidencia cronológica, una asociación plausible y una relación causal realmente documentada.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *síntesis interpretativa*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "Actividad complementaria: Laboratorio de investigación 8 — El mismo expediente, tres conclusiones", bloques: [{ tipo: "texto", contenido: `
 Construya o seleccione un pequeño expediente sobre un problema numismático, notafílico o exonúmico guatemalteco. Debe contener al menos:
@@ -304,133 +412,90 @@ Una conclusión provisional, probable o incluso no determinable puede ser excele
 - Sandoval Abullarade, V. H. (s. f.). *Monedas de Guatemala*.
 
 **Nota metodológica:** las fuentes numismáticas incluidas sirven también como material para examinar cómo se construyen argumentos reales. La bibliografía del trabajo del estudiante deberá responder al problema específico que haya seleccionado.
+
+
+### Bibliografía metodológica complementaria
+
+- Bloch, M. (1953). *The Historian’s Craft*. Alfred A. Knopf.
+- Booth, W. C., Colomb, G. G., Williams, J. M., Bizup, J., & FitzGerald, W. T. (2016). *The Craft of Research* (4th ed.). University of Chicago Press.
+- Howell, M. C., & Prevenier, W. (2001). *From Reliable Sources: An Introduction to Historical Methods*. Cornell University Press.
 ` }] },
 ];
 
 export const QUESTIONS = [
-  { pregunta: "Reunir muchas fuentes significa que ya existe una explicación histórica.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Reunir muchas fuentes significa que ya existe una explicación histórica.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Las fuentes deben relacionarse con una pregunta mediante razonamiento y argumento.
 ` },
-  { pregunta: "¿Cuándo se convierte un dato en evidencia?", tipo: "mc",
-    opciones: ["Cuando se utiliza pertinentemente para responder o poner a prueba una afirmación; esta respuesta debe evaluarse según la evidencia, el razonamiento y las explicaciones alternativas.","Cuando aparece en cualquier libro; su validez debe analizarse considerando la evidencia, el razonamiento y las explicaciones alternativas.","Cuando tiene una fecha antigua; corresponde contrastar esta afirmación con la evidencia, el razonamiento y las explicaciones alternativas.","Cuando se repite muchas veces; este planteamiento debe comprobarse mediante la evidencia, el razonamiento y las explicaciones alternativas."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Cuándo se convierte un dato en evidencia?", tipo: "mc", opciones: ["Cuando se utiliza pertinentemente para responder o poner a prueba una afirmación", "Cuando aparece en cualquier libro", "Cuando tiene una fecha antigua", "Cuando se repite muchas veces"], correcta: 0, explicacion: `
 La función probatoria depende de la relación entre dato, pregunta y afirmación.
 ` },
-  { pregunta: "Una inferencia va más allá de la observación directa y debe mostrar el razonamiento que la sostiene.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 1, explicacion: `
+  { pregunta: "Una inferencia va más allá de la observación directa y debe mostrar el razonamiento que la sostiene.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 El lector debe poder distinguir qué fue observado y qué fue inferido.
 ` },
-  { pregunta: "¿Qué exige afirmar que un cambio político causó un cambio de diseño monetario?", tipo: "mc",
-    opciones: ["Que ocurran el mismo año; esta respuesta debe evaluarse según la evidencia, el razonamiento y las explicaciones alternativas.","Que el diseño sea diferente; su validez debe analizarse considerando la evidencia, el razonamiento y las explicaciones alternativas.","Que un catálogo los mencione juntos; corresponde contrastar esta afirmación con la evidencia, el razonamiento y las explicaciones alternativas.","Evidencia que conecte causalmente ambos fenómenos; este planteamiento debe comprobarse mediante la evidencia, el razonamiento y las explicaciones alternativas."],
-    correcta: 3, explicacion: `
+  { pregunta: "¿Qué exige afirmar que un cambio político causó un cambio de diseño monetario?", tipo: "mc", opciones: ["Evidencia que conecte causalmente ambos fenómenos", "Que ocurran el mismo año", "Que el diseño sea diferente", "Que un catálogo los mencione juntos"], correcta: 0, explicacion: `
 La proximidad temporal no basta para demostrar causalidad.
 ` },
-  { pregunta: "Dos acontecimientos simultáneos están necesariamente relacionados causalmente.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Dos acontecimientos simultáneos están necesariamente relacionados causalmente.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Correlación temporal y causalidad son afirmaciones distintas.
 ` },
-  { pregunta: "¿Qué debe hacer el investigador ante una explicación muy atractiva pero sin evidencia de intención?", tipo: "mc",
-    opciones: ["Reducir su alcance o presentarla como hipótesis; esta respuesta debe evaluarse según la evidencia, el razonamiento y las explicaciones alternativas.","Presentarla como hecho; su validez debe analizarse considerando la evidencia, el razonamiento y las explicaciones alternativas.","Omitir las fuentes; corresponde contrastar esta afirmación con la evidencia, el razonamiento y las explicaciones alternativas.","Repetirla hasta que sea aceptada; este planteamiento debe comprobarse mediante la evidencia, el razonamiento y las explicaciones alternativas."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Qué debe hacer el investigador ante una explicación muy atractiva pero sin evidencia de intención?", tipo: "mc", opciones: ["Reducir su alcance o presentarla como hipótesis", "Presentarla como hecho", "Omitir las fuentes", "Repetirla hasta que sea aceptada"], correcta: 0, explicacion: `
 La fuerza del lenguaje debe corresponder con la evidencia disponible.
 ` },
-  { pregunta: "Una conclusión prudente puede ser científicamente superior a una narración más espectacular.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 1, explicacion: `
+  { pregunta: "Una conclusión prudente puede ser científicamente superior a una narración más espectacular.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 La investigación privilegia soporte y precisión sobre atractivo narrativo.
 ` },
-  { pregunta: "¿Qué es una hipótesis rival?", tipo: "mc",
-    opciones: ["Una fuente falsa; esta respuesta debe evaluarse según la evidencia, el razonamiento y las explicaciones alternativas.","Un error tipográfico; su validez debe analizarse considerando la evidencia, el razonamiento y las explicaciones alternativas.","Una explicación alternativa capaz de dar cuenta de la misma evidencia; corresponde contrastar esta afirmación con la evidencia, el razonamiento y las explicaciones alternativas.","Una opinión que debe ignorarse; este planteamiento debe comprobarse mediante la evidencia, el razonamiento y las explicaciones alternativas."],
-    correcta: 2, explicacion: `
+  { pregunta: "¿Qué es una hipótesis rival?", tipo: "mc", opciones: ["Una explicación alternativa capaz de dar cuenta de la misma evidencia", "Una fuente falsa", "Un error tipográfico", "Una opinión que debe ignorarse"], correcta: 0, explicacion: `
 Comparar alternativas ayuda a poner a prueba la explicación preferida.
 ` },
-  { pregunta: "Buscar únicamente evidencia favorable a la hipótesis puede producir sesgo de confirmación.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 1, explicacion: `
+  { pregunta: "Buscar únicamente evidencia favorable a la hipótesis puede producir sesgo de confirmación.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 También debe buscarse evidencia capaz de debilitar o refutar la hipótesis.
 ` },
-  { pregunta: "¿Qué pregunta ayuda especialmente a poner en riesgo una hipótesis?", tipo: "mc",
-    opciones: ["¿Cuántas veces puedo repetirla?; esta respuesta debe evaluarse según la evidencia, el razonamiento y las explicaciones alternativas.","¿Quién está de acuerdo conmigo?; su validez debe analizarse considerando la evidencia, el razonamiento y las explicaciones alternativas.","¿Cómo hacerla más atractiva?; corresponde contrastar esta afirmación con la evidencia, el razonamiento y las explicaciones alternativas.","¿Qué evidencia me haría cambiar de opinión?; este planteamiento debe comprobarse mediante la evidencia, el razonamiento y las explicaciones alternativas."],
-    correcta: 3, explicacion: `
+  { pregunta: "¿Qué pregunta ayuda especialmente a poner en riesgo una hipótesis?", tipo: "mc", opciones: ["¿Qué evidencia me haría cambiar de opinión?", "¿Cuántas veces puedo repetirla?", "¿Quién está de acuerdo conmigo?", "¿Cómo hacerla más atractiva?"], correcta: 0, explicacion: `
 Una hipótesis investigable debe poder modificarse frente a evidencia pertinente.
 ` },
-  { pregunta: "Cinco autores que dependen de una misma fuente constituyen necesariamente cinco corroboraciones independientes.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Cinco autores que dependen de una misma fuente constituyen necesariamente cinco corroboraciones independientes.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Debe distinguirse repetición bibliográfica de independencia probatoria.
 ` },
-  { pregunta: "¿Qué combinación ofrece mayor convergencia independiente?", tipo: "mc",
-    opciones: ["Cuatro libros que copian el mismo catálogo; esta respuesta debe evaluarse según la evidencia, el razonamiento y las explicaciones alternativas.","Ley, pieza, registro administrativo y noticia independientes; su validez debe analizarse considerando la evidencia, el razonamiento y las explicaciones alternativas.","Cinco páginas que reproducen el mismo texto; corresponde contrastar esta afirmación con la evidencia, el razonamiento y las explicaciones alternativas.","Diez citas de una misma obra; este planteamiento debe comprobarse mediante la evidencia, el razonamiento y las explicaciones alternativas."],
-    correcta: 1, explicacion: `
+  { pregunta: "¿Qué combinación ofrece mayor convergencia independiente?", tipo: "mc", opciones: ["Ley, pieza, registro administrativo y noticia independientes", "Cuatro libros que copian el mismo catálogo", "Cinco páginas que reproducen el mismo texto", "Diez citas de una misma obra"], correcta: 0, explicacion: `
 Fuentes de origen y naturaleza diferentes pueden aportar líneas independientes de evidencia.
 ` },
-  { pregunta: "No encontrar una moneda de un año demuestra que nunca se acuñó.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "No encontrar una moneda de un año demuestra que nunca se acuñó.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La ausencia observada debe evaluarse según corpus, registros y completitud.
 ` },
-  { pregunta: "¿Cuándo gana fuerza un argumento del silencio?", tipo: "mc",
-    opciones: ["Siempre que no aparezca Google; esta respuesta debe evaluarse según la evidencia, el razonamiento y las explicaciones alternativas.","Cuando razonablemente esperaríamos que la fuente registrara el fenómeno si hubiera ocurrido; su validez debe analizarse considerando la evidencia, el razonamiento y las explicaciones alternativas.","Cuando el investigador no posee la pieza; corresponde contrastar esta afirmación con la evidencia, el razonamiento y las explicaciones alternativas.","Cuando un catálogo es antiguo; este planteamiento debe comprobarse mediante la evidencia, el razonamiento y las explicaciones alternativas."],
-    correcta: 1, explicacion: `
+  { pregunta: "¿Cuándo gana fuerza un argumento del silencio?", tipo: "mc", opciones: ["Cuando razonablemente esperaríamos que la fuente registrara el fenómeno si hubiera ocurrido", "Siempre que no aparezca Google", "Cuando el investigador no posee la pieza", "Cuando un catálogo es antiguo"], correcta: 0, explicacion: `
 La ausencia solo tiene fuerza cuando existe expectativa fundada de presencia documental.
 ` },
-  { pregunta: "Existe un número mínimo universal de fuentes que convierte una conclusión en verdadera.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Existe un número mínimo universal de fuentes que convierte una conclusión en verdadera.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La suficiencia depende de la afirmación y de la calidad, pertinencia e independencia de la evidencia.
 ` },
-  { pregunta: "¿Qué pregunta evalúa mejor la suficiencia probatoria?", tipo: "mc",
-    opciones: ["¿Es esta la clase de evidencia capaz de responder mi pregunta?; esta respuesta debe evaluarse según la evidencia, el razonamiento y las explicaciones alternativas.","¿Tengo diez referencias?; su validez debe analizarse considerando la evidencia, el razonamiento y las explicaciones alternativas.","¿Mi bibliografía ocupa dos páginas?; corresponde contrastar esta afirmación con la evidencia, el razonamiento y las explicaciones alternativas.","¿Todas mis fuentes son libros?; este planteamiento debe comprobarse mediante la evidencia, el razonamiento y las explicaciones alternativas."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Qué pregunta evalúa mejor la suficiencia probatoria?", tipo: "mc", opciones: ["¿Es esta la clase de evidencia capaz de responder mi pregunta?", "¿Tengo diez referencias?", "¿Mi bibliografía ocupa dos páginas?", "¿Todas mis fuentes son libros?"], correcta: 0, explicacion: `
 La pertinencia es más importante que un conteo mecánico.
 ` },
-  { pregunta: "Una fuente auténtica que contradice la hipótesis debe omitirse para no debilitar el trabajo.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Una fuente auténtica que contradice la hipótesis debe omitirse para no debilitar el trabajo.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La contradicción debe analizarse y puede mejorar o modificar la interpretación.
 ` },
-  { pregunta: "¿Qué puede revelar una contradicción entre fuentes?", tipo: "mc",
-    opciones: ["Que toda investigación es imposible; esta respuesta debe evaluarse según la evidencia, el razonamiento y las explicaciones alternativas.","Que ambas fuentes son falsas; su validez debe analizarse considerando la evidencia, el razonamiento y las explicaciones alternativas.","Una diferencia temporal, regional, conceptual o un fenómeno más complejo; corresponde contrastar esta afirmación con la evidencia, el razonamiento y las explicaciones alternativas.","Que debe elegirse la fuente más reciente; este planteamiento debe comprobarse mediante la evidencia, el razonamiento y las explicaciones alternativas."],
-    correcta: 2, explicacion: `
+  { pregunta: "¿Qué puede revelar una contradicción entre fuentes?", tipo: "mc", opciones: ["Una diferencia temporal, regional, conceptual o un fenómeno más complejo", "Que toda investigación es imposible", "Que ambas fuentes son falsas", "Que debe elegirse la fuente más reciente"], correcta: 0, explicacion: `
 Las discrepancias pueden ser parte del problema histórico.
 ` },
-  { pregunta: "Concluir “no determinable con la evidencia disponible” puede ser científicamente válido.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 0, explicacion: `
+  { pregunta: "Concluir “no determinable con la evidencia disponible” puede ser científicamente válido.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 Reconocer límites es preferible a fabricar certeza.
 ` },
-  { pregunta: "¿Qué grado corresponde a una explicación compatible con la evidencia pero con alternativas razonables?", tipo: "mc",
-    opciones: ["Posible; esta respuesta debe evaluarse según la evidencia, el razonamiento y las explicaciones alternativas.","Demostrado; su validez debe analizarse considerando la evidencia, el razonamiento y las explicaciones alternativas.","Imposible; corresponde contrastar esta afirmación con la evidencia, el razonamiento y las explicaciones alternativas.","Certeza absoluta; este planteamiento debe comprobarse mediante la evidencia, el razonamiento y las explicaciones alternativas."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Qué grado corresponde a una explicación compatible con la evidencia pero con alternativas razonables?", tipo: "mc", opciones: ["Posible", "Demostrado", "Imposible", "Certeza absoluta"], correcta: 0, explicacion: `
 La categoría posible reconoce compatibilidad sin excluir alternativas.
 ` },
-  { pregunta: "Una conclusión probable y una demostrada expresan exactamente la misma fuerza de evidencia.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Una conclusión probable y una demostrada expresan exactamente la misma fuerza de evidencia.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 El vocabulario debe distinguir grados reales de certeza.
 ` },
-  { pregunta: "¿Qué estructura sirve para revisar un argumento histórico?", tipo: "mc",
-    opciones: ["Título + precio + fotografía + firma; esta respuesta debe evaluarse según la evidencia, el razonamiento y las explicaciones alternativas.","Fecha + intuición + conclusión; su validez debe analizarse considerando la evidencia, el razonamiento y las explicaciones alternativas.","Afirmación + evidencia + razonamiento + límite; corresponde contrastar esta afirmación con la evidencia, el razonamiento y las explicaciones alternativas.","Cita + cita + cita + opinión; este planteamiento debe comprobarse mediante la evidencia, el razonamiento y las explicaciones alternativas."],
-    correcta: 2, explicacion: `
+  { pregunta: "¿Qué estructura sirve para revisar un argumento histórico?", tipo: "mc", opciones: ["Afirmación + evidencia + razonamiento + límite", "Título + precio + fotografía + firma", "Fecha + intuición + conclusión", "Cita + cita + cita + opinión"], correcta: 0, explicacion: `
 La estructura ayuda a comprobar que la conclusión está conectada con la evidencia.
 ` },
-  { pregunta: "Si una afirmación importante carece de soporte, el investigador puede reducir su alcance o formularla como hipótesis.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 1, explicacion: `
+  { pregunta: "Si una afirmación importante carece de soporte, el investigador puede reducir su alcance o formularla como hipótesis.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 No toda afirmación debe eliminarse, pero su estatus debe expresarse correctamente.
 ` },
-  { pregunta: "Dos hipótesis explican igualmente toda la evidencia conocida. ¿Está demostrada una de ellas?", tipo: "mc",
-    opciones: ["Sí, la primera; esta respuesta debe evaluarse según la evidencia, el razonamiento y las explicaciones alternativas.","Sí, la más atractiva; su validez debe analizarse considerando la evidencia, el razonamiento y las explicaciones alternativas.","Sí, la que tenga más palabras; corresponde contrastar esta afirmación con la evidencia, el razonamiento y las explicaciones alternativas.","No; hace falta evidencia capaz de discriminar entre ambas; este planteamiento debe comprobarse mediante la evidencia, el razonamiento y las explicaciones alternativas."],
-    correcta: 3, explicacion: `
+  { pregunta: "Dos hipótesis explican igualmente toda la evidencia conocida. ¿Está demostrada una de ellas?", tipo: "mc", opciones: ["No; hace falta evidencia capaz de discriminar entre ambas", "Sí, la primera", "Sí, la más atractiva", "Sí, la que tenga más palabras"], correcta: 0, explicacion: `
 Si ambas explican los datos, la evidencia disponible todavía no decide entre ellas.
 ` },
-  { pregunta: "¿Cuál es la competencia central de U8?", tipo: "mc",
-    opciones: ["Memorizar más fechas; esta respuesta debe evaluarse según la evidencia, el razonamiento y las explicaciones alternativas.","Construir y defender una interpretación proporcional a la evidencia, considerando alternativas y límites; su validez debe analizarse considerando la evidencia, el razonamiento y las explicaciones alternativas.","Identificar únicamente monedas; corresponde contrastar esta afirmación con la evidencia, el razonamiento y las explicaciones alternativas.","Reunir la bibliografía más extensa; este planteamiento debe comprobarse mediante la evidencia, el razonamiento y las explicaciones alternativas."],
-    correcta: 1, explicacion: `
+  { pregunta: "¿Cuál es la competencia central de U8?", tipo: "mc", opciones: ["Construir y defender una interpretación proporcional a la evidencia, considerando alternativas y límites", "Memorizar más fechas", "Identificar únicamente monedas", "Reunir la bibliografía más extensa"], correcta: 0, explicacion: `
 U8 evalúa cómo el investigador razona desde la evidencia hasta una conclusión.
 ` },
 ];

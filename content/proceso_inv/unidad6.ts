@@ -1,6 +1,6 @@
 export const TEORIA = [
   { titulo: "1. Cuando el objeto numismático no es moneda", bloques: [{ tipo: "texto", contenido: `
-Las unidades anteriores estudiaron el objeto, las fuentes, la crítica, la clasificación y el sistema monetario. U6 introduce objetos que pueden parecerse a una moneda o representar valor, pero que **no pertenecen necesariamente al sistema monetario oficial**.
+Las unidades anteriores estudiaron el objeto, las fuentes, la crítica, la clasificación y el sistema monetario. unidad 6 introduce objetos que pueden parecerse a una moneda o representar valor, pero que **no pertenecen necesariamente al sistema monetario oficial**.
 
 Morales Osterberg define las fichas particulares como especímenes de la exonumia: objetos generalmente monetiformes, de emisión privada, que carecen de curso legal y pueden cumplir funciones de pago, intercambio, registro o control (Morales Osterberg, 2026).
 
@@ -13,6 +13,15 @@ La pregunta rectora será:
 **¿Qué puede revelar sobre una sociedad un objeto que se parece al dinero, representa valor o registra trabajo, pero no necesariamente es moneda?**
 
 El investigador deberá comenzar por describir la pieza y demostrar su función antes de atribuirle una naturaleza monetaria.
+
+
+### Profundización académica
+
+La exonumia obliga a resistir la tentación de atribuir funciones por semejanza formal. Una ficha puede registrar valor, trabajo, mercancía, control administrativo o una relación interna específica. Su función histórica debe demostrarse mediante la pieza y documentación contextual. Esta perspectiva se apoya en Morales Osterberg (2026), Prober (1973) y los decretos guatemaltecos de 1924–1925 citados en esta unidad. En esta sección, el eje de **fronteras de la moneda** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Morales Osterberg (2026) proporciona un corpus especialmente útil para comprender la diversidad funcional de las fichas particulares guatemaltecas. La lección metodológica consiste en no equiparar forma con función. Una denominación, perforación, material o nombre inscrito puede orientar la búsqueda, pero el significado económico o laboral requiere contrastarse con archivos, reglamentos, contabilidad, correspondencia u otras fuentes pertinentes. La legislación de 1924–1925, además, permite estudiar cómo una prohibición normativa no equivale por sí sola a desaparición material inmediata.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *fronteras de la moneda*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "2. La exonumia como rama de la numismática y fuente para la historia", bloques: [{ tipo: "texto", contenido: `
 La numismática puede utilizarse como ciencia auxiliar de la historia y la **exonumia es una rama especializada de la numismática** dedicada a objetos relacionados con la moneda que se encuentran fuera del sistema monetario oficial (Morales Osterberg, 2026).
@@ -30,6 +39,15 @@ Debe avanzar hacia:
 **¿Qué fenómeno histórico puede investigarse a partir de esta pieza?**
 
 La identificación exonúmica es el comienzo de la investigación, no su conclusión.
+
+
+### Profundización académica
+
+La exonumia obliga a resistir la tentación de atribuir funciones por semejanza formal. Una ficha puede registrar valor, trabajo, mercancía, control administrativo o una relación interna específica. Su función histórica debe demostrarse mediante la pieza y documentación contextual. Esta perspectiva se apoya en Morales Osterberg (2026), Prober (1973) y los decretos guatemaltecos de 1924–1925 citados en esta unidad. En esta sección, el eje de **exonumia como fuente** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Morales Osterberg (2026) proporciona un corpus especialmente útil para comprender la diversidad funcional de las fichas particulares guatemaltecas. La lección metodológica consiste en no equiparar forma con función. Una denominación, perforación, material o nombre inscrito puede orientar la búsqueda, pero el significado económico o laboral requiere contrastarse con archivos, reglamentos, contabilidad, correspondencia u otras fuentes pertinentes. La legislación de 1924–1925, además, permite estudiar cómo una prohibición normativa no equivale por sí sola a desaparición material inmediata.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *exonumia como fuente*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "3. Ficha particular no significa necesariamente dinero", bloques: [{ tipo: "texto", contenido: `
 La expresión “ficha de finca” puede ocultar la amplitud del fenómeno. No toda ficha particular procedía de una finca y **no toda ficha de finca funcionó como dinero**.
@@ -57,6 +75,15 @@ Ante una pieza marcada simplemente con “1”, la pregunta correcta es:
 **¿Uno qué?**
 
 La respuesta debe buscarse en el contexto y en fuentes independientes. Una cifra inscrita no basta para demostrar función monetaria.
+
+
+### Profundización académica
+
+La exonumia obliga a resistir la tentación de atribuir funciones por semejanza formal. Una ficha puede registrar valor, trabajo, mercancía, control administrativo o una relación interna específica. Su función histórica debe demostrarse mediante la pieza y documentación contextual. Esta perspectiva se apoya en Morales Osterberg (2026), Prober (1973) y los decretos guatemaltecos de 1924–1925 citados en esta unidad. En esta sección, el eje de **función de la ficha** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Morales Osterberg (2026) proporciona un corpus especialmente útil para comprender la diversidad funcional de las fichas particulares guatemaltecas. La lección metodológica consiste en no equiparar forma con función. Una denominación, perforación, material o nombre inscrito puede orientar la búsqueda, pero el significado económico o laboral requiere contrastarse con archivos, reglamentos, contabilidad, correspondencia u otras fuentes pertinentes. La legislación de 1924–1925, además, permite estudiar cómo una prohibición normativa no equivale por sí sola a desaparición material inmediata.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *función de la ficha*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "4. La pieza habla, pero no habla sola", bloques: [{ tipo: "texto", contenido: `
 Una ficha puede permitir observar directamente material, dimensiones, forma, leyendas, símbolos, nombres, cifras, perforaciones, contramarcas y desgaste.
@@ -79,13 +106,22 @@ El procedimiento puede representarse así:
 **pieza → indicio → archivo → contexto → interpretación**
 
 La pieza constituye evidencia material. El contexto necesario para interpretar su función puede encontrarse en documentación que nunca estuvo grabada sobre ella.
+
+
+### Profundización académica
+
+La exonumia obliga a resistir la tentación de atribuir funciones por semejanza formal. Una ficha puede registrar valor, trabajo, mercancía, control administrativo o una relación interna específica. Su función histórica debe demostrarse mediante la pieza y documentación contextual. Esta perspectiva se apoya en Morales Osterberg (2026), Prober (1973) y los decretos guatemaltecos de 1924–1925 citados en esta unidad. En esta sección, el eje de **límites del objeto** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Morales Osterberg (2026) proporciona un corpus especialmente útil para comprender la diversidad funcional de las fichas particulares guatemaltecas. La lección metodológica consiste en no equiparar forma con función. Una denominación, perforación, material o nombre inscrito puede orientar la búsqueda, pero el significado económico o laboral requiere contrastarse con archivos, reglamentos, contabilidad, correspondencia u otras fuentes pertinentes. La legislación de 1924–1925, además, permite estudiar cómo una prohibición normativa no equivale por sí sola a desaparición material inmediata.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *límites del objeto*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "5. De una inscripción a un archivo", bloques: [{ tipo: "texto", contenido: `
 Una inscripción puede convertirse en una ruta documental.
 
 Suponga una ficha con el nombre de una finca y la expresión “1 tarea”. Esos elementos pueden orientar búsquedas en censos, registros de propiedad, protocolos notariales, correspondencia, libros contables, documentación laboral, memorias gubernamentales, prensa, archivos municipales y directorios comerciales.
 
-Pero debe conservarse la disciplina aprendida en U3:
+Pero debe conservarse la disciplina aprendida en unidad 3:
 
 **encontrar una finca con el mismo nombre no demuestra automáticamente que sea la emisora de la ficha.**
 
@@ -94,6 +130,15 @@ La atribución deberá sostenerse mediante correspondencias geográficas, cronol
 La ficha proporciona pistas. El archivo puede confirmar, corregir o impedir la atribución.
 
 Una investigación exonúmica sólida registra también los resultados negativos: no encontrar documentación después de una búsqueda razonada no demuestra inexistencia, pero sí define los límites actuales de la investigación.
+
+
+### Profundización académica
+
+La exonumia obliga a resistir la tentación de atribuir funciones por semejanza formal. Una ficha puede registrar valor, trabajo, mercancía, control administrativo o una relación interna específica. Su función histórica debe demostrarse mediante la pieza y documentación contextual. Esta perspectiva se apoya en Morales Osterberg (2026), Prober (1973) y los decretos guatemaltecos de 1924–1925 citados en esta unidad. En esta sección, el eje de **archivo contextual** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Morales Osterberg (2026) proporciona un corpus especialmente útil para comprender la diversidad funcional de las fichas particulares guatemaltecas. La lección metodológica consiste en no equiparar forma con función. Una denominación, perforación, material o nombre inscrito puede orientar la búsqueda, pero el significado económico o laboral requiere contrastarse con archivos, reglamentos, contabilidad, correspondencia u otras fuentes pertinentes. La legislación de 1924–1925, además, permite estudiar cómo una prohibición normativa no equivale por sí sola a desaparición material inmediata.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *archivo contextual*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "6. Materiales y fabricación también son evidencia", bloques: [{ tipo: "texto", contenido: `
 Morales Osterberg documenta una gran diversidad de materiales. Entre los metales aparecen cobre, bronce, hierro, níquel, plomo, antimonio y aluminio. En etapas posteriores se utilizaron también cartón, papel, cuero, madera, plástico y baquelita. La plata aparece excepcionalmente (Morales Osterberg, 2026).
@@ -107,6 +152,15 @@ Por ello debe distinguirse:
 **lugar de fabricación ≠ autoridad emisora ≠ curso legal**
 
 Una ficha técnicamente acuñada en una institución estatal podía continuar dependiendo jurídicamente de un emisor privado.
+
+
+### Profundización académica
+
+La exonumia obliga a resistir la tentación de atribuir funciones por semejanza formal. Una ficha puede registrar valor, trabajo, mercancía, control administrativo o una relación interna específica. Su función histórica debe demostrarse mediante la pieza y documentación contextual. Esta perspectiva se apoya en Morales Osterberg (2026), Prober (1973) y los decretos guatemaltecos de 1924–1925 citados en esta unidad. En esta sección, el eje de **materialidad** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Morales Osterberg (2026) proporciona un corpus especialmente útil para comprender la diversidad funcional de las fichas particulares guatemaltecas. La lección metodológica consiste en no equiparar forma con función. Una denominación, perforación, material o nombre inscrito puede orientar la búsqueda, pero el significado económico o laboral requiere contrastarse con archivos, reglamentos, contabilidad, correspondencia u otras fuentes pertinentes. La legislación de 1924–1925, además, permite estudiar cómo una prohibición normativa no equivale por sí sola a desaparición material inmediata.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *materialidad*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "7. ¿Dinero privado? El peligro de generalizar", bloques: [{ tipo: "texto", contenido: `
 Algunas fichas pudieron cumplir funciones semejantes al dinero dentro de circuitos privados. Sin embargo, no debe generalizarse que las fichas de finca fueran aceptadas rutinariamente fuera del establecimiento emisor.
@@ -120,6 +174,15 @@ La pregunta adecuada es:
 **¿Dónde y para qué puede demostrarse que esta ficha era aceptada?**
 
 Desgaste intenso, abundancia de ejemplares o semejanza con una moneda no responden por sí solos esa pregunta.
+
+
+### Profundización académica
+
+La exonumia obliga a resistir la tentación de atribuir funciones por semejanza formal. Una ficha puede registrar valor, trabajo, mercancía, control administrativo o una relación interna específica. Su función histórica debe demostrarse mediante la pieza y documentación contextual. Esta perspectiva se apoya en Morales Osterberg (2026), Prober (1973) y los decretos guatemaltecos de 1924–1925 citados en esta unidad. En esta sección, el eje de **circulación y generalización** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Morales Osterberg (2026) proporciona un corpus especialmente útil para comprender la diversidad funcional de las fichas particulares guatemaltecas. La lección metodológica consiste en no equiparar forma con función. Una denominación, perforación, material o nombre inscrito puede orientar la búsqueda, pero el significado económico o laboral requiere contrastarse con archivos, reglamentos, contabilidad, correspondencia u otras fuentes pertinentes. La legislación de 1924–1925, además, permite estudiar cómo una prohibición normativa no equivale por sí sola a desaparición material inmediata.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *circulación y generalización*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "8. 1924–1925: prohibición monetaria y continuidad administrativa", bloques: [{ tipo: "texto", contenido: `
 La Reforma Monetaria introdujo una ruptura jurídica importante.
@@ -139,6 +202,15 @@ Así:
 y
 
 **prohibición legal ≠ desaparición material inmediata**.
+
+
+### Profundización académica
+
+La exonumia obliga a resistir la tentación de atribuir funciones por semejanza formal. Una ficha puede registrar valor, trabajo, mercancía, control administrativo o una relación interna específica. Su función histórica debe demostrarse mediante la pieza y documentación contextual. Esta perspectiva se apoya en Morales Osterberg (2026), Prober (1973) y los decretos guatemaltecos de 1924–1925 citados en esta unidad. En esta sección, el eje de **cambio legal y continuidad funcional** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Morales Osterberg (2026) proporciona un corpus especialmente útil para comprender la diversidad funcional de las fichas particulares guatemaltecas. La lección metodológica consiste en no equiparar forma con función. Una denominación, perforación, material o nombre inscrito puede orientar la búsqueda, pero el significado económico o laboral requiere contrastarse con archivos, reglamentos, contabilidad, correspondencia u otras fuentes pertinentes. La legislación de 1924–1925, además, permite estudiar cómo una prohibición normativa no equivale por sí sola a desaparición material inmediata.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *cambio legal y continuidad funcional*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "9. Fecha inscrita, fecha atribuida y fecha demostrada", bloques: [{ tipo: "texto", contenido: `
 Una fecha grabada en una ficha constituye una observación. Su significado es una interpretación que debe demostrarse.
@@ -151,7 +223,7 @@ Por ello:
 
 La misma cautela debe aplicarse a nombres de fincas y propietarios. Una atribución repetida en catálogos posteriores puede depender de una única fuente anterior.
 
-U3 enseñó a reconstruir la genealogía de una afirmación. U6 aplica esa herramienta al catálogo exonúmico:
+unidad 3 enseñó a reconstruir la genealogía de una afirmación. unidad 6 aplica esa herramienta al catálogo exonúmico:
 
 1. ¿cuál es la atribución más antigua localizada?
 2. ¿presenta evidencia?
@@ -159,6 +231,15 @@ U3 enseñó a reconstruir la genealogía de una afirmación. U6 aplica esa herra
 4. ¿existe documentación material o archivística que la corrobore?
 
 Una tradición catalográfica puede ser correcta, pero su repetición no sustituye la demostración.
+
+
+### Profundización académica
+
+La exonumia obliga a resistir la tentación de atribuir funciones por semejanza formal. Una ficha puede registrar valor, trabajo, mercancía, control administrativo o una relación interna específica. Su función histórica debe demostrarse mediante la pieza y documentación contextual. Esta perspectiva se apoya en Morales Osterberg (2026), Prober (1973) y los decretos guatemaltecos de 1924–1925 citados en esta unidad. En esta sección, el eje de **cronología crítica** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Morales Osterberg (2026) proporciona un corpus especialmente útil para comprender la diversidad funcional de las fichas particulares guatemaltecas. La lección metodológica consiste en no equiparar forma con función. Una denominación, perforación, material o nombre inscrito puede orientar la búsqueda, pero el significado económico o laboral requiere contrastarse con archivos, reglamentos, contabilidad, correspondencia u otras fuentes pertinentes. La legislación de 1924–1925, además, permite estudiar cómo una prohibición normativa no equivale por sí sola a desaparición material inmediata.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *cronología crítica*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "10. Del catálogo a la historia", bloques: [{ tipo: "texto", contenido: `
 Catalogar continúa siendo indispensable. Sin identificación, orden y comparación es difícil saber qué existe, qué falta y qué constituye una verdadera variante.
@@ -171,11 +252,20 @@ Morales Osterberg señala que las fichas, observadas junto con archivos y contex
 
 También obliga a reconocer asimetrías documentales: el nombre del propietario puede quedar grabado en metal mientras los trabajadores aparecen reducidos a una tarea, cifra o unidad de producción.
 
-La conclusión metodológica de U6 es:
+La conclusión metodológica de unidad 6 es:
 
 **La ficha, por sí sola, no dicta una conclusión. Plantea un problema.**
 
 Cuando se confronta con documentos y contexto, el objeto exonúmico puede convertirse en una puerta hacia la historia.
+
+
+### Profundización académica
+
+La exonumia obliga a resistir la tentación de atribuir funciones por semejanza formal. Una ficha puede registrar valor, trabajo, mercancía, control administrativo o una relación interna específica. Su función histórica debe demostrarse mediante la pieza y documentación contextual. Esta perspectiva se apoya en Morales Osterberg (2026), Prober (1973) y los decretos guatemaltecos de 1924–1925 citados en esta unidad. En esta sección, el eje de **del catálogo a la historia** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Morales Osterberg (2026) proporciona un corpus especialmente útil para comprender la diversidad funcional de las fichas particulares guatemaltecas. La lección metodológica consiste en no equiparar forma con función. Una denominación, perforación, material o nombre inscrito puede orientar la búsqueda, pero el significado económico o laboral requiere contrastarse con archivos, reglamentos, contabilidad, correspondencia u otras fuentes pertinentes. La legislación de 1924–1925, además, permite estudiar cómo una prohibición normativa no equivale por sí sola a desaparición material inmediata.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *del catálogo a la historia*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "Actividad complementaria: Laboratorio de investigación 6 — ¿Qué puede demostrar esta ficha?", bloques: [{ tipo: "texto", contenido: `
 Seleccione una ficha particular guatemalteca o una fotografía suficientemente legible.
@@ -232,177 +322,127 @@ El Consejo Académico evaluará especialmente la correspondencia entre pieza, fu
 ];
 
 export const QUESTIONS = [
-  { pregunta: "Todo objeto redondo de metal con una cifra es una moneda.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Todo objeto redondo de metal con una cifra es una moneda.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La forma monetiforme no determina curso legal ni función.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué relación existe entre exonumia y numismática?", tipo: "mc",
-    opciones: ["La exonumia es una rama especializada de la numismática; esta respuesta debe evaluarse según la pieza y el contexto histórico documentado.","Son disciplinas sin relación; su validez debe analizarse considerando la pieza y el contexto histórico documentado.","La exonumia estudia únicamente billetes; corresponde contrastar esta afirmación con la pieza y el contexto histórico documentado.","La numismática estudia solo medallas; este planteamiento debe comprobarse mediante la pieza y el contexto histórico documentado."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Qué relación existe entre exonumia y numismática?", tipo: "mc", opciones: ["La exonumia es una rama especializada de la numismática", "Son disciplinas sin relación", "La exonumia estudia únicamente billetes", "La numismática estudia solo medallas"], correcta: 0, explicacion: `
 Morales Osterberg sitúa la exonumia como rama especializada de la numismática.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Toda ficha de finca funcionó como dinero.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Toda ficha de finca funcionó como dinero.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Las fichas tuvieron funciones monetarias, laborales, administrativas, comerciales y de control.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Una ficha marcada con “1” permite afirmar automáticamente que representa una unidad monetaria.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Una ficha marcada con “1” permite afirmar automáticamente que representa una unidad monetaria.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Primero debe determinarse qué unidad representa la cifra.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Cuál de estos valores puede aparecer en una ficha particular?", tipo: "mc",
-    opciones: ["Únicamente quetzales; esta respuesta debe evaluarse según la pieza y el contexto histórico documentado.","Jornal, tarea, corte o cantidad de producto; su validez debe analizarse considerando la pieza y el contexto histórico documentado.","Únicamente centavos; corresponde contrastar esta afirmación con la pieza y el contexto histórico documentado.","Solo valores sin cifra; este planteamiento debe comprobarse mediante la pieza y el contexto histórico documentado."],
-    correcta: 1, explicacion: `
+  { pregunta: "¿Cuál de estos valores puede aparecer en una ficha particular?", tipo: "mc", opciones: ["Jornal, tarea, corte o cantidad de producto", "Únicamente quetzales", "Únicamente centavos", "Solo valores sin cifra"], correcta: 0, explicacion: `
 Las fichas documentadas expresan múltiples unidades monetarias y no monetarias.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "La pieza exonúmica puede responder por sí sola cómo se pagaba a un trabajador.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "La pieza exonúmica puede responder por sí sola cómo se pagaba a un trabajador.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Esa pregunta normalmente requiere documentación laboral, contable o contextual.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué secuencia representa mejor la investigación propuesta en U6?", tipo: "mc",
-    opciones: ["Pieza → indicio → archivo → contexto → interpretación; esta respuesta debe evaluarse según la pieza y el contexto histórico documentado.","Catálogo → precio → compra → colección; su validez debe analizarse considerando la pieza y el contexto histórico documentado.","Fecha → certeza → conclusión; corresponde contrastar esta afirmación con la pieza y el contexto histórico documentado.","Metal → moneda → curso legal; este planteamiento debe comprobarse mediante la pieza y el contexto histórico documentado."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Qué secuencia representa mejor la investigación propuesta en U6?", tipo: "mc", opciones: ["Pieza → indicio → archivo → contexto → interpretación", "Catálogo → precio → compra → colección", "Fecha → certeza → conclusión", "Metal → moneda → curso legal"], correcta: 0, explicacion: `
 El objeto abre una ruta documental que permite contextualizarlo.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Encontrar una finca con el mismo nombre inscrito en una ficha demuestra automáticamente la atribución.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Encontrar una finca con el mismo nombre inscrito en una ficha demuestra automáticamente la atribución.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La correspondencia debe comprobarse geográfica, cronológica o documentalmente.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué debe hacer el investigador si una búsqueda documental no produce resultados?", tipo: "mc",
-    opciones: ["Inventar el contexto más probable; esta respuesta debe evaluarse según la pieza y el contexto histórico documentado.","Registrar el resultado y reconocer el límite; su validez debe analizarse considerando la pieza y el contexto histórico documentado.","Declarar inexistente la finca; corresponde contrastar esta afirmación con la pieza y el contexto histórico documentado.","Eliminar la pieza del estudio; este planteamiento debe comprobarse mediante la pieza y el contexto histórico documentado."],
-    correcta: 1, explicacion: `
+  { pregunta: "¿Qué debe hacer el investigador si una búsqueda documental no produce resultados?", tipo: "mc", opciones: ["Registrar el resultado y reconocer el límite", "Inventar el contexto más probable", "Declarar inexistente la finca", "Eliminar la pieza del estudio"], correcta: 0, explicacion: `
 Los resultados negativos delimitan la investigación sin demostrar automáticamente inexistencia.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "El aluminio, por sí solo, permite fechar exactamente una ficha.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "El aluminio, por sí solo, permite fechar exactamente una ficha.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 El material orienta hipótesis, pero la datación requiere evidencia adicional.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué ocurrió en 1894 según la investigación de Morales Osterberg?", tipo: "mc",
-    opciones: ["Se prohibieron todas las fichas; esta respuesta debe evaluarse según la pieza y el contexto histórico documentado.","Se creó el quetzal; su validez debe analizarse considerando la pieza y el contexto histórico documentado.","Se autorizó a la Casa de Moneda a fabricar piezas particulares bajo regulación; corresponde contrastar esta afirmación con la pieza y el contexto histórico documentado.","Se cerró la Casa de Moneda; este planteamiento debe comprobarse mediante la pieza y el contexto histórico documentado."],
-    correcta: 2, explicacion: `
+  { pregunta: "¿Qué ocurrió en 1894 según la investigación de Morales Osterberg?", tipo: "mc", opciones: ["Se autorizó a la Casa de Moneda a fabricar piezas particulares bajo regulación", "Se prohibieron todas las fichas", "Se creó el quetzal", "Se cerró la Casa de Moneda"], correcta: 0, explicacion: `
 La regulación de fabricación no otorgó curso legal a las fichas.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Una ficha fabricada por la Casa de Moneda de Guatemala era necesariamente moneda oficial.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Una ficha fabricada por la Casa de Moneda de Guatemala era necesariamente moneda oficial.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Lugar de fabricación, autoridad emisora y curso legal son categorías diferentes.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué pregunta es correcta al estudiar posible circulación privada?", tipo: "mc",
-    opciones: ["¿Cuánto desgaste tiene?; esta respuesta debe evaluarse según la pieza y el contexto histórico documentado.","¿Es redonda?; su validez debe analizarse considerando la pieza y el contexto histórico documentado.","¿Dónde y para qué puede demostrarse que era aceptada?; corresponde contrastar esta afirmación con la pieza y el contexto histórico documentado.","¿Se parece a una moneda?; este planteamiento debe comprobarse mediante la pieza y el contexto histórico documentado."],
-    correcta: 2, explicacion: `
+  { pregunta: "¿Qué pregunta es correcta al estudiar posible circulación privada?", tipo: "mc", opciones: ["¿Dónde y para qué puede demostrarse que era aceptada?", "¿Cuánto desgaste tiene?", "¿Es redonda?", "¿Se parece a una moneda?"], correcta: 0, explicacion: `
 La aceptación en un circuito concreto debe documentarse.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "El desgaste intenso demuestra por sí solo que una ficha circuló ampliamente como dinero.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "El desgaste intenso demuestra por sí solo que una ficha circuló ampliamente como dinero.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Demuestra uso o manipulación; no demuestra naturaleza ni alcance de ese uso.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Un testimonio de un propietario interesado en defender el sistema debe descartarse automáticamente.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Un testimonio de un propietario interesado en defender el sistema debe descartarse automáticamente.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Una fuente interesada puede ser útil si su posición se analiza y se contrasta.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué prohibió el Decreto 879 de 1924 respecto de las fichas?", tipo: "mc",
-    opciones: ["Toda colección de fichas; esta respuesta debe evaluarse según la pieza y el contexto histórico documentado.","Toda fabricación de objetos redondos; su validez debe analizarse considerando la pieza y el contexto histórico documentado.","El estudio exonúmico; corresponde contrastar esta afirmación con la pieza y el contexto histórico documentado.","Su empleo como sustitutos de la moneda legal; este planteamiento debe comprobarse mediante la pieza y el contexto histórico documentado."],
-    correcta: 3, explicacion: `
+  { pregunta: "¿Qué prohibió el Decreto 879 de 1924 respecto de las fichas?", tipo: "mc", opciones: ["Su empleo como sustitutos de la moneda legal", "Toda colección de fichas", "Toda fabricación de objetos redondos", "El estudio exonúmico"], correcta: 0, explicacion: `
 La prohibición se refiere a su empleo en sustitución de la moneda legal.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "La prohibición de 1924 demuestra que ninguna ficha volvió a utilizarse después.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "La prohibición de 1924 demuestra que ninguna ficha volvió a utilizarse después.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Continuaron funciones administrativas y de control de trabajo.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué función podía cumplir una ficha dentro del sistema de rayado posterior a la reforma?", tipo: "mc",
-    opciones: ["Registrar trabajo que debía pagarse en moneda legal; esta respuesta debe evaluarse según la pieza y el contexto histórico documentado.","Convertirse automáticamente en moneda nacional; su validez debe analizarse considerando la pieza y el contexto histórico documentado.","Sustituir legalmente todo salario; corresponde contrastar esta afirmación con la pieza y el contexto histórico documentado.","Servir únicamente como adorno; este planteamiento debe comprobarse mediante la pieza y el contexto histórico documentado."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Qué función podía cumplir una ficha dentro del sistema de rayado posterior a la reforma?", tipo: "mc", opciones: ["Registrar trabajo que debía pagarse en moneda legal", "Convertirse automáticamente en moneda nacional", "Sustituir legalmente todo salario", "Servir únicamente como adorno"], correcta: 0, explicacion: `
 La ficha podía funcionar como contraseña o evidencia de labores realizadas.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Mismo tipo de objeto significa necesariamente misma función histórica.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Mismo tipo de objeto significa necesariamente misma función histórica.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Una ficha similar puede cumplir funciones distintas según época y contexto.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Una ficha fechada después de 1924 es necesariamente falsa.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Una ficha fechada después de 1924 es necesariamente falsa.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Puede corresponder a funciones no monetarias posteriores a la prohibición.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué demuestra directamente una fecha inscrita?", tipo: "mc",
-    opciones: ["Que fue fabricada ese año; esta respuesta debe evaluarse según la pieza y el contexto histórico documentado.","Que esa fecha aparece en la pieza; su validez debe analizarse considerando la pieza y el contexto histórico documentado.","Que circuló ese año; corresponde contrastar esta afirmación con la pieza y el contexto histórico documentado.","Que el establecimiento se fundó ese año; este planteamiento debe comprobarse mediante la pieza y el contexto histórico documentado."],
-    correcta: 1, explicacion: `
+  { pregunta: "¿Qué demuestra directamente una fecha inscrita?", tipo: "mc", opciones: ["Que esa fecha aparece en la pieza", "Que fue fabricada ese año", "Que circuló ese año", "Que el establecimiento se fundó ese año"], correcta: 0, explicacion: `
 El significado histórico de la fecha debe investigarse.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Cinco catálogos que repiten una atribución procedente de una única obra equivalen necesariamente a cinco confirmaciones independientes.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Cinco catálogos que repiten una atribución procedente de una única obra equivalen necesariamente a cinco confirmaciones independientes.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Debe reconstruirse la genealogía de la afirmación y buscar corroboración independiente.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué papel debe desempeñar el catálogo en U6?", tipo: "mc",
-    opciones: ["Sustituir toda consulta documental; esta respuesta debe evaluarse según la pieza y el contexto histórico documentado.","Resolver automáticamente la función; su validez debe analizarse considerando la pieza y el contexto histórico documentado.","Determinar únicamente precios; corresponde contrastar esta afirmación con la pieza y el contexto histórico documentado.","Ser punto de partida para una investigación contextual; este planteamiento debe comprobarse mediante la pieza y el contexto histórico documentado."],
-    correcta: 3, explicacion: `
+  { pregunta: "¿Qué papel debe desempeñar el catálogo en U6?", tipo: "mc", opciones: ["Ser punto de partida para una investigación contextual", "Sustituir toda consulta documental", "Resolver automáticamente la función", "Determinar únicamente precios"], correcta: 0, explicacion: `
 La catalogación orienta, pero no reemplaza la investigación histórica.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "La ausencia de documentación encontrada demuestra automáticamente que un uso nunca existió.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "La ausencia de documentación encontrada demuestra automáticamente que un uso nunca existió.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Ausencia de evidencia y evidencia de ausencia no son equivalentes.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Cuál es la competencia central de U6?", tipo: "mc",
-    opciones: ["Memorizar todas las fichas conocidas; esta respuesta debe evaluarse según la pieza y el contexto histórico documentado.","Asignar precios a tokens; su validez debe analizarse considerando la pieza y el contexto histórico documentado.","Determinar qué puede afirmarse históricamente a partir de una pieza exonúmica y qué requiere más evidencia; corresponde contrastar esta afirmación con la pieza y el contexto histórico documentado.","Identificar únicamente materiales; este planteamiento debe comprobarse mediante la pieza y el contexto histórico documentado."],
-    correcta: 2, explicacion: `
+  { pregunta: "¿Cuál es la competencia central de U6?", tipo: "mc", opciones: ["Determinar qué puede afirmarse históricamente a partir de una pieza exonúmica y qué requiere más evidencia", "Memorizar todas las fichas conocidas", "Asignar precios a tokens", "Identificar únicamente materiales"], correcta: 0, explicacion: `
 U6 exige convertir el objeto exonúmico en problema histórico sin exceder la evidencia.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.

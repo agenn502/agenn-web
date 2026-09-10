@@ -1,6 +1,6 @@
 export const TEORIA = [
   { titulo: "1. De la moneda aislada al sistema monetario", bloques: [{ tipo: "texto", contenido: `
-En U4 se aprendió a identificar, clasificar y catalogar piezas. U5 cambia la escala de observación: una moneda deja de estudiarse únicamente como objeto individual y pasa a analizarse como parte de una **estructura monetaria**.
+En unidad 4 se aprendió a identificar, clasificar y catalogar piezas. unidad 5 cambia la escala de observación: una moneda deja de estudiarse únicamente como objeto individual y pasa a analizarse como parte de una **estructura monetaria**.
 
 Una denominación adquiere significado dentro de sus relaciones con otras denominaciones, con la unidad monetaria, con las normas que la regulan y con las condiciones históricas de su producción y circulación.
 
@@ -15,6 +15,15 @@ La pregunta rectora de esta unidad será:
 **¿Cómo se reconstruye un sistema monetario a partir de monedas, legislación, emisiones y circulación documentada?**
 
 El objetivo no será memorizar una secuencia de monedas, sino aprender a reconstruir históricamente las relaciones que existieron entre ellas.
+
+
+### Profundización académica
+
+Reconstruir un sistema monetario obliga a separar la arquitectura normativa de la realidad material. La legislación puede autorizar denominaciones que nunca se materializan, mientras piezas anteriores pueden continuar presentes después de una reforma. El sistema histórico debe reconstruirse con evidencia convergente. Esta perspectiva se apoya en Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024). En esta sección, el eje de **sistema y pieza** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El investigador debe construir una cronología de eventos distintos: autorización, fabricación, emisión, puesta en circulación, coexistencia y retiro cuando las fuentes permitan documentarlos. Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024) ofrecen materiales de naturaleza diferente para reconstruir la historia monetaria guatemalteca. Precisamente por esa diversidad, ninguna fecha debe trasladarse automáticamente de un proceso a otro: una norma, una acuñación y una circulación efectiva no son el mismo acontecimiento.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *sistema y pieza*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "2. Cono monetario, subcono y otras configuraciones", bloques: [{ tipo: "texto", contenido: `
 Rodríguez Orozco utiliza el **cono monetario** como una estructura formada por especies monetarias relacionadas dentro de un sistema. Para estudiar específicamente las monedas del sistema decimal guatemalteco desarrolla el concepto de **subcono monetario**.
@@ -30,9 +39,18 @@ Entre ellos se encuentran:
 Estas categorías son herramientas analíticas propuestas por el autor. No deben tratarse como vocabulario universal e indiscutible, sino comprenderse según el problema que permiten describir (Rodríguez Orozco, 2023/2024).
 
 La tarea del investigador consiste en determinar **qué evidencia permite reconocer cada configuración**.
+
+
+### Profundización académica
+
+Reconstruir un sistema monetario obliga a separar la arquitectura normativa de la realidad material. La legislación puede autorizar denominaciones que nunca se materializan, mientras piezas anteriores pueden continuar presentes después de una reforma. El sistema histórico debe reconstruirse con evidencia convergente. Esta perspectiva se apoya en Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024). En esta sección, el eje de **conceptos de cono y subcono** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El investigador debe construir una cronología de eventos distintos: autorización, fabricación, emisión, puesta en circulación, coexistencia y retiro cuando las fuentes permitan documentarlos. Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024) ofrecen materiales de naturaleza diferente para reconstruir la historia monetaria guatemalteca. Precisamente por esa diversidad, ninguna fecha debe trasladarse automáticamente de un proceso a otro: una norma, una acuñación y una circulación efectiva no son el mismo acontecimiento.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *conceptos de cono y subcono*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "3. La ley diseña posibilidades; la evidencia reconstruye lo ocurrido", bloques: [{ tipo: "texto", contenido: `
-Una disposición legal puede crear una unidad monetaria, definir equivalencias y autorizar denominaciones. Sin embargo, U2 y U3 enseñaron que una norma demuestra directamente **lo autorizado**, no todo lo que ocurrió después.
+Una disposición legal puede crear una unidad monetaria, definir equivalencias y autorizar denominaciones. Sin embargo, unidad 2 y unidad 3 enseñaron que una norma demuestra directamente **lo autorizado**, no todo lo que ocurrió después.
 
 Debe distinguirse:
 
@@ -52,6 +70,15 @@ Por ello pueden construirse reconstrucciones distintas:
 No son necesariamente contradictorias: **responden a preguntas diferentes**.
 
 El investigador debe indicar siempre cuál de ellas está intentando reconstruir.
+
+
+### Profundización académica
+
+Reconstruir un sistema monetario obliga a separar la arquitectura normativa de la realidad material. La legislación puede autorizar denominaciones que nunca se materializan, mientras piezas anteriores pueden continuar presentes después de una reforma. El sistema histórico debe reconstruirse con evidencia convergente. Esta perspectiva se apoya en Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024). En esta sección, el eje de **norma y materialización** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El investigador debe construir una cronología de eventos distintos: autorización, fabricación, emisión, puesta en circulación, coexistencia y retiro cuando las fuentes permitan documentarlos. Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024) ofrecen materiales de naturaleza diferente para reconstruir la historia monetaria guatemalteca. Precisamente por esa diversidad, ninguna fecha debe trasladarse automáticamente de un proceso a otro: una norma, una acuñación y una circulación efectiva no son el mismo acontecimiento.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *norma y materialización*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "4. 1870–1871: introducir el sistema decimal como problema histórico", bloques: [{ tipo: "texto", contenido: `
 El estudio del sistema decimal guatemalteco obliga a evitar una narración excesivamente sencilla del tipo “se adoptó el sistema decimal y desde entonces funcionó”.
@@ -66,7 +93,16 @@ Para responder no basta con localizar una disposición. Deben contrastarse legis
 
 Una reforma puede existir jurídicamente sin consolidarse inmediatamente como una estructura monetaria estable.
 
-Esta diferencia permite aplicar directamente las competencias de U3: el investigador deberá graduar su lenguaje y evitar convertir una disposición normativa en prueba automática de circulación efectiva.
+Esta diferencia permite aplicar directamente las competencias de unidad 3: el investigador deberá graduar su lenguaje y evitar convertir una disposición normativa en prueba automática de circulación efectiva.
+
+
+### Profundización académica
+
+Reconstruir un sistema monetario obliga a separar la arquitectura normativa de la realidad material. La legislación puede autorizar denominaciones que nunca se materializan, mientras piezas anteriores pueden continuar presentes después de una reforma. El sistema histórico debe reconstruirse con evidencia convergente. Esta perspectiva se apoya en Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024). En esta sección, el eje de **reforma decimal** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El investigador debe construir una cronología de eventos distintos: autorización, fabricación, emisión, puesta en circulación, coexistencia y retiro cuando las fuentes permitan documentarlos. Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024) ofrecen materiales de naturaleza diferente para reconstruir la historia monetaria guatemalteca. Precisamente por esa diversidad, ninguna fecha debe trasladarse automáticamente de un proceso a otro: una norma, una acuñación y una circulación efectiva no son el mismo acontecimiento.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *reforma decimal*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "5. Continuidad, interrupción y retorno: el sistema no evoluciona siempre en línea recta", bloques: [{ tipo: "texto", contenido: `
 Una cronología monetaria puede sugerir una evolución ordenada. El examen del corpus puede mostrar algo diferente.
@@ -87,6 +123,15 @@ Además, desde 1874 aparece el papel moneda guatemalteco, de modo que el anális
 Una interrupción no debe rellenarse mediante suposiciones. Puede convertirse en una pregunta:
 
 **¿Qué evidencia explica la ausencia, continuidad o reaparición de determinadas denominaciones?**
+
+
+### Profundización académica
+
+Reconstruir un sistema monetario obliga a separar la arquitectura normativa de la realidad material. La legislación puede autorizar denominaciones que nunca se materializan, mientras piezas anteriores pueden continuar presentes después de una reforma. El sistema histórico debe reconstruirse con evidencia convergente. Esta perspectiva se apoya en Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024). En esta sección, el eje de **discontinuidad histórica** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El investigador debe construir una cronología de eventos distintos: autorización, fabricación, emisión, puesta en circulación, coexistencia y retiro cuando las fuentes permitan documentarlos. Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024) ofrecen materiales de naturaleza diferente para reconstruir la historia monetaria guatemalteca. Precisamente por esa diversidad, ninguna fecha debe trasladarse automáticamente de un proceso a otro: una norma, una acuñación y una circulación efectiva no son el mismo acontecimiento.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *discontinuidad histórica*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "6. 1881 y la búsqueda de una estructura más estable", bloques: [{ tipo: "texto", contenido: `
 Las fuentes del Banco de Guatemala señalan **1881** como un momento en el que la circulación monetaria interna pareció estabilizarse por la cantidad de piezas, fechas y valores acuñados, aunque la circulación de moneda extranjera continuó siendo una constante (Banco de Guatemala, 2024).
@@ -102,6 +147,15 @@ Para el investigador, esto plantea varias preguntas:
 La estabilidad monetaria no debe deducirse únicamente de que exista una serie ordenada de monedas. Debe reconstruirse mediante la convergencia de evidencia material, normativa y documental.
 
 Así, el cono monetario se entiende como una **estructura dinámica**, capaz de ampliarse, contraerse, sustituir elementos o incorporar temporalmente especies diferentes.
+
+
+### Profundización académica
+
+Reconstruir un sistema monetario obliga a separar la arquitectura normativa de la realidad material. La legislación puede autorizar denominaciones que nunca se materializan, mientras piezas anteriores pueden continuar presentes después de una reforma. El sistema histórico debe reconstruirse con evidencia convergente. Esta perspectiva se apoya en Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024). En esta sección, el eje de **estructura monetaria** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El investigador debe construir una cronología de eventos distintos: autorización, fabricación, emisión, puesta en circulación, coexistencia y retiro cuando las fuentes permitan documentarlos. Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024) ofrecen materiales de naturaleza diferente para reconstruir la historia monetaria guatemalteca. Precisamente por esa diversidad, ninguna fecha debe trasladarse automáticamente de un proceso a otro: una norma, una acuñación y una circulación efectiva no son el mismo acontecimiento.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *estructura monetaria*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "7. 1924–1927: transformar la unidad monetaria", bloques: [{ tipo: "texto", contenido: `
 La Reforma Monetaria ofrece un caso privilegiado para investigar una transformación sistémica.
@@ -119,6 +173,15 @@ Cambiar el nombre o la definición de la unidad no significa que todas las pieza
 Por ello la pregunta INV no es solamente “¿cuándo nació el quetzal?”, sino:
 
 **¿cómo se transformó materialmente el sistema monetario después de creada la nueva unidad?**
+
+
+### Profundización académica
+
+Reconstruir un sistema monetario obliga a separar la arquitectura normativa de la realidad material. La legislación puede autorizar denominaciones que nunca se materializan, mientras piezas anteriores pueden continuar presentes después de una reforma. El sistema histórico debe reconstruirse con evidencia convergente. Esta perspectiva se apoya en Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024). En esta sección, el eje de **reforma del quetzal** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El investigador debe construir una cronología de eventos distintos: autorización, fabricación, emisión, puesta en circulación, coexistencia y retiro cuando las fuentes permitan documentarlos. Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024) ofrecen materiales de naturaleza diferente para reconstruir la historia monetaria guatemalteca. Precisamente por esa diversidad, ninguna fecha debe trasladarse automáticamente de un proceso a otro: una norma, una acuñación y una circulación efectiva no son el mismo acontecimiento.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *reforma del quetzal*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "8. Conos híbridos y paralelos: estudiar la convivencia", bloques: [{ tipo: "texto", contenido: `
 Rodríguez Orozco utiliza el concepto de **cono híbrido** para explicar momentos en los que la estructura monetaria reúne especies pertenecientes a configuraciones diferentes. Señala que en Guatemala estos fenómenos pueden observarse históricamente y que no existe una única forma de producir hibridación.
@@ -138,6 +201,15 @@ Después de una reforma pueden:
 El investigador debe demostrar la convivencia y precisar su naturaleza. La mera existencia de dos monedas fechadas en períodos diferentes no demuestra que circularan simultáneamente.
 
 **La coexistencia es una afirmación histórica y, como cualquier otra, necesita evidencia.**
+
+
+### Profundización académica
+
+Reconstruir un sistema monetario obliga a separar la arquitectura normativa de la realidad material. La legislación puede autorizar denominaciones que nunca se materializan, mientras piezas anteriores pueden continuar presentes después de una reforma. El sistema histórico debe reconstruirse con evidencia convergente. Esta perspectiva se apoya en Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024). En esta sección, el eje de **coexistencia** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El investigador debe construir una cronología de eventos distintos: autorización, fabricación, emisión, puesta en circulación, coexistencia y retiro cuando las fuentes permitan documentarlos. Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024) ofrecen materiales de naturaleza diferente para reconstruir la historia monetaria guatemalteca. Precisamente por esa diversidad, ninguna fecha debe trasladarse automáticamente de un proceso a otro: una norma, una acuñación y una circulación efectiva no son el mismo acontecimiento.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *coexistencia*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "9. Un cono monetario también tiene ciclos de vida", bloques: [{ tipo: "texto", contenido: `
 Rodríguez Orozco incorpora el **ciclo de vida de una denominación** como parte del análisis del cono monetario.
@@ -158,6 +230,15 @@ Conviene distinguir, cuando las fuentes lo permitan:
 Una moneda puede conservar su denominación y función mientras cambia materialmente. También puede existir una autorización que nunca llegue a convertirse en una especie efectivamente circulante.
 
 El análisis del ciclo de vida ayuda a reconstruir **transformaciones interanuales e intraanuales**, uno de los problemas destacados en el estudio del subcono decimal guatemalteco.
+
+
+### Profundización académica
+
+Reconstruir un sistema monetario obliga a separar la arquitectura normativa de la realidad material. La legislación puede autorizar denominaciones que nunca se materializan, mientras piezas anteriores pueden continuar presentes después de una reforma. El sistema histórico debe reconstruirse con evidencia convergente. Esta perspectiva se apoya en Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024). En esta sección, el eje de **ciclo de vida** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El investigador debe construir una cronología de eventos distintos: autorización, fabricación, emisión, puesta en circulación, coexistencia y retiro cuando las fuentes permitan documentarlos. Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024) ofrecen materiales de naturaleza diferente para reconstruir la historia monetaria guatemalteca. Precisamente por esa diversidad, ninguna fecha debe trasladarse automáticamente de un proceso a otro: una norma, una acuñación y una circulación efectiva no son el mismo acontecimiento.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *ciclo de vida*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "10. Reconstruir un cono es construir una interpretación histórica", bloques: [{ tipo: "texto", contenido: `
 Una tabla de denominaciones puede parecer el resultado más sencillo de una investigación:
@@ -175,11 +256,20 @@ El investigador deberá además declarar qué representa su reconstrucción: lo 
 
 Rodríguez Orozco plantea que la estructura y composición del cono permiten estudiar cómo las especies monetarias se acomodan históricamente y cómo se relacionan con la evolución monetaria y comercial del país.
 
-La idea central de U5 es, por tanto:
+La idea central de unidad 5 es, por tanto:
 
 **El cono monetario no es solamente una lista de monedas. Es una reconstrucción histórica de las relaciones entre especies que fueron concebidas, producidas y utilizadas dentro de un sistema determinado.**
 
 La tabla es el resultado visible. La investigación está en la evidencia que permite construirla.
+
+
+### Profundización académica
+
+Reconstruir un sistema monetario obliga a separar la arquitectura normativa de la realidad material. La legislación puede autorizar denominaciones que nunca se materializan, mientras piezas anteriores pueden continuar presentes después de una reforma. El sistema histórico debe reconstruirse con evidencia convergente. Esta perspectiva se apoya en Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024). En esta sección, el eje de **reconstrucción histórica** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+El investigador debe construir una cronología de eventos distintos: autorización, fabricación, emisión, puesta en circulación, coexistencia y retiro cuando las fuentes permitan documentarlos. Prober (1973), Sandoval Abullarade (s. f.) y Banco de Guatemala (2024) ofrecen materiales de naturaleza diferente para reconstruir la historia monetaria guatemalteca. Precisamente por esa diversidad, ninguna fecha debe trasladarse automáticamente de un proceso a otro: una norma, una acuñación y una circulación efectiva no son el mismo acontecimiento.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *reconstrucción histórica*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "Actividad complementaria: Laboratorio de investigación 5 — Reconstruya el sistema", bloques: [{ tipo: "texto", contenido: `
 Trabaje con un conjunto de evidencias correspondiente a un período monetario guatemalteco. Puede incluir legislación, fotografías de monedas, registros de acuñación, bibliografía especializada y noticias contemporáneas.
@@ -243,177 +333,127 @@ Los conceptos propuestos por Rodríguez Orozco pueden utilizarse como herramient
 ];
 
 export const QUESTIONS = [
-  { pregunta: "Una moneda puede estudiarse como parte de una estructura de denominaciones y no únicamente como objeto aislado.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 1, explicacion: `
+  { pregunta: "Una moneda puede estudiarse como parte de una estructura de denominaciones y no únicamente como objeto aislado.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 U5 cambia la escala del objeto individual al sistema monetario.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué pregunta guía U5?", tipo: "mc",
-    opciones: ["¿Cómo se reconstruye un sistema monetario a partir de evidencia?; esta respuesta debe evaluarse según la evidencia legal, material y de circulación.","¿Cuál moneda vale más en el mercado?; su validez debe analizarse considerando la evidencia legal, material y de circulación.","¿Qué colección es más grande?; corresponde contrastar esta afirmación con la evidencia legal, material y de circulación.","¿Qué diseño es más bonito?; este planteamiento debe comprobarse mediante la evidencia legal, material y de circulación."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Qué pregunta guía U5?", tipo: "mc", opciones: ["¿Cómo se reconstruye un sistema monetario a partir de evidencia?", "¿Cuál moneda vale más en el mercado?", "¿Qué colección es más grande?", "¿Qué diseño es más bonito?"], correcta: 0, explicacion: `
 La unidad se centra en reconstruir relaciones históricas entre especies monetarias.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Una denominación autorizada por ley demuestra automáticamente que fue acuñada y circuló.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Una denominación autorizada por ley demuestra automáticamente que fue acuñada y circuló.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La autorización normativa debe distinguirse de acuñación, emisión y circulación.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué describe el cono monetario básico en la propuesta de Rodríguez Orozco?", tipo: "mc",
-    opciones: ["Toda moneda extranjera; esta respuesta debe evaluarse según la evidencia legal, material y de circulación.","Las especies que se repiten con mayor continuidad y frecuencia en un período; su validez debe analizarse considerando la evidencia legal, material y de circulación.","Solo monedas de oro; corresponde contrastar esta afirmación con la evidencia legal, material y de circulación.","Solo denominaciones autorizadas pero no emitidas; este planteamiento debe comprobarse mediante la evidencia legal, material y de circulación."],
-    correcta: 1, explicacion: `
+  { pregunta: "¿Qué describe el cono monetario básico en la propuesta de Rodríguez Orozco?", tipo: "mc", opciones: ["Las especies que se repiten con mayor continuidad y frecuencia en un período", "Toda moneda extranjera", "Solo monedas de oro", "Solo denominaciones autorizadas pero no emitidas"], correcta: 0, explicacion: `
 Es una categoría analítica propuesta por el autor para identificar una estructura recurrente.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Los conceptos de cono híbrido y paralelo deben presentarse como categorías propuestas por Rodríguez Orozco, no como vocabulario universal.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 0, explicacion: `
+  { pregunta: "Los conceptos de cono híbrido y paralelo deben presentarse como categorías propuestas por Rodríguez Orozco, no como vocabulario universal.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 U3 exige identificar la procedencia y alcance de los conceptos utilizados.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué puede demostrar directamente una ley que autoriza una denominación?", tipo: "mc",
-    opciones: ["Que necesariamente se fabricó; esta respuesta debe evaluarse según la evidencia legal, material y de circulación.","Que circuló en todo el país; su validez debe analizarse considerando la evidencia legal, material y de circulación.","Que fue legalmente autorizada; corresponde contrastar esta afirmación con la evidencia legal, material y de circulación.","Que fue aceptada por toda la población; este planteamiento debe comprobarse mediante la evidencia legal, material y de circulación."],
-    correcta: 2, explicacion: `
+  { pregunta: "¿Qué puede demostrar directamente una ley que autoriza una denominación?", tipo: "mc", opciones: ["Que fue legalmente autorizada", "Que necesariamente se fabricó", "Que circuló en todo el país", "Que fue aceptada por toda la población"], correcta: 0, explicacion: `
 El alcance directo de la fuente normativa es la autorización.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Autorización, acuñación, emisión y circulación son etapas que el investigador debe distinguir.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 1, explicacion: `
+  { pregunta: "Autorización, acuñación, emisión y circulación son etapas que el investigador debe distinguir.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 Confundirlas produce reconstrucciones históricas incorrectas.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué debe hacerse al estudiar los primeros intentos decimales?", tipo: "mc",
-    opciones: ["Asumir consolidación inmediata; esta respuesta debe evaluarse según la evidencia legal, material y de circulación.","Usar solo un catálogo; su validez debe analizarse considerando la evidencia legal, material y de circulación.","Ignorar los vacíos; corresponde contrastar esta afirmación con la evidencia legal, material y de circulación.","Contrastar legislación, piezas y continuidad posterior; este planteamiento debe comprobarse mediante la evidencia legal, material y de circulación."],
-    correcta: 3, explicacion: `
+  { pregunta: "¿Qué debe hacerse al estudiar los primeros intentos decimales?", tipo: "mc", opciones: ["Contrastar legislación, piezas y continuidad posterior", "Asumir consolidación inmediata", "Usar solo un catálogo", "Ignorar los vacíos"], correcta: 0, explicacion: `
 La adopción jurídica no demuestra consolidación material inmediata.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Una interrupción en una serie monetaria puede convertirse en un problema de investigación.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 0, explicacion: `
+  { pregunta: "Una interrupción en una serie monetaria puede convertirse en un problema de investigación.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 Las ausencias y discontinuidades pueden orientar nuevas preguntas.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Cuál es un fenómeno de transformación descrito por Rodríguez Orozco?", tipo: "mc",
-    opciones: ["Adición o agregación; esta respuesta debe evaluarse según la evidencia legal, material y de circulación.","Certificación comercial; su validez debe analizarse considerando la evidencia legal, material y de circulación.","Gradación de conservación; corresponde contrastar esta afirmación con la evidencia legal, material y de circulación.","Encapsulado; este planteamiento debe comprobarse mediante la evidencia legal, material y de circulación."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Cuál es un fenómeno de transformación descrito por Rodríguez Orozco?", tipo: "mc", opciones: ["Adición o agregación", "Certificación comercial", "Gradación de conservación", "Encapsulado"], correcta: 0, explicacion: `
 El autor analiza sustitución, adición, reducción y actualización.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "La existencia de papel moneda desde 1874 obliga a considerar que el circulante histórico no puede explicarse únicamente con monedas metálicas.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 1, explicacion: `
+  { pregunta: "La existencia de papel moneda desde 1874 obliga a considerar que el circulante histórico no puede explicarse únicamente con monedas metálicas.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 Desde ese momento distintas especies forman parte de la historia monetaria.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué señala Banco de Guatemala sobre 1881?", tipo: "mc",
-    opciones: ["Que nació el quetzal; esta respuesta debe evaluarse según la evidencia legal, material y de circulación.","Que desapareció toda moneda extranjera; su validez debe analizarse considerando la evidencia legal, material y de circulación.","Que dejaron de acuñarse monedas; corresponde contrastar esta afirmación con la evidencia legal, material y de circulación.","Que la circulación interna pareció estabilizarse, aunque continuó moneda extranjera; este planteamiento debe comprobarse mediante la evidencia legal, material y de circulación."],
-    correcta: 3, explicacion: `
+  { pregunta: "¿Qué señala Banco de Guatemala sobre 1881?", tipo: "mc", opciones: ["Que la circulación interna pareció estabilizarse, aunque continuó moneda extranjera", "Que nació el quetzal", "Que desapareció toda moneda extranjera", "Que dejaron de acuñarse monedas"], correcta: 0, explicacion: `
 La fuente institucional presenta 1881 como un momento de aparente estabilización.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "La creación legal del quetzal y la aparición de todas sus especies monetarias ocurrieron necesariamente el mismo día.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "La creación legal del quetzal y la aparición de todas sus especies monetarias ocurrieron necesariamente el mismo día.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La reforma jurídica y su materialización monetaria deben distinguirse temporalmente.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Cuál fecha corresponde a la creación legal del quetzal según Banco de Guatemala?", tipo: "mc",
-    opciones: ["15 de septiembre de 1821; esta respuesta debe evaluarse según la evidencia legal, material y de circulación.","26 de noviembre de 1924; su validez debe analizarse considerando la evidencia legal, material y de circulación.","30 de junio de 1871; corresponde contrastar esta afirmación con la evidencia legal, material y de circulación.","1 de julio de 1946; este planteamiento debe comprobarse mediante la evidencia legal, material y de circulación."],
-    correcta: 1, explicacion: `
+  { pregunta: "¿Cuál fecha corresponde a la creación legal del quetzal según Banco de Guatemala?", tipo: "mc", opciones: ["26 de noviembre de 1924", "15 de septiembre de 1821", "30 de junio de 1871", "1 de julio de 1946"], correcta: 0, explicacion: `
 La fuente institucional sitúa la creación de la unidad monetaria en esa fecha.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Después de una reforma, la continuidad de piezas anteriores demuestra que la reforma nunca existió.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Después de una reforma, la continuidad de piezas anteriores demuestra que la reforma nunca existió.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Puede tratarse de una transición con traslape de especies.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué caracteriza un cono paralelo según Rodríguez Orozco?", tipo: "mc",
-    opciones: ["Dos diseños de la misma moneda; esta respuesta debe evaluarse según la evidencia legal, material y de circulación.","Monedas falsas; su validez debe analizarse considerando la evidencia legal, material y de circulación.","Moneda extranjera legalizada para circular junto con la nacional; corresponde contrastar esta afirmación con la evidencia legal, material y de circulación.","Monedas guardadas en colecciones; este planteamiento debe comprobarse mediante la evidencia legal, material y de circulación."],
-    correcta: 2, explicacion: `
+  { pregunta: "¿Qué caracteriza un cono paralelo según Rodríguez Orozco?", tipo: "mc", opciones: ["Moneda extranjera legalizada para circular junto con la nacional", "Dos diseños de la misma moneda", "Monedas falsas", "Monedas guardadas en colecciones"], correcta: 0, explicacion: `
 La definición se refiere a convivencia legal de especies extranjeras y nacionales.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "La coexistencia de monedas de fechas distintas demuestra por sí sola que circularon simultáneamente.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "La coexistencia de monedas de fechas distintas demuestra por sí sola que circularon simultáneamente.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La simultaneidad es una afirmación histórica que necesita evidencia.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué estudia el ciclo de vida de una denominación?", tipo: "mc",
-    opciones: ["Solo su precio actual; esta respuesta debe evaluarse según la evidencia legal, material y de circulación.","Su surgimiento, permanencia, cambios, sustitución o desaparición; su validez debe analizarse considerando la evidencia legal, material y de circulación.","Solo el retrato de la moneda; corresponde contrastar esta afirmación con la evidencia legal, material y de circulación.","Solo su diámetro; este planteamiento debe comprobarse mediante la evidencia legal, material y de circulación."],
-    correcta: 1, explicacion: `
+  { pregunta: "¿Qué estudia el ciclo de vida de una denominación?", tipo: "mc", opciones: ["Su surgimiento, permanencia, cambios, sustitución o desaparición", "Solo su precio actual", "Solo el retrato de la moneda", "Solo su diámetro"], correcta: 0, explicacion: `
 Permite seguir transformaciones de una denominación en el tiempo.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Fecha inscrita y fecha de puesta en circulación deben considerarse siempre idénticas.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Fecha inscrita y fecha de puesta en circulación deben considerarse siempre idénticas.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Son datos distintos y deben registrarse separadamente cuando la evidencia lo permita.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Dos reconstrucciones del mismo año difieren: una muestra lo autorizado y otra lo materialmente documentado. ¿Cuál es necesariamente incorrecta?", tipo: "mc",
-    opciones: ["Siempre la legal; esta respuesta debe evaluarse según la evidencia legal, material y de circulación.","Siempre la material; su validez debe analizarse considerando la evidencia legal, material y de circulación.","Ambas; corresponde contrastar esta afirmación con la evidencia legal, material y de circulación.","Ninguna; pueden responder a preguntas diferentes; este planteamiento debe comprobarse mediante la evidencia legal, material y de circulación."],
-    correcta: 3, explicacion: `
+  { pregunta: "Dos reconstrucciones del mismo año difieren: una muestra lo autorizado y otra lo materialmente documentado. ¿Cuál es necesariamente incorrecta?", tipo: "mc", opciones: ["Ninguna; pueden responder a preguntas diferentes", "Siempre la legal", "Siempre la material", "Ambas"], correcta: 0, explicacion: `
 Debe identificarse qué universo representa cada reconstrucción.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Una tabla de denominaciones constituye por sí sola toda la investigación del cono monetario.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Una tabla de denominaciones constituye por sí sola toda la investigación del cono monetario.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La tabla resume conclusiones cuya evidencia y razonamiento deben documentarse.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué combinación es más adecuada para reconstruir un sistema monetario?", tipo: "mc",
-    opciones: ["Legislación, piezas, registros, circulación, bibliografía y contexto; esta respuesta debe evaluarse según la evidencia legal, material y de circulación.","Solo precios de subasta; su validez debe analizarse considerando la evidencia legal, material y de circulación.","Solo fotografías; corresponde contrastar esta afirmación con la evidencia legal, material y de circulación.","Solo memoria del coleccionista; este planteamiento debe comprobarse mediante la evidencia legal, material y de circulación."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Qué combinación es más adecuada para reconstruir un sistema monetario?", tipo: "mc", opciones: ["Legislación, piezas, registros, circulación, bibliografía y contexto", "Solo precios de subasta", "Solo fotografías", "Solo memoria del coleccionista"], correcta: 0, explicacion: `
 La reconstrucción sólida requiere fuentes pertinentes y, cuando procede, convergentes.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Una denominación puede conservar su función mientras cambia su diseño o material.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 0, explicacion: `
+  { pregunta: "Una denominación puede conservar su función mientras cambia su diseño o material.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 El ciclo de vida puede incluir actualizaciones sin desaparición de la denominación.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "El trabajo de U5 debe reproducir exactamente la interpretación de Rodríguez Orozco.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "El trabajo de U5 debe reproducir exactamente la interpretación de Rodríguez Orozco.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 El estudiante debe utilizar evidencia y argumentar su propia reconstrucción.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Cuál es la competencia central de U5?", tipo: "mc",
-    opciones: ["Memorizar todas las fechas; esta respuesta debe evaluarse según la evidencia legal, material y de circulación.","Asignar precios; su validez debe analizarse considerando la evidencia legal, material y de circulación.","Reconstruir e interpretar un sistema monetario distinguiendo lo autorizado, producido y circulado; corresponde contrastar esta afirmación con la evidencia legal, material y de circulación.","Reconocer únicamente retratos; este planteamiento debe comprobarse mediante la evidencia legal, material y de circulación."],
-    correcta: 2, explicacion: `
+  { pregunta: "¿Cuál es la competencia central de U5?", tipo: "mc", opciones: ["Reconstruir e interpretar un sistema monetario distinguiendo lo autorizado, producido y circulado", "Memorizar todas las fechas", "Asignar precios", "Reconocer únicamente retratos"], correcta: 0, explicacion: `
 La unidad exige pasar de las piezas a las relaciones históricas que forman un sistema.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.

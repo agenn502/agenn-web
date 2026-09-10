@@ -29,6 +29,7 @@ type Unidad = {
 export default function ProcesoNovPage() {
   const [user, setUser] = useState<User | null>(null);
   const [esConsejo, setEsConsejo] = useState(false);
+  const [esNivelSuperior, setEsNivelSuperior] = useState(false);
   const [progreso, setProgreso] = useState<ProgresoRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -116,12 +117,21 @@ export default function ProcesoNovPage() {
         parsed.consejo === "TRUE" ||
         parsed.consejo === 1;
 
+      const nivelSuperior =
+        parsed.nivel === "INV" || parsed.nivel === "NUM";
+
       setUser(parsed);
       setEsConsejo(consejoNormalizado);
+      setEsNivelSuperior(nivelSuperior);
 
-      // Solo NOV o Consejo
-      if (!consejoNormalizado && parsed.nivel !== "NOV") {
-        setError("Esta sección corresponde al proceso de formación y acreditación del Nivel Novicio.");
+      // NOV cursa el nivel; INV y NUM pueden consultarlo en modo repaso.
+      if (
+        !consejoNormalizado &&
+        parsed.nivel !== "NOV" &&
+        parsed.nivel !== "INV" &&
+        parsed.nivel !== "NUM"
+      ) {
+        setError("Esta sección corresponde a la formación del Nivel Novicio.");
         setLoading(false);
         return;
       }
@@ -160,7 +170,7 @@ export default function ProcesoNovPage() {
   }, [unidades, progresoMap]);
 
   const estaDesbloqueada = (index: number) => {
-    if (esConsejo) return true;
+    if (esConsejo || esNivelSuperior) return true;
 
     const unidad = unidades[index];
 
@@ -218,32 +228,49 @@ export default function ProcesoNovPage() {
         }}
       >
         <p style={{ marginTop: 0, marginBottom: "0.6rem" }}>
-          <strong>Avance general:</strong> {porcentajeGeneral}%
+          <strong>{esNivelSuperior ? "Estado:" : "Avance general:"}</strong>{" "}
+          {esNivelSuperior ? "Nivel superado" : `${porcentajeGeneral}%`}
         </p>
 
-        <div
-          style={{
-            width: "100%",
-            height: "14px",
-            background: "#e6dfd1",
-            borderRadius: "999px",
-            overflow: "hidden",
-          }}
-        >
+        {!esNivelSuperior && (
           <div
             style={{
-              width: `${porcentajeGeneral}%`,
-              height: "100%",
-              background: "#6b6f1a",
+              width: "100%",
+              height: "14px",
+              background: "#e6dfd1",
+              borderRadius: "999px",
+              overflow: "hidden",
             }}
-          />
-        </div>
+          >
+            <div
+              style={{
+                width: `${porcentajeGeneral}%`,
+                height: "100%",
+                background: "#6b6f1a",
+              }}
+            />
+          </div>
+        )}
 
         {esConsejo && (
           <p style={{ marginBottom: 0, marginTop: "0.8rem", color: "#555" }}>
             Modo Consejo Académico: todas las unidades están visibles sin restricción.
           </p>
         )}
+        {esNivelSuperior && !esConsejo && (
+          <p
+            style={{
+              marginBottom: 0,
+              marginTop: "0.8rem",
+              color: "#555",
+            }}
+          >
+            Ya superó el Nivel Novicio. ¡Bienvenido nuevamente! Sus diez
+            unidades permanecen disponibles como material de repaso, consulta
+            y actualización.
+          </p>
+        )}
+
       </div>
 
       <h2>Estructura del Nivel Novicio</h2>
@@ -352,31 +379,37 @@ export default function ProcesoNovPage() {
                 </p>
               )}
 
-              <p style={{ marginBottom: "0.5rem" }}>
-                <strong>Avance:</strong> {estado.porcentaje}%
-              </p>
+              {!esNivelSuperior && (
+                <>
+                  <p style={{ marginBottom: "0.5rem" }}>
+                    <strong>Avance:</strong> {estado.porcentaje}%
+                  </p>
 
-              <div
-                style={{
-                  width: "100%",
-                  height: "10px",
-                  background: "#e6dfd1",
-                  borderRadius: "999px",
-                  overflow: "hidden",
-                  marginBottom: "0.8rem",
-                }}
-              >
-                <div
+                  <div
                   style={{
-                    width: `${estado.porcentaje}%`,
-                    height: "100%",
-                    background: estado.completada ? "#4f7f3b" : "#6b6f1a",
+                    width: "100%",
+                    height: "10px",
+                    background: "#e6dfd1",
+                    borderRadius: "999px",
+                    overflow: "hidden",
+                    marginBottom: "0.8rem",
                   }}
-                />
-              </div>
+                  >
+                    <div
+                      style={{
+                        width: `${estado.porcentaje}%`,
+                        height: "100%",
+                        background: estado.completada ? "#4f7f3b" : "#6b6f1a",
+                      }}
+                    />
+                  </div>
+                </>
+              )}
 
               <p style={{ marginTop: 0, marginBottom: "1rem", color: "#555" }}>
-                {estado.completada
+                {esNivelSuperior
+                  ? "Disponible para repaso."
+                  : estado.completada
                   ? "Unidad completada."
                   : desbloqueada && estado.porcentaje > 0
                   ? `Cuestionario en progreso: ${estado.porcentaje}% completado.`
@@ -387,7 +420,11 @@ export default function ProcesoNovPage() {
 
               {desbloqueada ? (
                 <Link
-                  href={unidad.href}
+                  href={
+                    esNivelSuperior || estado.completada
+                      ? `${unidad.href}?modo=repaso`
+                      : unidad.href
+                  }
                   style={{
                     display: "inline-block",
                     background: "#6b6f1a",
@@ -397,8 +434,10 @@ export default function ProcesoNovPage() {
                     textDecoration: "none",
                   }}
                 >
-                  {estado.completada
-                    ? "Revisar unidad"
+                  {esNivelSuperior
+                    ? "Repasar unidad"
+                    : estado.completada
+                    ? "Volver a repasar la unidad"
                     : estado.porcentaje > 0
                     ? "Continuar cuestionario"
                     : "Ingresar"}

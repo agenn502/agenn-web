@@ -426,6 +426,10 @@ export default function MiembrosLayout({
             label: "Documentos oficiales",
             href: "/miembros/documentos",
           },
+          {
+            label: "Repasar nivel Novicio",
+            href: "/miembros/proceso_nov",
+          },
         ];
 
         // -----------------------------------------------------

@@ -2,7 +2,7 @@ export const TEORIA = [
   {
     titulo: "1. Encontrar una fuente no significa haber encontrado la verdad",
     bloques: [{ tipo: "texto", contenido: `
-En U2 se aprendió a localizar y organizar fuentes pertinentes. Ahora corresponde dar un paso adicional: **someterlas a crítica**.
+En unidad 2 se aprendió a localizar y organizar fuentes pertinentes. Ahora corresponde dar un paso adicional: **someterlas a crítica**.
 
 Una fuente no se convierte en verdad por ser antigua, oficial, académica o muy citada. Tampoco debe descartarse automáticamente porque sea interesada, posterior al hecho o contradictoria.
 
@@ -136,7 +136,7 @@ Reconocer incertidumbre no representa un fracaso de la investigación. Es prefer
   {
     titulo: "7. El silencio de las fuentes",
     bloques: [{ tipo: "texto", contenido: `
-En U1 se introdujo una regla importante:
+En unidad 1 se introdujo una regla importante:
 
 **ausencia de evidencia ≠ evidencia de ausencia.**
 
@@ -281,7 +281,7 @@ Incluya citas y referencias completas.
 
 **El estudiante no será penalizado por concluir que algo no puede demostrarse. Sí será observado si afirma más de lo que sus fuentes permiten.**
 
-Esta será la última nota breve del primer bloque metodológico. En U4 aumentará la extensión y se aplicarán estas competencias al problema de la identificación, clasificación y catalogación.
+Esta será la última nota breve del primer bloque metodológico. En unidad 4 aumentará la extensión y se aplicarán estas competencias al problema de la identificación, clasificación y catalogación.
 ` }],
   },
   {
@@ -298,13 +298,75 @@ Esta será la última nota breve del primer bloque metodológico. En U4 aumentar
 **Nota metodológica:** estas obras cumplen funciones distintas: metodología general, fuentes institucionales, estudios especializados y obras de referencia. La pertinencia de una fuente siempre dependerá de la afirmación concreta que se pretenda sostener.
 ` }],
   },
+
+  { titulo: "Profundización 1. La crítica externa e interna de una fuente", bloques: [{ tipo: "texto", contenido: `
+La crítica puede comenzar por establecer autenticidad, fecha, autoría, procedencia e integridad del documento, y continuar examinando contenido, propósito, lenguaje y relación con otros testimonios. Howell y Prevenier (2001) desarrollan estos problemas como parte central del método histórico. En numismática, la crítica se extiende también al objeto: autenticidad, alteraciones, atribuciones y contexto de procedencia pueden condicionar su valor probatorio.
+
+No toda investigación requerirá resolver todos estos aspectos, pero el estudiante debe reconocer cuáles afectan su pregunta. Una fuente auténtica puede contener información errónea; una fuente interesada puede conservar datos valiosos; una copia tardía puede transmitir un documento perdido. La crítica evita juicios binarios de “confiable/no confiable”.
+` }] },
+  { titulo: "Profundización 2. Autor, destinatario y propósito", bloques: [{ tipo: "texto", contenido: `
+Preguntar quién produjo una fuente y para quién ayuda a interpretar qué información era importante registrar y qué podía omitirse. Un informe administrativo, un anuncio comercial, una memoria institucional y una noticia periodística responden a propósitos distintos. Bloch (1953) advierte que incluso testimonios involuntarios pueden proporcionar información que su autor nunca pretendió transmitir.
+
+El investigador debe distinguir entre lo que la fuente quiso afirmar y lo que permite observar indirectamente. Una propaganda puede ser débil para describir objetivamente una situación, pero excelente para estudiar el mensaje que una institución intentaba difundir.
+` }] },
+  { titulo: "Profundización 3. Dependencia y genealogía de afirmaciones", bloques: [{ tipo: "texto", contenido: `
+Una afirmación puede circular durante décadas y adquirir apariencia de hecho por repetición. La crítica exige rastrear, cuando sea posible, quién la formuló primero y qué evidencia utilizó. Howell y Prevenier (2001) muestran la importancia de reconstruir la transmisión del testimonio.
+
+Si cinco autores dependen del mismo catálogo, no existen cinco confirmaciones independientes. El investigador debe buscar líneas de evidencia distintas: legislación, pieza, archivo, prensa o registros. La convergencia entre fuentes independientes fortalece una conclusión más que la repetición bibliográfica.
+` }] },
+  { titulo: "Profundización 4. Contradicciones y resolución de discrepancias", bloques: [{ tipo: "texto", contenido: `
+Las discrepancias no deben resolverse eligiendo automáticamente la fuente más reciente o la que parezca más autorizada. Primero debe determinarse si las fuentes hablan realmente del mismo fenómeno. Una puede referirse a autorización y otra a circulación; una a fecha de fabricación y otra a fecha inscrita.
+
+Cuando la contradicción persiste, debe exponerse. Booth et al. (2016) recomiendan anticipar objeciones y evidencia contraria como parte de un argumento responsable. Una conclusión que reconoce una discrepancia no es más débil: es más transparente respecto del estado del conocimiento.
+` }] },
+  { titulo: "Profundización 5. Incertidumbre y lenguaje académico", bloques: [{ tipo: "texto", contenido: `
+El grado de certeza debe reflejar la calidad de la evidencia. “Demuestra”, “documenta”, “sugiere”, “es compatible con”, “podría” y “no puede determinarse” no son equivalentes. El investigador debe escogerlos según la relación real entre fuente y afirmación.
+
+Reconocer incertidumbre no significa refugiarse siempre en expresiones vagas. Cuando la evidencia es directa y suficiente, corresponde formular conclusiones firmes y delimitadas. El rigor consiste en no afirmar menos ni más de lo que las fuentes permiten.
+` }] },
+
+  { titulo: "Profundización 6. Autenticidad no equivale a veracidad", bloques: [{ tipo: "texto", contenido: `
+Comprobar que un documento es auténtico responde a una pregunta distinta de determinar si su contenido es verdadero. Una carta genuina puede contener rumores; un informe oficial auténtico puede seleccionar información favorable a la institución; una memoria escrita décadas después puede mezclar recuerdo y reconstrucción. Bloch (1953) insistió en la necesidad de interrogar los testimonios incluso cuando su autenticidad no está en duda.
+
+En numismática ocurre algo semejante: una pieza auténtica demuestra la existencia de ese ejemplar y sus características materiales, pero no convierte automáticamente en verdaderas todas las historias de procedencia asociadas a ella. La cadena documental debe evaluarse por separado.
+
+Esta distinción permite evitar dos errores opuestos: aceptar sin crítica todo documento oficial o descartar por completo una fuente parcial. La pregunta adecuada es qué información concreta puede sostenerse con ella y qué corroboración adicional necesita.
+` }] },
+  { titulo: "Profundización 7. Proximidad temporal y conocimiento efectivo", bloques: [{ tipo: "texto", contenido: `
+Una fuente contemporánea a un acontecimiento puede ser valiosa, pero contemporaneidad no significa conocimiento directo. Un periódico publicado el mismo día puede repetir información de terceros; un funcionario puede desconocer decisiones tomadas en otra dependencia. Howell y Prevenier (2001) recomiendan examinar la posición del testigo respecto del hecho que describe.
+
+Por ello conviene preguntar: ¿cómo pudo saberlo?, ¿estuvo presente?, ¿tuvo acceso a registros?, ¿reproduce otra fuente?, ¿escribe antes o después de conocer el resultado? Estas preguntas ayudan a valorar la proximidad epistemológica, no solo cronológica.
+
+Una fuente posterior puede, en ciertos casos, disponer de archivos que un testigo contemporáneo no conocía. La comparación entre testimonios cercanos y reconstrucciones posteriores debe hacerse según la afirmación concreta que se intenta sostener.
+` }] },
+  { titulo: "Profundización 8. Corroborar sin contar votos", bloques: [{ tipo: "texto", contenido: `
+La corroboración no funciona como una votación bibliográfica. Diez autores que repiten el mismo dato no superan automáticamente a un documento contemporáneo que lo contradice. El investigador debe identificar independencia, calidad y alcance de cada línea de evidencia.
+
+Una estrategia consiste en construir una tabla con afirmación, fuente inmediata, fuente originaria y grado de independencia. Esto permite detectar cadenas de copia y distinguir consenso historiográfico de corroboración documental. Booth et al. (2016) señalan que un argumento fuerte debe responder a objeciones razonables; una fuente contradictoria de alta calidad no puede neutralizarse simplemente citando más obras dependientes.
+
+Cuando la evidencia permanece dividida, la conclusión debe expresarlo. La tarea no es forzar unanimidad, sino describir con precisión por qué unas fuentes merecen mayor peso para la pregunta planteada.
+` }] },
+  { titulo: "Profundización 9. El silencio como evidencia condicionada", bloques: [{ tipo: "texto", contenido: `
+El argumento del silencio solo adquiere fuerza cuando existe una razón fundada para esperar que la fuente registrara el fenómeno. Si un libro contable conserva sistemáticamente todas las emisiones de un período y una denominación nunca aparece, la ausencia puede ser informativa. Si la serie está incompleta, el silencio es mucho más débil.
+
+El investigador debe documentar la expectativa de presencia: ¿qué función tenía el registro?, ¿qué años conserva?, ¿qué omisiones conocidas presenta?, ¿existen controles cruzados? Sin esta evaluación, “no aparece” se transforma indebidamente en “no existió”.
+
+Bloch (1953) mostró que los silencios documentales forman parte de los problemas del historiador. En AGENN, el uso responsable de evidencia negativa exige declarar el corpus examinado y formular la conclusión de manera proporcional a su completitud.
+` }] },
+  { titulo: "Profundización 10. Construir una conclusión auditable", bloques: [{ tipo: "texto", contenido: `
+Una conclusión sólida debe permitir reconstruir su camino probatorio. Para cada afirmación central, el investigador debería poder indicar qué fuentes la sostienen, qué fuentes la contradicen, qué inferencia realizó y qué grado de certeza asigna. Esta práctica convierte la crítica de fuentes en argumento y prepara las competencias que se profundizarán en las unidades 8 y 9.
+
+Howell y Prevenier (2001) ofrecen herramientas para evaluar testimonios; Booth et al. (2016) ayudan a convertir evidencia en afirmaciones defendibles. La combinación resulta especialmente útil en investigación numismática, donde el objeto material y el documento escrito suelen responder preguntas diferentes.
+
+Una conclusión auditable no necesita ser definitiva. Puede establecer que una hipótesis es probable, que dos explicaciones siguen abiertas o que la evidencia disponible no permite decidir. Lo importante es que el lector pueda comprender por qué se llegó exactamente hasta ese punto.
+` }] },
 ];
 
 export const QUESTIONS = [
   {
     pregunta: "Una fuente académica muy citada debe aceptarse como verdadera sin revisar la evidencia en que se basa.",
     tipo: "fv",
-    opciones: ["Verdadero","Falso"],
+    opciones: ["Verdadero", "Falso"],
     correcta: 1,
     explicacion: `
 La autoridad o frecuencia de cita no sustituye la evaluación crítica de la evidencia.
@@ -315,7 +377,7 @@ La autoridad o frecuencia de cita no sustituye la evaluación crítica de la evi
   {
     pregunta: "¿Cuál es la pregunta central de la crítica de fuentes?",
     tipo: "mc",
-    opciones: ["¿Qué me permite saber esta fuente y con qué grado de confianza?; esta respuesta debe evaluarse según el origen, el contexto y el alcance de la fuente.","¿Cuántas páginas tiene?; su validez debe analizarse considerando el origen, el contexto y el alcance de la fuente.","¿Es la fuente más antigua disponible?; corresponde contrastar esta afirmación con el origen, el contexto y el alcance de la fuente.","¿Coincide con mi hipótesis?; este planteamiento debe comprobarse mediante el origen, el contexto y el alcance de la fuente."],
+    opciones: ["¿Qué me permite saber esta fuente y con qué grado de confianza?", "¿Cuántas páginas tiene?", "¿Es la fuente más antigua disponible?", "¿Coincide con mi hipótesis?"],
     correcta: 0,
     explicacion: `
 La crítica determina alcance y confiabilidad para una afirmación concreta.
@@ -326,8 +388,8 @@ La crítica determina alcance y confiabilidad para una afirmación concreta.
   {
     pregunta: "La proximidad temporal de una fuente garantiza que su contenido sea exacto.",
     tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0,
+    opciones: ["Verdadero", "Falso"],
+    correcta: 1,
     explicacion: `
 Un contemporáneo puede equivocarse, desconocer hechos o defender intereses.
 
@@ -337,8 +399,8 @@ Un contemporáneo puede equivocarse, desconocer hechos o defender intereses.
   {
     pregunta: "¿Cuál conjunto de elementos ayuda a contextualizar una fuente?",
     tipo: "mc",
-    opciones: ["Precio, tamaño de letra y encuadernación; esta respuesta debe evaluarse según el origen, el contexto y el alcance de la fuente.","Número de fotografías únicamente; su validez debe analizarse considerando el origen, el contexto y el alcance de la fuente.","Popularidad del autor; corresponde contrastar esta afirmación con el origen, el contexto y el alcance de la fuente.","Autoría, fecha, propósito, destinatario y contexto; este planteamiento debe comprobarse mediante el origen, el contexto y el alcance de la fuente."],
-    correcta: 3,
+    opciones: ["Autoría, fecha, propósito, destinatario y contexto", "Precio, tamaño de letra y encuadernación", "Número de fotografías únicamente", "Popularidad del autor"],
+    correcta: 0,
     explicacion: `
 Conocer quién produjo la fuente, cuándo y para qué ayuda a establecer su alcance.
 
@@ -348,8 +410,8 @@ Conocer quién produjo la fuente, cuándo y para qué ayuda a establecer su alca
   {
     pregunta: "Una fuente primaria es siempre superior a una secundaria.",
     tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0,
+    opciones: ["Verdadero", "Falso"],
+    correcta: 1,
     explicacion: `
 Primaria y secundaria describen relaciones con el fenómeno, no una jerarquía automática de calidad.
 
@@ -359,7 +421,7 @@ Primaria y secundaria describen relaciones con el fenómeno, no una jerarquía a
   {
     pregunta: "¿Qué fuente sería más directa para demostrar qué ordenó legalmente una reforma monetaria?",
     tipo: "mc",
-    opciones: ["El decreto correspondiente; esta respuesta debe evaluarse según el origen, el contexto y el alcance de la fuente.","Un catálogo moderno; su validez debe analizarse considerando el origen, el contexto y el alcance de la fuente.","Una publicación en redes sociales; corresponde contrastar esta afirmación con el origen, el contexto y el alcance de la fuente.","El precio actual de las piezas; este planteamiento debe comprobarse mediante el origen, el contexto y el alcance de la fuente."],
+    opciones: ["El decreto correspondiente", "Un catálogo moderno", "Una publicación en redes sociales", "El precio actual de las piezas"],
     correcta: 0,
     explicacion: `
 La disposición normativa es evidencia directa de lo ordenado por la autoridad.
@@ -370,8 +432,8 @@ La disposición normativa es evidencia directa de lo ordenado por la autoridad.
   {
     pregunta: "Nueve libros que dependen de una misma afirmación original constituyen nueve corroboraciones independientes.",
     tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0,
+    opciones: ["Verdadero", "Falso"],
+    correcta: 1,
     explicacion: `
 Puede tratarse de una única tradición bibliográfica repetida.
 
@@ -381,8 +443,8 @@ Puede tratarse de una única tradición bibliográfica repetida.
   {
     pregunta: "¿Qué significa reconstruir la genealogía de una afirmación?",
     tipo: "mc",
-    opciones: ["Buscar la biografía familiar del autor; esta respuesta debe evaluarse según el origen, el contexto y el alcance de la fuente.","Rastrear quién la formuló, cómo fue repetida y en qué evidencia se apoyaba; su validez debe analizarse considerando el origen, el contexto y el alcance de la fuente.","Contar las ediciones de un libro; corresponde contrastar esta afirmación con el origen, el contexto y el alcance de la fuente.","Elegir la versión más reciente; este planteamiento debe comprobarse mediante el origen, el contexto y el alcance de la fuente."],
-    correcta: 1,
+    opciones: ["Rastrear quién la formuló, cómo fue repetida y en qué evidencia se apoyaba", "Buscar la biografía familiar del autor", "Contar las ediciones de un libro", "Elegir la versión más reciente"],
+    correcta: 0,
     explicacion: `
 El objetivo es llegar al origen documental de la afirmación.
 
@@ -392,8 +454,8 @@ El objetivo es llegar al origen documental de la afirmación.
   {
     pregunta: "Una fuente interesada debe descartarse automáticamente.",
     tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0,
+    opciones: ["Verdadero", "Falso"],
+    correcta: 1,
     explicacion: `
 El interés debe analizarse como parte del contexto y contrastarse con otras evidencias.
 
@@ -403,8 +465,8 @@ El interés debe analizarse como parte del contexto y contrastarse con otras evi
   {
     pregunta: "Un propietario describe favorablemente un sistema que él mismo utiliza. ¿Qué procede?",
     tipo: "mc",
-    opciones: ["Aceptar el relato por ser contemporáneo; esta respuesta debe evaluarse según el origen, el contexto y el alcance de la fuente.","Analizar su posición y buscar evidencia independiente; su validez debe analizarse considerando el origen, el contexto y el alcance de la fuente.","Descartarlo sin leerlo; corresponde contrastar esta afirmación con el origen, el contexto y el alcance de la fuente.","Convertirlo en prueba de aceptación general; este planteamiento debe comprobarse mediante el origen, el contexto y el alcance de la fuente."],
-    correcta: 1,
+    opciones: ["Analizar su posición y buscar evidencia independiente", "Aceptar el relato por ser contemporáneo", "Descartarlo sin leerlo", "Convertirlo en prueba de aceptación general"],
+    correcta: 0,
     explicacion: `
 Su posición no invalida el testimonio, pero condiciona su uso.
 
@@ -414,7 +476,7 @@ Su posición no invalida el testimonio, pero condiciona su uso.
   {
     pregunta: "Cuando dos fuentes se contradicen, debe elegirse la escrita por el autor más prestigioso.",
     tipo: "fv",
-    opciones: ["Verdadero","Falso"],
+    opciones: ["Verdadero", "Falso"],
     correcta: 1,
     explicacion: `
 La contradicción debe analizarse mediante contexto, dependencia y evidencia adicional.
@@ -425,7 +487,7 @@ La contradicción debe analizarse mediante contexto, dependencia y evidencia adi
   {
     pregunta: "¿Cuál puede ser una conclusión legítima después de estudiar fuentes contradictorias?",
     tipo: "mc",
-    opciones: ["La evidencia disponible no permite determinarlo con certeza; esta respuesta debe evaluarse según el origen, el contexto y el alcance de la fuente.","Debe ser cierta la fuente más antigua; su validez debe analizarse considerando el origen, el contexto y el alcance de la fuente.","Ambas son necesariamente falsas; corresponde contrastar esta afirmación con el origen, el contexto y el alcance de la fuente.","La contradicción debe omitirse; este planteamiento debe comprobarse mediante el origen, el contexto y el alcance de la fuente."],
+    opciones: ["La evidencia disponible no permite determinarlo con certeza", "Debe ser cierta la fuente más antigua", "Ambas son necesariamente falsas", "La contradicción debe omitirse"],
     correcta: 0,
     explicacion: `
 Reconocer incertidumbre es una conclusión académicamente válida.
@@ -436,7 +498,7 @@ Reconocer incertidumbre es una conclusión académicamente válida.
   {
     pregunta: "No encontrar una pieza demuestra que nunca existió.",
     tipo: "fv",
-    opciones: ["Verdadero","Falso"],
+    opciones: ["Verdadero", "Falso"],
     correcta: 1,
     explicacion: `
 La ausencia de evidencia no equivale automáticamente a evidencia de ausencia.
@@ -447,8 +509,8 @@ La ausencia de evidencia no equivale automáticamente a evidencia de ausencia.
   {
     pregunta: "¿Cuándo puede adquirir relevancia el silencio documental?",
     tipo: "mc",
-    opciones: ["Siempre que no aparezca un resultado en Google; esta respuesta debe evaluarse según el origen, el contexto y el alcance de la fuente.","Cuando contradice nuestra hipótesis; su validez debe analizarse considerando el origen, el contexto y el alcance de la fuente.","Cuando razonablemente se esperaba encontrar una huella en una serie adecuada y suficientemente completa; corresponde contrastar esta afirmación con el origen, el contexto y el alcance de la fuente.","Nunca; este planteamiento debe comprobarse mediante el origen, el contexto y el alcance de la fuente."],
-    correcta: 2,
+    opciones: ["Cuando razonablemente se esperaba encontrar una huella en una serie adecuada y suficientemente completa", "Siempre que no aparezca un resultado en Google", "Cuando contradice nuestra hipótesis", "Nunca"],
+    correcta: 0,
     explicacion: `
 La ausencia solo adquiere fuerza cuando puede justificarse la expectativa de evidencia.
 
@@ -458,8 +520,8 @@ La ausencia solo adquiere fuerza cuando puede justificarse la expectativa de evi
   {
     pregunta: "Un documento que afirma que ocurrió un hecho demuestra directamente, como mínimo, que alguien hizo esa afirmación.",
     tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 1,
+    opciones: ["Verdadero", "Falso"],
+    correcta: 0,
     explicacion: `
 La verdad histórica de lo afirmado puede requerir evaluación y corroboración adicional.
 
@@ -469,8 +531,8 @@ La verdad histórica de lo afirmado puede requerir evaluación y corroboración 
   {
     pregunta: "¿Cuál es una inferencia?",
     tipo: "mc",
-    opciones: ["La inscripción visible de una moneda; esta respuesta debe evaluarse según el origen, el contexto y el alcance de la fuente.","La transcripción literal de un decreto; su validez debe analizarse considerando el origen, el contexto y el alcance de la fuente.","El título de un catálogo; corresponde contrastar esta afirmación con el origen, el contexto y el alcance de la fuente.","Una relación razonada construida a partir de evidencias que no la expresan directamente; este planteamiento debe comprobarse mediante el origen, el contexto y el alcance de la fuente."],
-    correcta: 3,
+    opciones: ["Una relación razonada construida a partir de evidencias que no la expresan directamente", "La inscripción visible de una moneda", "La transcripción literal de un decreto", "El título de un catálogo"],
+    correcta: 0,
     explicacion: `
 La inferencia conecta evidencias mediante razonamiento explícito.
 
@@ -480,8 +542,8 @@ La inferencia conecta evidencias mediante razonamiento explícito.
   {
     pregunta: "Una interpretación histórica y una observación material son exactamente el mismo nivel de afirmación.",
     tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0,
+    opciones: ["Verdadero", "Falso"],
+    correcta: 1,
     explicacion: `
 La interpretación integra y explica evidencias; la observación describe características directamente constatables.
 
@@ -491,7 +553,7 @@ La interpretación integra y explica evidencias; la observación describe caract
   {
     pregunta: "¿Qué combinación ofrecería evidencia convergente sobre una emisión?",
     tipo: "mc",
-    opciones: ["Decreto, registro de fabricación, ejemplar y prensa contemporánea; esta respuesta debe evaluarse según el origen, el contexto y el alcance de la fuente.","Cuatro catálogos que copian el mismo dato; su validez debe analizarse considerando el origen, el contexto y el alcance de la fuente.","Cuatro fotografías de la misma página; corresponde contrastar esta afirmación con el origen, el contexto y el alcance de la fuente.","Cuatro opiniones sin fuente; este planteamiento debe comprobarse mediante el origen, el contexto y el alcance de la fuente."],
+    opciones: ["Decreto, registro de fabricación, ejemplar y prensa contemporánea", "Cuatro catálogos que copian el mismo dato", "Cuatro fotografías de la misma página", "Cuatro opiniones sin fuente"],
     correcta: 0,
     explicacion: `
 Fuentes de distinta naturaleza pueden documentar etapas diferentes del fenómeno.
@@ -502,8 +564,8 @@ Fuentes de distinta naturaleza pueden documentar etapas diferentes del fenómeno
   {
     pregunta: "Cuanto más amplia sea una afirmación, normalmente mayor deberá ser la evidencia que la respalde.",
     tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 1,
+    opciones: ["Verdadero", "Falso"],
+    correcta: 0,
     explicacion: `
 Generalizaciones amplias requieren una base empírica proporcional.
 
@@ -513,8 +575,8 @@ Generalizaciones amplias requieren una base empírica proporcional.
   {
     pregunta: "¿Cuál afirmación requiere menos evidencia?",
     tipo: "mc",
-    opciones: ["La pieza circuló ampliamente en toda Guatemala; esta respuesta debe evaluarse según el origen, el contexto y el alcance de la fuente.","Toda la población la aceptó; su validez debe analizarse considerando el origen, el contexto y el alcance de la fuente.","Fue la moneda preferida durante décadas; corresponde contrastar esta afirmación con el origen, el contexto y el alcance de la fuente.","Existe al menos un ejemplar documentado con esta característica; este planteamiento debe comprobarse mediante el origen, el contexto y el alcance de la fuente."],
-    correcta: 3,
+    opciones: ["Existe al menos un ejemplar documentado con esta característica", "La pieza circuló ampliamente en toda Guatemala", "Toda la población la aceptó", "Fue la moneda preferida durante décadas"],
+    correcta: 0,
     explicacion: `
 Una afirmación existencial concreta tiene un alcance mucho menor.
 
@@ -524,8 +586,8 @@ Una afirmación existencial concreta tiene un alcance mucho menor.
   {
     pregunta: "La palabra 'sugiere' puede ser más rigurosa que 'demuestra' cuando la evidencia es incompleta.",
     tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 1,
+    opciones: ["Verdadero", "Falso"],
+    correcta: 0,
     explicacion: `
 El lenguaje debe reflejar el grado real de certeza.
 
@@ -535,8 +597,8 @@ El lenguaje debe reflejar el grado real de certeza.
   {
     pregunta: "¿Qué expresión corresponde cuando la evidencia no contradice una hipótesis pero tampoco la prueba?",
     tipo: "mc",
-    opciones: ["Demuestra; esta respuesta debe evaluarse según el origen, el contexto y el alcance de la fuente.","Confirma definitivamente; su validez debe analizarse considerando el origen, el contexto y el alcance de la fuente.","Es compatible con; corresponde contrastar esta afirmación con el origen, el contexto y el alcance de la fuente.","Es indudable; este planteamiento debe comprobarse mediante el origen, el contexto y el alcance de la fuente."],
-    correcta: 2,
+    opciones: ["Es compatible con", "Demuestra", "Confirma definitivamente", "Es indudable"],
+    correcta: 0,
     explicacion: `
 Compatibilidad no equivale a demostración.
 
@@ -546,8 +608,8 @@ Compatibilidad no equivale a demostración.
   {
     pregunta: "Modificar una hipótesis frente a nueva evidencia constituye un fracaso del investigador.",
     tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0,
+    opciones: ["Verdadero", "Falso"],
+    correcta: 1,
     explicacion: `
 Revisar conclusiones demuestra que la investigación está gobernada por evidencia.
 
@@ -557,8 +619,8 @@ Revisar conclusiones demuestra que la investigación está gobernada por evidenc
   {
     pregunta: "¿Qué debe hacer el estudiante si después de una búsqueda rigurosa no puede resolver una contradicción?",
     tipo: "mc",
-    opciones: ["Inventar una solución probable y presentarla como hecho; esta respuesta debe evaluarse según el origen, el contexto y el alcance de la fuente.","Omitir una de las fuentes; su validez debe analizarse considerando el origen, el contexto y el alcance de la fuente.","Expresar claramente que no puede determinarse con la evidencia disponible; corresponde contrastar esta afirmación con el origen, el contexto y el alcance de la fuente.","Elegir la explicación que más le guste; este planteamiento debe comprobarse mediante el origen, el contexto y el alcance de la fuente."],
-    correcta: 2,
+    opciones: ["Expresar claramente que no puede determinarse con la evidencia disponible", "Inventar una solución probable y presentarla como hecho", "Omitir una de las fuentes", "Elegir la explicación que más le guste"],
+    correcta: 0,
     explicacion: `
 Los límites documentales deben formar parte explícita de la conclusión.
 
@@ -568,8 +630,8 @@ Los límites documentales deben formar parte explícita de la conclusión.
   {
     pregunta: "¿Cuál es la competencia central de U3?",
     tipo: "mc",
-    opciones: ["Memorizar nombres de autores; esta respuesta debe evaluarse según el origen, el contexto y el alcance de la fuente.","Evaluar críticamente fuentes y ajustar las afirmaciones al alcance de la evidencia; su validez debe analizarse considerando el origen, el contexto y el alcance de la fuente.","Coleccionar el mayor número de referencias; corresponde contrastar esta afirmación con el origen, el contexto y el alcance de la fuente.","Defender siempre la hipótesis inicial; este planteamiento debe comprobarse mediante el origen, el contexto y el alcance de la fuente."],
-    correcta: 1,
+    opciones: ["Evaluar críticamente fuentes y ajustar las afirmaciones al alcance de la evidencia", "Memorizar nombres de autores", "Coleccionar el mayor número de referencias", "Defender siempre la hipótesis inicial"],
+    correcta: 0,
     explicacion: `
 U3 enseña a construir evidencia mediante crítica, contraste y reconocimiento de incertidumbre.
 

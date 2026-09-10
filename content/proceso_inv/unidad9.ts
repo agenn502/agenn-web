@@ -13,6 +13,15 @@ Si la fuente consultada demuestra únicamente que la pieza fue autorizada, el pr
 Por ello, redactar es también una forma de control metodológico. Obliga a hacer visibles los pasos entre fuente, evidencia, inferencia y conclusión.
 
 **Una frase difícil de sostener puede revelar un problema de investigación, no solamente un problema de redacción.**
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **escritura como investigación** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *escritura como investigación*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "2. ¿Qué tengo realmente que decir?", bloques: [{ tipo: "texto", contenido: `
 Antes de desarrollar antecedentes extensos, el investigador debe poder formular con claridad cuál es el aporte central de su trabajo.
@@ -36,6 +45,15 @@ Debe distinguirse:
 Sostener que su implementación fue gradual y demostrarlo mediante evidencia constituye una tesis.
 
 Un ensayo académico no es una acumulación de información alrededor de un tema: **es una argumentación orientada a responder una pregunta**.
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **tesis** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *tesis*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "3. Tema, pregunta, tesis y argumento", bloques: [{ tipo: "texto", contenido: `
 La relación entre estos elementos puede representarse así:
@@ -56,6 +74,15 @@ Al revisar el manuscrito conviene preguntar:
 4. ¿Qué objeciones o alternativas debo considerar?
 
 La estructura del texto debe servir a esa lógica y no al simple orden en que las fuentes fueron encontradas.
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **arquitectura argumental** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *arquitectura argumental*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "4. La arquitectura del ensayo académico", bloques: [{ tipo: "texto", contenido: `
 No todos los ensayos históricos o numismáticos necesitan adoptar una estructura rígida idéntica. La organización debe responder al problema y a la lógica del argumento.
@@ -73,11 +100,20 @@ Una arquitectura funcional puede contener:
 Los subtítulos deben ayudar al lector a seguir el razonamiento. No deben existir únicamente porque una plantilla exija determinada cantidad de secciones.
 
 Una introducción tampoco necesita resolver anticipadamente todos los antecedentes históricos. Debe proporcionar al lector lo necesario para comprender **qué problema se investigará y por qué vale la pena hacerlo**.
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **estructura del ensayo** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *estructura del ensayo*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "5. El párrafo como unidad de argumento", bloques: [{ tipo: "texto", contenido: `
 Un párrafo académico debe realizar trabajo intelectual. No basta con acumular fechas, nombres o citas.
 
-La estructura trabajada en U8 sirve también como herramienta de escritura:
+La estructura trabajada en unidad 8 sirve también como herramienta de escritura:
 
 **afirmación → evidencia → razonamiento → límite**
 
@@ -93,6 +129,15 @@ No todos los párrafos deben seguir mecánicamente la misma fórmula. Sin embarg
 - qué grado de certeza corresponde.
 
 Un párrafo que contiene afirmaciones importantes sin permitir identificar su fundamento necesita revisión.
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **párrafo** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *párrafo*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "6. Citar no es decorar el texto", bloques: [{ tipo: "texto", contenido: `
 Las citas cumplen una función de **trazabilidad**. Permiten distinguir qué información procede de otras fuentes y facilitan que el lector compruebe el fundamento de una afirmación.
@@ -110,6 +155,15 @@ Debe diferenciarse:
 Si un investigador adopta una categoría conceptual desarrollada por otro autor y la aplica a un caso nuevo, la categoría debe atribuirse a su autor, mientras que la aplicación e interpretación nuevas pueden constituir aporte propio.
 
 Citar correctamente no reduce la originalidad. Al contrario: **permite reconocer con precisión dónde comienza el aporte del investigador**.
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **atribución** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *atribución*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "7. La fuente debe sostener exactamente la afirmación", bloques: [{ tipo: "texto", contenido: `
 Una referencia colocada al final de un párrafo no garantiza que todas las afirmaciones contenidas en él estén sustentadas.
@@ -135,6 +189,15 @@ Cuando la respuesta es no, existen varias opciones:
 - eliminarla.
 
 Esta correspondencia entre **afirmación y fuente** constituye una de las principales responsabilidades de la escritura académica.
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **correspondencia de citas** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *correspondencia de citas*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "8. Cita directa, paráfrasis y apropiación de ideas", bloques: [{ tipo: "texto", contenido: `
 Una **cita directa** reproduce literalmente palabras de una fuente y debe identificarlas como tales.
@@ -152,6 +215,15 @@ En fuentes históricas debe distinguirse además entre:
 El lector debe poder reconocer en todo momento quién está hablando: el documento histórico, otro investigador o el autor del manuscrito.
 
 La atribución rigurosa protege tanto a las fuentes utilizadas como al aporte original del investigador.
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **paráfrasis** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *paráfrasis*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "9. Referencias: identificar y recuperar la fuente", bloques: [{ tipo: "texto", contenido: `
 El formato bibliográfico no es un adorno editorial. Su función principal es permitir identificar con precisión la fuente utilizada y, cuando sea posible, recuperarla.
@@ -165,6 +237,15 @@ Una referencia como “Banco de Guatemala” no identifica por sí sola una publ
 El principio es:
 
 **la referencia debe permitir saber exactamente qué documento fue utilizado.**
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **referencias** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *referencias*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "10. Imágenes, tablas y piezas también necesitan trazabilidad", bloques: [{ tipo: "texto", contenido: `
 En investigación numismática, una fotografía de una moneda, billete o ficha puede constituir evidencia y no simple decoración.
@@ -189,6 +270,15 @@ Las tablas elaboradas por el investigador también deben indicar el origen de lo
 **Elaboración propia con datos de…**
 
 La trazabilidad visual y tabular permite que otros investigadores sepan qué observaron directamente y qué información fue tomada de otras fuentes.
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **evidencia visual** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *evidencia visual*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "11. Escribir con grados de certeza", bloques: [{ tipo: "texto", contenido: `
 Las palabras utilizadas para presentar conclusiones expresan diferentes grados de fuerza probatoria.
@@ -211,6 +301,15 @@ Escribir “posiblemente” no convierte en válida una afirmación que carece d
 El lenguaje académico debe evitar tanto la certeza artificial como una cautela excesiva que impida formular conclusiones cuando la evidencia sí las permite.
 
 La precisión consiste en hacer coincidir **la fuerza de las palabras con la fuerza de la evidencia**.
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **certeza lingüística** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *certeza lingüística*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "12. La conclusión no es un resumen", bloques: [{ tipo: "texto", contenido: `
 Una conclusión académica no consiste simplemente en repetir los apartados anteriores.
@@ -231,6 +330,15 @@ Una buena conclusión:
 No debe introducir evidencia decisiva que nunca fue analizada en el desarrollo.
 
 La conclusión muestra hasta dónde llegó la investigación. Por ello también debe distinguir aquello que quedó demostrado de aquello que permanece probable, posible o no determinable.
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **conclusión** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *conclusión*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "13. Revisar como investigador, no solamente como corrector", bloques: [{ tipo: "texto", contenido: `
 La revisión académica debe comenzar antes de la ortografía y el formato.
@@ -251,6 +359,15 @@ Una lista de control AGENN puede incluir:
 Después se revisan estructura, claridad, sintaxis, puntuación, ortografía y presentación.
 
 Primero se revisa **la investigación contenida en el texto**. Después se perfecciona su expresión.
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **revisión** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *revisión*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "14. Comunicar también implica someterse a crítica", bloques: [{ tipo: "texto", contenido: `
 Publicar una investigación significa permitir que otros examinen sus fuentes, argumentos y conclusiones.
@@ -273,6 +390,15 @@ Esto no significa publicación automática. Un manuscrito podrá requerir:
 **revisión → correcciones → adecuación editorial → evaluación → publicación**
 
 La investigación no termina simplemente cuando el autor cree haber encontrado una respuesta. Termina provisionalmente cuando puede mostrar a otros **qué sostiene, con qué evidencia, mediante qué razonamiento y dentro de qué límites**.
+
+
+### Profundización académica
+
+La escritura académica hace verificable la investigación. Una tesis clara, argumentos trazables y referencias precisas permiten que el lector distinga entre lo documentado, lo tomado de otros autores y la contribución propia. Escribir bien, en este contexto, es razonar de manera visible. Esta perspectiva se apoya en Booth et al. (2016), American Psychological Association (2020) y Howell y Prevenier (2001). En esta sección, el eje de **crítica académica** debe entenderse como una operación de investigación y no como una definición para memorizar. El estudiante debe poder explicar qué observó, qué obtuvo de una fuente externa y qué parte de la conclusión depende de su propio razonamiento.
+
+Booth et al. (2016) conciben la investigación escrita como una conversación argumentada con lectores que pueden preguntar por la evidencia y las razones. APA (2020) proporciona reglas de atribución y trazabilidad, pero el formato no sustituye el juicio crítico. Una referencia correctamente escrita es insuficiente si no respalda la afirmación concreta. La revisión académica debe comprobar primero tesis, argumento, evidencia y atribución; solo después corresponde pulir estilo y presentación.
+
+**Aplicación para el investigador:** al terminar este apartado, no debería limitarse a repetir el concepto de *crítica académica*. Debe poder aplicarlo a una moneda, billete, ficha, medalla o expediente concreto, indicar qué evidencia sería necesaria para sostener una afirmación y reconocer qué información continúa faltando. Esa capacidad de transferir el método a un caso nuevo es la que diferencia la formación de Investigador de un aprendizaje puramente memorístico.
 ` }] },
   { titulo: "Actividad complementaria 1: Laboratorio de investigación 9 — Cirugía de un párrafo", bloques: [{ tipo: "texto", contenido: `
 Seleccione un párrafo de investigación propio o trabaje con uno proporcionado por el curso que contenga deliberadamente varios problemas.
@@ -314,7 +440,7 @@ En **Acción**, utilice una de estas decisiones:
 El propósito es comprobar que la bibliografía no solamente exista, sino que cada referencia cumpla realmente una función probatoria.
 ` }] },
   { titulo: "Trabajo escrito de la unidad 9 — Manuscrito académico", bloques: [{ tipo: "texto", contenido: `
-Elabore un **manuscrito académico de 2,000 a 3,000 palabras**. Puede recuperar y revisar el trabajo desarrollado en U7 o U8; no es obligatorio iniciar una investigación nueva.
+Elabore un **manuscrito académico de 2,000 a 3,000 palabras**. Puede recuperar y revisar el trabajo desarrollado en unidad 7 o unidad 8; no es obligatorio iniciar una investigación nueva.
 
 El manuscrito deberá:
 
@@ -333,7 +459,7 @@ El manuscrito deberá:
 13. declarar las principales limitaciones de la investigación;
 14. entregar una **segunda versión después de recibir observaciones del Consejo Académico**.
 
-La primera versión forma parte del proceso y no constituye por sí sola el producto final de U9.
+La primera versión forma parte del proceso y no constituye por sí sola el producto final de unidad 9.
 
 El Consejo Académico deberá realizar al menos **una ronda de observaciones**. El propósito es que el estudiante experimente la revisión como parte normal de la producción académica.
 
@@ -353,133 +479,89 @@ La decisión podrá expresarse como **aprobado**, **correcciones requeridas** o,
 - Sandoval Abullarade, V. H. (s. f.). *Monedas de Guatemala*.
 
 **Nota metodológica:** APA 7 proporciona el sistema general de citación y referencias. Las características particulares de legislación, documentos históricos, archivos, colecciones y piezas deberán describirse con información suficiente para garantizar su trazabilidad.
+
+
+### Bibliografía metodológica complementaria
+
+- Booth, W. C., Colomb, G. G., Williams, J. M., Bizup, J., & FitzGerald, W. T. (2016). *The Craft of Research* (4th ed.). University of Chicago Press.
+- Howell, M. C., & Prevenier, W. (2001). *From Reliable Sources: An Introduction to Historical Methods*. Cornell University Press.
 ` }] },
 ];
 
 export const QUESTIONS = [
-  { pregunta: "Escribir una investigación ocurre únicamente después de terminar todo el trabajo de investigación.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Escribir una investigación ocurre únicamente después de terminar todo el trabajo de investigación.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La escritura puede revelar vacíos, contradicciones y afirmaciones que obligan a volver a las fuentes.
 ` },
-  { pregunta: "¿Qué permite comprobar la frase de trabajo “Este trabajo sostiene que…”?", tipo: "mc",
-    opciones: ["Si el título es suficientemente largo; esta respuesta debe evaluarse según la tesis, la evidencia y la atribución de las fuentes.","Si hay muchas referencias; su validez debe analizarse considerando la tesis, la evidencia y la atribución de las fuentes.","Si el tema es popular; corresponde contrastar esta afirmación con la tesis, la evidencia y la atribución de las fuentes.","Si existe una tesis identificable; este planteamiento debe comprobarse mediante la tesis, la evidencia y la atribución de las fuentes."],
-    correcta: 3, explicacion: `
+  { pregunta: "¿Qué permite comprobar la frase de trabajo “Este trabajo sostiene que…”?", tipo: "mc", opciones: ["Si existe una tesis identificable", "Si el título es suficientemente largo", "Si hay muchas referencias", "Si el tema es popular"], correcta: 0, explicacion: `
 La prueba obliga a formular la respuesta o interpretación central que el manuscrito defenderá.
 ` },
-  { pregunta: "“La reforma monetaria de 1924” constituye por sí sola una tesis.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "“La reforma monetaria de 1924” constituye por sí sola una tesis.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Es un tema; la tesis debe formular una afirmación que pueda defenderse mediante evidencia.
 ` },
-  { pregunta: "¿Qué diferencia principalmente una pregunta de una tesis?", tipo: "mc",
-    opciones: ["La tesis siempre es más corta; esta respuesta debe evaluarse según la tesis, la evidencia y la atribución de las fuentes.","La pregunta no necesita fuentes; su validez debe analizarse considerando la tesis, la evidencia y la atribución de las fuentes.","La pregunta plantea el problema y la tesis propone la respuesta que será defendida; corresponde contrastar esta afirmación con la tesis, la evidencia y la atribución de las fuentes.","No existe diferencia; este planteamiento debe comprobarse mediante la tesis, la evidencia y la atribución de las fuentes."],
-    correcta: 2, explicacion: `
+  { pregunta: "¿Qué diferencia principalmente una pregunta de una tesis?", tipo: "mc", opciones: ["La pregunta plantea el problema y la tesis propone la respuesta que será defendida", "La tesis siempre es más corta", "La pregunta no necesita fuentes", "No existe diferencia"], correcta: 0, explicacion: `
 Pregunta y tesis cumplen funciones distintas dentro de la arquitectura argumentativa.
 ` },
-  { pregunta: "Un ensayo académico puede tener abundante información y bibliografía, pero carecer de argumento.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 0, explicacion: `
+  { pregunta: "Un ensayo académico puede tener abundante información y bibliografía, pero carecer de argumento.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 La acumulación de datos no sustituye una tesis sostenida mediante razones y evidencia.
 ` },
-  { pregunta: "¿Qué debe determinar la organización de las secciones de un ensayo?", tipo: "mc",
-    opciones: ["Una cantidad fija de subtítulos; esta respuesta debe evaluarse según la tesis, la evidencia y la atribución de las fuentes.","El orden en que se encontraron las fuentes; su validez debe analizarse considerando la tesis, la evidencia y la atribución de las fuentes.","La lógica del problema y del argumento; corresponde contrastar esta afirmación con la tesis, la evidencia y la atribución de las fuentes.","El tamaño de las imágenes; este planteamiento debe comprobarse mediante la tesis, la evidencia y la atribución de las fuentes."],
-    correcta: 2, explicacion: `
+  { pregunta: "¿Qué debe determinar la organización de las secciones de un ensayo?", tipo: "mc", opciones: ["La lógica del problema y del argumento", "Una cantidad fija de subtítulos", "El orden en que se encontraron las fuentes", "El tamaño de las imágenes"], correcta: 0, explicacion: `
 La estructura debe ayudar al lector a seguir la demostración.
 ` },
-  { pregunta: "Todos los ensayos históricos deben utilizar obligatoriamente la misma plantilla de introducción, marco teórico, metodología, resultados y discusión.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Todos los ensayos históricos deben utilizar obligatoriamente la misma plantilla de introducción, marco teórico, metodología, resultados y discusión.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La arquitectura debe responder al tipo de investigación y a la lógica del argumento, no a una plantilla universal.
 ` },
-  { pregunta: "¿Qué estructura sirve para revisar el trabajo intelectual de un párrafo?", tipo: "mc",
-    opciones: ["Fecha + fotografía + precio + firma; esta respuesta debe evaluarse según la tesis, la evidencia y la atribución de las fuentes.","Cita + cita + cita + conclusión; su validez debe analizarse considerando la tesis, la evidencia y la atribución de las fuentes.","Título + subtítulo + nota + bibliografía; corresponde contrastar esta afirmación con la tesis, la evidencia y la atribución de las fuentes.","Afirmación + evidencia + razonamiento + límite; este planteamiento debe comprobarse mediante la tesis, la evidencia y la atribución de las fuentes."],
-    correcta: 3, explicacion: `
+  { pregunta: "¿Qué estructura sirve para revisar el trabajo intelectual de un párrafo?", tipo: "mc", opciones: ["Afirmación + evidencia + razonamiento + límite", "Fecha + fotografía + precio + firma", "Cita + cita + cita + conclusión", "Título + subtítulo + nota + bibliografía"], correcta: 0, explicacion: `
 La estructura permite comprobar cómo se conecta una afirmación con su fundamento y sus límites.
 ` },
-  { pregunta: "Una cita sirve principalmente para demostrar que el autor leyó muchos libros.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Una cita sirve principalmente para demostrar que el autor leyó muchos libros.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Su función esencial es atribuir y permitir la trazabilidad de la información o interpretación utilizada.
 ` },
-  { pregunta: "Un investigador aplica a un caso nuevo una categoría creada por otro autor. ¿Qué debe hacer?", tipo: "mc",
-    opciones: ["Atribuir la categoría y distinguir como propio el nuevo análisis; esta respuesta debe evaluarse según la tesis, la evidencia y la atribución de las fuentes.","Presentar la categoría como propia; su validez debe analizarse considerando la tesis, la evidencia y la atribución de las fuentes.","Citar únicamente si usa las mismas palabras; corresponde contrastar esta afirmación con la tesis, la evidencia y la atribución de las fuentes.","Evitar mencionar al autor original; este planteamiento debe comprobarse mediante la tesis, la evidencia y la atribución de las fuentes."],
-    correcta: 0, explicacion: `
+  { pregunta: "Un investigador aplica a un caso nuevo una categoría creada por otro autor. ¿Qué debe hacer?", tipo: "mc", opciones: ["Atribuir la categoría y distinguir como propio el nuevo análisis", "Presentar la categoría como propia", "Citar únicamente si usa las mismas palabras", "Evitar mencionar al autor original"], correcta: 0, explicacion: `
 La atribución permite separar el origen conceptual del aporte producido mediante su nueva aplicación.
 ` },
-  { pregunta: "Una referencia al final de un párrafo sostiene automáticamente todas las afirmaciones contenidas en él.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Una referencia al final de un párrafo sostiene automáticamente todas las afirmaciones contenidas en él.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Cada afirmación relevante debe corresponder realmente con lo que la fuente documenta.
 ` },
-  { pregunta: "¿Qué pregunta constituye una buena prueba de correspondencia entre afirmación y fuente?", tipo: "mc",
-    opciones: ["¿La fuente tiene muchas páginas?; esta respuesta debe evaluarse según la tesis, la evidencia y la atribución de las fuentes.","¿El autor es famoso?; su validez debe analizarse considerando la tesis, la evidencia y la atribución de las fuentes.","¿La cita hace que el párrafo parezca académico?; corresponde contrastar esta afirmación con la tesis, la evidencia y la atribución de las fuentes.","¿Encontrará otro investigador en esta fuente respaldo para lo que afirmo?; este planteamiento debe comprobarse mediante la tesis, la evidencia y la atribución de las fuentes."],
-    correcta: 3, explicacion: `
+  { pregunta: "¿Qué pregunta constituye una buena prueba de correspondencia entre afirmación y fuente?", tipo: "mc", opciones: ["¿Encontrará otro investigador en esta fuente respaldo para lo que afirmo?", "¿La fuente tiene muchas páginas?", "¿El autor es famoso?", "¿La cita hace que el párrafo parezca académico?"], correcta: 0, explicacion: `
 La trazabilidad exige que la fuente sostenga la afirmación concreta para la que se utiliza.
 ` },
-  { pregunta: "Si una fuente solo demuestra que una moneda fue autorizada, puede citarse para afirmar sin más que fue ampliamente aceptada.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "Si una fuente solo demuestra que una moneda fue autorizada, puede citarse para afirmar sin más que fue ampliamente aceptada.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Autorización y aceptación son fenómenos diferentes y requieren evidencia pertinente para cada afirmación.
 ` },
-  { pregunta: "Cambiar completamente las palabras de una idea ajena elimina la necesidad de citar su procedencia.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Cambiar completamente las palabras de una idea ajena elimina la necesidad de citar su procedencia.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La paráfrasis continúa siendo una idea derivada de una fuente y requiere atribución.
 ` },
-  { pregunta: "¿Qué debe distinguirse al trabajar con un decreto histórico?", tipo: "mc",
-    opciones: ["La tinta y el precio del documento únicamente; esta respuesta debe evaluarse según la tesis, la evidencia y la atribución de las fuentes.","La transcripción de lo que dice y la interpretación que hace el investigador; su validez debe analizarse considerando la tesis, la evidencia y la atribución de las fuentes.","El título y la bibliografía; corresponde contrastar esta afirmación con la tesis, la evidencia y la atribución de las fuentes.","La fecha y el tamaño de letra; este planteamiento debe comprobarse mediante la tesis, la evidencia y la atribución de las fuentes."],
-    correcta: 1, explicacion: `
+  { pregunta: "¿Qué debe distinguirse al trabajar con un decreto histórico?", tipo: "mc", opciones: ["La transcripción de lo que dice y la interpretación que hace el investigador", "La tinta y el precio del documento únicamente", "El título y la bibliografía", "La fecha y el tamaño de letra"], correcta: 0, explicacion: `
 Documento e interpretación corresponden a voces y operaciones diferentes.
 ` },
-  { pregunta: "Una referencia bibliográfica debe permitir identificar con precisión la fuente utilizada.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 1, explicacion: `
+  { pregunta: "Una referencia bibliográfica debe permitir identificar con precisión la fuente utilizada.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
 La función práctica de la referencia es garantizar identificación y recuperación de la fuente.
 ` },
-  { pregunta: "¿Por qué “Internet” no constituye una referencia suficiente?", tipo: "mc",
-    opciones: ["Porque no identifica el documento concreto utilizado; esta respuesta debe evaluarse según la tesis, la evidencia y la atribución de las fuentes.","Porque las fuentes digitales nunca son válidas; su validez debe analizarse considerando la tesis, la evidencia y la atribución de las fuentes.","Porque APA prohíbe las páginas web; corresponde contrastar esta afirmación con la tesis, la evidencia y la atribución de las fuentes.","Porque solo pueden citarse libros; este planteamiento debe comprobarse mediante la tesis, la evidencia y la atribución de las fuentes."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Por qué “Internet” no constituye una referencia suficiente?", tipo: "mc", opciones: ["Porque no identifica el documento concreto utilizado", "Porque las fuentes digitales nunca son válidas", "Porque APA prohíbe las páginas web", "Porque solo pueden citarse libros"], correcta: 0, explicacion: `
 Una fuente digital puede ser válida, pero debe identificarse específicamente.
 ` },
-  { pregunta: "La fuente de una fotografía y la fuente utilizada para identificar la pieza son necesariamente la misma.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "La fuente de una fotografía y la fuente utilizada para identificar la pieza son necesariamente la misma.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 La procedencia visual y la fuente de información pueden ser diferentes y deben distinguirse.
 ` },
-  { pregunta: "¿Qué debería indicarse en una tabla elaborada por el investigador a partir de datos ajenos?", tipo: "mc",
-    opciones: ["Elaboración propia y las fuentes de los datos; esta respuesta debe evaluarse según la tesis, la evidencia y la atribución de las fuentes.","Únicamente el nombre del investigador; su validez debe analizarse considerando la tesis, la evidencia y la atribución de las fuentes.","Nada, porque la tabla es nueva; corresponde contrastar esta afirmación con la tesis, la evidencia y la atribución de las fuentes.","Solo el programa utilizado; este planteamiento debe comprobarse mediante la tesis, la evidencia y la atribución de las fuentes."],
-    correcta: 0, explicacion: `
+  { pregunta: "¿Qué debería indicarse en una tabla elaborada por el investigador a partir de datos ajenos?", tipo: "mc", opciones: ["Elaboración propia y las fuentes de los datos", "Únicamente el nombre del investigador", "Nada, porque la tabla es nueva", "Solo el programa utilizado"], correcta: 0, explicacion: `
 La nueva organización puede ser propia, pero los datos conservan su procedencia.
 ` },
-  { pregunta: "Los verbos “demuestra”, “sugiere” y “podría” expresan el mismo grado de certeza.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Los verbos “demuestra”, “sugiere” y “podría” expresan el mismo grado de certeza.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 El vocabulario académico debe reflejar diferentes niveles de fuerza probatoria.
 ` },
-  { pregunta: "Escribir “posiblemente” convierte en aceptable cualquier afirmación aunque no tenga fundamento.", tipo: "fv",
-    opciones: ["Verdadero","Falso"],
-    correcta: 1, explicacion: `
+  { pregunta: "Escribir “posiblemente” convierte en aceptable cualquier afirmación aunque no tenga fundamento.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Una posibilidad también debe ser compatible con evidencia y razonamiento.
 ` },
-  { pregunta: "¿Qué debe hacer principalmente una conclusión?", tipo: "mc",
-    opciones: ["Repetir literalmente la introducción; esta respuesta debe evaluarse según la tesis, la evidencia y la atribución de las fuentes.","Responder la pregunta y establecer qué puede sostenerse después del análisis; su validez debe analizarse considerando la tesis, la evidencia y la atribución de las fuentes.","Introducir la evidencia principal por primera vez; corresponde contrastar esta afirmación con la tesis, la evidencia y la atribución de las fuentes.","Enumerar todas las fuentes; este planteamiento debe comprobarse mediante la tesis, la evidencia y la atribución de las fuentes."],
-    correcta: 1, explicacion: `
+  { pregunta: "¿Qué debe hacer principalmente una conclusión?", tipo: "mc", opciones: ["Responder la pregunta y establecer qué puede sostenerse después del análisis", "Repetir literalmente la introducción", "Introducir la evidencia principal por primera vez", "Enumerar todas las fuentes"], correcta: 0, explicacion: `
 La conclusión expresa el resultado argumentativo y sus límites.
 ` },
-  { pregunta: "La revisión académica debe comenzar únicamente por ortografía, puntuación y formato.", tipo: "fv",
-    opciones: ["Falso","Verdadero"],
-    correcta: 0, explicacion: `
+  { pregunta: "La revisión académica debe comenzar únicamente por ortografía, puntuación y formato.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
 Primero deben revisarse pregunta, tesis, evidencia, trazabilidad, inferencias y argumentación.
 ` },
-  { pregunta: "El Consejo Académico devuelve un manuscrito con observaciones y solicita una segunda versión. ¿Qué significa dentro de U9?", tipo: "mc",
-    opciones: ["Que el trabajo fracasó definitivamente; esta respuesta debe evaluarse según la tesis, la evidencia y la atribución de las fuentes.","Que el estudiante perdió el nivel; su validez debe analizarse considerando la tesis, la evidencia y la atribución de las fuentes.","Que la revisión forma parte normal de producir conocimiento académico; corresponde contrastar esta afirmación con la tesis, la evidencia y la atribución de las fuentes.","Que las fuentes ya no pueden utilizarse; este planteamiento debe comprobarse mediante la tesis, la evidencia y la atribución de las fuentes."],
-    correcta: 2, explicacion: `
+  { pregunta: "El Consejo Académico devuelve un manuscrito con observaciones y solicita una segunda versión. ¿Qué significa dentro de U9?", tipo: "mc", opciones: ["Que la revisión forma parte normal de producir conocimiento académico", "Que el trabajo fracasó definitivamente", "Que el estudiante perdió el nivel", "Que las fuentes ya no pueden utilizarse"], correcta: 0, explicacion: `
 U9 incorpora deliberadamente la reescritura después de crítica académica.
 ` },
-  { pregunta: "¿Qué significa que un trabajo sea identificado como “con potencial de publicación” en Revista AGENN?", tipo: "mc",
-    opciones: ["Que ya está publicado; esta respuesta debe evaluarse según la tesis, la evidencia y la atribución de las fuentes.","Que puede iniciar un proceso editorial, pero no que su publicación sea automática; su validez debe analizarse considerando la tesis, la evidencia y la atribución de las fuentes.","Que no necesita correcciones; corresponde contrastar esta afirmación con la tesis, la evidencia y la atribución de las fuentes.","Que el Consejo renuncia a revisarlo; este planteamiento debe comprobarse mediante la tesis, la evidencia y la atribución de las fuentes."],
-    correcta: 1, explicacion: `
+  { pregunta: "¿Qué significa que un trabajo sea identificado como “con potencial de publicación” en Revista AGENN?", tipo: "mc", opciones: ["Que puede iniciar un proceso editorial, pero no que su publicación sea automática", "Que ya está publicado", "Que no necesita correcciones", "Que el Consejo renuncia a revisarlo"], correcta: 0, explicacion: `
 La publicación requiere revisión, correcciones, adecuación editorial y evaluación según corresponda.
 ` },
 ];

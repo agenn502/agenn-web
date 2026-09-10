@@ -45,7 +45,46 @@ export async function GET(request: NextRequest) {
     }
 
     // -------------------------------------------------------
-    // 2. Buscar certificados vigentes del miembro
+    // 2. Reunir el código actual y los códigos históricos
+    // -------------------------------------------------------
+
+    const codigosMiembro = new Set<string>([codigo]);
+
+    const { data: miembro, error: miembroError } =
+      await supabaseServer
+        .from("miembros")
+        .select("id")
+        .eq("codigo", codigo)
+        .maybeSingle();
+
+    if (miembroError) {
+      throw new Error(miembroError.message);
+    }
+
+    if (miembro) {
+      const { data: historial, error: historialError } =
+        await supabaseServer
+          .from("historial_miembro")
+          .select("codigo")
+          .eq("miembro_id", miembro.id);
+
+      if (historialError) {
+        throw new Error(historialError.message);
+      }
+
+      for (const registro of historial || []) {
+        const codigoHistorico = String(registro.codigo || "")
+          .trim()
+          .toUpperCase();
+
+        if (codigoHistorico) {
+          codigosMiembro.add(codigoHistorico);
+        }
+      }
+    }
+
+    // -------------------------------------------------------
+    // 3. Buscar los certificados vigentes de toda la trayectoria
     // -------------------------------------------------------
 
     const { data: certificados, error: certificadosError } =
@@ -64,7 +103,7 @@ export async function GET(request: NextRequest) {
           created_at
           `
         )
-        .eq("codigo_miembro", codigo)
+        .in("codigo_miembro", Array.from(codigosMiembro))
         .eq("estado", "vigente")
         .order("fecha_emision", {
           ascending: false,
