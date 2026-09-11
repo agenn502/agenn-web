@@ -289,8 +289,7 @@ export const QUESTIONS = [
   {
     pregunta: "Después de formular una pregunta de investigación, ¿qué debe orientar la búsqueda documental?",
     tipo: "mc",
-    opciones: ["La evidencia necesaria para responder la pregunta", "La cantidad de resultados de Google", "El libro más extenso disponible", "La pieza más cara"],
-    correcta: 0,
+    opciones: ["La cantidad de resultados de Google","La evidencia necesaria para responder la pregunta","El libro más extenso disponible","La pieza más cara"], correcta: 1,
     explicacion: `
 La selección de fuentes debe responder a la pregunta y a la evidencia que se necesita obtener.
 
@@ -300,8 +299,7 @@ La selección de fuentes debe responder a la pregunta y a la evidencia que se ne
   {
     pregunta: "Buscar mucha información es equivalente a construir un corpus pertinente.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 La pertinencia del corpus es más importante que la acumulación indiscriminada de información.
 
@@ -311,8 +309,7 @@ La pertinencia del corpus es más importante que la acumulación indiscriminada 
   {
     pregunta: "¿Cuál es una fortaleza principal de examinar directamente una pieza?",
     tipo: "mc",
-    opciones: ["Permite registrar características materiales del ejemplar", "Explica automáticamente su contexto político", "Demuestra por sí sola su fecha de circulación", "Sustituye todos los archivos"],
-    correcta: 0,
+    opciones: ["Explica automáticamente su contexto político","Demuestra por sí sola su fecha de circulación","Permite registrar características materiales del ejemplar","Sustituye todos los archivos"], correcta: 2,
     explicacion: `
 El examen directo aporta evidencia material; el contexto histórico suele requerir otras fuentes.
 
@@ -322,8 +319,7 @@ El examen directo aporta evidencia material; el contexto histórico suele requer
   {
     pregunta: "Una ficha con el nombre de una finca demuestra por sí sola cómo se pagaba a todos sus trabajadores.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 La pieza ofrece un indicio material, pero las prácticas laborales requieren documentación adicional.
 
@@ -333,8 +329,7 @@ La pieza ofrece un indicio material, pero las prácticas laborales requieren doc
   {
     pregunta: "Un decreto autoriza una denominación. ¿Qué demuestra directamente?",
     tipo: "mc",
-    opciones: ["La autorización normativa", "Que necesariamente fue acuñada", "Que circuló ampliamente", "Que fue aceptada por toda la población"],
-    correcta: 0,
+    opciones: ["Que necesariamente fue acuñada","Que circuló ampliamente","Que fue aceptada por toda la población","La autorización normativa"], correcta: 3,
     explicacion: `
 Una disposición normativa demuestra lo que fue autorizado; fabricación y circulación son hechos distintos.
 
@@ -344,8 +339,7 @@ Una disposición normativa demuestra lo que fue autorizado; fabricación y circu
   {
     pregunta: "Autorizar, fabricar, emitir y poner en circulación son conceptos que siempre pueden usarse como sinónimos.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 Cada etapa del proceso monetario puede requerir evidencia diferente.
 
@@ -355,8 +349,7 @@ Cada etapa del proceso monetario puede requerir evidencia diferente.
   {
     pregunta: "¿Qué fuente sería especialmente útil para estudiar propietarios, trabajadores o deudas vinculadas con una finca?",
     tipo: "mc",
-    opciones: ["Censos, libros de mozos, padrones o expedientes de archivo", "Solo la fotografía de la ficha", "Una tabla moderna de precios de subasta", "Un buscador sin abrir sus resultados"],
-    correcta: 0,
+    opciones: ["Censos, libros de mozos, padrones o expedientes de archivo","Solo la fotografía de la ficha","Una tabla moderna de precios de subasta","Un buscador sin abrir sus resultados"], correcta: 0,
     explicacion: `
 Los documentos administrativos pueden devolver contexto social e histórico al objeto.
 
@@ -366,8 +359,7 @@ Los documentos administrativos pueden devolver contexto social e histórico al o
   {
     pregunta: "Que un archivo y una ficha mencionen la misma finca demuestra automáticamente que pertenecen al mismo momento histórico.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 La relación cronológica y contextual entre pieza y documento debe demostrarse.
 
@@ -377,8 +369,7 @@ La relación cronológica y contextual entre pieza y documento debe demostrarse.
   {
     pregunta: "¿Qué debe registrarse al utilizar un periódico histórico?",
     tipo: "mc",
-    opciones: ["Periódico, fecha, página y naturaleza del texto, entre otros datos disponibles", "Únicamente el nombre del país", "Solo una captura sin procedencia", "Nada si el artículo es antiguo"],
-    correcta: 0,
+    opciones: ["Únicamente el nombre del país","Periódico, fecha, página y naturaleza del texto, entre otros datos disponibles","Solo una captura sin procedencia","Nada si el artículo es antiguo"], correcta: 1,
     explicacion: `
 La trazabilidad permite volver al testimonio y evaluar su contexto.
 
@@ -388,8 +379,7 @@ La trazabilidad permite volver al testimonio y evaluar su contexto.
   {
     pregunta: "Un editorial de periódico demuestra lo que pensaba toda la sociedad guatemalteca.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 Un editorial documenta una posición concreta, no automáticamente la opinión de toda una sociedad.
 
@@ -399,8 +389,7 @@ Un editorial documenta una posición concreta, no automáticamente la opinión d
   {
     pregunta: "¿Para qué resulta especialmente útil un catálogo numismático?",
     tipo: "mc",
-    opciones: ["Identificar, comparar y organizar tipos o variantes", "Demostrar automáticamente todas las causas históricas", "Sustituir cualquier decreto", "Determinar la opinión de toda la población"],
-    correcta: 0,
+    opciones: ["Demostrar automáticamente todas las causas históricas","Sustituir cualquier decreto","Identificar, comparar y organizar tipos o variantes","Determinar la opinión de toda la población"], correcta: 2,
     explicacion: `
 Los catálogos son especialmente útiles para identificación y clasificación, aunque tienen límites explicativos.
 
@@ -410,8 +399,7 @@ Los catálogos son especialmente útiles para identificación y clasificación, 
   {
     pregunta: "Una fuente secundaria puede ayudar a localizar una fuente primaria.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 0,
+    opciones: ["Verdadero","Falso"], correcta: 0,
     explicacion: `
 Las referencias de estudios previos pueden conducir a decretos, archivos, periódicos y otros documentos originales.
 
@@ -421,8 +409,7 @@ Las referencias de estudios previos pueden conducir a decretos, archivos, perió
   {
     pregunta: "Si un libro moderno cita un decreto decisivo para la investigación, ¿qué práctica es preferible cuando sea posible?",
     tipo: "mc",
-    opciones: ["Consultar también el decreto original", "Suponer que el resumen basta siempre", "Eliminar la referencia original", "Citar el decreto sin haberlo localizado"],
-    correcta: 0,
+    opciones: ["Suponer que el resumen basta siempre","Eliminar la referencia original","Citar el decreto sin haberlo localizado","Consultar también el decreto original"], correcta: 3,
     explicacion: `
 Consultar el original permite comprobar texto, contexto y alcance de la disposición.
 
@@ -432,8 +419,7 @@ Consultar el original permite comprobar texto, contexto y alcance de la disposic
   {
     pregunta: "Una colección privada carece de valor para la investigación por no pertenecer a un museo.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 Las colecciones privadas pueden conservar ejemplares fundamentales si su evidencia se documenta adecuadamente.
 
@@ -443,8 +429,7 @@ Las colecciones privadas pueden conservar ejemplares fundamentales si su evidenc
   {
     pregunta: "¿Qué significa 'ejemplar reportado' en la clasificación propuesta por la unidad?",
     tipo: "mc",
-    opciones: ["Se conoce por una publicación o referencia, sin haber examinado la pieza ni una imagen adecuada", "Fue examinado físicamente", "Está necesariamente en un museo", "Es falso"],
-    correcta: 0,
+    opciones: ["Se conoce por una publicación o referencia, sin haber examinado la pieza ni una imagen adecuada","Fue examinado físicamente","Está necesariamente en un museo","Es falso"], correcta: 0,
     explicacion: `
 La categoría hace explícita la base material disponible para la afirmación.
 
@@ -454,8 +439,7 @@ La categoría hace explícita la base material disponible para la afirmación.
   {
     pregunta: "Una fotografía sin procedencia es metodológicamente equivalente a una pieza con inventario y documentación completa.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 La procedencia y trazabilidad afectan la posibilidad de verificar y contextualizar la evidencia.
 
@@ -465,8 +449,7 @@ La procedencia y trazabilidad afectan la posibilidad de verificar y contextualiz
   {
     pregunta: "Google es normalmente la fuente histórica que debe citarse cuando permite encontrar un decreto digitalizado.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 El buscador es una herramienta de localización; la fuente es el documento encontrado.
 
@@ -476,8 +459,7 @@ El buscador es una herramienta de localización; la fuente es el documento encon
   {
     pregunta: "¿Qué determina si una fuente digital es primaria o secundaria?",
     tipo: "mc",
-    opciones: ["La naturaleza, autoría y relación del documento con el hecho estudiado", "Que esté en PDF", "Que aparezca primero en Google", "Que sea gratuita"],
-    correcta: 0,
+    opciones: ["Que esté en PDF","La naturaleza, autoría y relación del documento con el hecho estudiado","Que aparezca primero en Google","Que sea gratuita"], correcta: 1,
     explicacion: `
 El soporte digital no determina la naturaleza documental de una fuente.
 
@@ -487,8 +469,7 @@ El soporte digital no determina la naturaleza documental de una fuente.
   {
     pregunta: "Cinco libros que repiten un dato procedente del mismo autor constituyen cinco corroboraciones independientes.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 Repetición no equivale a corroboración independiente; debe rastrearse la cadena de procedencia.
 
@@ -498,8 +479,7 @@ Repetición no equivale a corroboración independiente; debe rastrearse la caden
   {
     pregunta: "¿Qué describe mejor la triangulación?",
     tipo: "mc",
-    opciones: ["Contrastar evidencias de naturaleza o procedencia distinta", "Contar cuántas veces aparece una frase", "Usar únicamente tres libros", "Aceptar la fuente más reciente"],
-    correcta: 0,
+    opciones: ["Contar cuántas veces aparece una frase","Usar únicamente tres libros","Contrastar evidencias de naturaleza o procedencia distinta","Aceptar la fuente más reciente"], correcta: 2,
     explicacion: `
 Triangular significa contrastar evidencias con bases o procedencias distintas.
 
@@ -509,8 +489,7 @@ Triangular significa contrastar evidencias con bases o procedencias distintas.
   {
     pregunta: "Cuando dos fuentes pertinentes se contradicen, una debe eliminarse para que el trabajo sea coherente.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 La contradicción debe analizarse y puede convertirse en una nueva pregunta.
 
@@ -520,8 +499,7 @@ La contradicción debe analizarse y puede convertirse en una nueva pregunta.
   {
     pregunta: "¿Qué debe separarse claramente en las notas de investigación?",
     tipo: "mc",
-    opciones: ["La transcripción literal y el comentario propio", "El título y el autor", "Las páginas pares e impares", "Las fuentes impresas y digitales por calidad"],
-    correcta: 0,
+    opciones: ["El título y el autor","Las páginas pares e impares","Las fuentes impresas y digitales por calidad","La transcripción literal y el comentario propio"], correcta: 3,
     explicacion: `
 Separar texto ajeno y comentario propio evita errores de atribución.
 
@@ -531,8 +509,7 @@ Separar texto ajeno y comentario propio evita errores de atribución.
   {
     pregunta: "Registrar una búsqueda que no produjo resultados puede ser útil para una investigación.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 0,
+    opciones: ["Verdadero","Falso"], correcta: 0,
     explicacion: `
 Registrar búsquedas negativas evita repetir trabajo y documenta los límites de la investigación.
 
@@ -542,8 +519,7 @@ Registrar búsquedas negativas evita repetir trabajo y documenta los límites de
   {
     pregunta: "¿Cuál corpus es metodológicamente preferible?",
     tipo: "mc",
-    opciones: ["Uno pequeño pero directamente relacionado con la pregunta", "Uno enorme aunque la mayoría no responda al problema", "Solo fuentes que coincidan entre sí", "Solo fuentes digitales"],
-    correcta: 0,
+    opciones: ["Uno pequeño pero directamente relacionado con la pregunta","Uno enorme aunque la mayoría no responda al problema","Solo fuentes que coincidan entre sí","Solo fuentes digitales"], correcta: 0,
     explicacion: `
 La pertinencia y diversidad razonada son más importantes que la cantidad.
 
@@ -553,8 +529,7 @@ La pertinencia y diversidad razonada son más importantes que la cantidad.
   {
     pregunta: "¿Cuál es la competencia central que debe demostrar el estudiante al finalizar U2?",
     tipo: "mc",
-    opciones: ["Saber diseñar una búsqueda y construir un corpus pertinente para su pregunta", "Memorizar todas las bibliotecas de Guatemala", "Resolver definitivamente su investigación", "Utilizar únicamente fuentes primarias"],
-    correcta: 0,
+    opciones: ["Memorizar todas las bibliotecas de Guatemala","Saber diseñar una búsqueda y construir un corpus pertinente para su pregunta","Resolver definitivamente su investigación","Utilizar únicamente fuentes primarias"], correcta: 1,
     explicacion: `
 U2 enseña a localizar y organizar evidencia; U3 enseñará a someter las fuentes a crítica.
 

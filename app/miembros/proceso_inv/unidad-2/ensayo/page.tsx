@@ -5,6 +5,10 @@ import { supabase } from "@/lib/supabaseClient";
 import { TEMAS_TRABAJOS_INV } from "@/content/proceso_inv/temas_trabajos_inv";
 import { obtenerReglaTrabajoInv } from "@/content/proceso_inv/config";
 import { nombreNivel, colorNivel } from "@/lib/niveles";
+import EditorTrabajoAcademico, {
+  obtenerTextoVisibleTrabajo,
+} from "@/components/formacion/EditorTrabajoAcademico";
+import ImagenTrabajoDropzone from "@/components/formacion/ImagenTrabajoDropzone";
 
 const REGLA_UNIDAD = obtenerReglaTrabajoInv("unidad-2")!;
 const TEMAS_UNIDAD = TEMAS_TRABAJOS_INV["unidad-2"] || [];
@@ -216,9 +220,10 @@ export default function TrabajoUnidad2Page() {
     });
   };
 
-  const caracteres = contenido.length;
-  const palabras = contenido.trim()
-    ? contenido.trim().split(/\s+/).filter(Boolean).length
+  const textoVisible = obtenerTextoVisibleTrabajo(contenido).trim();
+  const caracteres = textoVisible.length;
+  const palabras = textoVisible
+    ? textoVisible.split(/\s+/).filter(Boolean).length
     : 0;
 
   const generarSlug = (texto: string) =>
@@ -311,8 +316,6 @@ export default function TrabajoUnidad2Page() {
     setGuardando(true);
 
     try {
-      const nuevaImagenUrl = await subirImagen();
-
       const slug =
         slugTrabajo ||
         `${generarSlug(titulo)}-${miembro.codigo.toLowerCase()}-u2`;
@@ -335,9 +338,7 @@ export default function TrabajoUnidad2Page() {
         tema,
         fuente_imagen: fuenteImagen.trim() || null,
         contenido,
-        estado: enviarRevision
-          ? "en_revision"
-          : estadoRevision === "correcciones"
+        estado: estadoRevision === "correcciones"
           ? "correcciones"
           : "borrador",
         updated_at: ahora,
@@ -346,20 +347,6 @@ export default function TrabajoUnidad2Page() {
       if (!trabajoId) {
         payload.codigo_verificacion =
           generarCodigoVerificacion();
-      }
-
-      if (nuevaImagenUrl) {
-        payload.imagen_url = nuevaImagenUrl;
-      }
-
-      if (enviarRevision) {
-        Object.assign(payload, {
-          estado_revision: "pendiente",
-          observaciones_revision: null,
-          revisado_por: null,
-          fecha_revision: null,
-
-        });
       }
 
       let guardado;
@@ -394,15 +381,49 @@ export default function TrabajoUnidad2Page() {
       setTrabajoId(guardado.id);
       setSlugTrabajo(guardado.slug || slug);
 
-      setImagenUrlExistente(
-        guardado.imagen_url ||
-          nuevaImagenUrl ||
-          imagenUrlExistente
-      );
-
-      setImagen(null);
+      let nuevaImagenUrl: string | null = null;
+      if (imagen) {
+        try {
+          nuevaImagenUrl = await subirImagen();
+          if (nuevaImagenUrl) {
+            const { error: imagenError } = await supabase
+              .from("ensayos")
+              .update({ imagen_url: nuevaImagenUrl, updated_at: ahora })
+              .eq("id", guardado.id);
+            if (imagenError) throw new Error(imagenError.message);
+            setImagenUrlExistente(nuevaImagenUrl);
+            setImagen(null);
+          }
+        } catch (error) {
+          alert(
+            "El texto quedó guardado como borrador, pero no fue posible guardar la imagen. " +
+              (error instanceof Error ? error.message : "Inténtelo nuevamente.")
+          );
+          return;
+        }
+      } else {
+        setImagenUrlExistente(guardado.imagen_url || imagenUrlExistente);
+      }
 
       if (enviarRevision) {
+        const { error: revisionError } = await supabase
+          .from("ensayos")
+          .update({
+            estado: "en_revision",
+            estado_revision: "pendiente",
+            observaciones_revision: null,
+            revisado_por: null,
+            fecha_revision: null,
+            updated_at: ahora,
+          })
+          .eq("id", guardado.id);
+
+        if (revisionError) {
+          throw new Error(
+            `El borrador quedó guardado, pero no pudo enviarse a revisión: ${revisionError.message}`
+          );
+        }
+
         setEstadoRevision("pendiente");
         setObservacionesRevision("");
 
@@ -749,78 +770,13 @@ export default function TrabajoUnidad2Page() {
           <strong>Imagen (opcional)</strong>
         </label>
 
-        {imagenUrlExistente && (
-          <div
-            style={{
-              marginTop: "0.75rem",
-              marginBottom: "1rem",
-            }}
-          >
-            <img
-              src={imagenUrlExistente}
-              alt="Imagen guardada del trabajo"
-              style={{
-                display: "block",
-                maxWidth: "100%",
-                maxHeight: "320px",
-                borderRadius: "8px",
-                objectFit: "contain",
-              }}
-            />
-
-            <p
-              style={{
-                fontSize: "0.85rem",
-                color: "#666",
-              }}
-            >
-              Imagen guardada actualmente. Seleccione
-              otra solamente si desea reemplazarla.
-            </p>
-          </div>
-        )}
-
-        {puedeEditar && (
-          <input
-            type="file"
-            accept="image/*"
-            onChange={async (e) => {
-              const file =
-                e.target.files?.[0];
-
-              if (!file) {
-                setImagen(null);
-                return;
-              }
-
-              try {
-                const imagenComprimida =
-                  await comprimirImagen(file);
-
-                setImagen(imagenComprimida);
-              } catch (error: any) {
-                alert(error.message);
-              }
-            }}
-            style={{
-              width: "100%",
-              marginTop: "0.5rem",
-              marginBottom: "1rem",
-            }}
-          />
-        )}
-
-        {imagen && (
-          <p
-            style={{
-              fontSize: "0.85rem",
-              color: "#666",
-            }}
-          >
-            Nueva imagen optimizada:{" "}
-            {(imagen.size / 1024).toFixed(1)} KB
-          </p>
-        )}
+        <ImagenTrabajoDropzone
+          file={imagen}
+          existingUrl={imagenUrlExistente}
+          disabled={!puedeEditar}
+          procesar={comprimirImagen}
+          onFile={setImagen}
+        />
 
         <p
           style={{
@@ -860,67 +816,10 @@ export default function TrabajoUnidad2Page() {
           <strong>Contenido del análisis breve *</strong>
         </label>
 
-        {puedeEditar && (
-          <div
-            style={{
-              display: "flex",
-              gap: "0.5rem",
-              marginTop: "0.5rem",
-              flexWrap: "wrap",
-            }}
-          >
-            <button
-              type="button"
-              onClick={() =>
-                insertarFormato("**", "**")
-              }
-            >
-              Negrita
-            </button>
-
-            <button
-              type="button"
-              onClick={() =>
-                insertarFormato("*", "*")
-              }
-            >
-              Cursiva
-            </button>
-
-            <button
-              type="button"
-              onClick={() =>
-                insertarFormato("- ")
-              }
-            >
-              Viñeta
-            </button>
-
-            <button
-              type="button"
-              onClick={() =>
-                insertarFormato("1. ")
-              }
-            >
-              Lista numerada
-            </button>
-          </div>
-        )}
-
-        <textarea
-          id="contenido-ensayo"
+        <EditorTrabajoAcademico
           value={contenido}
+          onChange={setContenido}
           disabled={!puedeEditar}
-          onChange={(e) =>
-            setContenido(e.target.value)
-          }
-          placeholder="Redacte aquí su análisis breve..."
-          rows={18}
-          style={{
-            width: "100%",
-            padding: "1rem",
-            marginTop: "0.5rem",
-          }}
         />
 
         <div

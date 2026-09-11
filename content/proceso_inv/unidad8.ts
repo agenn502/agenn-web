@@ -423,79 +423,79 @@ Una conclusión provisional, probable o incluso no determinable puede ser excele
 ];
 
 export const QUESTIONS = [
-  { pregunta: "Reunir muchas fuentes significa que ya existe una explicación histórica.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Reunir muchas fuentes significa que ya existe una explicación histórica.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Las fuentes deben relacionarse con una pregunta mediante razonamiento y argumento.
 ` },
-  { pregunta: "¿Cuándo se convierte un dato en evidencia?", tipo: "mc", opciones: ["Cuando se utiliza pertinentemente para responder o poner a prueba una afirmación", "Cuando aparece en cualquier libro", "Cuando tiene una fecha antigua", "Cuando se repite muchas veces"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuándo se convierte un dato en evidencia?", tipo: "mc", opciones: ["Cuando aparece en cualquier libro","Cuando tiene una fecha antigua","Cuando se repite muchas veces","Cuando se utiliza pertinentemente para responder o poner a prueba una afirmación"], correcta: 3, explicacion: `
 La función probatoria depende de la relación entre dato, pregunta y afirmación.
 ` },
-  { pregunta: "Una inferencia va más allá de la observación directa y debe mostrar el razonamiento que la sostiene.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Una inferencia va más allá de la observación directa y debe mostrar el razonamiento que la sostiene.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 0, explicacion: `
 El lector debe poder distinguir qué fue observado y qué fue inferido.
 ` },
-  { pregunta: "¿Qué exige afirmar que un cambio político causó un cambio de diseño monetario?", tipo: "mc", opciones: ["Evidencia que conecte causalmente ambos fenómenos", "Que ocurran el mismo año", "Que el diseño sea diferente", "Que un catálogo los mencione juntos"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué exige afirmar que un cambio político causó un cambio de diseño monetario?", tipo: "mc", opciones: ["Evidencia que conecte causalmente ambos fenómenos","Que ocurran el mismo año","Que el diseño sea diferente","Que un catálogo los mencione juntos"], correcta: 0, explicacion: `
 La proximidad temporal no basta para demostrar causalidad.
 ` },
-  { pregunta: "Dos acontecimientos simultáneos están necesariamente relacionados causalmente.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Dos acontecimientos simultáneos están necesariamente relacionados causalmente.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Correlación temporal y causalidad son afirmaciones distintas.
 ` },
-  { pregunta: "¿Qué debe hacer el investigador ante una explicación muy atractiva pero sin evidencia de intención?", tipo: "mc", opciones: ["Reducir su alcance o presentarla como hipótesis", "Presentarla como hecho", "Omitir las fuentes", "Repetirla hasta que sea aceptada"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué debe hacer el investigador ante una explicación muy atractiva pero sin evidencia de intención?", tipo: "mc", opciones: ["Presentarla como hecho","Reducir su alcance o presentarla como hipótesis","Omitir las fuentes","Repetirla hasta que sea aceptada"], correcta: 1, explicacion: `
 La fuerza del lenguaje debe corresponder con la evidencia disponible.
 ` },
-  { pregunta: "Una conclusión prudente puede ser científicamente superior a una narración más espectacular.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Una conclusión prudente puede ser científicamente superior a una narración más espectacular.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 0, explicacion: `
 La investigación privilegia soporte y precisión sobre atractivo narrativo.
 ` },
-  { pregunta: "¿Qué es una hipótesis rival?", tipo: "mc", opciones: ["Una explicación alternativa capaz de dar cuenta de la misma evidencia", "Una fuente falsa", "Un error tipográfico", "Una opinión que debe ignorarse"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué es una hipótesis rival?", tipo: "mc", opciones: ["Una fuente falsa","Un error tipográfico","Una explicación alternativa capaz de dar cuenta de la misma evidencia","Una opinión que debe ignorarse"], correcta: 2, explicacion: `
 Comparar alternativas ayuda a poner a prueba la explicación preferida.
 ` },
-  { pregunta: "Buscar únicamente evidencia favorable a la hipótesis puede producir sesgo de confirmación.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Buscar únicamente evidencia favorable a la hipótesis puede producir sesgo de confirmación.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 1, explicacion: `
 También debe buscarse evidencia capaz de debilitar o refutar la hipótesis.
 ` },
-  { pregunta: "¿Qué pregunta ayuda especialmente a poner en riesgo una hipótesis?", tipo: "mc", opciones: ["¿Qué evidencia me haría cambiar de opinión?", "¿Cuántas veces puedo repetirla?", "¿Quién está de acuerdo conmigo?", "¿Cómo hacerla más atractiva?"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué pregunta ayuda especialmente a poner en riesgo una hipótesis?", tipo: "mc", opciones: ["¿Cuántas veces puedo repetirla?","¿Quién está de acuerdo conmigo?","¿Cómo hacerla más atractiva?","¿Qué evidencia me haría cambiar de opinión?"], correcta: 3, explicacion: `
 Una hipótesis investigable debe poder modificarse frente a evidencia pertinente.
 ` },
-  { pregunta: "Cinco autores que dependen de una misma fuente constituyen necesariamente cinco corroboraciones independientes.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Cinco autores que dependen de una misma fuente constituyen necesariamente cinco corroboraciones independientes.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 Debe distinguirse repetición bibliográfica de independencia probatoria.
 ` },
-  { pregunta: "¿Qué combinación ofrece mayor convergencia independiente?", tipo: "mc", opciones: ["Ley, pieza, registro administrativo y noticia independientes", "Cuatro libros que copian el mismo catálogo", "Cinco páginas que reproducen el mismo texto", "Diez citas de una misma obra"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué combinación ofrece mayor convergencia independiente?", tipo: "mc", opciones: ["Ley, pieza, registro administrativo y noticia independientes","Cuatro libros que copian el mismo catálogo","Cinco páginas que reproducen el mismo texto","Diez citas de una misma obra"], correcta: 0, explicacion: `
 Fuentes de origen y naturaleza diferentes pueden aportar líneas independientes de evidencia.
 ` },
-  { pregunta: "No encontrar una moneda de un año demuestra que nunca se acuñó.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "No encontrar una moneda de un año demuestra que nunca se acuñó.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 La ausencia observada debe evaluarse según corpus, registros y completitud.
 ` },
-  { pregunta: "¿Cuándo gana fuerza un argumento del silencio?", tipo: "mc", opciones: ["Cuando razonablemente esperaríamos que la fuente registrara el fenómeno si hubiera ocurrido", "Siempre que no aparezca Google", "Cuando el investigador no posee la pieza", "Cuando un catálogo es antiguo"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuándo gana fuerza un argumento del silencio?", tipo: "mc", opciones: ["Siempre que no aparezca Google","Cuando razonablemente esperaríamos que la fuente registrara el fenómeno si hubiera ocurrido","Cuando el investigador no posee la pieza","Cuando un catálogo es antiguo"], correcta: 1, explicacion: `
 La ausencia solo tiene fuerza cuando existe expectativa fundada de presencia documental.
 ` },
-  { pregunta: "Existe un número mínimo universal de fuentes que convierte una conclusión en verdadera.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Existe un número mínimo universal de fuentes que convierte una conclusión en verdadera.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 La suficiencia depende de la afirmación y de la calidad, pertinencia e independencia de la evidencia.
 ` },
-  { pregunta: "¿Qué pregunta evalúa mejor la suficiencia probatoria?", tipo: "mc", opciones: ["¿Es esta la clase de evidencia capaz de responder mi pregunta?", "¿Tengo diez referencias?", "¿Mi bibliografía ocupa dos páginas?", "¿Todas mis fuentes son libros?"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué pregunta evalúa mejor la suficiencia probatoria?", tipo: "mc", opciones: ["¿Tengo diez referencias?","¿Mi bibliografía ocupa dos páginas?","¿Es esta la clase de evidencia capaz de responder mi pregunta?","¿Todas mis fuentes son libros?"], correcta: 2, explicacion: `
 La pertinencia es más importante que un conteo mecánico.
 ` },
-  { pregunta: "Una fuente auténtica que contradice la hipótesis debe omitirse para no debilitar el trabajo.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Una fuente auténtica que contradice la hipótesis debe omitirse para no debilitar el trabajo.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 La contradicción debe analizarse y puede mejorar o modificar la interpretación.
 ` },
-  { pregunta: "¿Qué puede revelar una contradicción entre fuentes?", tipo: "mc", opciones: ["Una diferencia temporal, regional, conceptual o un fenómeno más complejo", "Que toda investigación es imposible", "Que ambas fuentes son falsas", "Que debe elegirse la fuente más reciente"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué puede revelar una contradicción entre fuentes?", tipo: "mc", opciones: ["Que toda investigación es imposible","Que ambas fuentes son falsas","Que debe elegirse la fuente más reciente","Una diferencia temporal, regional, conceptual o un fenómeno más complejo"], correcta: 3, explicacion: `
 Las discrepancias pueden ser parte del problema histórico.
 ` },
-  { pregunta: "Concluir “no determinable con la evidencia disponible” puede ser científicamente válido.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Concluir “no determinable con la evidencia disponible” puede ser científicamente válido.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 0, explicacion: `
 Reconocer límites es preferible a fabricar certeza.
 ` },
-  { pregunta: "¿Qué grado corresponde a una explicación compatible con la evidencia pero con alternativas razonables?", tipo: "mc", opciones: ["Posible", "Demostrado", "Imposible", "Certeza absoluta"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué grado corresponde a una explicación compatible con la evidencia pero con alternativas razonables?", tipo: "mc", opciones: ["Posible","Demostrado","Imposible","Certeza absoluta"], correcta: 0, explicacion: `
 La categoría posible reconoce compatibilidad sin excluir alternativas.
 ` },
-  { pregunta: "Una conclusión probable y una demostrada expresan exactamente la misma fuerza de evidencia.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Una conclusión probable y una demostrada expresan exactamente la misma fuerza de evidencia.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 El vocabulario debe distinguir grados reales de certeza.
 ` },
-  { pregunta: "¿Qué estructura sirve para revisar un argumento histórico?", tipo: "mc", opciones: ["Afirmación + evidencia + razonamiento + límite", "Título + precio + fotografía + firma", "Fecha + intuición + conclusión", "Cita + cita + cita + opinión"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué estructura sirve para revisar un argumento histórico?", tipo: "mc", opciones: ["Título + precio + fotografía + firma","Afirmación + evidencia + razonamiento + límite","Fecha + intuición + conclusión","Cita + cita + cita + opinión"], correcta: 1, explicacion: `
 La estructura ayuda a comprobar que la conclusión está conectada con la evidencia.
 ` },
-  { pregunta: "Si una afirmación importante carece de soporte, el investigador puede reducir su alcance o formularla como hipótesis.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Si una afirmación importante carece de soporte, el investigador puede reducir su alcance o formularla como hipótesis.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 0, explicacion: `
 No toda afirmación debe eliminarse, pero su estatus debe expresarse correctamente.
 ` },
-  { pregunta: "Dos hipótesis explican igualmente toda la evidencia conocida. ¿Está demostrada una de ellas?", tipo: "mc", opciones: ["No; hace falta evidencia capaz de discriminar entre ambas", "Sí, la primera", "Sí, la más atractiva", "Sí, la que tenga más palabras"], correcta: 0, explicacion: `
+  { pregunta: "Dos hipótesis explican igualmente toda la evidencia conocida. ¿Está demostrada una de ellas?", tipo: "mc", opciones: ["Sí, la primera","Sí, la más atractiva","No; hace falta evidencia capaz de discriminar entre ambas","Sí, la que tenga más palabras"], correcta: 2, explicacion: `
 Si ambas explican los datos, la evidencia disponible todavía no decide entre ellas.
 ` },
-  { pregunta: "¿Cuál es la competencia central de U8?", tipo: "mc", opciones: ["Construir y defender una interpretación proporcional a la evidencia, considerando alternativas y límites", "Memorizar más fechas", "Identificar únicamente monedas", "Reunir la bibliografía más extensa"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuál es la competencia central de U8?", tipo: "mc", opciones: ["Memorizar más fechas","Identificar únicamente monedas","Reunir la bibliografía más extensa","Construir y defender una interpretación proporcional a la evidencia, considerando alternativas y límites"], correcta: 3, explicacion: `
 U8 evalúa cómo el investigador razona desde la evidencia hasta una conclusión.
 ` },
 ];

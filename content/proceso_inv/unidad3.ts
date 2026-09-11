@@ -366,8 +366,7 @@ export const QUESTIONS = [
   {
     pregunta: "Una fuente académica muy citada debe aceptarse como verdadera sin revisar la evidencia en que se basa.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 La autoridad o frecuencia de cita no sustituye la evaluación crítica de la evidencia.
 
@@ -377,8 +376,7 @@ La autoridad o frecuencia de cita no sustituye la evaluación crítica de la evi
   {
     pregunta: "¿Cuál es la pregunta central de la crítica de fuentes?",
     tipo: "mc",
-    opciones: ["¿Qué me permite saber esta fuente y con qué grado de confianza?", "¿Cuántas páginas tiene?", "¿Es la fuente más antigua disponible?", "¿Coincide con mi hipótesis?"],
-    correcta: 0,
+    opciones: ["¿Cuántas páginas tiene?","¿Es la fuente más antigua disponible?","¿Qué me permite saber esta fuente y con qué grado de confianza?","¿Coincide con mi hipótesis?"], correcta: 2,
     explicacion: `
 La crítica determina alcance y confiabilidad para una afirmación concreta.
 
@@ -388,8 +386,7 @@ La crítica determina alcance y confiabilidad para una afirmación concreta.
   {
     pregunta: "La proximidad temporal de una fuente garantiza que su contenido sea exacto.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 Un contemporáneo puede equivocarse, desconocer hechos o defender intereses.
 
@@ -399,8 +396,7 @@ Un contemporáneo puede equivocarse, desconocer hechos o defender intereses.
   {
     pregunta: "¿Cuál conjunto de elementos ayuda a contextualizar una fuente?",
     tipo: "mc",
-    opciones: ["Autoría, fecha, propósito, destinatario y contexto", "Precio, tamaño de letra y encuadernación", "Número de fotografías únicamente", "Popularidad del autor"],
-    correcta: 0,
+    opciones: ["Precio, tamaño de letra y encuadernación","Número de fotografías únicamente","Popularidad del autor","Autoría, fecha, propósito, destinatario y contexto"], correcta: 3,
     explicacion: `
 Conocer quién produjo la fuente, cuándo y para qué ayuda a establecer su alcance.
 
@@ -410,8 +406,7 @@ Conocer quién produjo la fuente, cuándo y para qué ayuda a establecer su alca
   {
     pregunta: "Una fuente primaria es siempre superior a una secundaria.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 Primaria y secundaria describen relaciones con el fenómeno, no una jerarquía automática de calidad.
 
@@ -421,8 +416,7 @@ Primaria y secundaria describen relaciones con el fenómeno, no una jerarquía a
   {
     pregunta: "¿Qué fuente sería más directa para demostrar qué ordenó legalmente una reforma monetaria?",
     tipo: "mc",
-    opciones: ["El decreto correspondiente", "Un catálogo moderno", "Una publicación en redes sociales", "El precio actual de las piezas"],
-    correcta: 0,
+    opciones: ["El decreto correspondiente","Un catálogo moderno","Una publicación en redes sociales","El precio actual de las piezas"], correcta: 0,
     explicacion: `
 La disposición normativa es evidencia directa de lo ordenado por la autoridad.
 
@@ -432,8 +426,7 @@ La disposición normativa es evidencia directa de lo ordenado por la autoridad.
   {
     pregunta: "Nueve libros que dependen de una misma afirmación original constituyen nueve corroboraciones independientes.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 Puede tratarse de una única tradición bibliográfica repetida.
 
@@ -443,8 +436,7 @@ Puede tratarse de una única tradición bibliográfica repetida.
   {
     pregunta: "¿Qué significa reconstruir la genealogía de una afirmación?",
     tipo: "mc",
-    opciones: ["Rastrear quién la formuló, cómo fue repetida y en qué evidencia se apoyaba", "Buscar la biografía familiar del autor", "Contar las ediciones de un libro", "Elegir la versión más reciente"],
-    correcta: 0,
+    opciones: ["Buscar la biografía familiar del autor","Rastrear quién la formuló, cómo fue repetida y en qué evidencia se apoyaba","Contar las ediciones de un libro","Elegir la versión más reciente"], correcta: 1,
     explicacion: `
 El objetivo es llegar al origen documental de la afirmación.
 
@@ -454,8 +446,7 @@ El objetivo es llegar al origen documental de la afirmación.
   {
     pregunta: "Una fuente interesada debe descartarse automáticamente.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 El interés debe analizarse como parte del contexto y contrastarse con otras evidencias.
 
@@ -465,8 +456,7 @@ El interés debe analizarse como parte del contexto y contrastarse con otras evi
   {
     pregunta: "Un propietario describe favorablemente un sistema que él mismo utiliza. ¿Qué procede?",
     tipo: "mc",
-    opciones: ["Analizar su posición y buscar evidencia independiente", "Aceptar el relato por ser contemporáneo", "Descartarlo sin leerlo", "Convertirlo en prueba de aceptación general"],
-    correcta: 0,
+    opciones: ["Aceptar el relato por ser contemporáneo","Descartarlo sin leerlo","Analizar su posición y buscar evidencia independiente","Convertirlo en prueba de aceptación general"], correcta: 2,
     explicacion: `
 Su posición no invalida el testimonio, pero condiciona su uso.
 
@@ -476,8 +466,7 @@ Su posición no invalida el testimonio, pero condiciona su uso.
   {
     pregunta: "Cuando dos fuentes se contradicen, debe elegirse la escrita por el autor más prestigioso.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 La contradicción debe analizarse mediante contexto, dependencia y evidencia adicional.
 
@@ -487,8 +476,7 @@ La contradicción debe analizarse mediante contexto, dependencia y evidencia adi
   {
     pregunta: "¿Cuál puede ser una conclusión legítima después de estudiar fuentes contradictorias?",
     tipo: "mc",
-    opciones: ["La evidencia disponible no permite determinarlo con certeza", "Debe ser cierta la fuente más antigua", "Ambas son necesariamente falsas", "La contradicción debe omitirse"],
-    correcta: 0,
+    opciones: ["Debe ser cierta la fuente más antigua","Ambas son necesariamente falsas","La contradicción debe omitirse","La evidencia disponible no permite determinarlo con certeza"], correcta: 3,
     explicacion: `
 Reconocer incertidumbre es una conclusión académicamente válida.
 
@@ -498,8 +486,7 @@ Reconocer incertidumbre es una conclusión académicamente válida.
   {
     pregunta: "No encontrar una pieza demuestra que nunca existió.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 La ausencia de evidencia no equivale automáticamente a evidencia de ausencia.
 
@@ -509,8 +496,7 @@ La ausencia de evidencia no equivale automáticamente a evidencia de ausencia.
   {
     pregunta: "¿Cuándo puede adquirir relevancia el silencio documental?",
     tipo: "mc",
-    opciones: ["Cuando razonablemente se esperaba encontrar una huella en una serie adecuada y suficientemente completa", "Siempre que no aparezca un resultado en Google", "Cuando contradice nuestra hipótesis", "Nunca"],
-    correcta: 0,
+    opciones: ["Cuando razonablemente se esperaba encontrar una huella en una serie adecuada y suficientemente completa","Siempre que no aparezca un resultado en Google","Cuando contradice nuestra hipótesis","Nunca"], correcta: 0,
     explicacion: `
 La ausencia solo adquiere fuerza cuando puede justificarse la expectativa de evidencia.
 
@@ -520,8 +506,7 @@ La ausencia solo adquiere fuerza cuando puede justificarse la expectativa de evi
   {
     pregunta: "Un documento que afirma que ocurrió un hecho demuestra directamente, como mínimo, que alguien hizo esa afirmación.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 0,
+    opciones: ["Falso","Verdadero"], correcta: 1,
     explicacion: `
 La verdad histórica de lo afirmado puede requerir evaluación y corroboración adicional.
 
@@ -531,8 +516,7 @@ La verdad histórica de lo afirmado puede requerir evaluación y corroboración 
   {
     pregunta: "¿Cuál es una inferencia?",
     tipo: "mc",
-    opciones: ["Una relación razonada construida a partir de evidencias que no la expresan directamente", "La inscripción visible de una moneda", "La transcripción literal de un decreto", "El título de un catálogo"],
-    correcta: 0,
+    opciones: ["La inscripción visible de una moneda","Una relación razonada construida a partir de evidencias que no la expresan directamente","La transcripción literal de un decreto","El título de un catálogo"], correcta: 1,
     explicacion: `
 La inferencia conecta evidencias mediante razonamiento explícito.
 
@@ -542,8 +526,7 @@ La inferencia conecta evidencias mediante razonamiento explícito.
   {
     pregunta: "Una interpretación histórica y una observación material son exactamente el mismo nivel de afirmación.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 La interpretación integra y explica evidencias; la observación describe características directamente constatables.
 
@@ -553,8 +536,7 @@ La interpretación integra y explica evidencias; la observación describe caract
   {
     pregunta: "¿Qué combinación ofrecería evidencia convergente sobre una emisión?",
     tipo: "mc",
-    opciones: ["Decreto, registro de fabricación, ejemplar y prensa contemporánea", "Cuatro catálogos que copian el mismo dato", "Cuatro fotografías de la misma página", "Cuatro opiniones sin fuente"],
-    correcta: 0,
+    opciones: ["Cuatro catálogos que copian el mismo dato","Cuatro fotografías de la misma página","Decreto, registro de fabricación, ejemplar y prensa contemporánea","Cuatro opiniones sin fuente"], correcta: 2,
     explicacion: `
 Fuentes de distinta naturaleza pueden documentar etapas diferentes del fenómeno.
 
@@ -564,8 +546,7 @@ Fuentes de distinta naturaleza pueden documentar etapas diferentes del fenómeno
   {
     pregunta: "Cuanto más amplia sea una afirmación, normalmente mayor deberá ser la evidencia que la respalde.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 0,
+    opciones: ["Falso","Verdadero"], correcta: 1,
     explicacion: `
 Generalizaciones amplias requieren una base empírica proporcional.
 
@@ -575,8 +556,7 @@ Generalizaciones amplias requieren una base empírica proporcional.
   {
     pregunta: "¿Cuál afirmación requiere menos evidencia?",
     tipo: "mc",
-    opciones: ["Existe al menos un ejemplar documentado con esta característica", "La pieza circuló ampliamente en toda Guatemala", "Toda la población la aceptó", "Fue la moneda preferida durante décadas"],
-    correcta: 0,
+    opciones: ["La pieza circuló ampliamente en toda Guatemala","Toda la población la aceptó","Fue la moneda preferida durante décadas","Existe al menos un ejemplar documentado con esta característica"], correcta: 3,
     explicacion: `
 Una afirmación existencial concreta tiene un alcance mucho menor.
 
@@ -586,8 +566,7 @@ Una afirmación existencial concreta tiene un alcance mucho menor.
   {
     pregunta: "La palabra 'sugiere' puede ser más rigurosa que 'demuestra' cuando la evidencia es incompleta.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 0,
+    opciones: ["Verdadero","Falso"], correcta: 0,
     explicacion: `
 El lenguaje debe reflejar el grado real de certeza.
 
@@ -597,8 +576,7 @@ El lenguaje debe reflejar el grado real de certeza.
   {
     pregunta: "¿Qué expresión corresponde cuando la evidencia no contradice una hipótesis pero tampoco la prueba?",
     tipo: "mc",
-    opciones: ["Es compatible con", "Demuestra", "Confirma definitivamente", "Es indudable"],
-    correcta: 0,
+    opciones: ["Es compatible con","Demuestra","Confirma definitivamente","Es indudable"], correcta: 0,
     explicacion: `
 Compatibilidad no equivale a demostración.
 
@@ -608,8 +586,7 @@ Compatibilidad no equivale a demostración.
   {
     pregunta: "Modificar una hipótesis frente a nueva evidencia constituye un fracaso del investigador.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 Revisar conclusiones demuestra que la investigación está gobernada por evidencia.
 
@@ -619,8 +596,7 @@ Revisar conclusiones demuestra que la investigación está gobernada por evidenc
   {
     pregunta: "¿Qué debe hacer el estudiante si después de una búsqueda rigurosa no puede resolver una contradicción?",
     tipo: "mc",
-    opciones: ["Expresar claramente que no puede determinarse con la evidencia disponible", "Inventar una solución probable y presentarla como hecho", "Omitir una de las fuentes", "Elegir la explicación que más le guste"],
-    correcta: 0,
+    opciones: ["Inventar una solución probable y presentarla como hecho","Expresar claramente que no puede determinarse con la evidencia disponible","Omitir una de las fuentes","Elegir la explicación que más le guste"], correcta: 1,
     explicacion: `
 Los límites documentales deben formar parte explícita de la conclusión.
 
@@ -630,8 +606,7 @@ Los límites documentales deben formar parte explícita de la conclusión.
   {
     pregunta: "¿Cuál es la competencia central de U3?",
     tipo: "mc",
-    opciones: ["Evaluar críticamente fuentes y ajustar las afirmaciones al alcance de la evidencia", "Memorizar nombres de autores", "Coleccionar el mayor número de referencias", "Defender siempre la hipótesis inicial"],
-    correcta: 0,
+    opciones: ["Memorizar nombres de autores","Coleccionar el mayor número de referencias","Evaluar críticamente fuentes y ajustar las afirmaciones al alcance de la evidencia","Defender siempre la hipótesis inicial"], correcta: 2,
     explicacion: `
 U3 enseña a construir evidencia mediante crítica, contraste y reconocimiento de incertidumbre.
 

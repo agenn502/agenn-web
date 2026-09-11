@@ -362,79 +362,79 @@ El Consejo Académico evaluará especialmente si el ensayo pasa de **describir p
 ];
 
 export const QUESTIONS = [
-  { pregunta: "Un billete puede estudiarse simultáneamente como documento económico, institucional, tecnológico y visual.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Un billete puede estudiarse simultáneamente como documento económico, institucional, tecnológico y visual.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 0, explicacion: `
 Estas dimensiones permiten formular preguntas diferentes sobre una misma pieza.
 ` },
-  { pregunta: "¿Cuál es la pregunta central de U7?", tipo: "mc", opciones: ["Qué puede conocerse históricamente mediante los billetes y qué evidencia adicional requiere su interpretación", "Cuál billete tiene mayor precio", "Cuál es el billete más bonito", "Cómo ordenar una colección por tamaño"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuál es la pregunta central de U7?", tipo: "mc", opciones: ["Cuál billete tiene mayor precio","Cuál es el billete más bonito","Qué puede conocerse históricamente mediante los billetes y qué evidencia adicional requiere su interpretación","Cómo ordenar una colección por tamaño"], correcta: 2, explicacion: `
 U7 convierte el billete en fuente para investigar procesos históricos.
 ` },
-  { pregunta: "Que aparezca un personaje en un billete demuestra automáticamente por qué fue elegido.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Que aparezca un personaje en un billete demuestra automáticamente por qué fue elegido.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 La pieza demuestra la representación; la intención requiere evidencia adicional.
 ` },
-  { pregunta: "¿Qué debe hacerse antes de interpretar la iconografía?", tipo: "mc", opciones: ["Identificar y describir lo que aparece", "Atribuir una intención política", "Buscar su precio", "Suponer el significado más probable"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué debe hacerse antes de interpretar la iconografía?", tipo: "mc", opciones: ["Atribuir una intención política","Buscar su precio","Suponer el significado más probable","Identificar y describir lo que aparece"], correcta: 3, explicacion: `
 La descripción debe separarse de la interpretación.
 ` },
-  { pregunta: "Una inscripción puede transcribirse como observación directa sin que su significado histórico quede automáticamente explicado.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Una inscripción puede transcribirse como observación directa sin que su significado histórico quede automáticamente explicado.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 0, explicacion: `
 Texto observado e interpretación histórica son operaciones distintas.
 ` },
-  { pregunta: "¿En qué año comienza el corpus histórico de billetes estudiado por Pérez-Irungaray (2026)?", tipo: "mc", opciones: ["1874", "1924", "1946", "1821"], correcta: 0, explicacion: `
+  { pregunta: "¿En qué año comienza el corpus histórico de billetes estudiado por Pérez-Irungaray (2026)?", tipo: "mc", opciones: ["1874","1924","1946","1821"], correcta: 0, explicacion: `
 El corpus 1874–2023 comienza con las emisiones del Banco Nacional de Guatemala.
 ` },
-  { pregunta: "La existencia de una emisión demuestra por sí sola aceptación inmediata y generalizada.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "La existencia de una emisión demuestra por sí sola aceptación inmediata y generalizada.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Aceptación y alcance de circulación requieren evidencia específica.
 ` },
-  { pregunta: "¿Qué estudia Quisquinay Rojas (2022)?", tipo: "mc", opciones: ["Los primeros billetes del Banco Nacional de Guatemala, 1874–1876", "Solo billetes modernos de polímero", "Monedas coloniales", "Fichas particulares"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué estudia Quisquinay Rojas (2022)?", tipo: "mc", opciones: ["Solo billetes modernos de polímero","Los primeros billetes del Banco Nacional de Guatemala, 1874–1876","Monedas coloniales","Fichas particulares"], correcta: 1, explicacion: `
 Su investigación constituye una fuente especializada para el inicio del papel moneda bancario guatemalteco.
 ` },
-  { pregunta: "Dos billetes de igual denominación pero de emisores distintos son necesariamente el mismo documento histórico.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Dos billetes de igual denominación pero de emisores distintos son necesariamente el mismo documento histórico.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 El emisor y el régimen institucional pueden cambiar completamente el contexto de la pieza.
 ` },
-  { pregunta: "¿Qué debe investigarse en una etapa con múltiples emisores?", tipo: "mc", opciones: ["Autoridad, respaldo, circulación, emisor y relación con el Estado", "Solo el color", "Solo la denominación", "Únicamente el precio"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué debe investigarse en una etapa con múltiples emisores?", tipo: "mc", opciones: ["Solo el color","Solo la denominación","Autoridad, respaldo, circulación, emisor y relación con el Estado","Únicamente el precio"], correcta: 2, explicacion: `
 El billete debe situarse dentro de la estructura bancaria y monetaria que explica su emisión.
 ` },
-  { pregunta: "La pluralidad de bancos emisores basta por sí sola para demostrar la causa de una crisis monetaria.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "La pluralidad de bancos emisores basta por sí sola para demostrar la causa de una crisis monetaria.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 La causalidad exige analizar legislación, reservas, política fiscal, emisión y confianza, entre otros factores.
 ` },
-  { pregunta: "¿Cuál de estos niveles requiere mayor evidencia externa?", tipo: "mc", opciones: ["Explicar por qué fue elegida una imagen", "Identificar que aparece un retrato", "Transcribir una denominación", "Registrar una firma visible"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuál de estos niveles requiere mayor evidencia externa?", tipo: "mc", opciones: ["Identificar que aparece un retrato","Transcribir una denominación","Registrar una firma visible","Explicar por qué fue elegida una imagen"], correcta: 3, explicacion: `
 La intención iconográfica no se desprende automáticamente de la imagen.
 ` },
-  { pregunta: "Sin evidencia sobre intención, es más riguroso escribir “puede relacionarse con” que “fue elegido para simbolizar”.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Sin evidencia sobre intención, es más riguroso escribir “puede relacionarse con” que “fue elegido para simbolizar”.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 0, explicacion: `
 El lenguaje debe expresar el grado real de certeza alcanzado.
 ` },
-  { pregunta: "¿Qué fecha sitúa Banco de Guatemala para la creación legal del quetzal?", tipo: "mc", opciones: ["26 de noviembre de 1924", "1 de julio de 1946", "23 de marzo de 1874", "15 de septiembre de 1948"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué fecha sitúa Banco de Guatemala para la creación legal del quetzal?", tipo: "mc", opciones: ["26 de noviembre de 1924","1 de julio de 1946","23 de marzo de 1874","15 de septiembre de 1948"], correcta: 0, explicacion: `
 La creación jurídica de la unidad precede a varias de sus materializaciones.
 ` },
-  { pregunta: "La primera moneda de quetzal y el primer billete en quetzales pertenecen necesariamente al mismo año.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "La primera moneda de quetzal y el primer billete en quetzales pertenecen necesariamente al mismo año.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Banco de Guatemala documenta moneda en 1925 y billete del Banco Central en 1927.
 ` },
-  { pregunta: "¿Qué enseña la secuencia 1924–1927?", tipo: "mc", opciones: ["Que una reforma puede tener cronologías legales, materiales e institucionales diferentes", "Que todas las reformas ocurren en un día", "Que la fecha del billete sustituye a la legislación", "Que monedas y billetes siempre aparecen juntos"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué enseña la secuencia 1924–1927?", tipo: "mc", opciones: ["Que todas las reformas ocurren en un día","Que una reforma puede tener cronologías legales, materiales e institucionales diferentes","Que la fecha del billete sustituye a la legislación","Que monedas y billetes siempre aparecen juntos"], correcta: 1, explicacion: `
 La transformación debe reconstruirse mediante fuentes y acontecimientos diferentes.
 ` },
-  { pregunta: "El nombre del emisor es un dato histórico y no solamente catalográfico.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "El nombre del emisor es un dato histórico y no solamente catalográfico.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 0, explicacion: `
 Permite relacionar el billete con un régimen institucional y una autoridad de emisión.
 ` },
-  { pregunta: "¿Qué transformación puede estudiarse comparando Banco Central de Guatemala y Banco de Guatemala?", tipo: "mc", opciones: ["La reorganización y centralización institucional de la emisión", "Solo cambios de precio de colección", "Únicamente tamaños de papel", "La acuñación colonial"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué transformación puede estudiarse comparando Banco Central de Guatemala y Banco de Guatemala?", tipo: "mc", opciones: ["Solo cambios de precio de colección","Únicamente tamaños de papel","La reorganización y centralización institucional de la emisión","La acuñación colonial"], correcta: 2, explicacion: `
 Los emisores sucesivos permiten analizar cambios en la estructura bancaria y monetaria.
 ` },
-  { pregunta: "La presencia de un nuevo elemento de seguridad demuestra automáticamente la razón por la que fue introducido.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "La presencia de un nuevo elemento de seguridad demuestra automáticamente la razón por la que fue introducido.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 La pieza prueba su presencia; la motivación tecnológica o institucional necesita documentación.
 ` },
-  { pregunta: "¿Cuántos billetes diferenciados comprende el corpus publicado por Pérez-Irungaray (2026) para 1874–2023?", tipo: "mc", opciones: ["299", "301", "1874", "200"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuántos billetes diferenciados comprende el corpus publicado por Pérez-Irungaray (2026) para 1874–2023?", tipo: "mc", opciones: ["301","1874","200","299"], correcta: 3, explicacion: `
 La cifra verificable en el artículo publicado es 299 para el período 1874–2023.
 ` },
-  { pregunta: "Una diferencia visible entre billetes tiene automáticamente importancia histórica.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Una diferencia visible entre billetes tiene automáticamente importancia histórica.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 Primero debe establecerse qué diferencia existe y después investigar qué proceso, si alguno, la explica.
 ` },
-  { pregunta: "¿Qué es un análisis diacrónico?", tipo: "mc", opciones: ["Comparar un fenómeno a través del tiempo", "Comparar solo precios actuales", "Estudiar una única imagen sin contexto", "Ordenar billetes alfabéticamente"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué es un análisis diacrónico?", tipo: "mc", opciones: ["Comparar un fenómeno a través del tiempo","Comparar solo precios actuales","Estudiar una única imagen sin contexto","Ordenar billetes alfabéticamente"], correcta: 0, explicacion: `
 El análisis diacrónico permite estudiar cambios y permanencias temporales.
 ` },
-  { pregunta: "El análisis sincrónico compara piezas o fenómenos dentro de un mismo momento histórico.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "El análisis sincrónico compara piezas o fenómenos dentro de un mismo momento histórico.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 1, explicacion: `
 Es complementario del análisis diacrónico y permite estudiar relaciones contemporáneas.
 ` },
-  { pregunta: "Un billete fechado demuestra necesariamente la fecha exacta en que cada ejemplar llegó al público.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Un billete fechado demuestra necesariamente la fecha exacta en que cada ejemplar llegó al público.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 La fecha impresa y la puesta efectiva en circulación son hechos distintos que pueden requerir fuentes adicionales.
 ` },
-  { pregunta: "¿Cuál es la competencia central de U7?", tipo: "mc", opciones: ["Utilizar billetes y fuentes externas para construir una interpretación histórica proporcional a la evidencia", "Memorizar todos los billetes de Guatemala", "Asignar precios de mercado", "Reconocer únicamente retratos"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuál es la competencia central de U7?", tipo: "mc", opciones: ["Memorizar todos los billetes de Guatemala","Utilizar billetes y fuentes externas para construir una interpretación histórica proporcional a la evidencia","Asignar precios de mercado","Reconocer únicamente retratos"], correcta: 1, explicacion: `
 El objetivo es pasar de describir el objeto a utilizarlo como evidencia dentro de una investigación histórica.
 ` },
 ];

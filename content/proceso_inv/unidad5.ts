@@ -333,127 +333,127 @@ Los conceptos propuestos por Rodríguez Orozco pueden utilizarse como herramient
 ];
 
 export const QUESTIONS = [
-  { pregunta: "Una moneda puede estudiarse como parte de una estructura de denominaciones y no únicamente como objeto aislado.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Una moneda puede estudiarse como parte de una estructura de denominaciones y no únicamente como objeto aislado.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 0, explicacion: `
 U5 cambia la escala del objeto individual al sistema monetario.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué pregunta guía U5?", tipo: "mc", opciones: ["¿Cómo se reconstruye un sistema monetario a partir de evidencia?", "¿Cuál moneda vale más en el mercado?", "¿Qué colección es más grande?", "¿Qué diseño es más bonito?"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué pregunta guía U5?", tipo: "mc", opciones: ["¿Cómo se reconstruye un sistema monetario a partir de evidencia?","¿Cuál moneda vale más en el mercado?","¿Qué colección es más grande?","¿Qué diseño es más bonito?"], correcta: 0, explicacion: `
 La unidad se centra en reconstruir relaciones históricas entre especies monetarias.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Una denominación autorizada por ley demuestra automáticamente que fue acuñada y circuló.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Una denominación autorizada por ley demuestra automáticamente que fue acuñada y circuló.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 La autorización normativa debe distinguirse de acuñación, emisión y circulación.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué describe el cono monetario básico en la propuesta de Rodríguez Orozco?", tipo: "mc", opciones: ["Las especies que se repiten con mayor continuidad y frecuencia en un período", "Toda moneda extranjera", "Solo monedas de oro", "Solo denominaciones autorizadas pero no emitidas"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué describe el cono monetario básico en la propuesta de Rodríguez Orozco?", tipo: "mc", opciones: ["Toda moneda extranjera","Las especies que se repiten con mayor continuidad y frecuencia en un período","Solo monedas de oro","Solo denominaciones autorizadas pero no emitidas"], correcta: 1, explicacion: `
 Es una categoría analítica propuesta por el autor para identificar una estructura recurrente.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Los conceptos de cono híbrido y paralelo deben presentarse como categorías propuestas por Rodríguez Orozco, no como vocabulario universal.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Los conceptos de cono híbrido y paralelo deben presentarse como categorías propuestas por Rodríguez Orozco, no como vocabulario universal.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 0, explicacion: `
 U3 exige identificar la procedencia y alcance de los conceptos utilizados.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué puede demostrar directamente una ley que autoriza una denominación?", tipo: "mc", opciones: ["Que fue legalmente autorizada", "Que necesariamente se fabricó", "Que circuló en todo el país", "Que fue aceptada por toda la población"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué puede demostrar directamente una ley que autoriza una denominación?", tipo: "mc", opciones: ["Que necesariamente se fabricó","Que circuló en todo el país","Que fue legalmente autorizada","Que fue aceptada por toda la población"], correcta: 2, explicacion: `
 El alcance directo de la fuente normativa es la autorización.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Autorización, acuñación, emisión y circulación son etapas que el investigador debe distinguir.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Autorización, acuñación, emisión y circulación son etapas que el investigador debe distinguir.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 1, explicacion: `
 Confundirlas produce reconstrucciones históricas incorrectas.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué debe hacerse al estudiar los primeros intentos decimales?", tipo: "mc", opciones: ["Contrastar legislación, piezas y continuidad posterior", "Asumir consolidación inmediata", "Usar solo un catálogo", "Ignorar los vacíos"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué debe hacerse al estudiar los primeros intentos decimales?", tipo: "mc", opciones: ["Asumir consolidación inmediata","Usar solo un catálogo","Ignorar los vacíos","Contrastar legislación, piezas y continuidad posterior"], correcta: 3, explicacion: `
 La adopción jurídica no demuestra consolidación material inmediata.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Una interrupción en una serie monetaria puede convertirse en un problema de investigación.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Una interrupción en una serie monetaria puede convertirse en un problema de investigación.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 0, explicacion: `
 Las ausencias y discontinuidades pueden orientar nuevas preguntas.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Cuál es un fenómeno de transformación descrito por Rodríguez Orozco?", tipo: "mc", opciones: ["Adición o agregación", "Certificación comercial", "Gradación de conservación", "Encapsulado"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuál es un fenómeno de transformación descrito por Rodríguez Orozco?", tipo: "mc", opciones: ["Adición o agregación","Certificación comercial","Gradación de conservación","Encapsulado"], correcta: 0, explicacion: `
 El autor analiza sustitución, adición, reducción y actualización.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "La existencia de papel moneda desde 1874 obliga a considerar que el circulante histórico no puede explicarse únicamente con monedas metálicas.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "La existencia de papel moneda desde 1874 obliga a considerar que el circulante histórico no puede explicarse únicamente con monedas metálicas.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 1, explicacion: `
 Desde ese momento distintas especies forman parte de la historia monetaria.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué señala Banco de Guatemala sobre 1881?", tipo: "mc", opciones: ["Que la circulación interna pareció estabilizarse, aunque continuó moneda extranjera", "Que nació el quetzal", "Que desapareció toda moneda extranjera", "Que dejaron de acuñarse monedas"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué señala Banco de Guatemala sobre 1881?", tipo: "mc", opciones: ["Que nació el quetzal","Que la circulación interna pareció estabilizarse, aunque continuó moneda extranjera","Que desapareció toda moneda extranjera","Que dejaron de acuñarse monedas"], correcta: 1, explicacion: `
 La fuente institucional presenta 1881 como un momento de aparente estabilización.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "La creación legal del quetzal y la aparición de todas sus especies monetarias ocurrieron necesariamente el mismo día.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "La creación legal del quetzal y la aparición de todas sus especies monetarias ocurrieron necesariamente el mismo día.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 La reforma jurídica y su materialización monetaria deben distinguirse temporalmente.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Cuál fecha corresponde a la creación legal del quetzal según Banco de Guatemala?", tipo: "mc", opciones: ["26 de noviembre de 1924", "15 de septiembre de 1821", "30 de junio de 1871", "1 de julio de 1946"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuál fecha corresponde a la creación legal del quetzal según Banco de Guatemala?", tipo: "mc", opciones: ["15 de septiembre de 1821","30 de junio de 1871","26 de noviembre de 1924","1 de julio de 1946"], correcta: 2, explicacion: `
 La fuente institucional sitúa la creación de la unidad monetaria en esa fecha.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Después de una reforma, la continuidad de piezas anteriores demuestra que la reforma nunca existió.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Después de una reforma, la continuidad de piezas anteriores demuestra que la reforma nunca existió.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Puede tratarse de una transición con traslape de especies.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué caracteriza un cono paralelo según Rodríguez Orozco?", tipo: "mc", opciones: ["Moneda extranjera legalizada para circular junto con la nacional", "Dos diseños de la misma moneda", "Monedas falsas", "Monedas guardadas en colecciones"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué caracteriza un cono paralelo según Rodríguez Orozco?", tipo: "mc", opciones: ["Dos diseños de la misma moneda","Monedas falsas","Monedas guardadas en colecciones","Moneda extranjera legalizada para circular junto con la nacional"], correcta: 3, explicacion: `
 La definición se refiere a convivencia legal de especies extranjeras y nacionales.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "La coexistencia de monedas de fechas distintas demuestra por sí sola que circularon simultáneamente.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "La coexistencia de monedas de fechas distintas demuestra por sí sola que circularon simultáneamente.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 La simultaneidad es una afirmación histórica que necesita evidencia.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué estudia el ciclo de vida de una denominación?", tipo: "mc", opciones: ["Su surgimiento, permanencia, cambios, sustitución o desaparición", "Solo su precio actual", "Solo el retrato de la moneda", "Solo su diámetro"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué estudia el ciclo de vida de una denominación?", tipo: "mc", opciones: ["Su surgimiento, permanencia, cambios, sustitución o desaparición","Solo su precio actual","Solo el retrato de la moneda","Solo su diámetro"], correcta: 0, explicacion: `
 Permite seguir transformaciones de una denominación en el tiempo.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Fecha inscrita y fecha de puesta en circulación deben considerarse siempre idénticas.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Fecha inscrita y fecha de puesta en circulación deben considerarse siempre idénticas.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Son datos distintos y deben registrarse separadamente cuando la evidencia lo permita.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Dos reconstrucciones del mismo año difieren: una muestra lo autorizado y otra lo materialmente documentado. ¿Cuál es necesariamente incorrecta?", tipo: "mc", opciones: ["Ninguna; pueden responder a preguntas diferentes", "Siempre la legal", "Siempre la material", "Ambas"], correcta: 0, explicacion: `
+  { pregunta: "Dos reconstrucciones del mismo año difieren: una muestra lo autorizado y otra lo materialmente documentado. ¿Cuál es necesariamente incorrecta?", tipo: "mc", opciones: ["Siempre la legal","Ninguna; pueden responder a preguntas diferentes","Siempre la material","Ambas"], correcta: 1, explicacion: `
 Debe identificarse qué universo representa cada reconstrucción.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Una tabla de denominaciones constituye por sí sola toda la investigación del cono monetario.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Una tabla de denominaciones constituye por sí sola toda la investigación del cono monetario.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 La tabla resume conclusiones cuya evidencia y razonamiento deben documentarse.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Qué combinación es más adecuada para reconstruir un sistema monetario?", tipo: "mc", opciones: ["Legislación, piezas, registros, circulación, bibliografía y contexto", "Solo precios de subasta", "Solo fotografías", "Solo memoria del coleccionista"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué combinación es más adecuada para reconstruir un sistema monetario?", tipo: "mc", opciones: ["Solo precios de subasta","Solo fotografías","Legislación, piezas, registros, circulación, bibliografía y contexto","Solo memoria del coleccionista"], correcta: 2, explicacion: `
 La reconstrucción sólida requiere fuentes pertinentes y, cuando procede, convergentes.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "Una denominación puede conservar su función mientras cambia su diseño o material.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Una denominación puede conservar su función mientras cambia su diseño o material.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 1, explicacion: `
 El ciclo de vida puede incluir actualizaciones sin desaparición de la denominación.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "El trabajo de U5 debe reproducir exactamente la interpretación de Rodríguez Orozco.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "El trabajo de U5 debe reproducir exactamente la interpretación de Rodríguez Orozco.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 El estudiante debe utilizar evidencia y argumentar su propia reconstrucción.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.
 ` },
-  { pregunta: "¿Cuál es la competencia central de U5?", tipo: "mc", opciones: ["Reconstruir e interpretar un sistema monetario distinguiendo lo autorizado, producido y circulado", "Memorizar todas las fechas", "Asignar precios", "Reconocer únicamente retratos"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuál es la competencia central de U5?", tipo: "mc", opciones: ["Memorizar todas las fechas","Asignar precios","Reconocer únicamente retratos","Reconstruir e interpretar un sistema monetario distinguiendo lo autorizado, producido y circulado"], correcta: 3, explicacion: `
 La unidad exige pasar de las piezas a las relaciones históricas que forman un sistema.
 
 **Para el investigador:** distinga siempre entre el sistema normativamente previsto y aquello que la evidencia permite documentar como producido o circulante.

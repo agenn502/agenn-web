@@ -489,79 +489,79 @@ La decisión podrá expresarse como **aprobado**, **correcciones requeridas** o,
 ];
 
 export const QUESTIONS = [
-  { pregunta: "Escribir una investigación ocurre únicamente después de terminar todo el trabajo de investigación.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Escribir una investigación ocurre únicamente después de terminar todo el trabajo de investigación.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 La escritura puede revelar vacíos, contradicciones y afirmaciones que obligan a volver a las fuentes.
 ` },
-  { pregunta: "¿Qué permite comprobar la frase de trabajo “Este trabajo sostiene que…”?", tipo: "mc", opciones: ["Si existe una tesis identificable", "Si el título es suficientemente largo", "Si hay muchas referencias", "Si el tema es popular"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué permite comprobar la frase de trabajo “Este trabajo sostiene que…”?", tipo: "mc", opciones: ["Si existe una tesis identificable","Si el título es suficientemente largo","Si hay muchas referencias","Si el tema es popular"], correcta: 0, explicacion: `
 La prueba obliga a formular la respuesta o interpretación central que el manuscrito defenderá.
 ` },
-  { pregunta: "“La reforma monetaria de 1924” constituye por sí sola una tesis.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "“La reforma monetaria de 1924” constituye por sí sola una tesis.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Es un tema; la tesis debe formular una afirmación que pueda defenderse mediante evidencia.
 ` },
-  { pregunta: "¿Qué diferencia principalmente una pregunta de una tesis?", tipo: "mc", opciones: ["La pregunta plantea el problema y la tesis propone la respuesta que será defendida", "La tesis siempre es más corta", "La pregunta no necesita fuentes", "No existe diferencia"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué diferencia principalmente una pregunta de una tesis?", tipo: "mc", opciones: ["La tesis siempre es más corta","La pregunta plantea el problema y la tesis propone la respuesta que será defendida","La pregunta no necesita fuentes","No existe diferencia"], correcta: 1, explicacion: `
 Pregunta y tesis cumplen funciones distintas dentro de la arquitectura argumentativa.
 ` },
-  { pregunta: "Un ensayo académico puede tener abundante información y bibliografía, pero carecer de argumento.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Un ensayo académico puede tener abundante información y bibliografía, pero carecer de argumento.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 0, explicacion: `
 La acumulación de datos no sustituye una tesis sostenida mediante razones y evidencia.
 ` },
-  { pregunta: "¿Qué debe determinar la organización de las secciones de un ensayo?", tipo: "mc", opciones: ["La lógica del problema y del argumento", "Una cantidad fija de subtítulos", "El orden en que se encontraron las fuentes", "El tamaño de las imágenes"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué debe determinar la organización de las secciones de un ensayo?", tipo: "mc", opciones: ["Una cantidad fija de subtítulos","El orden en que se encontraron las fuentes","La lógica del problema y del argumento","El tamaño de las imágenes"], correcta: 2, explicacion: `
 La estructura debe ayudar al lector a seguir la demostración.
 ` },
-  { pregunta: "Todos los ensayos históricos deben utilizar obligatoriamente la misma plantilla de introducción, marco teórico, metodología, resultados y discusión.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Todos los ensayos históricos deben utilizar obligatoriamente la misma plantilla de introducción, marco teórico, metodología, resultados y discusión.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 La arquitectura debe responder al tipo de investigación y a la lógica del argumento, no a una plantilla universal.
 ` },
-  { pregunta: "¿Qué estructura sirve para revisar el trabajo intelectual de un párrafo?", tipo: "mc", opciones: ["Afirmación + evidencia + razonamiento + límite", "Fecha + fotografía + precio + firma", "Cita + cita + cita + conclusión", "Título + subtítulo + nota + bibliografía"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué estructura sirve para revisar el trabajo intelectual de un párrafo?", tipo: "mc", opciones: ["Fecha + fotografía + precio + firma","Cita + cita + cita + conclusión","Título + subtítulo + nota + bibliografía","Afirmación + evidencia + razonamiento + límite"], correcta: 3, explicacion: `
 La estructura permite comprobar cómo se conecta una afirmación con su fundamento y sus límites.
 ` },
-  { pregunta: "Una cita sirve principalmente para demostrar que el autor leyó muchos libros.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Una cita sirve principalmente para demostrar que el autor leyó muchos libros.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 Su función esencial es atribuir y permitir la trazabilidad de la información o interpretación utilizada.
 ` },
-  { pregunta: "Un investigador aplica a un caso nuevo una categoría creada por otro autor. ¿Qué debe hacer?", tipo: "mc", opciones: ["Atribuir la categoría y distinguir como propio el nuevo análisis", "Presentar la categoría como propia", "Citar únicamente si usa las mismas palabras", "Evitar mencionar al autor original"], correcta: 0, explicacion: `
+  { pregunta: "Un investigador aplica a un caso nuevo una categoría creada por otro autor. ¿Qué debe hacer?", tipo: "mc", opciones: ["Atribuir la categoría y distinguir como propio el nuevo análisis","Presentar la categoría como propia","Citar únicamente si usa las mismas palabras","Evitar mencionar al autor original"], correcta: 0, explicacion: `
 La atribución permite separar el origen conceptual del aporte producido mediante su nueva aplicación.
 ` },
-  { pregunta: "Una referencia al final de un párrafo sostiene automáticamente todas las afirmaciones contenidas en él.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Una referencia al final de un párrafo sostiene automáticamente todas las afirmaciones contenidas en él.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Cada afirmación relevante debe corresponder realmente con lo que la fuente documenta.
 ` },
-  { pregunta: "¿Qué pregunta constituye una buena prueba de correspondencia entre afirmación y fuente?", tipo: "mc", opciones: ["¿Encontrará otro investigador en esta fuente respaldo para lo que afirmo?", "¿La fuente tiene muchas páginas?", "¿El autor es famoso?", "¿La cita hace que el párrafo parezca académico?"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué pregunta constituye una buena prueba de correspondencia entre afirmación y fuente?", tipo: "mc", opciones: ["¿La fuente tiene muchas páginas?","¿Encontrará otro investigador en esta fuente respaldo para lo que afirmo?","¿El autor es famoso?","¿La cita hace que el párrafo parezca académico?"], correcta: 1, explicacion: `
 La trazabilidad exige que la fuente sostenga la afirmación concreta para la que se utiliza.
 ` },
-  { pregunta: "Si una fuente solo demuestra que una moneda fue autorizada, puede citarse para afirmar sin más que fue ampliamente aceptada.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Si una fuente solo demuestra que una moneda fue autorizada, puede citarse para afirmar sin más que fue ampliamente aceptada.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 Autorización y aceptación son fenómenos diferentes y requieren evidencia pertinente para cada afirmación.
 ` },
-  { pregunta: "Cambiar completamente las palabras de una idea ajena elimina la necesidad de citar su procedencia.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Cambiar completamente las palabras de una idea ajena elimina la necesidad de citar su procedencia.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 La paráfrasis continúa siendo una idea derivada de una fuente y requiere atribución.
 ` },
-  { pregunta: "¿Qué debe distinguirse al trabajar con un decreto histórico?", tipo: "mc", opciones: ["La transcripción de lo que dice y la interpretación que hace el investigador", "La tinta y el precio del documento únicamente", "El título y la bibliografía", "La fecha y el tamaño de letra"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué debe distinguirse al trabajar con un decreto histórico?", tipo: "mc", opciones: ["La tinta y el precio del documento únicamente","El título y la bibliografía","La transcripción de lo que dice y la interpretación que hace el investigador","La fecha y el tamaño de letra"], correcta: 2, explicacion: `
 Documento e interpretación corresponden a voces y operaciones diferentes.
 ` },
-  { pregunta: "Una referencia bibliográfica debe permitir identificar con precisión la fuente utilizada.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Una referencia bibliográfica debe permitir identificar con precisión la fuente utilizada.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 0, explicacion: `
 La función práctica de la referencia es garantizar identificación y recuperación de la fuente.
 ` },
-  { pregunta: "¿Por qué “Internet” no constituye una referencia suficiente?", tipo: "mc", opciones: ["Porque no identifica el documento concreto utilizado", "Porque las fuentes digitales nunca son válidas", "Porque APA prohíbe las páginas web", "Porque solo pueden citarse libros"], correcta: 0, explicacion: `
+  { pregunta: "¿Por qué “Internet” no constituye una referencia suficiente?", tipo: "mc", opciones: ["Porque las fuentes digitales nunca son válidas","Porque APA prohíbe las páginas web","Porque solo pueden citarse libros","Porque no identifica el documento concreto utilizado"], correcta: 3, explicacion: `
 Una fuente digital puede ser válida, pero debe identificarse específicamente.
 ` },
-  { pregunta: "La fuente de una fotografía y la fuente utilizada para identificar la pieza son necesariamente la misma.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "La fuente de una fotografía y la fuente utilizada para identificar la pieza son necesariamente la misma.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 La procedencia visual y la fuente de información pueden ser diferentes y deben distinguirse.
 ` },
-  { pregunta: "¿Qué debería indicarse en una tabla elaborada por el investigador a partir de datos ajenos?", tipo: "mc", opciones: ["Elaboración propia y las fuentes de los datos", "Únicamente el nombre del investigador", "Nada, porque la tabla es nueva", "Solo el programa utilizado"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué debería indicarse en una tabla elaborada por el investigador a partir de datos ajenos?", tipo: "mc", opciones: ["Elaboración propia y las fuentes de los datos","Únicamente el nombre del investigador","Nada, porque la tabla es nueva","Solo el programa utilizado"], correcta: 0, explicacion: `
 La nueva organización puede ser propia, pero los datos conservan su procedencia.
 ` },
-  { pregunta: "Los verbos “demuestra”, “sugiere” y “podría” expresan el mismo grado de certeza.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Los verbos “demuestra”, “sugiere” y “podría” expresan el mismo grado de certeza.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 El vocabulario académico debe reflejar diferentes niveles de fuerza probatoria.
 ` },
-  { pregunta: "Escribir “posiblemente” convierte en aceptable cualquier afirmación aunque no tenga fundamento.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Escribir “posiblemente” convierte en aceptable cualquier afirmación aunque no tenga fundamento.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Una posibilidad también debe ser compatible con evidencia y razonamiento.
 ` },
-  { pregunta: "¿Qué debe hacer principalmente una conclusión?", tipo: "mc", opciones: ["Responder la pregunta y establecer qué puede sostenerse después del análisis", "Repetir literalmente la introducción", "Introducir la evidencia principal por primera vez", "Enumerar todas las fuentes"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué debe hacer principalmente una conclusión?", tipo: "mc", opciones: ["Repetir literalmente la introducción","Responder la pregunta y establecer qué puede sostenerse después del análisis","Introducir la evidencia principal por primera vez","Enumerar todas las fuentes"], correcta: 1, explicacion: `
 La conclusión expresa el resultado argumentativo y sus límites.
 ` },
-  { pregunta: "La revisión académica debe comenzar únicamente por ortografía, puntuación y formato.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "La revisión académica debe comenzar únicamente por ortografía, puntuación y formato.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 Primero deben revisarse pregunta, tesis, evidencia, trazabilidad, inferencias y argumentación.
 ` },
-  { pregunta: "El Consejo Académico devuelve un manuscrito con observaciones y solicita una segunda versión. ¿Qué significa dentro de U9?", tipo: "mc", opciones: ["Que la revisión forma parte normal de producir conocimiento académico", "Que el trabajo fracasó definitivamente", "Que el estudiante perdió el nivel", "Que las fuentes ya no pueden utilizarse"], correcta: 0, explicacion: `
+  { pregunta: "El Consejo Académico devuelve un manuscrito con observaciones y solicita una segunda versión. ¿Qué significa dentro de U9?", tipo: "mc", opciones: ["Que el trabajo fracasó definitivamente","Que el estudiante perdió el nivel","Que la revisión forma parte normal de producir conocimiento académico","Que las fuentes ya no pueden utilizarse"], correcta: 2, explicacion: `
 U9 incorpora deliberadamente la reescritura después de crítica académica.
 ` },
-  { pregunta: "¿Qué significa que un trabajo sea identificado como “con potencial de publicación” en Revista AGENN?", tipo: "mc", opciones: ["Que puede iniciar un proceso editorial, pero no que su publicación sea automática", "Que ya está publicado", "Que no necesita correcciones", "Que el Consejo renuncia a revisarlo"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué significa que un trabajo sea identificado como “con potencial de publicación” en Revista AGENN?", tipo: "mc", opciones: ["Que ya está publicado","Que no necesita correcciones","Que el Consejo renuncia a revisarlo","Que puede iniciar un proceso editorial, pero no que su publicación sea automática"], correcta: 3, explicacion: `
 La publicación requiere revisión, correcciones, adecuación editorial y evaluación según corresponda.
 ` },
 ];

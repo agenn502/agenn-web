@@ -322,127 +322,127 @@ El Consejo Académico evaluará especialmente la correspondencia entre pieza, fu
 ];
 
 export const QUESTIONS = [
-  { pregunta: "Todo objeto redondo de metal con una cifra es una moneda.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Todo objeto redondo de metal con una cifra es una moneda.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 La forma monetiforme no determina curso legal ni función.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué relación existe entre exonumia y numismática?", tipo: "mc", opciones: ["La exonumia es una rama especializada de la numismática", "Son disciplinas sin relación", "La exonumia estudia únicamente billetes", "La numismática estudia solo medallas"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué relación existe entre exonumia y numismática?", tipo: "mc", opciones: ["Son disciplinas sin relación","La exonumia es una rama especializada de la numismática","La exonumia estudia únicamente billetes","La numismática estudia solo medallas"], correcta: 1, explicacion: `
 Morales Osterberg sitúa la exonumia como rama especializada de la numismática.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Toda ficha de finca funcionó como dinero.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Toda ficha de finca funcionó como dinero.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 Las fichas tuvieron funciones monetarias, laborales, administrativas, comerciales y de control.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Una ficha marcada con “1” permite afirmar automáticamente que representa una unidad monetaria.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Una ficha marcada con “1” permite afirmar automáticamente que representa una unidad monetaria.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Primero debe determinarse qué unidad representa la cifra.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Cuál de estos valores puede aparecer en una ficha particular?", tipo: "mc", opciones: ["Jornal, tarea, corte o cantidad de producto", "Únicamente quetzales", "Únicamente centavos", "Solo valores sin cifra"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuál de estos valores puede aparecer en una ficha particular?", tipo: "mc", opciones: ["Únicamente quetzales","Únicamente centavos","Jornal, tarea, corte o cantidad de producto","Solo valores sin cifra"], correcta: 2, explicacion: `
 Las fichas documentadas expresan múltiples unidades monetarias y no monetarias.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "La pieza exonúmica puede responder por sí sola cómo se pagaba a un trabajador.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "La pieza exonúmica puede responder por sí sola cómo se pagaba a un trabajador.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 Esa pregunta normalmente requiere documentación laboral, contable o contextual.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué secuencia representa mejor la investigación propuesta en U6?", tipo: "mc", opciones: ["Pieza → indicio → archivo → contexto → interpretación", "Catálogo → precio → compra → colección", "Fecha → certeza → conclusión", "Metal → moneda → curso legal"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué secuencia representa mejor la investigación propuesta en U6?", tipo: "mc", opciones: ["Catálogo → precio → compra → colección","Fecha → certeza → conclusión","Metal → moneda → curso legal","Pieza → indicio → archivo → contexto → interpretación"], correcta: 3, explicacion: `
 El objeto abre una ruta documental que permite contextualizarlo.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Encontrar una finca con el mismo nombre inscrito en una ficha demuestra automáticamente la atribución.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Encontrar una finca con el mismo nombre inscrito en una ficha demuestra automáticamente la atribución.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 La correspondencia debe comprobarse geográfica, cronológica o documentalmente.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué debe hacer el investigador si una búsqueda documental no produce resultados?", tipo: "mc", opciones: ["Registrar el resultado y reconocer el límite", "Inventar el contexto más probable", "Declarar inexistente la finca", "Eliminar la pieza del estudio"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué debe hacer el investigador si una búsqueda documental no produce resultados?", tipo: "mc", opciones: ["Registrar el resultado y reconocer el límite","Inventar el contexto más probable","Declarar inexistente la finca","Eliminar la pieza del estudio"], correcta: 0, explicacion: `
 Los resultados negativos delimitan la investigación sin demostrar automáticamente inexistencia.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "El aluminio, por sí solo, permite fechar exactamente una ficha.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "El aluminio, por sí solo, permite fechar exactamente una ficha.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 El material orienta hipótesis, pero la datación requiere evidencia adicional.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué ocurrió en 1894 según la investigación de Morales Osterberg?", tipo: "mc", opciones: ["Se autorizó a la Casa de Moneda a fabricar piezas particulares bajo regulación", "Se prohibieron todas las fichas", "Se creó el quetzal", "Se cerró la Casa de Moneda"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué ocurrió en 1894 según la investigación de Morales Osterberg?", tipo: "mc", opciones: ["Se prohibieron todas las fichas","Se autorizó a la Casa de Moneda a fabricar piezas particulares bajo regulación","Se creó el quetzal","Se cerró la Casa de Moneda"], correcta: 1, explicacion: `
 La regulación de fabricación no otorgó curso legal a las fichas.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Una ficha fabricada por la Casa de Moneda de Guatemala era necesariamente moneda oficial.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Una ficha fabricada por la Casa de Moneda de Guatemala era necesariamente moneda oficial.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Lugar de fabricación, autoridad emisora y curso legal son categorías diferentes.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué pregunta es correcta al estudiar posible circulación privada?", tipo: "mc", opciones: ["¿Dónde y para qué puede demostrarse que era aceptada?", "¿Cuánto desgaste tiene?", "¿Es redonda?", "¿Se parece a una moneda?"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué pregunta es correcta al estudiar posible circulación privada?", tipo: "mc", opciones: ["¿Cuánto desgaste tiene?","¿Es redonda?","¿Dónde y para qué puede demostrarse que era aceptada?","¿Se parece a una moneda?"], correcta: 2, explicacion: `
 La aceptación en un circuito concreto debe documentarse.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "El desgaste intenso demuestra por sí solo que una ficha circuló ampliamente como dinero.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "El desgaste intenso demuestra por sí solo que una ficha circuló ampliamente como dinero.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 Demuestra uso o manipulación; no demuestra naturaleza ni alcance de ese uso.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Un testimonio de un propietario interesado en defender el sistema debe descartarse automáticamente.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Un testimonio de un propietario interesado en defender el sistema debe descartarse automáticamente.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Una fuente interesada puede ser útil si su posición se analiza y se contrasta.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué prohibió el Decreto 879 de 1924 respecto de las fichas?", tipo: "mc", opciones: ["Su empleo como sustitutos de la moneda legal", "Toda colección de fichas", "Toda fabricación de objetos redondos", "El estudio exonúmico"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué prohibió el Decreto 879 de 1924 respecto de las fichas?", tipo: "mc", opciones: ["Toda colección de fichas","Toda fabricación de objetos redondos","El estudio exonúmico","Su empleo como sustitutos de la moneda legal"], correcta: 3, explicacion: `
 La prohibición se refiere a su empleo en sustitución de la moneda legal.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "La prohibición de 1924 demuestra que ninguna ficha volvió a utilizarse después.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "La prohibición de 1924 demuestra que ninguna ficha volvió a utilizarse después.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 Continuaron funciones administrativas y de control de trabajo.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué función podía cumplir una ficha dentro del sistema de rayado posterior a la reforma?", tipo: "mc", opciones: ["Registrar trabajo que debía pagarse en moneda legal", "Convertirse automáticamente en moneda nacional", "Sustituir legalmente todo salario", "Servir únicamente como adorno"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué función podía cumplir una ficha dentro del sistema de rayado posterior a la reforma?", tipo: "mc", opciones: ["Registrar trabajo que debía pagarse en moneda legal","Convertirse automáticamente en moneda nacional","Sustituir legalmente todo salario","Servir únicamente como adorno"], correcta: 0, explicacion: `
 La ficha podía funcionar como contraseña o evidencia de labores realizadas.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Mismo tipo de objeto significa necesariamente misma función histórica.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Mismo tipo de objeto significa necesariamente misma función histórica.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Una ficha similar puede cumplir funciones distintas según época y contexto.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Una ficha fechada después de 1924 es necesariamente falsa.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Una ficha fechada después de 1924 es necesariamente falsa.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 Puede corresponder a funciones no monetarias posteriores a la prohibición.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué demuestra directamente una fecha inscrita?", tipo: "mc", opciones: ["Que esa fecha aparece en la pieza", "Que fue fabricada ese año", "Que circuló ese año", "Que el establecimiento se fundó ese año"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué demuestra directamente una fecha inscrita?", tipo: "mc", opciones: ["Que fue fabricada ese año","Que esa fecha aparece en la pieza","Que circuló ese año","Que el establecimiento se fundó ese año"], correcta: 1, explicacion: `
 El significado histórico de la fecha debe investigarse.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "Cinco catálogos que repiten una atribución procedente de una única obra equivalen necesariamente a cinco confirmaciones independientes.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Cinco catálogos que repiten una atribución procedente de una única obra equivalen necesariamente a cinco confirmaciones independientes.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Debe reconstruirse la genealogía de la afirmación y buscar corroboración independiente.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Qué papel debe desempeñar el catálogo en U6?", tipo: "mc", opciones: ["Ser punto de partida para una investigación contextual", "Sustituir toda consulta documental", "Resolver automáticamente la función", "Determinar únicamente precios"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué papel debe desempeñar el catálogo en U6?", tipo: "mc", opciones: ["Sustituir toda consulta documental","Resolver automáticamente la función","Ser punto de partida para una investigación contextual","Determinar únicamente precios"], correcta: 2, explicacion: `
 La catalogación orienta, pero no reemplaza la investigación histórica.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "La ausencia de documentación encontrada demuestra automáticamente que un uso nunca existió.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "La ausencia de documentación encontrada demuestra automáticamente que un uso nunca existió.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 Ausencia de evidencia y evidencia de ausencia no son equivalentes.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.
 ` },
-  { pregunta: "¿Cuál es la competencia central de U6?", tipo: "mc", opciones: ["Determinar qué puede afirmarse históricamente a partir de una pieza exonúmica y qué requiere más evidencia", "Memorizar todas las fichas conocidas", "Asignar precios a tokens", "Identificar únicamente materiales"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuál es la competencia central de U6?", tipo: "mc", opciones: ["Memorizar todas las fichas conocidas","Asignar precios a tokens","Identificar únicamente materiales","Determinar qué puede afirmarse históricamente a partir de una pieza exonúmica y qué requiere más evidencia"], correcta: 3, explicacion: `
 U6 exige convertir el objeto exonúmico en problema histórico sin exceder la evidencia.
 
 **Para el investigador:** describa primero lo que la pieza demuestra y separe de ello aquello que todavía necesita documentación.

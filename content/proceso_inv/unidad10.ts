@@ -490,79 +490,79 @@ Además, podrán consultarse las obras generales y especializadas utilizadas en 
 ];
 
 export const QUESTIONS = [
-  { pregunta: "En U10, AGENN debe proporcionar al estudiante el problema exacto que investigará.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "En U10, AGENN debe proporcionar al estudiante el problema exacto que investigará.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 La unidad final exige que el estudiante formule un problema propio y demuestre autonomía metodológica.
 ` },
-  { pregunta: "¿Qué convierte un tema general en un problema investigable?", tipo: "mc", opciones: ["La existencia de una pregunta delimitada que pueda abordarse mediante evidencia", "Que el tema sea muy amplio", "Que tenga muchas imágenes", "Que sea popular entre coleccionistas"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué convierte un tema general en un problema investigable?", tipo: "mc", opciones: ["Que el tema sea muy amplio","La existencia de una pregunta delimitada que pueda abordarse mediante evidencia","Que tenga muchas imágenes","Que sea popular entre coleccionistas"], correcta: 1, explicacion: `
 El problema debe delimitar algo que todavía requiere explicación o comprobación.
 ` },
-  { pregunta: "Una investigación original debe descubrir necesariamente una moneda desconocida.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Una investigación original debe descubrir necesariamente una moneda desconocida.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 La originalidad puede ser documental, catalográfica, cronológica, interpretativa, metodológica, negativa o sintética.
 ` },
-  { pregunta: "¿Cuál de estas opciones puede constituir un aporte original?", tipo: "mc", opciones: ["Demostrar que una atribución repetida carece de evidencia suficiente", "Repetir un catálogo sin análisis", "Copiar una cronología conocida", "Acumular citas sin argumento"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuál de estas opciones puede constituir un aporte original?", tipo: "mc", opciones: ["Repetir un catálogo sin análisis","Copiar una cronología conocida","Demostrar que una atribución repetida carece de evidencia suficiente","Acumular citas sin argumento"], correcta: 2, explicacion: `
 Un resultado negativo bien demostrado puede ser una contribución académica.
 ` },
-  { pregunta: "Una pregunta excelente pero imposible de investigar con los recursos disponibles puede necesitar reformulación.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Una pregunta excelente pero imposible de investigar con los recursos disponibles puede necesitar reformulación.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 1, explicacion: `
 La viabilidad forma parte del diseño del proyecto.
 ` },
-  { pregunta: "¿Qué ocurre antes de desarrollar completamente la investigación?", tipo: "mc", opciones: ["El Consejo Académico revisa una propuesta breve", "Se publica el ensayo", "Se aprueba automáticamente U10", "Se asigna un tema obligatorio"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué ocurre antes de desarrollar completamente la investigación?", tipo: "mc", opciones: ["Se publica el ensayo","Se aprueba automáticamente U10","Se asigna un tema obligatorio","El Consejo Académico revisa una propuesta breve"], correcta: 3, explicacion: `
 La propuesta permite comprobar que el proyecto sea investigable antes de avanzar.
 ` },
-  { pregunta: "La aprobación de la propuesta obliga a conservar intacta la hipótesis inicial.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "La aprobación de la propuesta obliga a conservar intacta la hipótesis inicial.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 La hipótesis puede modificarse cuando la evidencia lo exige.
 ` },
-  { pregunta: "¿Qué debe registrarse para cada fuente del corpus?", tipo: "mc", opciones: ["Qué es, de dónde procede, qué aporta, sus límites y qué puede sostener", "Solo el título", "Solo si coincide con la hipótesis", "Solo el número de páginas"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué debe registrarse para cada fuente del corpus?", tipo: "mc", opciones: ["Qué es, de dónde procede, qué aporta, sus límites y qué puede sostener","Solo el título","Solo si coincide con la hipótesis","Solo el número de páginas"], correcta: 0, explicacion: `
 El corpus debe ser trazable y funcional respecto de la pregunta.
 ` },
-  { pregunta: "Las búsquedas que no producen resultados deben omitirse porque no aportan nada.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Las búsquedas que no producen resultados deben omitirse porque no aportan nada.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Pueden documentar el trabajo realizado, los límites y los caminos ya revisados.
 ` },
-  { pregunta: "¿Qué significa correctamente “no encontrado”?", tipo: "mc", opciones: ["Que no se localizó evidencia dentro del corpus o repositorios examinados", "Que el fenómeno nunca existió", "Que la hipótesis contraria quedó demostrada", "Que ya no es necesario investigar"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué significa correctamente “no encontrado”?", tipo: "mc", opciones: ["Que el fenómeno nunca existió","Que no se localizó evidencia dentro del corpus o repositorios examinados","Que la hipótesis contraria quedó demostrada","Que ya no es necesario investigar"], correcta: 1, explicacion: `
 La ausencia debe expresarse según el alcance real de la búsqueda.
 ` },
-  { pregunta: "Si nueva evidencia contradice la hipótesis inicial, la investigación ha fracasado.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Si nueva evidencia contradice la hipótesis inicial, la investigación ha fracasado.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 Modificar una hipótesis frente a evidencia nueva es parte normal del proceso.
 ` },
-  { pregunta: "¿Qué debe hacer el investigador si la evidencia favorece una explicación distinta de la inicial?", tipo: "mc", opciones: ["Revisar la interpretación y explicar el cambio", "Ocultar la evidencia", "Mantener la hipótesis original por coherencia", "Eliminar la fuente contradictoria"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué debe hacer el investigador si la evidencia favorece una explicación distinta de la inicial?", tipo: "mc", opciones: ["Ocultar la evidencia","Mantener la hipótesis original por coherencia","Revisar la interpretación y explicar el cambio","Eliminar la fuente contradictoria"], correcta: 2, explicacion: `
 La conclusión debe depender de la evidencia, no del compromiso con una idea previa.
 ` },
-  { pregunta: "Un aporte pequeño pero demostrable puede ser superior a una afirmación extraordinaria sin evidencia.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 0, explicacion: `
+  { pregunta: "Un aporte pequeño pero demostrable puede ser superior a una afirmación extraordinaria sin evidencia.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 1, explicacion: `
 La calidad depende del soporte y la claridad del aporte.
 ` },
-  { pregunta: "¿Qué se espera del trabajo final en cuanto a extensión?", tipo: "mc", opciones: ["No hay un límite rígido; aproximadamente 3,000–5,000 palabras puede ser razonable según el proyecto", "Exactamente 10,000 palabras", "Nunca más de 500 palabras", "La longitud determina la nota"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué se espera del trabajo final en cuanto a extensión?", tipo: "mc", opciones: ["Exactamente 10,000 palabras","Nunca más de 500 palabras","La longitud determina la nota","No hay un límite rígido; aproximadamente 3,000–5,000 palabras puede ser razonable según el proyecto"], correcta: 3, explicacion: `
 La extensión debe responder a la investigación, no convertirse en criterio principal de calidad.
 ` },
-  { pregunta: "El trabajo final debe seguir obligatoriamente una plantilla rígida idéntica para todos los proyectos.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "El trabajo final debe seguir obligatoriamente una plantilla rígida idéntica para todos los proyectos.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 La estructura debe responder a la lógica del problema y del argumento.
 ` },
-  { pregunta: "¿Qué significa trazabilidad completa?", tipo: "mc", opciones: ["Poder relacionar una afirmación con su evidencia, fuente y ubicación concreta", "Tener muchas citas", "Usar solo fuentes primarias", "Recordar de memoria toda la bibliografía"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué significa trazabilidad completa?", tipo: "mc", opciones: ["Poder relacionar una afirmación con su evidencia, fuente y ubicación concreta","Tener muchas citas","Usar solo fuentes primarias","Recordar de memoria toda la bibliografía"], correcta: 0, explicacion: `
 La trazabilidad permite verificar cómo se sostiene cada afirmación.
 ` },
-  { pregunta: "Una inferencia propia no necesita explicación porque pertenece al autor.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Una inferencia propia no necesita explicación porque pertenece al autor.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Debe mostrarse qué evidencias y razonamiento permiten construirla.
 ` },
-  { pregunta: "¿Qué finalidad tiene la defensa ante el Consejo Académico?", tipo: "mc", opciones: ["Comprobar dominio intelectual y metodológico del trabajo presentado", "Hacer tropezar al estudiante", "Repetir el cuestionario", "Sustituir la revisión del manuscrito"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué finalidad tiene la defensa ante el Consejo Académico?", tipo: "mc", opciones: ["Hacer tropezar al estudiante","Comprobar dominio intelectual y metodológico del trabajo presentado","Repetir el cuestionario","Sustituir la revisión del manuscrito"], correcta: 1, explicacion: `
 La defensa permite verificar que el estudiante comprende y puede justificar su investigación.
 ` },
-  { pregunta: "El uso de herramientas de inteligencia artificial elimina la responsabilidad del estudiante sobre las decisiones sustantivas del trabajo.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "El uso de herramientas de inteligencia artificial elimina la responsabilidad del estudiante sobre las decisiones sustantivas del trabajo.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 La autoría académica exige que pueda explicar y defender personalmente el contenido y método utilizados.
 ` },
-  { pregunta: "¿Qué resolución puede emitir el Consejo después de revisar y defender el trabajo?", tipo: "mc", opciones: ["Aprobado, correcciones requeridas o reformulación sustantiva", "Solo aprobado o expulsado", "Publicación automática", "Ascenso inmediato a Numerario"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué resolución puede emitir el Consejo después de revisar y defender el trabajo?", tipo: "mc", opciones: ["Solo aprobado o expulsado","Publicación automática","Aprobado, correcciones requeridas o reformulación sustantiva","Ascenso inmediato a Numerario"], correcta: 2, explicacion: `
 La evaluación final admite distintos estados según la calidad metodológica del trabajo.
 ` },
-  { pregunta: "Un trabajo con potencial de publicación está automáticamente aceptado en Revista AGENN.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Un trabajo con potencial de publicación está automáticamente aceptado en Revista AGENN.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 Debe pasar por el proceso editorial correspondiente.
 ` },
-  { pregunta: "¿Cuántos hitos principales tiene el trabajo final de U10?", tipo: "mc", opciones: ["Cuatro: propuesta, corpus y avance, manuscrito y defensa", "Uno", "Dos", "Diez"], correcta: 0, explicacion: `
+  { pregunta: "¿Cuántos hitos principales tiene el trabajo final de U10?", tipo: "mc", opciones: ["Uno","Dos","Diez","Cuatro: propuesta, corpus y avance, manuscrito y defensa"], correcta: 3, explicacion: `
 Los cuatro hitos permiten evaluar el proceso completo de investigación.
 ` },
-  { pregunta: "Aprobar el cuestionario de U10 sustituye la investigación final.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "Aprobar el cuestionario de U10 sustituye la investigación final.", tipo: "fv", opciones: ["Falso","Verdadero"], correcta: 0, explicacion: `
 El cuestionario es formativo; la acreditación depende del proceso de investigación.
 ` },
-  { pregunta: "La acreditación como Investigador AGENN implica ascenso automático al nivel Numerario.", tipo: "fv", opciones: ["Verdadero", "Falso"], correcta: 1, explicacion: `
+  { pregunta: "La acreditación como Investigador AGENN implica ascenso automático al nivel Numerario.", tipo: "fv", opciones: ["Verdadero","Falso"], correcta: 1, explicacion: `
 NUM conserva requisitos y mecanismos propios.
 ` },
-  { pregunta: "¿Qué distingue finalmente al Investigador AGENN?", tipo: "mc", opciones: ["La capacidad para formular una pregunta propia, investigar con evidencia, construir una conclusión proporcional y someterla a crítica", "Haber respondido diez cuestionarios", "Poseer muchas monedas", "Memorizar todas las fechas de Guatemala"], correcta: 0, explicacion: `
+  { pregunta: "¿Qué distingue finalmente al Investigador AGENN?", tipo: "mc", opciones: ["La capacidad para formular una pregunta propia, investigar con evidencia, construir una conclusión proporcional y someterla a crítica","Haber respondido diez cuestionarios","Poseer muchas monedas","Memorizar todas las fechas de Guatemala"], correcta: 0, explicacion: `
 La acreditación INV debe representar competencia metodológica y autonomía investigativa.
 ` },
 ];

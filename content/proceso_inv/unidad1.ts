@@ -361,8 +361,7 @@ export const QUESTIONS = [
   {
     pregunta: "Una moneda lleva la fecha 1894. Sin consultar otra fuente se concluye que comenzó a circular exactamente ese año. ¿Cuál es el problema principal?",
     tipo: "mc",
-    opciones: ["La fecha inscrita es evidencia material, pero la circulación debe comprobarse con otras fuentes", "Las fechas nunca tienen utilidad histórica", "Toda moneda circula antes de la fecha inscrita", "Solo los billetes pueden estudiarse históricamente"],
-    correcta: 0,
+    opciones: ["La fecha inscrita es evidencia material, pero la circulación debe comprobarse con otras fuentes","Las fechas nunca tienen utilidad histórica","Toda moneda circula antes de la fecha inscrita","Solo los billetes pueden estudiarse históricamente"], correcta: 0,
     explicacion: `
 Autorización, fabricación, fecha inscrita y circulación pueden coincidir, pero no deben tratarse como sinónimos sin comprobarlo.
 
@@ -372,8 +371,7 @@ Autorización, fabricación, fecha inscrita y circulación pueden coincidir, per
   {
     pregunta: "Describir una característica visible y explicar por qué fue incorporada son la misma operación.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 Describir registra lo observable; explicar su causa o intención es una interpretación que suele requerir otras fuentes.
 
@@ -383,8 +381,7 @@ Describir registra lo observable; explicar su causa o intención es una interpre
   {
     pregunta: "Una ficha lleva el nombre de una finca. ¿Qué puede afirmarse con mayor seguridad únicamente a partir de ese dato?",
     tipo: "mc",
-    opciones: ["Existe una pieza que lleva el nombre de esa finca", "Todos los trabajadores cobraban exclusivamente en fichas", "Circulaba fuera de la finca", "Siempre podía cambiarse por moneda"],
-    correcta: 0,
+    opciones: ["Todos los trabajadores cobraban exclusivamente en fichas","Existe una pieza que lleva el nombre de esa finca","Circulaba fuera de la finca","Siempre podía cambiarse por moneda"], correcta: 1,
     explicacion: `
 El nombre inscrito es evidencia observable. Las prácticas económicas requieren documentación adicional.
 
@@ -394,8 +391,7 @@ El nombre inscrito es evidencia observable. Las prácticas económicas requieren
   {
     pregunta: "Una buena pregunta de investigación debe formularse de manera que solo pueda confirmar la idea inicial.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 La pregunta debe permitir distintas respuestas según la evidencia y reducir el sesgo de confirmación.
 
@@ -405,8 +401,7 @@ La pregunta debe permitir distintas respuestas según la evidencia y reducir el 
   {
     pregunta: "¿Cuál planteamiento se acerca más a una pregunta de investigación?",
     tipo: "mc",
-    opciones: ["¿Qué función desempeñó una denominación en transacciones cotidianas durante un período delimitado?", "¿Cuál moneda es la más bonita?", "¿Todo sobre monedas?", "Esta moneda demuestra mi teoría, ¿verdad?"],
-    correcta: 0,
+    opciones: ["¿Cuál moneda es la más bonita?","¿Todo sobre monedas?","¿Qué función desempeñó una denominación en transacciones cotidianas durante un período delimitado?","Esta moneda demuestra mi teoría, ¿verdad?"], correcta: 2,
     explicacion: `
 La primera delimita un fenómeno que puede investigarse mediante evidencia.
 
@@ -416,8 +411,7 @@ La primera delimita un fenómeno que puede investigarse mediante evidencia.
   {
     pregunta: "Tema y pregunta de investigación significan exactamente lo mismo.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 El tema es un campo general; la pregunta concreta aquello que se desea averiguar.
 
@@ -427,8 +421,7 @@ El tema es un campo general; la pregunta concreta aquello que se desea averiguar
   {
     pregunta: "¿Qué es una hipótesis?",
     tipo: "mc",
-    opciones: ["Una explicación provisional que debe contrastarse con evidencia", "Una conclusión que debe defenderse siempre", "Un dato inscrito en una moneda", "Una opinión que no necesita comprobación"],
-    correcta: 0,
+    opciones: ["Una conclusión que debe defenderse siempre","Un dato inscrito en una moneda","Una opinión que no necesita comprobación","Una explicación provisional que debe contrastarse con evidencia"], correcta: 3,
     explicacion: `
 La hipótesis es provisional y puede modificarse o abandonarse si la evidencia lo exige.
 
@@ -438,8 +431,7 @@ La hipótesis es provisional y puede modificarse o abandonarse si la evidencia l
   {
     pregunta: "Si aparece evidencia sólida que contradice la hipótesis inicial, debe ocultarse para no debilitar el trabajo.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 La evidencia contradictoria debe incorporarse y puede obligar a modificar la hipótesis.
 
@@ -449,8 +441,7 @@ La evidencia contradictoria debe incorporarse y puede obligar a modificar la hip
   {
     pregunta: "Se identifica obsidiana de una fuente conocida en un sitio distante. ¿Qué conclusión tiene respaldo más directo?",
     tipo: "mc",
-    opciones: ["El material circuló entre regiones", "Existía necesariamente un mercado moderno", "Una élite fijaba su precio", "Fue pagada con cacao"],
-    correcta: 0,
+    opciones: ["El material circuló entre regiones","Existía necesariamente un mercado moderno","Una élite fijaba su precio","Fue pagada con cacao"], correcta: 0,
     explicacion: `
 La procedencia distante demuestra movimiento; el mecanismo de intercambio requiere más evidencia.
 
@@ -460,8 +451,7 @@ La procedencia distante demuestra movimiento; el mecanismo de intercambio requie
   {
     pregunta: "Una inferencia es idéntica a una evidencia directa.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 La evidencia procede de fuentes; la inferencia es una conclusión razonada construida a partir de ellas.
 
@@ -471,8 +461,7 @@ La evidencia procede de fuentes; la inferencia es una conclusión razonada const
   {
     pregunta: "¿Qué formulación distingue mejor los niveles de certeza?",
     tipo: "mc",
-    opciones: ["La pieza presenta una marca; la evidencia sugiere una función; se propone una hipótesis", "Todo lo probable debe redactarse como hecho", "Toda interpretación es evidencia", "Una hipótesis es más segura que una observación"],
-    correcta: 0,
+    opciones: ["Todo lo probable debe redactarse como hecho","La pieza presenta una marca; la evidencia sugiere una función; se propone una hipótesis","Toda interpretación es evidencia","Una hipótesis es más segura que una observación"], correcta: 1,
     explicacion: `
 El lenguaje debe comunicar el grado de certeza de cada afirmación.
 
@@ -482,8 +471,7 @@ El lenguaje debe comunicar el grado de certeza de cada afirmación.
   {
     pregunta: "Una referencia al final de una oración demuestra automáticamente cualquier afirmación escrita antes.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 La fuente debe tratar realmente el asunto y respaldar el alcance específico de la afirmación.
 
@@ -493,8 +481,7 @@ La fuente debe tratar realmente el asunto y respaldar el alcance específico de 
   {
     pregunta: "Un decreto autoriza una nueva denominación. ¿Qué demuestra directamente?",
     tipo: "mc",
-    opciones: ["Que fue legalmente autorizada en los términos del decreto", "Que necesariamente fue fabricada", "Que necesariamente circuló", "Que fue aceptada por toda la población"],
-    correcta: 0,
+    opciones: ["Que necesariamente fue fabricada","Que necesariamente circuló","Que fue legalmente autorizada en los términos del decreto","Que fue aceptada por toda la población"], correcta: 2,
     explicacion: `
 Autorización legal, fabricación, emisión, circulación y aceptación son hechos distintos.
 
@@ -504,8 +491,7 @@ Autorización legal, fabricación, emisión, circulación y aceptación son hech
   {
     pregunta: "Si diez catálogos repiten el mismo dato, ya no hace falta investigar su procedencia.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 Repetición no equivale a corroboración independiente. Conviene rastrear la afirmación hasta su origen.
 
@@ -515,8 +501,7 @@ Repetición no equivale a corroboración independiente. Conviene rastrear la afi
   {
     pregunta: "¿Qué práctica ayuda mejor a reducir el sesgo de confirmación?",
     tipo: "mc",
-    opciones: ["Buscar también evidencia que pueda contradecir la hipótesis", "Consultar solo autores que coincidan", "Descartar fuentes contradictorias", "Redactar primero la conclusión"],
-    correcta: 0,
+    opciones: ["Consultar solo autores que coincidan","Descartar fuentes contradictorias","Redactar primero la conclusión","Buscar también evidencia que pueda contradecir la hipótesis"], correcta: 3,
     explicacion: `
 Intentar refutar la hipótesis ayuda a comprobar su fortaleza.
 
@@ -526,8 +511,7 @@ Intentar refutar la hipótesis ayuda a comprobar su fortaleza.
   {
     pregunta: "No encontrar evidencia de una práctica demuestra automáticamente que nunca existió.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 Ausencia de evidencia y evidencia de ausencia no son equivalentes.
 
@@ -537,8 +521,7 @@ Ausencia de evidencia y evidencia de ausencia no son equivalentes.
   {
     pregunta: "Un catálogo identifica una variante, pero no documenta el motivo político de su diseño. ¿Cuál es el uso prudente?",
     tipo: "mc",
-    opciones: ["Usarlo para identificar y buscar otras fuentes para explicar el motivo", "Usarlo también para demostrar la intención política", "Descartarlo por completo", "Convertir la intención en hecho"],
-    correcta: 0,
+    opciones: ["Usarlo para identificar y buscar otras fuentes para explicar el motivo","Usarlo también para demostrar la intención política","Descartarlo por completo","Convertir la intención en hecho"], correcta: 0,
     explicacion: `
 Una fuente puede ser adecuada para una pregunta y limitada para otra.
 
@@ -548,8 +531,7 @@ Una fuente puede ser adecuada para una pregunta y limitada para otra.
   {
     pregunta: "Identificar correctamente un símbolo demuestra automáticamente la intención de quien lo incorporó.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 Identificación e interpretación de la intención son operaciones diferentes.
 
@@ -559,8 +541,7 @@ Identificación e interpretación de la intención son operaciones diferentes.
   {
     pregunta: "Sobre recipientes estandarizados posiblemente relacionados con cacao, ¿qué interpretación es más prudente?",
     tipo: "mc",
-    opciones: ["Sugieren organización y medición, pero no prueban por sí solos moneda formal", "Demuestran un banco central maya", "Prueban que todo precio se expresaba en cacao", "Demuestran que no existía tributo"],
-    correcta: 0,
+    opciones: ["Demuestran un banco central maya","Sugieren organización y medición, pero no prueban por sí solos moneda formal","Prueban que todo precio se expresaba en cacao","Demuestran que no existía tributo"], correcta: 1,
     explicacion: `
 La evidencia puede ser compatible con una interpretación sin demostrarla de manera exclusiva.
 
@@ -570,8 +551,7 @@ La evidencia puede ser compatible con una interpretación sin demostrarla de man
   {
     pregunta: `El término "proto-dinero" debe tratarse como una denominación oficial utilizada por las sociedades mayas.`,
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 Es una categoría analítica moderna y debe explicarse como tal.
 
@@ -581,8 +561,7 @@ Es una categoría analítica moderna y debe explicarse como tal.
   {
     pregunta: "Un libro moderno cita un periódico de 1909 como origen de un dato. ¿Qué fortalece más la investigación?",
     tipo: "mc",
-    opciones: ["Consultar cuando sea posible el periódico original y documentar la procedencia", "Citar el libro como si fuera testigo de 1909", "Eliminar la referencia al periódico", "Suponer que todos los periódicos decían lo mismo"],
-    correcta: 0,
+    opciones: ["Citar el libro como si fuera testigo de 1909","Eliminar la referencia al periódico","Consultar cuando sea posible el periódico original y documentar la procedencia","Suponer que todos los periódicos decían lo mismo"], correcta: 2,
     explicacion: `
 Volver a la fuente original permite conocer contexto, redacción, fecha y alcance.
 
@@ -592,8 +571,7 @@ Volver a la fuente original permite conocer contexto, redacción, fecha y alcanc
   {
     pregunta: "Una sola pieza conocida basta siempre para generalizar una práctica a toda Guatemala y todo un período.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Falso","Verdadero"], correcta: 0,
     explicacion: `
 Un caso puede demostrar existencia, pero no necesariamente frecuencia, extensión o representatividad.
 
@@ -603,8 +581,7 @@ Un caso puede demostrar existencia, pero no necesariamente frecuencia, extensió
   {
     pregunta: "¿Qué expresión es adecuada cuando existe una posibilidad razonable pero no una conclusión definitiva?",
     tipo: "mc",
-    opciones: ["La evidencia sugiere que...", "Está absolutamente demostrado que...", "No existe otra explicación...", "Todo el mundo sabe que..."],
-    correcta: 0,
+    opciones: ["Está absolutamente demostrado que...","No existe otra explicación...","Todo el mundo sabe que...","La evidencia sugiere que..."], correcta: 3,
     explicacion: `
 Los matices muestran que el investigador conoce los límites de la evidencia.
 
@@ -614,8 +591,7 @@ Los matices muestran que el investigador conoce los límites de la evidencia.
   {
     pregunta: "Cambiar una hipótesis después de encontrar nueva evidencia significa que la investigación fracasó.",
     tipo: "fv",
-    opciones: ["Verdadero", "Falso"],
-    correcta: 1,
+    opciones: ["Verdadero","Falso"], correcta: 1,
     explicacion: `
 La investigación es revisable; corregir una hipótesis frente a nueva evidencia es una práctica correcta.
 
@@ -625,8 +601,7 @@ La investigación es revisable; corregir una hipótesis frente a nueva evidencia
   {
     pregunta: "¿Cuál es el principal aprendizaje esperado al terminar esta unidad?",
     tipo: "mc",
-    opciones: ["Convertir un objeto o fenómeno en una pregunta investigable y distinguir evidencia, inferencia e hipótesis", "Memorizar todas las fechas monetarias", "Demostrar una teoría sin fuentes", "Conocer el precio actual de todas las monedas"],
-    correcta: 0,
+    opciones: ["Convertir un objeto o fenómeno en una pregunta investigable y distinguir evidencia, inferencia e hipótesis","Memorizar todas las fechas monetarias","Demostrar una teoría sin fuentes","Conocer el precio actual de todas las monedas"], correcta: 0,
     explicacion: `
 La U1 introduce la forma de pensar del nivel Investigador; las siguientes unidades profundizarán fuentes, crítica, clasificación, interpretación y escritura.
 
