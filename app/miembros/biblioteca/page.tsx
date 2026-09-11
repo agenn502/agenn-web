@@ -414,8 +414,50 @@ export default function BibliotecaPage() {
   if (!user) return <div>Cargando usuario...</div>;
 
   return (
-    <section>
-      <div>
+    <section className="biblioteca-page">
+      <style jsx>{`
+        .biblioteca-page {
+          width: 100%;
+          max-width: 100%;
+          min-width: 0;
+          overflow-x: hidden;
+        }
+
+        .biblioteca-page :global(*) {
+          box-sizing: border-box;
+        }
+
+        .biblioteca-page :global(input),
+        .biblioteca-page :global(select),
+        .biblioteca-page :global(textarea) {
+          max-width: 100%;
+          min-width: 0;
+        }
+
+        .biblioteca-page :global(a),
+        .biblioteca-page :global(p),
+        .biblioteca-page :global(h1),
+        .biblioteca-page :global(h2),
+        .biblioteca-page :global(h3) {
+          overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 600px) {
+          .rejilla-adaptable,
+          .rejilla-tres-columnas {
+            grid-template-columns: minmax(0, 1fr) !important;
+          }
+
+          .tarjeta-biblioteca {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: auto !important;
+            min-height: 450px;
+            flex-shrink: 1 !important;
+          }
+        }
+      `}</style>
+      <div style={{ width: "100%", maxWidth: "100%", minWidth: 0 }}>
         <h1>Biblioteca</h1>
 
         {puedeGestionar && (
@@ -513,6 +555,7 @@ export default function BibliotecaPage() {
                 />
 
                 <div
+                  className="rejilla-adaptable"
                   style={{
                     display: "grid",
                     gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
@@ -785,6 +828,7 @@ export default function BibliotecaPage() {
               />
 
               <div
+                className="rejilla-tres-columnas"
                 style={{
                   display: "grid",
                   gap: "0.8rem",
@@ -1041,9 +1085,11 @@ export default function BibliotecaPage() {
         >
           {resultados.map((item) => (
             <article
+              className="tarjeta-biblioteca"
               key={item.slug}
               style={{
                 width: "350px",
+                maxWidth: "100%",
                 height: "450px",
                 background: "white",
                 border: "1px solid #ddd4c7",
@@ -1053,7 +1099,8 @@ export default function BibliotecaPage() {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                flexShrink: 0,
+                flexShrink: 1,
+                overflow: "hidden",
               }}
             >
               <div>
