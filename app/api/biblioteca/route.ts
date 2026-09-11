@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+import { obtenerPermisosBiblioteca } from "@/lib/bibliotecaPermisos";
 
 async function validarMiembro(req: NextRequest) {
   const codigo = (req.headers.get("x-user-codigo") || "")
@@ -21,16 +22,8 @@ async function validarMiembro(req: NextRequest) {
 }
 
 async function validarConsejo(req: NextRequest) {
-  const usuario = await validarMiembro(req);
-  const valor = usuario?.consejo;
-
-  return Boolean(
-    usuario &&
-      (valor === true ||
-        valor === "true" ||
-        valor === "TRUE" ||
-        valor === 1),
-  );
+  const permisos = await obtenerPermisosBiblioteca(req);
+  return Boolean(permisos?.puedeAprobar);
 }
 
 const generarSlug = (texto: string) =>
@@ -81,6 +74,7 @@ export async function GET(req: NextRequest) {
     const { data, error } = await supabaseServer
       .from("biblioteca")
       .select("*")
+      .eq("estado", "ACTIVO")
       .order("anio", { ascending: false, nullsFirst: false });
 
     if (error) {

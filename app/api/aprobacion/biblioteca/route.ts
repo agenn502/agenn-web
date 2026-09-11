@@ -1,37 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+import { obtenerPermisosBiblioteca } from "@/lib/bibliotecaPermisos";
 
 async function validarConsejo(req: NextRequest) {
-  const codigo = (req.headers.get("x-user-codigo") || "")
-    .trim()
-    .toUpperCase();
-
-  if (!codigo) return null;
-
-  const { data: usuario, error: usuarioError } = await supabaseServer
-    .from("users")
-    .select("codigo,consejo")
-    .eq("codigo", codigo)
-    .maybeSingle();
-
-  const valor = usuario?.consejo;
-  const esConsejo =
-    valor === true ||
-    valor === "true" ||
-    valor === "TRUE" ||
-    valor === 1;
-
-  if (usuarioError || !usuario || !esConsejo) return null;
-
-  const { data: miembro, error: miembroError } = await supabaseServer
-    .from("miembros")
-    .select("id,codigo")
-    .eq("codigo", codigo)
-    .maybeSingle();
-
-  if (miembroError || !miembro) return null;
-
-  return { id: Number(miembro.id), codigo };
+  const permisos = await obtenerPermisosBiblioteca(req);
+  if (!permisos?.puedeAprobar) return null;
+  return { id: permisos.miembroId, codigo: permisos.codigo };
 }
 
 async function subirPortada(file: File) {

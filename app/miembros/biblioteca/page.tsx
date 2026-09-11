@@ -67,6 +67,7 @@ const initialPropuesta = {
 export default function BibliotecaPage() {
   const [user, setUser] = useState<User | null>(null);
   const [esConsejo, setEsConsejo] = useState(false);
+  const [puedeGestionar, setPuedeGestionar] = useState(false);
 
   const [items, setItems] = useState<ItemBiblioteca[]>([]);
   const [loading, setLoading] = useState(true);
@@ -108,7 +109,23 @@ export default function BibliotecaPage() {
 
     void cargarBiblioteca(parsed.codigo);
     void cargarSolicitudes(parsed.codigo);
+    void cargarPermisos(parsed.codigo);
   }, []);
+
+  const cargarPermisos = async (codigo: string) => {
+    try {
+      const res = await fetch("/api/biblioteca/permisos", {
+        headers: { "x-user-codigo": codigo },
+        cache: "no-store",
+      });
+      const result = await res.json();
+      if (res.ok && result.ok) {
+        setPuedeGestionar(Boolean(result.permisos?.puedeGestionar));
+      }
+    } catch (err) {
+      console.error("Error comprobando permisos de Biblioteca:", err);
+    }
+  };
 
   const cargarSolicitudes = async (codigo: string) => {
     try {
@@ -400,6 +417,14 @@ export default function BibliotecaPage() {
     <section>
       <div>
         <h1>Biblioteca</h1>
+
+        {puedeGestionar && (
+          <p>
+            <Link href="/miembros/biblioteca/administrar">
+              Administrar Biblioteca →
+            </Link>
+          </p>
+        )}
 
         <p style={{ fontStyle: "italic", marginBottom: "1rem", lineHeight: 1.7 }}>
           Uso exclusivo de miembros. Parte del material disponible en esta sección

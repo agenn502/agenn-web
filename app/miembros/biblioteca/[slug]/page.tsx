@@ -52,6 +52,7 @@ export default function BibliotecaDetalle({
 
       try {
         const res = await fetch(`/api/biblioteca/slug/${resolved.slug}`, {
+          headers: { "x-user-codigo": String(parsed.codigo || "").toUpperCase() },
           cache: "no-store",
         });
 
