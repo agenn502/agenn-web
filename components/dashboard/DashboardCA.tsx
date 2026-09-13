@@ -19,6 +19,7 @@ export default function DashboardCA() {
   const [user, setUser] = useState<User | null>(null);
   const [miembros, setMiembros] = useState<Miembro[]>([]);
   const [pendientes, setPendientes] = useState(0);
+  const [pendientesBitacora, setPendientesBitacora] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -35,7 +36,7 @@ export default function DashboardCA() {
         const parsed = JSON.parse(stored) as User;
         setUser(parsed);
 
-        const [directorioResponse, pendientesResponse] = await Promise.all([
+        const [directorioResponse, pendientesResponse, bitacoraResponse] = await Promise.all([
           fetch("/api/directorio", {
             headers: {
               "x-user-codigo": parsed.codigo,
@@ -49,10 +50,15 @@ export default function DashboardCA() {
             },
             cache: "no-store",
           }),
+          fetch("/api/bitacora", {
+            headers: { "x-user-codigo": parsed.codigo },
+            cache: "no-store",
+          }),
         ]);
 
         const directorioResult = await directorioResponse.json();
         const pendientesResult = await pendientesResponse.json();
+        const bitacoraResult = await bitacoraResponse.json();
 
         if (!directorioResponse.ok || !directorioResult.ok) {
           throw new Error(
@@ -65,6 +71,9 @@ export default function DashboardCA() {
 
         if (pendientesResponse.ok && pendientesResult.ok) {
           setPendientes(Number(pendientesResult.total || 0));
+        }
+        if (bitacoraResponse.ok && bitacoraResult.ok) {
+          setPendientesBitacora(Number(bitacoraResult.resumen?.abiertos || 0));
         }
       } catch (error) {
         setError(
@@ -208,6 +217,10 @@ export default function DashboardCA() {
             {total}
           </strong>
         </div>
+        <div style={{ background: "white", border: "1px solid #ddd4c7", borderRadius: "14px", padding: "1.4rem" }}>
+          <p style={{ margin: "0 0 0.4rem", color: "#666" }}>Asuntos abiertos en bitácora</p>
+          <strong style={{ fontSize: "2.5rem", color: pendientesBitacora ? "#8a6800" : "#6b6f1a" }}>{pendientesBitacora}</strong>
+        </div>
       </div>
 
       <h2 style={{ marginTop: "2rem" }}>Composición de la Academia</h2>
@@ -264,6 +277,11 @@ export default function DashboardCA() {
           gap: "1.25rem",
         }}
       >
+        <div style={{ background: "#faf8f3", border: "1px solid #ddd4c7", borderRadius: "12px", padding: "1.25rem" }}>
+          <h3 style={{ marginTop: 0 }}>📝 Bitácora interna</h3>
+          <p style={{ lineHeight: 1.7 }}>Registre observaciones, decisiones y mejoras, asigne responsables y conserve el historial de seguimiento.</p>
+          <Link href="/miembros/bitacora" style={{ display: "inline-block", background: "#6b6f1a", color: "white", padding: "0.7rem 1rem", borderRadius: "8px", textDecoration: "none", fontWeight: 700 }}>Abrir bitácora{pendientesBitacora ? ` (${pendientesBitacora})` : ""}</Link>
+        </div>
         <div
           style={{
             background: "#faf8f3",

@@ -564,6 +564,9 @@ export default function MiembrosLayout({
       href: "/miembros",
     },
     ...getMenu(),
+    ...(esConsejo
+      ? [{ label: "Bitácora interna", href: "/miembros/bitacora" }]
+      : []),
   ];
 
   return (
