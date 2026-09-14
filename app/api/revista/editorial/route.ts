@@ -120,6 +120,9 @@ export async function GET(req: NextRequest) {
           updated_at
         `,
       )
+      // Mientras el autor prepara una nueva versión, el manuscrito no está
+      // en poder del Consejo Editorial y no debe aparecer en sus bandejas.
+      .not("estado", "in", '(BORRADOR,CORRECCIONES)')
       .order("fecha_ingreso", {
         ascending: false,
       });

@@ -205,7 +205,6 @@ export default function GestionEditorialPage() {
       manuscritos.filter(
         (m) =>
           m.estado === "EN_REVISION" ||
-          m.estado === "CORRECCIONES" ||
           m.estado === "REENVIADO",
       ),
     [manuscritos],
@@ -380,7 +379,7 @@ export default function GestionEditorialPage() {
 
       <Bandeja
         titulo="En revisión editorial"
-        descripcion="Manuscritos actualmente sometidos a revisión, correcciones o reenvío."
+        descripcion="Manuscritos actualmente sometidos a revisión o reenviados por sus autores después de atender correcciones."
         manuscritos={revision}
         vacio="No hay manuscritos actualmente en revisión."
       />
