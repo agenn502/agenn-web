@@ -185,7 +185,9 @@ export async function GET(
       throw new Error(versionesError.message);
     }
 
-    // Imágenes de la versión actual
+    // Imágenes del manuscrito. El contenido puede conservar marcadores con
+    // identificadores creados en versiones anteriores; la vista insertará
+    // únicamente las imágenes que realmente estén citadas en el texto actual.
     const versionActual = (versiones || [])[0] || null;
 
     let imagenes: any[] = [];
@@ -194,7 +196,7 @@ export async function GET(
       const { data, error } = await supabaseServer
         .from("manuscrito_imagenes")
         .select("id,version_id,url,titulo,fuente,orden")
-        .eq("version_id", versionActual.id)
+        .eq("manuscrito_id", id)
         .order("orden", { ascending: true });
 
       if (error) {
@@ -262,6 +264,23 @@ export async function GET(
         : null,
     }));
 
+    const { data: posiblesAutores, error: autoresElegiblesError } =
+      await supabaseServer
+        .from("miembros")
+        .select("id,codigo,nombre,nivel,estado_academico")
+        .in("nivel", ["INV", "NUM"])
+        .order("nombre", { ascending: true });
+
+    if (autoresElegiblesError) {
+      throw new Error(autoresElegiblesError.message);
+    }
+
+    const autoresElegibles = (posiblesAutores || []).filter(
+      (persona: any) =>
+        persona.nivel === "NUM" ||
+        (persona.nivel === "INV" && persona.estado_academico === "ACREDITADO"),
+    );
+
     return NextResponse.json({
       ok: true,
 
@@ -280,6 +299,7 @@ export async function GET(
       versiones: versiones || [],
       imagenes,
       eventos: eventosConActor,
+      autores_elegibles: autoresElegibles,
     });
   } catch (error) {
     console.error("Error GET /api/revista/editorial/[id]:", error);
@@ -341,7 +361,7 @@ export async function PATCH(
     const { data: manuscrito, error: manuscritoError } = await supabaseServer
       .from("manuscritos_editoriales")
       .select(
-        "id,estado,autor_miembro_id,titulo_actual,contenido_actual,imagen_url_actual,fuente_imagen_actual",
+        "id,estado,autor_miembro_id,tipo_contenido,titulo_actual,contenido_actual,imagen_url_actual,fuente_imagen_actual",
       )
       .eq("id", id)
       .maybeSingle();
@@ -380,6 +400,67 @@ export async function PATCH(
       "AVALAR",
       "DESCARTAR",
     ]);
+
+    if (accion === "TRANSFERIR_AUTORIA") {
+      if (["PUBLICADO", "DESCARTADO"].includes(manuscrito.estado)) {
+        return NextResponse.json(
+          { ok: false, error: "Un manuscrito publicado o descartado no puede cambiar de autoría desde esta acción." },
+          { status: 409 },
+        );
+      }
+
+      const nuevoAutorId = Number(body.nuevo_autor_miembro_id);
+      const motivo = String(body.motivo || "").trim();
+      if (!Number.isInteger(nuevoAutorId) || nuevoAutorId <= 0 || motivo.length < 10) {
+        return NextResponse.json(
+          { ok: false, error: "Seleccione un autor válido e indique el motivo de la transferencia." },
+          { status: 400 },
+        );
+      }
+      if (nuevoAutorId === Number(manuscrito.autor_miembro_id)) {
+        return NextResponse.json({ ok: false, error: "El autor seleccionado ya es el autor editorial." }, { status: 409 });
+      }
+
+      const { data: nuevoAutor, error: nuevoAutorError } = await supabaseServer
+        .from("miembros")
+        .select("id,codigo,nombre,nivel,estado_academico")
+        .eq("id", nuevoAutorId)
+        .maybeSingle();
+      if (nuevoAutorError) throw new Error(nuevoAutorError.message);
+      const elegible =
+        nuevoAutor?.nivel === "NUM" ||
+        (nuevoAutor?.nivel === "INV" && nuevoAutor?.estado_academico === "ACREDITADO");
+      if (!nuevoAutor || !elegible) {
+        return NextResponse.json({ ok: false, error: "El miembro seleccionado no es elegible para publicar." }, { status: 400 });
+      }
+
+      const { data: autorAnterior } = await supabaseServer
+        .from("miembros")
+        .select("codigo,nombre")
+        .eq("id", manuscrito.autor_miembro_id)
+        .maybeSingle();
+
+      const { error: transferenciaError } = await supabaseServer
+        .from("manuscritos_editoriales")
+        .update({ autor_miembro_id: nuevoAutorId, updated_at: new Date().toISOString() })
+        .eq("id", id);
+      if (transferenciaError) throw new Error(transferenciaError.message);
+
+      const { error: eventoTransferenciaError } = await supabaseServer
+        .from("manuscrito_eventos")
+        .insert({
+          manuscrito_id: id,
+          version_id: versionActual?.id || null,
+          // Se utiliza un tipo ya admitido por el historial; el mensaje deja
+          // explícito que se trata de una transferencia de autoría.
+          tipo: "EDICION_EDITORIAL",
+          mensaje: `Autoría editorial transferida de ${autorAnterior?.nombre || "autor anterior"} (${autorAnterior?.codigo || "—"}) a ${nuevoAutor.nombre} (${nuevoAutor.codigo}). Motivo: ${motivo}`,
+          actor_miembro_id: solicitante.miembro.id,
+        });
+      if (eventoTransferenciaError) throw new Error(eventoTransferenciaError.message);
+
+      return NextResponse.json({ ok: true, autor: nuevoAutor });
+    }
 
     if (accionesTransaccionales.has(accion)) {
       let decisionData: any = null;
@@ -459,12 +540,36 @@ export async function PATCH(
       const titulo = String(body.titulo || "").trim();
       const contenido = String(body.contenido || "").trim();
       const notaEditorial = String(body.nota_editorial || "").trim();
+      const tipoContenido = String(
+        body.tipo_contenido || manuscrito.tipo_contenido || "",
+      )
+        .trim()
+        .toUpperCase();
+
+      const tiposPermitidos = new Set([
+        "ARTICULO",
+        "ENSAYO",
+        "NOTA_INVESTIGACION",
+        "NOTA_BREVE",
+        "ESTUDIO",
+        "RESENA",
+      ]);
 
       if (!titulo || !contenido) {
         return NextResponse.json(
           {
             ok: false,
             error: "La edición editorial debe conservar título y contenido.",
+          },
+          { status: 400 },
+        );
+      }
+
+      if (!tiposPermitidos.has(tipoContenido)) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error: "El tipo de publicación seleccionado no es válido.",
           },
           { status: 400 },
         );
@@ -483,6 +588,7 @@ export async function PATCH(
 
       const numeroVersion = Number(versionActual.numero_version || 0) + 1;
       const ahora = new Date().toISOString();
+      const tipoAnterior = String(manuscrito.tipo_contenido || "");
 
       // Crear la nueva versión editorial.
       const { data: nuevaVersion, error: nuevaVersionError } =
@@ -575,6 +681,7 @@ export async function PATCH(
         .update({
           titulo_actual: titulo,
           contenido_actual: contenidoRemapeado,
+          tipo_contenido: tipoContenido,
           updated_at: ahora,
         })
         .eq("id", id);
@@ -590,7 +697,14 @@ export async function PATCH(
           version_id: nuevaVersion.id,
           tipo: "EDICION_EDITORIAL",
           mensaje:
-            notaEditorial ||
+            [
+              tipoAnterior !== tipoContenido
+                ? `Reclasificación de ${tipoAnterior} a ${tipoContenido}.`
+                : "",
+              notaEditorial,
+            ]
+              .filter(Boolean)
+              .join(" ") ||
             `El Consejo Editorial realizó un ajuste editorial y generó la versión ${numeroVersion}.`,
           actor_miembro_id: solicitante.miembro.id,
         });

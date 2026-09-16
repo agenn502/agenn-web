@@ -73,6 +73,10 @@ type CE = {
   rol: string;
 };
 
+type AutorElegible = Autor & {
+  estado_academico?: string | null;
+};
+
 function codigoLocal() {
   const stored = localStorage.getItem("user");
 
@@ -361,6 +365,9 @@ export default function RevisarManuscritoPage() {
   const [imagenes, setImagenes] = useState<ImagenManuscrito[]>([]);
 
   const [ce, setCe] = useState<CE | null>(null);
+  const [autoresElegibles, setAutoresElegibles] = useState<AutorElegible[]>([]);
+  const [nuevoAutorId, setNuevoAutorId] = useState("");
+  const [motivoTransferencia, setMotivoTransferencia] = useState("");
 
   const [loading, setLoading] = useState(true);
 
@@ -372,6 +379,7 @@ export default function RevisarManuscritoPage() {
 
   const [editandoEditorial, setEditandoEditorial] = useState(false);
   const [tituloEditorial, setTituloEditorial] = useState("");
+  const [tipoEditorial, setTipoEditorial] = useState("ENSAYO");
   const [notaEditorial, setNotaEditorial] = useState("");
   const editorRef = useRef<HTMLDivElement | null>(null);
 
@@ -417,7 +425,10 @@ export default function RevisarManuscritoPage() {
       setEventos(result.eventos || []);
       setImagenes(result.imagenes || []);
       setCe(result.consejo_editorial);
+      setAutoresElegibles(result.autores_elegibles || []);
+      setNuevoAutorId(String(result.manuscrito?.autor_miembro_id || ""));
       setTituloEditorial(result.manuscrito?.titulo_actual || "");
+      setTipoEditorial(result.manuscrito?.tipo_contenido || "ENSAYO");
     } catch (err) {
       setError(
         err instanceof Error
@@ -500,9 +511,58 @@ export default function RevisarManuscritoPage() {
     }
   };
 
+  const transferirAutoria = async () => {
+    if (!manuscrito) return;
+
+    const autorId = Number(nuevoAutorId);
+    if (!autorId || autorId === manuscrito.autor_miembro_id) {
+      setError("Seleccione un autor diferente del actual.");
+      return;
+    }
+    if (motivoTransferencia.trim().length < 10) {
+      setError("Explique el motivo de la transferencia de autoría.");
+      return;
+    }
+    const nuevoAutor = autoresElegibles.find((autor) => autor.id === autorId);
+    if (!nuevoAutor) {
+      setError("El autor seleccionado no es elegible para publicar en la revista.");
+      return;
+    }
+    if (!confirm(`¿Transferir la autoría editorial a ${nuevoAutor.nombre}?`)) return;
+
+    setProcesando(true);
+    setError("");
+    try {
+      const response = await fetch(`/api/revista/editorial/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "x-user-codigo": codigoLocal(),
+        },
+        body: JSON.stringify({
+          accion: "TRANSFERIR_AUTORIA",
+          nuevo_autor_miembro_id: autorId,
+          motivo: motivoTransferencia.trim(),
+        }),
+      });
+      const texto = await response.text();
+      const result = texto ? JSON.parse(texto) : null;
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.error || "No fue posible transferir la autoría.");
+      }
+      setMotivoTransferencia("");
+      await cargar();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No fue posible transferir la autoría.");
+    } finally {
+      setProcesando(false);
+    }
+  };
+
   const iniciarEdicionEditorial = () => {
     if (!manuscrito) return;
     setTituloEditorial(manuscrito.titulo_actual || "");
+    setTipoEditorial(manuscrito.tipo_contenido || "ENSAYO");
     setNotaEditorial("");
     setEditandoEditorial(true);
 
@@ -566,6 +626,7 @@ export default function RevisarManuscritoPage() {
         body: JSON.stringify({
           accion: "EDICION_EDITORIAL",
           titulo: tituloEditorial.trim(),
+          tipo_contenido: tipoEditorial,
           contenido,
           nota_editorial: notaEditorial.trim(),
         }),
@@ -626,7 +687,16 @@ export default function RevisarManuscritoPage() {
   ].includes(manuscrito.estado);
 
   return (
-    <div style={{ maxWidth: "1050px" }}>
+    <div
+      className="revision-editorial"
+      style={{
+        width: "100%",
+        maxWidth: "1050px",
+        minWidth: 0,
+        boxSizing: "border-box",
+        overflowX: "hidden",
+      }}
+    >
       <p
         style={{
           color: "#6b6f1a",
@@ -639,7 +709,9 @@ export default function RevisarManuscritoPage() {
         Revista AGENN · Consejo Editorial
       </p>
 
-      <h1 style={{ color: "#4d371c" }}>{manuscrito.titulo_actual}</h1>
+      <h1 style={{ color: "#4d371c", overflowWrap: "anywhere" }}>
+        {manuscrito.titulo_actual}
+      </h1>
 
       <div
         style={{
@@ -677,6 +749,66 @@ export default function RevisarManuscritoPage() {
           {error}
         </div>
       )}
+
+      {manuscrito.estado !== "PUBLICADO" &&
+        manuscrito.estado !== "DESCARTADO" && (
+          <section
+            style={{
+              background: "#f8f5ee",
+              border: "1px solid #ddd4c7",
+              borderRadius: "14px",
+              padding: "1.25rem",
+              marginBottom: "1.5rem",
+            }}
+          >
+            <h2 style={{ marginTop: 0, color: "#4d371c" }}>
+              Autoría editorial
+            </h2>
+            <p style={{ lineHeight: 1.7, color: "#555" }}>
+              Esta acción cambia únicamente el autor que aparecerá en Revista
+              AGENN. El trabajo formativo, sus versiones y sus actores históricos
+              conservarán su registro original.
+            </p>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1.5fr)",
+                gap: "0.8rem",
+                marginBottom: "0.8rem",
+              }}
+              className="campos-transferencia"
+            >
+              <label style={{ display: "grid", gap: "0.35rem", fontWeight: 700 }}>
+                Autor de publicación
+                <select
+                  value={nuevoAutorId}
+                  onChange={(e) => setNuevoAutorId(e.target.value)}
+                  disabled={procesando}
+                  style={{ padding: "0.75rem", border: "1px solid #aaa", borderRadius: 8 }}
+                >
+                  {autoresElegibles.map((autor) => (
+                    <option key={autor.id} value={autor.id}>
+                      {autor.nombre} · {autor.codigo}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label style={{ display: "grid", gap: "0.35rem", fontWeight: 700 }}>
+                Motivo obligatorio
+                <input
+                  value={motivoTransferencia}
+                  onChange={(e) => setMotivoTransferencia(e.target.value)}
+                  disabled={procesando}
+                  placeholder="Ej.: Traslado desde perfil técnico de prueba al autor real."
+                  style={{ padding: "0.75rem", border: "1px solid #aaa", borderRadius: 8 }}
+                />
+              </label>
+            </div>
+            <button type="button" disabled={procesando} onClick={transferirAutoria} style={botonEditorial}>
+              Transferir autoría editorial
+            </button>
+          </section>
+        )}
 
       <section
         style={{
@@ -758,6 +890,38 @@ export default function RevisarManuscritoPage() {
               }}
             />
 
+            <label
+              style={{
+                display: "block",
+                fontWeight: 700,
+                marginBottom: "0.35rem",
+              }}
+            >
+              Tipo de publicación
+            </label>
+            <select
+              value={tipoEditorial}
+              onChange={(e) => setTipoEditorial(e.target.value)}
+              disabled={procesando}
+              style={{
+                width: "100%",
+                boxSizing: "border-box",
+                padding: "0.75rem",
+                border: "1px solid #aaa",
+                borderRadius: "8px",
+                marginBottom: "1rem",
+                background: "white",
+                fontFamily: "inherit",
+              }}
+            >
+              <option value="ARTICULO">Artículo de investigación</option>
+              <option value="ENSAYO">Ensayo</option>
+              <option value="NOTA_INVESTIGACION">Nota de investigación</option>
+              <option value="NOTA_BREVE">Nota breve</option>
+              <option value="ESTUDIO">Estudio</option>
+              <option value="RESENA">Reseña</option>
+            </select>
+
             <div
               style={{
                 display: "flex",
@@ -820,15 +984,15 @@ export default function RevisarManuscritoPage() {
               }}
             />
 
-            <style jsx>{`
-              .editor-editorial :global(p) {
+            <style>{`
+              .editor-editorial p {
                 margin: 0 0 1rem 0;
               }
-              .editor-editorial :global(ul),
-              .editor-editorial :global(ol) {
+              .editor-editorial ul,
+              .editor-editorial ol {
                 margin: 0 0 1rem 1.5rem;
               }
-              .editor-editorial :global(figure) {
+              .editor-editorial figure {
                 margin: 1.5rem 0 !important;
                 text-align: center;
               }
@@ -898,18 +1062,18 @@ export default function RevisarManuscritoPage() {
               }}
             />
 
-            <style jsx>{`
-              .vista-manuscrito :global(p) {
+            <style>{`
+              .vista-manuscrito p {
                 margin: 0 0 1rem 0;
               }
-              .vista-manuscrito :global(p) {
+              .vista-manuscrito p {
                 text-align: justify;
               }
-              .vista-manuscrito :global(ul),
-              .vista-manuscrito :global(ol) {
+              .vista-manuscrito ul,
+              .vista-manuscrito ol {
                 margin: 0 0 1rem 1.5rem;
               }
-              .vista-manuscrito :global(figure) {
+              .vista-manuscrito figure {
                 margin: 1.5rem auto !important;
                 text-align: center;
               }
@@ -1188,6 +1352,65 @@ export default function RevisarManuscritoPage() {
       >
         ← Volver a Gestión editorial
       </Link>
+
+      <style>{`
+        .revision-editorial section,
+        .revision-editorial div,
+        .revision-editorial textarea,
+        .revision-editorial input {
+          max-width: 100%;
+          box-sizing: border-box;
+        }
+
+        .revision-editorial .vista-manuscrito,
+        .revision-editorial .editor-editorial {
+          min-width: 0;
+          max-width: 100%;
+          overflow-wrap: anywhere;
+          word-break: normal;
+        }
+
+        .revision-editorial figure,
+        .revision-editorial img {
+          max-width: 100% !important;
+          height: auto !important;
+        }
+
+        .revision-editorial table {
+          display: block;
+          width: 100%;
+          max-width: 100%;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .revision-editorial pre,
+        .revision-editorial code,
+        .revision-editorial a {
+          max-width: 100%;
+          overflow-wrap: anywhere;
+          white-space: pre-wrap;
+        }
+
+        @media (max-width: 640px) {
+          .revision-editorial .campos-transferencia {
+            grid-template-columns: 1fr !important;
+          }
+          .revision-editorial > section {
+            padding: 1rem !important;
+          }
+
+          .revision-editorial h1 {
+            font-size: clamp(1.65rem, 8vw, 2.15rem);
+            line-height: 1.16;
+          }
+
+          .revision-editorial button {
+            max-width: 100%;
+            white-space: normal !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
