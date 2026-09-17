@@ -70,9 +70,40 @@ export async function POST(req: Request) {
         { status: 401 }
       );
     }
-
+    
+	    // ---------------------------------------------------------
+    // 3. Validar estado institucional del miembro
     // ---------------------------------------------------------
-    // 3. Obtener expediente del miembro
+
+    const estadoMiembro = String(
+      data.estado_miembro || "ACTIVO"
+    )
+      .trim()
+      .toUpperCase();
+
+    if (estadoMiembro !== "ACTIVO") {
+      const mensajes: Record<string, string> = {
+        SUSPENDIDO:
+          "Su membresía se encuentra suspendida. No puede ingresar al área de miembros.",
+        RETIRADO:
+          "Su membresía se encuentra retirada. No puede ingresar al área de miembros.",
+        EXPULSADO:
+          "Su membresía ya no se encuentra activa. No puede ingresar al área de miembros.",
+      };
+
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            mensajes[estadoMiembro] ||
+            "Su membresía no se encuentra activa.",
+        },
+        { status: 403 }
+      );
+    }
+	
+    // ---------------------------------------------------------
+    // 4. Obtener expediente del miembro
     // ---------------------------------------------------------
 
     const {
@@ -103,7 +134,7 @@ export async function POST(req: Request) {
     }
 
     // ---------------------------------------------------------
-    // 4. Determinar estado académico
+    // 5. Determinar estado académico
     // ---------------------------------------------------------
 
     const nivel = String(data.nivel || "")
@@ -161,14 +192,14 @@ export async function POST(req: Request) {
     }
 
     // ---------------------------------------------------------
-    // 5. Consejo Académico
+    // 6. Consejo Académico
     // ---------------------------------------------------------
 
     const valorConsejo =
       data.consejo ?? data.Consejo ?? false;
 
     // ---------------------------------------------------------
-    // 6. Usuario que guardará el navegador
+    // 7. Usuario que guardará el navegador
     // ---------------------------------------------------------
 
     const userToStore = {
@@ -185,6 +216,14 @@ export async function POST(req: Request) {
         valorConsejo === "true" ||
         valorConsejo === "TRUE" ||
         valorConsejo === 1,
+	
+	    administrador:
+          data.administrador === true ||
+          data.administrador === "true" ||
+          data.administrador === "TRUE" ||
+          data.administrador === 1,
+
+      estado_miembro: estadoMiembro,
 
       estado_academico: estadoAcademico,
 

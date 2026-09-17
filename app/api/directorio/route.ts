@@ -58,7 +58,7 @@ export async function GET(req: NextRequest) {
     const { data: usuario, error: usuarioError } =
       await supabaseServer
         .from("users")
-        .select("codigo,nivel,nombre,consejo")
+        .select("codigo,nivel,nombre,consejo,estado_miembro")
         .eq("codigo", codigoSolicitante)
         .maybeSingle();
 
@@ -71,6 +71,22 @@ export async function GET(req: NextRequest) {
         { status: 403 }
       );
     }
+	
+	const estadoMiembroSolicitante = String(
+	  usuario.estado_miembro || ""
+	)
+	  .trim()
+	  .toUpperCase();
+
+	if (estadoMiembroSolicitante !== "ACTIVO") {
+	  return NextResponse.json(
+		{
+		  ok: false,
+		  error: "Su membresía no se encuentra activa.",
+		},
+		{ status: 403 }
+	  );
+	}
 
     const nivelSolicitante = String(usuario.nivel || "")
       .trim()
@@ -147,6 +163,31 @@ export async function GET(req: NextRequest) {
         miembros: [],
       });
     }
+	
+	// ---------------------------------------------------------
+	// Obtener códigos de miembros institucionalmente activos
+	// ---------------------------------------------------------
+
+	const { data: usuariosActivos, error: usuariosActivosError } =
+	  await supabaseServer
+		.from("users")
+		.select("codigo")
+		.eq("estado_miembro", "ACTIVO");
+
+	if (usuariosActivosError) {
+	  throw new Error(usuariosActivosError.message);
+	}
+
+	const codigosActivos = (usuariosActivos || [])
+	  .map((item) => item.codigo)
+	  .filter(Boolean);
+
+	if (codigosActivos.length === 0) {
+	  return NextResponse.json({
+		ok: true,
+		miembros: [],
+	  });
+	}
 
     // ---------------------------------------------------------
     // 4. Obtener miembros visibles
@@ -170,7 +211,8 @@ export async function GET(req: NextRequest) {
           `
         )
         .in("nivel", visibles)
-        .order("codigo", { ascending: true });
+		.in("codigo", codigosActivos)
+		.order("codigo", { ascending: true });
 
     if (miembrosError) {
       throw new Error(miembrosError.message);

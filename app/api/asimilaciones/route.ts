@@ -19,11 +19,12 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const { data: usuario, error: usuarioError } = await supabaseServer
-      .from("users")
-      .select("codigo,nombre,consejo")
-      .eq("codigo", codigoUsuario)
-      .maybeSingle();
+    const { data: usuario, error: usuarioError } =
+      await supabaseServer
+        .from("users")
+        .select("codigo,nombre,consejo,estado_miembro")
+        .eq("codigo", codigoUsuario)
+        .maybeSingle();
 
     if (usuarioError || !usuario) {
       return NextResponse.json(
@@ -41,51 +42,74 @@ export async function GET(request: NextRequest) {
       usuario.consejo === "TRUE" ||
       usuario.consejo === 1;
 
-    if (!esConsejo) {
+    const estadoMiembro = String(
+      usuario.estado_miembro || ""
+    )
+      .trim()
+      .toUpperCase();
+
+    if (!esConsejo || estadoMiembro !== "ACTIVO") {
       return NextResponse.json(
         {
           ok: false,
-          error: "Esta sección es exclusiva del Consejo Académico.",
+          error:
+            "Esta sección es exclusiva de los miembros activos del Consejo Académico.",
         },
         { status: 403 }
       );
     }
 
-    const { data: propuestas, error: propuestasError } = await supabaseServer
-      .from("asimilaciones")
-      .select(
-        `
-        id,
-        fecha_propuesta,
-        estado,
-        nivel_propuesto,
-        nombre,
-        correo,
-        telefono,
-        justificacion,
-        proponente_codigo,
-        votos_favor,
-        votos_contra,
-        votos_emitidos,
-        resultado,
-        fecha_resolucion,
-        observaciones,
-        fecha_envio_invitacion,
-        invitacion_enviada_por,
-        fecha_aceptacion,
-        fecha_incorporacion,
-        codigo_asignado
-        `
-      )
-      .order("fecha_propuesta", { ascending: false });
+    const { data: propuestas, error: propuestasError } =
+      await supabaseServer
+        .from("asimilaciones")
+        .select(
+          `
+          id,
+          fecha_propuesta,
+          estado,
+          nivel_propuesto,
+          nombre,
+          correo,
+          telefono,
+          justificacion,
+          proponente_codigo,
+          votos_favor,
+          votos_contra,
+          votos_emitidos,
+          resultado,
+          fecha_resolucion,
+          observaciones,
+          fecha_envio_invitacion,
+          invitacion_enviada_por,
+          fecha_aceptacion,
+          fecha_incorporacion,
+          codigo_asignado
+          `
+        )
+        .order("fecha_propuesta", { ascending: false });
 
     if (propuestasError) {
       throw new Error(propuestasError.message);
     }
 
-    const { data: miembrosConsejo, error: consejoError } = await supabaseServer
+    /*
+     * Conservamos aquí a TODOS los miembros que han pertenecido
+     * al Consejo Académico.
+     *
+     * Esto permite mantener correctamente los nombres y la
+     * trazabilidad de las votaciones históricas.
+     *
+     * El padrón actual se obtiene después filtrando únicamente
+     * a quienes tienen estado_miembro = ACTIVO.
+     */
+    const {
+      data: miembrosConsejo,
+      error: consejoError,
+    } = await supabaseServer
       .from("users")
-      .select("codigo,nombre,nivel,consejo")
+      .select(
+        "codigo,nombre,nivel,consejo,estado_miembro"
+      )
       .eq("consejo", true)
       .order("codigo", { ascending: true });
 
@@ -93,16 +117,32 @@ export async function GET(request: NextRequest) {
       throw new Error(consejoError.message);
     }
 
-    const totalConsejo = miembrosConsejo?.length || 0;
+    const miembrosConsejoActivos = (
+      miembrosConsejo || []
+    ).filter(
+      (miembro) =>
+        String(miembro.estado_miembro || "")
+          .trim()
+          .toUpperCase() === "ACTIVO"
+    );
+
+    const totalConsejo =
+      miembrosConsejoActivos.length;
 
     const codigosUsuarios = [
       ...new Set([
         ...(propuestas || [])
-          .map((propuesta) => propuesta.proponente_codigo)
+          .map(
+            (propuesta) =>
+              propuesta.proponente_codigo
+          )
           .filter(Boolean),
 
         ...(propuestas || [])
-          .map((propuesta) => propuesta.invitacion_enviada_por)
+          .map(
+            (propuesta) =>
+              propuesta.invitacion_enviada_por
+          )
           .filter(Boolean),
 
         ...(miembrosConsejo || [])
@@ -121,7 +161,10 @@ export async function GET(request: NextRequest) {
     >();
 
     if (codigosUsuarios.length > 0) {
-      const { data: usuarios, error: usuariosError } = await supabaseServer
+      const {
+        data: usuarios,
+        error: usuariosError,
+      } = await supabaseServer
         .from("users")
         .select("codigo,nombre,nivel")
         .in("codigo", codigosUsuarios);
@@ -156,7 +199,10 @@ export async function GET(request: NextRequest) {
     }[] = [];
 
     if (idsPropuestas.length > 0) {
-      const { data: votosData, error: votosError } = await supabaseServer
+      const {
+        data: votosData,
+        error: votosError,
+      } = await supabaseServer
         .from("asimilaciones_votos")
         .select(
           `
@@ -169,7 +215,9 @@ export async function GET(request: NextRequest) {
           `
         )
         .in("asimilacion_id", idsPropuestas)
-        .order("fecha_voto", { ascending: true });
+        .order("fecha_voto", {
+          ascending: true,
+        });
 
       if (votosError) {
         throw new Error(votosError.message);
@@ -178,78 +226,96 @@ export async function GET(request: NextRequest) {
       votos = votosData || [];
     }
 
-    const asimilaciones = (propuestas || []).map((propuesta) => {
-      const datosProponente = usuariosPorCodigo.get(
-        propuesta.proponente_codigo
-      );
+    const asimilaciones = (propuestas || []).map(
+      (propuesta) => {
+        const datosProponente =
+          usuariosPorCodigo.get(
+            propuesta.proponente_codigo
+          );
 
-      const datosEnviadoPor = propuesta.invitacion_enviada_por
-        ? usuariosPorCodigo.get(propuesta.invitacion_enviada_por)
-        : null;
+        const datosEnviadoPor =
+          propuesta.invitacion_enviada_por
+            ? usuariosPorCodigo.get(
+                propuesta.invitacion_enviada_por
+              )
+            : null;
 
-      const votosPropuesta = votos.filter(
-        (voto) => voto.asimilacion_id === propuesta.id
-      );
-
-      const votosDetallados = votosPropuesta.map((voto) => {
-        const datosConsejero = usuariosPorCodigo.get(
-          voto.consejero_codigo
+        const votosPropuesta = votos.filter(
+          (voto) =>
+            voto.asimilacion_id === propuesta.id
         );
 
+        const votosDetallados =
+          votosPropuesta.map((voto) => {
+            const datosConsejero =
+              usuariosPorCodigo.get(
+                voto.consejero_codigo
+              );
+
+            return {
+              id: voto.id,
+              consejero_codigo:
+                voto.consejero_codigo,
+              consejero_nombre:
+                datosConsejero?.nombre ||
+                voto.consejero_codigo,
+              voto: voto.voto,
+              comentario: voto.comentario,
+              fecha_voto: voto.fecha_voto,
+            };
+          });
+
+        const miVoto =
+          votosDetallados.find(
+            (voto) =>
+              voto.consejero_codigo ===
+              codigoUsuario
+          ) || null;
+
+        const votosFavor =
+          votosPropuesta.filter(
+            (voto) => voto.voto === "favor"
+          ).length;
+
+        const votosContra =
+          votosPropuesta.filter(
+            (voto) => voto.voto === "contra"
+          ).length;
+
+        const votosEmitidos =
+          votosPropuesta.length;
+
         return {
-          id: voto.id,
-          consejero_codigo: voto.consejero_codigo,
-          consejero_nombre:
-            datosConsejero?.nombre || voto.consejero_codigo,
-          voto: voto.voto,
-          comentario: voto.comentario,
-          fecha_voto: voto.fecha_voto,
+          ...propuesta,
+
+          proponente_nombre:
+            datosProponente?.nombre ||
+            propuesta.proponente_codigo,
+
+          proponente_nivel:
+            datosProponente?.nivel || null,
+
+          invitacion_enviada_por_nombre:
+            datosEnviadoPor?.nombre ||
+            propuesta.invitacion_enviada_por ||
+            null,
+
+          total_consejo: totalConsejo,
+
+          votos_favor: votosFavor,
+          votos_contra: votosContra,
+          votos_emitidos: votosEmitidos,
+
+          votos: votosDetallados,
+
+          mi_voto: miVoto,
+
+          puede_votar:
+            propuesta.estado === "pendiente" &&
+            miVoto === null,
         };
-      });
-
-      const miVoto =
-        votosDetallados.find(
-          (voto) => voto.consejero_codigo === codigoUsuario
-        ) || null;
-
-      const votosFavor = votosPropuesta.filter(
-        (voto) => voto.voto === "favor"
-      ).length;
-
-      const votosContra = votosPropuesta.filter(
-        (voto) => voto.voto === "contra"
-      ).length;
-
-      const votosEmitidos = votosPropuesta.length;
-
-      return {
-        ...propuesta,
-
-        proponente_nombre:
-          datosProponente?.nombre || propuesta.proponente_codigo,
-
-        proponente_nivel:
-          datosProponente?.nivel || null,
-
-        invitacion_enviada_por_nombre:
-          datosEnviadoPor?.nombre ||
-          propuesta.invitacion_enviada_por ||
-          null,
-
-        total_consejo: totalConsejo,
-
-        votos_favor: votosFavor,
-        votos_contra: votosContra,
-        votos_emitidos: votosEmitidos,
-
-        votos: votosDetallados,
-
-        mi_voto: miVoto,
-
-        puede_votar:
-          propuesta.estado === "pendiente" && miVoto === null,
-      };
-    });
+      }
+    );
 
     return NextResponse.json({
       ok: true,

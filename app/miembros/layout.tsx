@@ -10,6 +10,8 @@ type User = {
   nivel: string;
   nombre: string;
   consejo?: boolean | string | number;
+  administrador?: boolean | string | number;
+  estado_miembro?: string | null;
 
   estado_academico?: string | null;
   origen_acreditacion?: string | null;
@@ -27,6 +29,7 @@ export default function MiembrosLayout({
 }) {
   const [user, setUser] = useState<User | null>(null);
   const [esConsejo, setEsConsejo] = useState(false);
+  const [esAdministrador, setEsAdministrador] = useState(false);
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [pendientesAprobacion, setPendientesAprobacion] =
     useState(0);
@@ -90,9 +93,16 @@ export default function MiembrosLayout({
         parsed.consejo === "true" ||
         parsed.consejo === "TRUE" ||
         parsed.consejo === 1;
+	  
+	  const administradorNormalizado =
+		  parsed.administrador === true ||
+		  parsed.administrador === "true" ||
+		  parsed.administrador === "TRUE" ||
+		  parsed.administrador === 1;
 
       setUser(parsed);
       setEsConsejo(consejoNormalizado);
+	  setEsAdministrador(administradorNormalizado);
 
       // -------------------------------------------------------
       // PERFIL INICIAL OBLIGATORIO
@@ -567,6 +577,9 @@ export default function MiembrosLayout({
     ...(esConsejo
       ? [{ label: "Bitácora interna", href: "/miembros/bitacora" }]
       : []),
+	...(esAdministrador
+    ? [{ label: "Administración", href: "/miembros/administracion" }]
+    : []),
   ];
 
   return (

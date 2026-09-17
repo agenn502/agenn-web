@@ -4,8 +4,11 @@ import { supabaseServer } from "@/lib/supabaseServer";
 async function obtenerConsejoActivo() {
   const { data, error } = await supabaseServer
     .from("users")
-    .select("codigo,nombre,consejo")
-    .eq("consejo", true);
+    .select(
+      "codigo,nombre,consejo,estado_miembro"
+    )
+    .eq("consejo", true)
+    .eq("estado_miembro", "ACTIVO");
 
   if (error) {
     throw new Error(error.message);
@@ -15,19 +18,28 @@ async function obtenerConsejoActivo() {
 }
 
 function nombreNivel(nivel: string) {
-  if (nivel === "NUM") return "Académico Numerario";
-  if (nivel === "INV") return "Académico Investigador";
+  if (nivel === "NUM")
+    return "Académico Numerario";
+
+  if (nivel === "INV")
+    return "Académico Investigador";
 
   return nivel;
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(
+  request: NextRequest
+) {
   try {
     const body = await request.json();
 
-    const asimilacionId = Number(body.asimilacionId);
+    const asimilacionId = Number(
+      body.asimilacionId
+    );
 
-    const consejeroCodigo = String(body.consejeroCodigo || "")
+    const consejeroCodigo = String(
+      body.consejeroCodigo || ""
+    )
       .trim()
       .toUpperCase();
 
@@ -35,50 +47,72 @@ export async function POST(request: NextRequest) {
       .trim()
       .toLowerCase();
 
-    const comentario = String(body.comentario || "").trim();
+    const comentario = String(
+      body.comentario || ""
+    ).trim();
 
     if (!asimilacionId || !consejeroCodigo) {
       return NextResponse.json(
         {
           ok: false,
-          error: "Faltan datos para registrar el voto.",
+          error:
+            "Faltan datos para registrar el voto.",
         },
         { status: 400 }
       );
     }
 
-    if (!["favor", "contra"].includes(voto)) {
+    if (
+      !["favor", "contra"].includes(voto)
+    ) {
       return NextResponse.json(
         {
           ok: false,
-          error: "El voto indicado no es válido.",
+          error:
+            "El voto indicado no es válido.",
         },
         { status: 400 }
       );
     }
 
-    if (voto === "contra" && !comentario) {
+    if (
+      voto === "contra" &&
+      !comentario
+    ) {
       return NextResponse.json(
         {
           ok: false,
-          error: "Debe indicar la razón del voto en contra.",
+          error:
+            "Debe indicar la razón del voto en contra.",
         },
         { status: 400 }
       );
     }
 
-    const { data: consejero, error: consejeroError } =
-      await supabaseServer
-        .from("users")
-        .select("codigo,nombre,consejo")
-        .eq("codigo", consejeroCodigo)
-        .maybeSingle();
+    /*
+     * Verificamos directamente en la base de datos
+     * que quien intenta votar:
+     *
+     * 1. pertenece al Consejo Académico;
+     * 2. mantiene su membresía ACTIVA.
+     */
+    const {
+      data: consejero,
+      error: consejeroError,
+    } = await supabaseServer
+      .from("users")
+      .select(
+        "codigo,nombre,consejo,estado_miembro"
+      )
+      .eq("codigo", consejeroCodigo)
+      .maybeSingle();
 
     if (consejeroError || !consejero) {
       return NextResponse.json(
         {
           ok: false,
-          error: "No se encontró al miembro del Consejo Académico.",
+          error:
+            "No se encontró al miembro del Consejo Académico.",
         },
         { status: 404 }
       );
@@ -90,34 +124,59 @@ export async function POST(request: NextRequest) {
       consejero.consejo === "TRUE" ||
       consejero.consejo === 1;
 
+    const estadoMiembro = String(
+      consejero.estado_miembro || ""
+    )
+      .trim()
+      .toUpperCase();
+
     if (!esConsejo) {
       return NextResponse.json(
         {
           ok: false,
-          error: "Esta acción es exclusiva del Consejo Académico.",
+          error:
+            "Esta acción es exclusiva del Consejo Académico.",
         },
         { status: 403 }
       );
     }
 
-    const { data: propuesta, error: propuestaError } =
-      await supabaseServer
-        .from("asimilaciones")
-        .select("id,estado,nombre,nivel_propuesto")
-        .eq("id", asimilacionId)
-        .maybeSingle();
+    if (estadoMiembro !== "ACTIVO") {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "Solo los miembros activos del Consejo Académico pueden emitir votos.",
+        },
+        { status: 403 }
+      );
+    }
+
+    const {
+      data: propuesta,
+      error: propuestaError,
+    } = await supabaseServer
+      .from("asimilaciones")
+      .select(
+        "id,estado,nombre,nivel_propuesto"
+      )
+      .eq("id", asimilacionId)
+      .maybeSingle();
 
     if (propuestaError || !propuesta) {
       return NextResponse.json(
         {
           ok: false,
-          error: "No se encontró la propuesta de asimilación.",
+          error:
+            "No se encontró la propuesta de asimilación.",
         },
         { status: 404 }
       );
     }
 
-    if (propuesta.estado !== "pendiente") {
+    if (
+      propuesta.estado !== "pendiente"
+    ) {
       return NextResponse.json(
         {
           ok: false,
@@ -128,76 +187,124 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { data: votoExistente, error: votoExistenteError } =
-      await supabaseServer
-        .from("asimilaciones_votos")
-        .select("id")
-        .eq("asimilacion_id", asimilacionId)
-        .eq("consejero_codigo", consejeroCodigo)
-        .maybeSingle();
+    const {
+      data: votoExistente,
+      error: votoExistenteError,
+    } = await supabaseServer
+      .from("asimilaciones_votos")
+      .select("id")
+      .eq(
+        "asimilacion_id",
+        asimilacionId
+      )
+      .eq(
+        "consejero_codigo",
+        consejeroCodigo
+      )
+      .maybeSingle();
 
     if (votoExistenteError) {
-      throw new Error(votoExistenteError.message);
+      throw new Error(
+        votoExistenteError.message
+      );
     }
 
     if (votoExistente) {
       return NextResponse.json(
         {
           ok: false,
-          error: "Ya emitió su voto en esta propuesta.",
+          error:
+            "Ya emitió su voto en esta propuesta.",
         },
         { status: 409 }
       );
     }
 
-    const { error: insertError } = await supabaseServer
-      .from("asimilaciones_votos")
-      .insert({
-        asimilacion_id: asimilacionId,
-        consejero_codigo: consejeroCodigo,
-        voto,
-        comentario: voto === "contra" ? comentario : null,
-      });
-
-    if (insertError) {
-      throw new Error(insertError.message);
-    }
-
-    const consejo = await obtenerConsejoActivo();
-
-    const { data: votos, error: votosError } =
+    const { error: insertError } =
       await supabaseServer
         .from("asimilaciones_votos")
-        .select("voto")
-        .eq("asimilacion_id", asimilacionId);
+        .insert({
+          asimilacion_id:
+            asimilacionId,
+          consejero_codigo:
+            consejeroCodigo,
+          voto,
+          comentario:
+            voto === "contra"
+              ? comentario
+              : null,
+        });
 
-    if (votosError) {
-      throw new Error(votosError.message);
+    if (insertError) {
+      throw new Error(
+        insertError.message
+      );
     }
 
-    const totalConsejo = consejo.length;
+    /*
+     * Para determinar si la votación concluyó,
+     * únicamente cuentan los miembros ACTIVOS
+     * del Consejo Académico.
+     */
+    const consejo =
+      await obtenerConsejoActivo();
 
-    const votosEmitidos = votos?.length || 0;
+    const {
+      data: votos,
+      error: votosError,
+    } = await supabaseServer
+      .from("asimilaciones_votos")
+      .select("voto")
+      .eq(
+        "asimilacion_id",
+        asimilacionId
+      );
+
+    if (votosError) {
+      throw new Error(
+        votosError.message
+      );
+    }
+
+    const totalConsejo =
+      consejo.length;
+
+    const votosEmitidos =
+      votos?.length || 0;
 
     const votosFavor =
-      votos?.filter((item) => item.voto === "favor").length || 0;
+      votos?.filter(
+        (item) =>
+          item.voto === "favor"
+      ).length || 0;
 
     const votosContra =
-      votos?.filter((item) => item.voto === "contra").length || 0;
+      votos?.filter(
+        (item) =>
+          item.voto === "contra"
+      ).length || 0;
 
     let estado = "pendiente";
-    let resultado: string | null = null;
-    let fechaResolucion: string | null = null;
+
+    let resultado:
+      | string
+      | null = null;
+
+    let fechaResolucion:
+      | string
+      | null = null;
 
     if (
       totalConsejo > 0 &&
       votosEmitidos === totalConsejo
     ) {
-      fechaResolucion = new Date().toISOString();
+      fechaResolucion =
+        new Date().toISOString();
 
-      const nivelTexto = nombreNivel(
-        propuesta.nivel_propuesto
-      );
+      const nivelTexto =
+        nombreNivel(
+          propuesta.nivel_propuesto
+        );
 
       if (votosContra === 0) {
         estado = "aprobada";
@@ -216,20 +323,25 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const { error: updateError } = await supabaseServer
-      .from("asimilaciones")
-      .update({
-        votos_favor: votosFavor,
-        votos_contra: votosContra,
-        votos_emitidos: votosEmitidos,
-        estado,
-        resultado,
-        fecha_resolucion: fechaResolucion,
-      })
-      .eq("id", asimilacionId);
+    const { error: updateError } =
+      await supabaseServer
+        .from("asimilaciones")
+        .update({
+          votos_favor: votosFavor,
+          votos_contra: votosContra,
+          votos_emitidos:
+            votosEmitidos,
+          estado,
+          resultado,
+          fecha_resolucion:
+            fechaResolucion,
+        })
+        .eq("id", asimilacionId);
 
     if (updateError) {
-      throw new Error(updateError.message);
+      throw new Error(
+        updateError.message
+      );
     }
 
     return NextResponse.json({

@@ -12,6 +12,8 @@ type LoginResponse =
         nivel: string;
         nombre: string;
         consejo: boolean;
+		administrador: boolean;
+        estado_miembro: string;
       };
     }
   | {
