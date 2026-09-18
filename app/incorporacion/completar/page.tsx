@@ -68,6 +68,9 @@ function CompletarIncorporacionContenido() {
   const [error, setError] = useState("");
 
   const [nombre, setNombre] = useState("");
+  const [nombres, setNombres] = useState("");
+  const [apellidos, setApellidos] = useState("");
+  const [nombreCitacion, setNombreCitacion] = useState("");
   const [correo, setCorreo] = useState("");
   const [telefono, setTelefono] = useState("");
   const [profesion, setProfesion] = useState("");
@@ -123,9 +126,37 @@ function CompletarIncorporacionContenido() {
 
       setDatos(nuevosDatos);
 
-      setNombre(
-        result.incorporacion?.nombre || ""
-      );
+      const nombreCompleto =
+        result.incorporacion?.nombre || "";
+
+      setNombre(nombreCompleto);
+
+      const partesNombre = nombreCompleto
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+
+      if (partesNombre.length >= 4) {
+        const nombresIniciales = partesNombre
+          .slice(0, 2)
+          .join(" ");
+        const apellidosIniciales = partesNombre
+          .slice(2)
+          .join(" ");
+
+        setNombres(nombresIniciales);
+        setApellidos(apellidosIniciales);
+
+        const iniciales = nombresIniciales
+          .split(/\s+/)
+          .filter(Boolean)
+          .map((parte: string) => `${parte.charAt(0).toUpperCase()}.`)
+          .join(" ");
+
+        setNombreCitacion(
+          `${apellidosIniciales}, ${iniciales}`
+        );
+      }
 
       setCorreo(
         result.invitacion?.correo || ""
@@ -164,6 +195,14 @@ function CompletarIncorporacionContenido() {
       return;
     }
 
+    if (!nombres.trim() || !apellidos.trim()) {
+      setError(
+        "Debe indicar sus nombres y apellidos."
+      );
+
+      return;
+    }
+
     if (!correo.trim()) {
       setError(
         "Debe indicar un correo electrónico."
@@ -190,6 +229,15 @@ function CompletarIncorporacionContenido() {
 
             nombre:
               nombre.trim(),
+
+            nombres:
+              nombres.trim(),
+
+            apellidos:
+              apellidos.trim(),
+
+            nombreCitacion:
+              nombreCitacion.trim() || null,
 
             correo:
               correo.trim(),
@@ -834,11 +882,7 @@ function CompletarIncorporacionContenido() {
               <input
                 type="text"
                 value={nombre}
-                onChange={(e) =>
-                  setNombre(
-                    e.target.value
-                  )
-                }
+                readOnly
                 style={{
                   width: "100%",
                   padding: "0.8rem",
@@ -846,8 +890,52 @@ function CompletarIncorporacionContenido() {
                     "1px solid #ccc",
                   borderRadius: "8px",
                   boxSizing: "border-box",
+                  background: "#f5f5f5",
                 }}
               />
+              <small style={{ color: "#666" }}>
+                Nombre registrado en la propuesta aprobada por el Consejo Académico.
+              </small>
+            </div>
+
+            <div>
+              <label style={{ display: "block", marginBottom: "0.4rem", fontWeight: 700 }}>
+                Nombres *
+              </label>
+              <input
+                type="text"
+                value={nombres}
+                onChange={(e) => setNombres(e.target.value)}
+                style={{ width: "100%", padding: "0.8rem", border: "1px solid #ccc", borderRadius: "8px", boxSizing: "border-box" }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: "block", marginBottom: "0.4rem", fontWeight: 700 }}>
+                Apellidos *
+              </label>
+              <input
+                type="text"
+                value={apellidos}
+                onChange={(e) => setApellidos(e.target.value)}
+                style={{ width: "100%", padding: "0.8rem", border: "1px solid #ccc", borderRadius: "8px", boxSizing: "border-box" }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: "block", marginBottom: "0.4rem", fontWeight: 700 }}>
+                Nombre para citación
+              </label>
+              <input
+                type="text"
+                value={nombreCitacion}
+                onChange={(e) => setNombreCitacion(e.target.value)}
+                placeholder="Ej.: López Peláez, S. G."
+                style={{ width: "100%", padding: "0.8rem", border: "1px solid #ccc", borderRadius: "8px", boxSizing: "border-box" }}
+              />
+              <small style={{ color: "#666" }}>
+                Revise esta forma y corríjala si fuera necesario.
+              </small>
             </div>
 
             <div>

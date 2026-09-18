@@ -181,6 +181,18 @@ export async function POST(
       body.nombre || ""
     ).trim();
 
+    const nombres = String(
+      body.nombres || ""
+    ).trim();
+
+    const apellidos = String(
+      body.apellidos || ""
+    ).trim();
+
+    const nombreCitacion = body.nombreCitacion
+      ? String(body.nombreCitacion).trim()
+      : null;
+
     const correo = String(
       body.correo || ""
     )
@@ -230,13 +242,15 @@ export async function POST(
 
     if (
       !nombre ||
+      !nombres ||
+      !apellidos ||
       !correo
     ) {
       return NextResponse.json(
         {
           ok: false,
           error:
-            "Debe indicar su nombre completo y correo electrónico.",
+            "Debe indicar su nombre completo, nombres, apellidos y correo electrónico.",
         },
         {
           status: 400,
@@ -607,6 +621,15 @@ export async function POST(
           codigoNuevo,
 
         nombre,
+
+        nombres,
+
+        apellidos,
+
+        nombre_citacion:
+          nombreCitacion,
+
+        correo,
 
         nivel,
 
