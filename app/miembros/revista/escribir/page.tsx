@@ -37,12 +37,12 @@ const RESENA_INICIAL: DatosResena = {
 };
 
 const TIPOS_CONTENIDO = [
-  { valor: "ENSAYO", etiqueta: "Ensayo" },
-  { valor: "ARTICULO", etiqueta: "Artículo" },
-  { valor: "ESTUDIO", etiqueta: "Estudio" },
-  { valor: "NOTA_INVESTIGACION", etiqueta: "Nota de investigación" },
-  { valor: "NOTA_BREVE", etiqueta: "Nota breve" },
-  { valor: "RESENA", etiqueta: "Reseña bibliográfica" },
+  { valor: "ENSAYO", etiqueta: "Ensayo", extension: "1,000–5,000 palabras", descripcion: "Trabajo de análisis, interpretación o reflexión sobre un tema, sustentado en fuentes y desarrollado con una argumentación propia." },
+  { valor: "ARTICULO", etiqueta: "Artículo científico", extension: "8,000 palabras o más", descripcion: "Investigación académica extensa y estructurada, con problema u objetivo definido, metodología, análisis de resultados, conclusiones y referencias." },
+  { valor: "ESTUDIO", etiqueta: "Estudio", extension: "3,000–8,000 palabras", descripcion: "Investigación desarrollada de manera sistemática sobre un conjunto de piezas, período, serie, fenómeno o problema específico." },
+  { valor: "NOTA_INVESTIGACION", etiqueta: "Nota de investigación", extension: "1,500–3,000 palabras", descripcion: "Presentación de un hallazgo, avance o resultado parcial de investigación que aporta información nueva, aunque todavía no constituya un estudio completo." },
+  { valor: "NOTA_BREVE", etiqueta: "Nota breve", extension: "500–800 palabras", descripcion: "Comunicación concisa sobre una pieza, hallazgo, dato, documento o aspecto puntual de interés numismático o notafílico." },
+  { valor: "RESENA", etiqueta: "Reseña bibliográfica", extension: "1,000 palabras o más", descripcion: "Análisis crítico de una obra de interés numismático, notafílico o histórico; no se limita a resumirla, sino que examina sus aportes, alcance y utilidad." },
 ];
 
 function codigoLocal() {
@@ -200,6 +200,11 @@ export default function EscribirEnsayoPage() {
   const secundariosDisponibles = useMemo(
     () => temas.filter((item) => item.id !== Number(temaId)),
     [temas, temaId],
+  );
+
+  const orientacionTipo = useMemo(
+    () => TIPOS_CONTENIDO.find((tipo) => tipo.valor === tipoContenido) || TIPOS_CONTENIDO[0],
+    [tipoContenido],
   );
 
   const cambiarTema = (valor: string) => {
@@ -361,6 +366,13 @@ export default function EscribirEnsayoPage() {
                 </option>
               ))}
             </select>
+            <div style={orientacionTipoEstilo}>
+              <div style={orientacionCabecera}>
+                <strong>{orientacionTipo.etiqueta}</strong>
+                <span style={extensionEstilo}>Extensión orientativa: {orientacionTipo.extension}</span>
+              </div>
+              <span style={orientacionDescripcion}>{orientacionTipo.descripcion}</span>
+            </div>
           </Campo>
 
           {tipoContenido === "NOTA_BREVE" && (
@@ -782,3 +794,14 @@ const avisoFlujo: CSSProperties = {
   color: "#35542b",
   lineHeight: 1.6,
 };
+
+const orientacionTipoEstilo: CSSProperties = {
+  marginTop: "0.2rem", padding: "0.9rem 1rem", border: "1px solid #d8d0c2",
+  borderRadius: "8px", background: "#faf8f2", color: "#444", fontWeight: 400, lineHeight: 1.55,
+};
+const orientacionCabecera: CSSProperties = {
+  display: "flex", justifyContent: "space-between", alignItems: "baseline",
+  flexWrap: "wrap", gap: "0.4rem 1rem", marginBottom: "0.35rem", color: "#4d371c",
+};
+const extensionEstilo: CSSProperties = { color: "#6b6f1a", fontSize: "0.9rem", fontWeight: 700 };
+const orientacionDescripcion: CSSProperties = { color: "#555" };

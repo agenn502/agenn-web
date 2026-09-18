@@ -26,6 +26,7 @@ type Manuscrito = {
     | "CORRECCIONES"
     | "REENVIADO"
     | "AVALADO"
+	| "PUBLICABLE"
     | "ASIGNADO"
     | "PUBLICADO"
     | "DESCARTADO";
@@ -68,6 +69,9 @@ function etiquetaEstado(estado: Manuscrito["estado"]) {
 
     case "AVALADO":
       return "Avalado";
+	
+	case "PUBLICABLE":
+      return "Publicable";
 
     case "ASIGNADO":
       return "Asignado a revista";
@@ -211,9 +215,12 @@ export default function GestionEditorialPage() {
   );
 
   const publicables = useMemo(
-    () => manuscritos.filter((m) => m.estado === "AVALADO"),
-    [manuscritos],
-  );
+	  () =>
+		manuscritos.filter(
+		  (m) => m.estado === "AVALADO" || m.estado === "PUBLICABLE",
+		),
+	  [manuscritos],
+	);
 
   const publicados = useMemo(
     () =>

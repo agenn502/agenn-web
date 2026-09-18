@@ -33,7 +33,9 @@ export default function MiembrosLayout({
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [pendientesAprobacion, setPendientesAprobacion] =
     useState(0);
-  const [pendientesRevista, setPendientesRevista] =
+  const [pendientesEditoriales, setPendientesEditoriales] =
+    useState(0);
+  const [novedadesRevistaAutor, setNovedadesRevistaAutor] =
     useState(0);
 
   const [alertaAscenso, setAlertaAscenso] = useState("");
@@ -183,13 +185,13 @@ export default function MiembrosLayout({
                   String(m.estado || "").trim().toUpperCase()
                 )
             );
-            setPendientesRevista(requierenAtencion.length);
+            setPendientesEditoriales(requierenAtencion.length);
           }
         } else if (response.status !== 403) {
-          setPendientesRevista(0);
+          setPendientesEditoriales(0);
         }
       } catch {
-        setPendientesRevista(0);
+        setPendientesEditoriales(0);
       }
 
       // -------------------------------------------------------
@@ -230,14 +232,24 @@ export default function MiembrosLayout({
               }
             );
 
-            if (novedadesAutor.length > 0) {
-              setPendientesRevista((actual) =>
-                Math.max(actual, novedadesAutor.length)
+            const estaEnPortadaRevista =
+              pathname === "/miembros/revista";
+
+            if (estaEnPortadaRevista) {
+              // Entrar a la portada de Revista AGENN marca como vistas
+              // las novedades del propio autor de forma inmediata.
+              localStorage.setItem(
+                `revista-vista-${parsed.codigo}`,
+                String(Date.now())
               );
+              setNovedadesRevistaAutor(0);
+            } else {
+              setNovedadesRevistaAutor(novedadesAutor.length);
             }
           }
         }
       } catch {
+        setNovedadesRevistaAutor(0);
         // Las novedades del autor no deben bloquear la navegación.
       }
 
@@ -567,6 +579,9 @@ export default function MiembrosLayout({
         return [];
     }
   };
+
+  const pendientesRevista =
+    pendientesEditoriales + novedadesRevistaAutor;
 
   const menu: MenuItem[] = [
     {
