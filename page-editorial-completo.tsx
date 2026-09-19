@@ -47,20 +47,7 @@ function codigoLocal() {
   }
 }
 
-function pareceHtml(texto: string) {
-  return /<\/?[a-z][\s\S]*>/i.test(texto);
-}
-
 function renderEditorial(texto: string) {
-  if (pareceHtml(texto)) {
-    return (
-      <div
-        className="editorial-html"
-        dangerouslySetInnerHTML={{ __html: texto }}
-      />
-    );
-  }
-
   return texto
     .replace(/\r\n/g, "\n")
     .split(/\n{2,}/)
@@ -221,36 +208,6 @@ export default function EditorialVistaPreviaPage() {
           line-height: 1.9;
           text-align: justify;
           overflow-wrap: anywhere;
-        }
-
-        .editorial-completo :global(.editorial-html p) {
-          margin: 0 0 1.25rem;
-        }
-
-        .editorial-completo :global(.editorial-html h2),
-        .editorial-completo :global(.editorial-html h3) {
-          color: #4d371c;
-          font-family: Georgia, serif;
-          line-height: 1.3;
-          text-align: left;
-          margin: 1.8rem 0 0.8rem;
-        }
-
-        .editorial-completo :global(.editorial-html ul),
-        .editorial-completo :global(.editorial-html ol) {
-          margin: 0 0 1.25rem 1.5rem;
-          padding: 0;
-        }
-
-        .editorial-completo :global(.editorial-html a) {
-          color: #6b6f1a;
-          overflow-wrap: anywhere;
-          word-break: break-word;
-        }
-
-        .editorial-completo :global(.editorial-html img) {
-          max-width: 100%;
-          height: auto;
         }
 
         @media (max-width: 650px) {

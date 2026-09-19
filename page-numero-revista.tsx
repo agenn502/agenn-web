@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
@@ -97,17 +97,6 @@ function tipoContenidoTexto(tipo: string | null | undefined) {
   return etiquetas[String(tipo || "").toUpperCase()] || tipo || "Sin tipo";
 }
 
-
-function normalizarEditorialParaEditor(valor: string) {
-  const texto = String(valor || "").trim();
-  if (!texto) return "";
-  if (/<\/?[a-z][\s\S]*>/i.test(texto)) return texto;
-  return texto
-    .split(/\n{2,}/)
-    .map((parrafo) => `<p>${parrafo.replace(/\n/g, "<br>")}</p>`)
-    .join("");
-}
-
 export default function GestionNumeroPage() {
   const params = useParams();
   const id = String(params.id || "");
@@ -124,7 +113,6 @@ export default function GestionNumeroPage() {
   const [titulo, setTitulo] = useState("");
   const [subtitulo, setSubtitulo] = useState("");
   const [editorial, setEditorial] = useState("");
-  const editorialRef = useRef<HTMLDivElement>(null);
 
   const cargar = useCallback(async () => {
     const codigo = codigoLocal();
@@ -159,9 +147,7 @@ export default function GestionNumeroPage() {
       );
       setTitulo(result.numero.titulo || "");
       setSubtitulo(result.numero.subtitulo || "");
-      const editorialCargada = normalizarEditorialParaEditor(result.numero.editorial || "");
-      setEditorial(editorialCargada);
-      if (editorialRef.current) editorialRef.current.innerHTML = editorialCargada;
+      setEditorial(result.numero.editorial || "");
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "No fue posible cargar el número.",
@@ -210,25 +196,6 @@ export default function GestionNumeroPage() {
     }
   };
 
-  const sincronizarEditorial = () => {
-    const html = editorialRef.current?.innerHTML || "";
-    setEditorial(html);
-    return html;
-  };
-
-  const aplicarFormatoEditorial = (comando: string, valor?: string) => {
-    editorialRef.current?.focus();
-    document.execCommand(comando, false, valor);
-    sincronizarEditorial();
-  };
-
-  const insertarEnlaceEditorial = () => {
-    const url = window.prompt("Dirección del enlace (https://...)");
-    if (!url?.trim()) return;
-    const href = /^https?:\/\//i.test(url.trim()) ? url.trim() : `https://${url.trim()}`;
-    aplicarFormatoEditorial("createLink", href);
-  };
-
   const guardarNumero = async () => {
     const result = await ejecutar({
       accion: "ACTUALIZAR_NUMERO",
@@ -238,7 +205,7 @@ export default function GestionNumeroPage() {
       mes_publicacion: Number(mesPublicacion),
       titulo,
       subtitulo,
-      editorial: sincronizarEditorial(),
+      editorial,
     });
     if (result) alert("Datos del número actualizados.");
   };
@@ -463,37 +430,17 @@ export default function GestionNumeroPage() {
           onChange={setSubtitulo}
         />
 
-        <div style={{ marginBottom: "1rem" }}>
-          <div style={{ fontWeight: 700, marginBottom: "0.35rem" }}>
-            Editorial / presentación del número
-          </div>
-
-          <div style={barraEditorial}>
-            <button type="button" style={botonEditor} onMouseDown={(e) => e.preventDefault()} onClick={() => aplicarFormatoEditorial("bold")} title="Negrita"><strong>N</strong></button>
-            <button type="button" style={botonEditor} onMouseDown={(e) => e.preventDefault()} onClick={() => aplicarFormatoEditorial("italic")} title="Cursiva"><em>C</em></button>
-            <button type="button" style={botonEditor} onMouseDown={(e) => e.preventDefault()} onClick={() => aplicarFormatoEditorial("formatBlock", "p")} title="Párrafo">P</button>
-            <button type="button" style={botonEditor} onMouseDown={(e) => e.preventDefault()} onClick={() => aplicarFormatoEditorial("formatBlock", "h3")} title="Subtítulo">H3</button>
-            <button type="button" style={botonEditor} onMouseDown={(e) => e.preventDefault()} onClick={() => aplicarFormatoEditorial("insertUnorderedList")} title="Lista con viñetas">• Lista</button>
-            <button type="button" style={botonEditor} onMouseDown={(e) => e.preventDefault()} onClick={() => aplicarFormatoEditorial("insertOrderedList")} title="Lista numerada">1. Lista</button>
-            <button type="button" style={botonEditor} onMouseDown={(e) => e.preventDefault()} onClick={insertarEnlaceEditorial} title="Insertar enlace">Enlace</button>
-            <button type="button" style={botonEditor} onMouseDown={(e) => e.preventDefault()} onClick={() => aplicarFormatoEditorial("justifyFull")} title="Justificar">Justificar</button>
-            <button type="button" style={botonEditor} onMouseDown={(e) => e.preventDefault()} onClick={() => aplicarFormatoEditorial("undo")} title="Deshacer">↶</button>
-            <button type="button" style={botonEditor} onMouseDown={(e) => e.preventDefault()} onClick={() => aplicarFormatoEditorial("redo")} title="Rehacer">↷</button>
-          </div>
-
-          <div
-            ref={editorialRef}
-            contentEditable
-            suppressContentEditableWarning
-            onInput={sincronizarEditorial}
-            onBlur={sincronizarEditorial}
-            dangerouslySetInnerHTML={{ __html: editorial }}
-            style={editorEditorial}
+        <label
+          style={{ display: "block", fontWeight: 700, marginBottom: "1rem" }}
+        >
+          Editorial / presentación del número
+          <textarea
+            value={editorial}
+            onChange={(e) => setEditorial(e.target.value)}
+            rows={6}
+            style={input}
           />
-          <div style={{ marginTop: "0.4rem", color: "#777", fontSize: "0.82rem", fontWeight: 400 }}>
-            El contenido se guarda con su formato editorial.
-          </div>
-        </div>
+        </label>
 
         <button
           type="button"
@@ -773,49 +720,6 @@ const input: React.CSSProperties = {
   fontFamily: "inherit",
   fontWeight: 400,
 };
-const barraEditorial: React.CSSProperties = {
-  display: "flex",
-  flexWrap: "wrap",
-  gap: "0.35rem",
-  padding: "0.5rem",
-  border: "1px solid #c9c0b2",
-  borderBottom: "none",
-  borderRadius: "8px 8px 0 0",
-  background: "#f5f1e9",
-};
-
-const botonEditor: React.CSSProperties = {
-  minHeight: "34px",
-  padding: "0.35rem 0.6rem",
-  border: "1px solid #b8ad9c",
-  borderRadius: "6px",
-  background: "white",
-  color: "#4d371c",
-  fontFamily: "inherit",
-  fontWeight: 700,
-  cursor: "pointer",
-};
-
-const editorEditorial: React.CSSProperties = {
-  width: "100%",
-  minHeight: "360px",
-  maxHeight: "65vh",
-  overflowY: "auto",
-  boxSizing: "border-box",
-  padding: "1.25rem",
-  border: "1px solid #c9c0b2",
-  borderRadius: "0 0 8px 8px",
-  background: "white",
-  color: "#2f2b27",
-  fontFamily: "Georgia, serif",
-  fontSize: "1.05rem",
-  fontWeight: 400,
-  lineHeight: 1.8,
-  textAlign: "justify",
-  outline: "none",
-  overflowWrap: "anywhere",
-};
-
 const contador: React.CSSProperties = {
   background: "#f4f1e8",
   color: "#6b4f2a",

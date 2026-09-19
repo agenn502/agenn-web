@@ -77,26 +77,12 @@ function codigoLocal() {
   }
 }
 
-function textoPlanoEditorial(texto: string) {
-  return texto
-    .replace(/<br\s*\/?\s*>/gi, " ")
-    .replace(/<\/p>/gi, " ")
-    .replace(/<\/li>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/gi, " ")
-    .replace(/&amp;/gi, "&")
-    .replace(/&lt;/gi, "<")
-    .replace(/&gt;/gi, ">")
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;|&apos;/gi, "'")
+function extractoEditorial(texto: string, maximo = 430) {
+  const limpio = texto
     .replace(/\r\n/g, "\n")
     .replace(/\n+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
-}
-
-function extractoEditorial(texto: string, maximo = 430) {
-  const limpio = textoPlanoEditorial(texto);
 
   if (limpio.length <= maximo) {
     return { texto: limpio, recortado: false };
