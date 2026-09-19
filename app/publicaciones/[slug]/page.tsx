@@ -23,24 +23,8 @@ export default async function PublicacionDetalle({
           ← <a href="/publicaciones">Volver al catálogo</a>
         </p>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "240px 1fr",
-            gap: "2rem",
-            alignItems: "start",
-            marginTop: "1.5rem",
-          }}
-        >
-          <div
-            style={{
-              minHeight: "420px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              textAlign: "center",
-            }}
-          >
+        <div className="publicacion-detalle-grid">
+          <div className="publicacion-portada">
             <img
               src={pub.portada}
               alt={pub.titulo}
@@ -56,7 +40,7 @@ export default async function PublicacionDetalle({
             />
           </div>
 
-          <div>
+          <div className="publicacion-info">
             <p
               style={{
                 margin: "0 0 0.4rem 0",
@@ -174,6 +158,60 @@ export default async function PublicacionDetalle({
             </div>
           </div>
         </div>
+
+        <style>{`
+          .publicacion-detalle-grid {
+            display: grid;
+            grid-template-columns: 240px minmax(0, 1fr);
+            gap: 2rem;
+            align-items: start;
+            margin-top: 1.5rem;
+            width: 100%;
+            max-width: 100%;
+          }
+
+          .publicacion-portada {
+            min-height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-width: 0;
+          }
+
+          .publicacion-info {
+            min-width: 0;
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            word-break: normal;
+          }
+
+          @media (max-width: 600px) {
+            .publicacion-detalle-grid {
+              grid-template-columns: minmax(0, 1fr);
+              gap: 1.25rem;
+            }
+
+            .publicacion-portada {
+              min-height: 0;
+            }
+
+            .publicacion-portada img {
+              width: min(220px, 70vw) !important;
+              max-width: 100% !important;
+              height: auto !important;
+            }
+
+            .publicacion-info h1 {
+              font-size: clamp(1.6rem, 7vw, 2rem);
+              overflow-wrap: anywhere;
+            }
+
+            .publicacion-info a {
+              max-width: 100%;
+            }
+          }
+        `}</style>
       </div>
     </section>
   );

@@ -77,6 +77,27 @@ function codigoLocal() {
   }
 }
 
+function extractoEditorial(texto: string, maximo = 430) {
+  const limpio = texto
+    .replace(/\r\n/g, "\n")
+    .replace(/\n+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (limpio.length <= maximo) {
+    return { texto: limpio, recortado: false };
+  }
+
+  const corteInicial = limpio.slice(0, maximo);
+  const ultimoEspacio = corteInicial.lastIndexOf(" ");
+  const corte = ultimoEspacio > maximo * 0.75 ? ultimoEspacio : maximo;
+
+  return {
+    texto: `${limpio.slice(0, corte).trim()}…`,
+    recortado: true,
+  };
+}
+
 export default function VistaPreviaNumeroPage() {
   const params = useParams();
   const id = String(params.id || "");
@@ -134,6 +155,11 @@ export default function VistaPreviaNumeroPage() {
     }
     return [...mapa.entries()];
   }, [articulos]);
+
+  const editorialResumen = useMemo(
+    () => (numero?.editorial ? extractoEditorial(numero.editorial) : null),
+    [numero?.editorial],
+  );
 
   if (loading) return <p>Cargando vista previa...</p>;
   if (!numero) return <p>{error || "No se encontró el número."}</p>;
@@ -223,16 +249,17 @@ export default function VistaPreviaNumeroPage() {
         </div>
       </header>
 
-      {numero.editorial && (
+      {numero.editorial && editorialResumen && (
         <section
           style={{
-            padding: "3rem 1.5rem",
+            padding: "2.4rem 1.5rem 2rem",
             maxWidth: "760px",
             margin: "0 auto",
           }}
         >
           <h2
             style={{
+              margin: "0 0 1rem",
               color: "#4d371c",
               fontFamily: "Georgia, serif",
               fontSize: "2rem",
@@ -240,15 +267,30 @@ export default function VistaPreviaNumeroPage() {
           >
             Editorial
           </h2>
-          <div
+
+          <p
             style={{
-              whiteSpace: "pre-wrap",
-              lineHeight: 1.9,
+              margin: 0,
+              lineHeight: 1.8,
               fontSize: "1.05rem",
+              color: "#3b3732",
             }}
           >
-            {numero.editorial}
-          </div>
+            {editorialResumen.texto}
+          </p>
+
+          <Link
+            href={`/revista/vista-previa/${id}/editorial`}
+            style={{
+              display: "inline-block",
+              marginTop: "1rem",
+              color: "#6b6f1a",
+              fontWeight: 800,
+              textDecoration: "none",
+            }}
+          >
+            Leer editorial completo →
+          </Link>
         </section>
       )}
 

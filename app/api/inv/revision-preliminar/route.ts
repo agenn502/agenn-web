@@ -1,0 +1,271 @@
+import { NextRequest, NextResponse } from "next/server";
+
+type SolicitudRevision = {
+  unidad: string;
+  tipoTrabajo: string;
+  tema: string;
+  titulo: string;
+  consigna: string;
+  criterios?: string;
+  contenido: string;
+};
+
+type ResultadoProveedor = {
+  revision: any;
+  proveedor: "gemini" | "groq";
+  modelo: string;
+  tokens: number | null;
+};
+
+const esquemaRevision = {
+  type: "object",
+  properties: {
+    estado: {
+      type: "string",
+      enum: ["REQUIERE_AJUSTES", "LISTO_PARA_REMITIR"],
+    },
+    sintesis: { type: "string" },
+    cumplimientoConsigna: { type: "string" },
+    estructuraArgumentacion: { type: "string" },
+    fuentesEvidencias: { type: "string" },
+    precisionConceptual: { type: "string" },
+    aspectosFortalecer: {
+      type: "array",
+      items: { type: "string" },
+    },
+    afirmacionesRequierenRespaldo: {
+      type: "array",
+      items: { type: "string" },
+    },
+    recomendacionFinal: { type: "string" },
+  },
+  required: [
+    "estado",
+    "sintesis",
+    "cumplimientoConsigna",
+    "estructuraArgumentacion",
+    "fuentesEvidencias",
+    "precisionConceptual",
+    "aspectosFortalecer",
+    "afirmacionesRequierenRespaldo",
+    "recomendacionFinal",
+  ],
+  additionalProperties: false,
+};
+
+function construirPrompt(trabajo: SolicitudRevision) {
+  return `
+Usted actúa como revisor académico preliminar de la Academia Guatemalteca de Estudios Numismáticos y Notafílicos (AGENN).
+
+Su función es orientar al estudiante antes de que el trabajo sea remitido al Consejo Académico.
+
+REGLAS OBLIGATORIAS:
+- Esta NO es una aprobación académica.
+- No otorgue calificaciones numéricas.
+- No utilice las palabras "aprobado" o "reprobado".
+- No invente hechos, referencias bibliográficas ni errores.
+- No exija elementos que no formen parte de la consigna.
+- Distinga entre una afirmación incorrecta y una afirmación que simplemente necesita respaldo documental.
+- Si detecta posibles problemas históricos, numismáticos o conceptuales que no pueda comprobar a partir del material proporcionado, indíquelo como aspecto que conviene verificar.
+- Evalúe principalmente el cumplimiento de la consigna, claridad argumentativa, evidencia, fuentes y precisión conceptual.
+- Las observaciones deben ser concretas, formativas y útiles para corregir el trabajo.
+- Mantenga un tono académico y respetuoso.
+- Diríjase al estudiante de "usted".
+- Solo marque LISTO_PARA_REMITIR cuando el trabajo reúna razonablemente los elementos solicitados y no presente deficiencias importantes que deban corregirse antes de la revisión humana.
+- Si está listo, la recomendación final debe expresar: "El trabajo reúne los elementos necesarios para ser remitido al Consejo Académico."
+- Si requiere correcciones, explique cuáles son prioritarias.
+
+DATOS DEL TRABAJO
+Unidad: ${trabajo.unidad}
+Tipo de trabajo: ${trabajo.tipoTrabajo || "No especificado"}
+Tema: ${trabajo.tema || "No especificado"}
+Título: ${trabajo.titulo}
+
+CONSIGNA:
+${trabajo.consigna}
+
+CRITERIOS ADICIONALES:
+${trabajo.criterios || "No se proporcionaron criterios adicionales."}
+
+TRABAJO PRESENTADO:
+${trabajo.contenido}
+`.trim();
+}
+
+function extraerTextoGemini(datos: any): string | null {
+  if (!Array.isArray(datos?.steps)) return null;
+  for (let i = datos.steps.length - 1; i >= 0; i--) {
+    const paso = datos.steps[i];
+    if (paso?.type !== "model_output" || !Array.isArray(paso?.content)) continue;
+    const textos = paso.content
+      .filter((item: any) => item?.type === "text" && typeof item?.text === "string")
+      .map((item: any) => item.text);
+    if (textos.length) return textos.join("");
+  }
+  return null;
+}
+
+async function revisarConGemini(prompt: string): Promise<ResultadoProveedor> {
+  const apiKey = process.env.GEMINI_API_KEY;
+  const modelo = process.env.GEMINI_MODEL || "gemini-3.6-flash";
+  if (!apiKey) throw new Error("GEMINI_NO_CONFIGURADO");
+
+  const respuesta = await fetch(
+    "https://generativelanguage.googleapis.com/v1beta/interactions",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        model: modelo,
+        input: prompt,
+        response_format: {
+          type: "text",
+          mime_type: "application/json",
+          schema: esquemaRevision,
+        },
+      }),
+      cache: "no-store",
+    }
+  );
+
+  const datos = await respuesta.json().catch(() => ({}));
+  if (!respuesta.ok) {
+    console.error("Gemini no disponible:", respuesta.status, datos);
+    throw new Error(`GEMINI_${respuesta.status}`);
+  }
+
+  const texto = extraerTextoGemini(datos);
+  if (!texto) throw new Error("GEMINI_SIN_CONTENIDO");
+
+  return {
+    revision: JSON.parse(texto),
+    proveedor: "gemini",
+    modelo,
+    tokens: datos?.usage?.total_tokens ?? null,
+  };
+}
+
+async function revisarConGroq(prompt: string): Promise<ResultadoProveedor> {
+  const apiKey = process.env.GROQ_API_KEY;
+  const modelo = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
+  if (!apiKey) throw new Error("GROQ_NO_CONFIGURADO");
+
+  const respuesta = await fetch(
+    "https://api.groq.com/openai/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: modelo,
+        messages: [
+          {
+            role: "system",
+            content:
+              "Usted es el sistema de revisión preliminar académica de AGENN. Devuelva exclusivamente el JSON solicitado, sin texto adicional.",
+          },
+          { role: "user", content: prompt },
+        ],
+        response_format: {
+          type: "json_schema",
+          json_schema: {
+            name: "revision_preliminar_agenn",
+            strict: true,
+            schema: esquemaRevision,
+          },
+        },
+      }),
+      cache: "no-store",
+    }
+  );
+
+  const datos = await respuesta.json().catch(() => ({}));
+  if (!respuesta.ok) {
+    console.error("Groq no disponible:", respuesta.status, datos);
+    throw new Error(`GROQ_${respuesta.status}`);
+  }
+
+  const texto = datos?.choices?.[0]?.message?.content;
+  if (!texto || typeof texto !== "string") throw new Error("GROQ_SIN_CONTENIDO");
+
+  return {
+    revision: JSON.parse(texto),
+    proveedor: "groq",
+    modelo,
+    tokens: datos?.usage?.total_tokens ?? null,
+  };
+}
+
+export async function POST(request: NextRequest) {
+  let trabajo: SolicitudRevision;
+
+  try {
+    trabajo = await request.json();
+  } catch {
+    return NextResponse.json({ ok: false, error: "Solicitud inválida." }, { status: 400 });
+  }
+
+  if (!trabajo?.unidad || !trabajo?.titulo || !trabajo?.contenido || !trabajo?.consigna) {
+    return NextResponse.json(
+      { ok: false, error: "Faltan datos necesarios para realizar la revisión." },
+      { status: 400 }
+    );
+  }
+
+  const prompt = construirPrompt(trabajo);
+  const errores: string[] = [];
+
+  // 1. Proveedor principal
+  try {
+    const resultado = await revisarConGemini(prompt);
+    return NextResponse.json({
+      ok: true,
+      disponible: true,
+      revision: resultado.revision,
+      metadata: {
+        proveedor: resultado.proveedor,
+        modelo: resultado.modelo,
+        tokens: resultado.tokens,
+        usoRespaldo: false,
+      },
+    });
+  } catch (error: any) {
+    errores.push(error?.message || "GEMINI_ERROR");
+    console.warn("Se activa proveedor de respaldo para revisión INV.");
+  }
+
+  // 2. Respaldo abierto mediante Groq
+  try {
+    const resultado = await revisarConGroq(prompt);
+    return NextResponse.json({
+      ok: true,
+      disponible: true,
+      revision: resultado.revision,
+      metadata: {
+        proveedor: resultado.proveedor,
+        modelo: resultado.modelo,
+        tokens: resultado.tokens,
+        usoRespaldo: true,
+      },
+    });
+  } catch (error: any) {
+    errores.push(error?.message || "GROQ_ERROR");
+    console.error("Todos los proveedores de revisión fallaron:", errores);
+  }
+
+  return NextResponse.json(
+    {
+      ok: false,
+      disponible: false,
+      temporal: true,
+      error:
+        "La revisión preliminar no está disponible en este momento. Su borrador permanece guardado. Inténtelo nuevamente en unos minutos.",
+    },
+    { status: 503 }
+  );
+}

@@ -183,7 +183,9 @@ export default function PublicacionesPage() {
             <article
 			  key={pub.slug}
 			  style={{
-				width: "350px",
+				width: "min(350px, 100%)",
+				maxWidth: "100%",
+				boxSizing: "border-box",
 				height: "450px",
 				background: "white",
 				border: "1px solid #ddd4c7",
@@ -193,7 +195,7 @@ export default function PublicacionesPage() {
 				display: "flex",
 				flexDirection: "column",
 				justifyContent: "space-between",
-				flexShrink: 0,
+				flexShrink: 1,
 				transition: "all 0.25s ease",
 				cursor: "pointer",
 			  }}

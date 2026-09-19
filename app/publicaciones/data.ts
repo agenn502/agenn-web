@@ -54,7 +54,7 @@ export const publicaciones = [
       "https://tienda.sophosenlinea.com/libro/exonumia-e-historia-dictadura-y-medallistica-manuel-estrada-cabrera-1898-1920_310280",
   },
   {
-    slug: "símbolo-transatlántico",
+    slug: "simbolo-transatlantico",
     titulo:
       "El símbolo transatlántico: la anomalía iconográfica del billete de 5 pesos del banco de Guatemala de 1922 en clave poscolonial.",
     autores: ["Gerónimo Estuardo Pérez Irungaray"],

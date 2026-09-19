@@ -129,17 +129,66 @@ function renderTexto(texto: string): ReactNode[] {
 }
 
 function renderInline(texto: string): ReactNode[] {
-  const partes = texto.split(/(\*\*.*?\*\*|\*.*?\*)/g).filter(Boolean);
+  const partesFormato = texto.split(/(\*\*.*?\*\*|\*.*?\*)/g).filter(Boolean);
+  const salida: ReactNode[] = [];
+  let clave = 0;
 
-  return partes.map((parte, i) => {
+  const agregarTextoConEnlaces = (valor: string) => {
+    const partesUrl = valor
+      .split(/((?:https?:\/\/|www\.)[^\s<]+)/gi)
+      .filter(Boolean);
+
+    partesUrl.forEach((parte) => {
+      if (!/^(?:https?:\/\/|www\.)/i.test(parte)) {
+        salida.push(<span key={`txt-${clave++}`}>{parte}</span>);
+        return;
+      }
+
+      let url = parte;
+      let cierre = "";
+
+      while (/[.,;:!?)]$/.test(url)) {
+        cierre = url.slice(-1) + cierre;
+        url = url.slice(0, -1);
+      }
+
+      const href = /^www\./i.test(url) ? `https://${url}` : url;
+
+      salida.push(
+        <a
+          key={`url-${clave++}`}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="enlace-contenido"
+        >
+          {url}
+        </a>,
+      );
+
+      if (cierre) {
+        salida.push(<span key={`cierre-${clave++}`}>{cierre}</span>);
+      }
+    });
+  };
+
+  partesFormato.forEach((parte) => {
     if (parte.startsWith("**") && parte.endsWith("**")) {
-      return <strong key={i}>{parte.slice(2, -2)}</strong>;
+      const contenido = parte.slice(2, -2);
+      salida.push(<strong key={`strong-${clave++}`}>{contenido}</strong>);
+      return;
     }
+
     if (parte.startsWith("*") && parte.endsWith("*")) {
-      return <em key={i}>{parte.slice(1, -1)}</em>;
+      const contenido = parte.slice(1, -1);
+      salida.push(<em key={`em-${clave++}`}>{contenido}</em>);
+      return;
     }
-    return <span key={i}>{parte}</span>;
+
+    agregarTextoConEnlaces(parte);
   });
+
+  return salida;
 }
 
 const PREFIJO_HTML_ENRIQUECIDO = "<!--AGENN_RICH_HTML_V1-->";
@@ -178,6 +227,90 @@ function eliminarBloquesVaciosTrasFiguras(html: string) {
   return limpio;
 }
 
+function convertirUrlsHtmlEnEnlaces(html: string) {
+  if (typeof document === "undefined") return html;
+
+  const plantilla = document.createElement("template");
+  plantilla.innerHTML = html;
+
+  const walker = document.createTreeWalker(
+    plantilla.content,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(nodo) {
+        const padre = nodo.parentElement;
+        const texto = nodo.nodeValue || "";
+
+        if (!padre || !/(?:https?:\/\/|www\.)/i.test(texto)) {
+          return NodeFilter.FILTER_REJECT;
+        }
+
+        if (padre.closest("a,script,style,code,pre")) {
+          return NodeFilter.FILTER_REJECT;
+        }
+
+        return NodeFilter.FILTER_ACCEPT;
+      },
+    },
+  );
+
+  const nodos: Text[] = [];
+  let actual: Node | null;
+
+  while ((actual = walker.nextNode())) {
+    nodos.push(actual as Text);
+  }
+
+  const regexUrl = /(?:https?:\/\/|www\.)[^\s<]+/gi;
+
+  nodos.forEach((nodo) => {
+    const texto = nodo.nodeValue || "";
+    const fragmento = document.createDocumentFragment();
+    let ultimo = 0;
+    let coincidencia: RegExpExecArray | null;
+
+    regexUrl.lastIndex = 0;
+
+    while ((coincidencia = regexUrl.exec(texto))) {
+      let url = coincidencia[0];
+      let cierre = "";
+
+      while (/[.,;:!?)]$/.test(url)) {
+        cierre = url.slice(-1) + cierre;
+        url = url.slice(0, -1);
+      }
+
+      if (coincidencia.index > ultimo) {
+        fragmento.append(
+          document.createTextNode(texto.slice(ultimo, coincidencia.index)),
+        );
+      }
+
+      const enlace = document.createElement("a");
+      enlace.href = /^www\./i.test(url) ? `https://${url}` : url;
+      enlace.target = "_blank";
+      enlace.rel = "noopener noreferrer";
+      enlace.className = "enlace-contenido";
+      enlace.textContent = url;
+      fragmento.append(enlace);
+
+      if (cierre) {
+        fragmento.append(document.createTextNode(cierre));
+      }
+
+      ultimo = coincidencia.index + coincidencia[0].length;
+    }
+
+    if (ultimo < texto.length) {
+      fragmento.append(document.createTextNode(texto.slice(ultimo)));
+    }
+
+    nodo.replaceWith(fragmento);
+  });
+
+  return plantilla.innerHTML;
+}
+
 function htmlEnriquecidoConImagenes(contenido: string, imagenes: Imagen[]) {
   const mapa = new Map(imagenes.map((imagen) => [Number(imagen.id), imagen]));
   const html = contenido.trimStart().slice(PREFIJO_HTML_ENRIQUECIDO.length);
@@ -192,7 +325,9 @@ function htmlEnriquecidoConImagenes(contenido: string, imagenes: Imagen[]) {
     },
   );
 
-  return eliminarBloquesVaciosTrasFiguras(htmlConImagenes);
+  return convertirUrlsHtmlEnEnlaces(
+    eliminarBloquesVaciosTrasFiguras(htmlConImagenes),
+  );
 }
 
 function contenidoConImagenes(contenido: string, imagenes: Imagen[]) {
@@ -606,7 +741,7 @@ export default function ArticuloRevistaPage() {
           font-size: 24px;
           line-height: 1.35;
           font-weight: 700;
-          text-align: left !important;
+          text-align: justify !important;
         }
 
         .contenido-html-enriquecido figure,
@@ -618,6 +753,19 @@ export default function ArticuloRevistaPage() {
         .contenido-html-enriquecido figure + h2,
         .contenido-html-enriquecido figure + h3 {
           margin-top: 1.25rem;
+        }
+
+        .contenido-html-enriquecido {
+          min-width: 0;
+          max-width: 100%;
+          overflow-wrap: anywhere;
+          word-break: normal;
+        }
+
+        .contenido-html-enriquecido a,
+        .enlace-contenido {
+          overflow-wrap: anywhere;
+          word-break: break-word;
         }
 
         .contenido-html-enriquecido img {
@@ -717,6 +865,15 @@ export default function ArticuloRevistaPage() {
         }
 
         @media (max-width: 650px) {
+          article,
+          .contenido-html-enriquecido,
+          .contenido-html-enriquecido p,
+          .contenido-html-enriquecido > div,
+          .contenido-html-enriquecido li,
+          .contenido-html-enriquecido blockquote {
+            text-align: justify !important;
+          }
+
           .ficha-resena {
             grid-template-columns: minmax(0, 1fr);
             gap: 1.25rem;

@@ -251,8 +251,62 @@ function escaparHtml(texto: string) {
     .replace(/>/g, "&gt;");
 }
 
+function convertirUrlsTextoEnEnlaces(texto: string) {
+  const patron = /(?:https?:\/\/|www\.)[^\s<]+/gi;
+  let salida = "";
+  let ultimoIndice = 0;
+
+  for (const coincidencia of texto.matchAll(patron)) {
+    const indice = coincidencia.index ?? 0;
+    const urlCompleta = coincidencia[0];
+    let urlVisible = urlCompleta;
+    let puntuacionFinal = "";
+
+    while (/[.,;:!?)]$/.test(urlVisible)) {
+      puntuacionFinal = urlVisible.slice(-1) + puntuacionFinal;
+      urlVisible = urlVisible.slice(0, -1);
+    }
+
+    const href = urlVisible.toLowerCase().startsWith("www.")
+      ? `https://${urlVisible}`
+      : urlVisible;
+
+    salida += escaparHtml(texto.slice(ultimoIndice, indice));
+    salida += `<a href="${escaparHtml(href)}" target="_blank" rel="noopener noreferrer" style="overflow-wrap:anywhere;word-break:break-word">${escaparHtml(urlVisible)}</a>${escaparHtml(puntuacionFinal)}`;
+    ultimoIndice = indice + urlCompleta.length;
+  }
+
+  salida += escaparHtml(texto.slice(ultimoIndice));
+  return salida;
+}
+
+function autovincularHtml(raiz: ParentNode) {
+  const caminante = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT);
+  const textos: Text[] = [];
+  let nodo = caminante.nextNode();
+
+  while (nodo) {
+    const texto = nodo as Text;
+    const padre = texto.parentElement;
+    if (
+      padre &&
+      !padre.closest("a,script,style,code,pre") &&
+      /(?:https?:\/\/|www\.)[^\s<]+/i.test(texto.data)
+    ) {
+      textos.push(texto);
+    }
+    nodo = caminante.nextNode();
+  }
+
+  textos.forEach((texto) => {
+    const contenedor = document.createElement("span");
+    contenedor.innerHTML = convertirUrlsTextoEnEnlaces(texto.data);
+    texto.replaceWith(...Array.from(contenedor.childNodes));
+  });
+}
+
 function inlineAHtml(texto: string) {
-  let salida = escaparHtml(texto);
+  let salida = convertirUrlsTextoEnEnlaces(texto);
   salida = salida.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   salida = salida.replace(/\*([^*]+)\*/g, "<em>$1</em>");
   return salida;
@@ -378,6 +432,7 @@ function contenidoAHtml(contenido: string, imagenes: ImagenManuscrito[]) {
       });
 
     normalizarAlineacionDeTexto(plantilla.content);
+    autovincularHtml(plantilla.content);
     return plantilla.innerHTML;
   }
 
@@ -2181,7 +2236,7 @@ export default function MiManuscritoPage() {
                 font-family: "Times New Roman", Times, serif;
                 font-weight: 700;
                 line-height: 1.35;
-                text-align: left !important;
+                text-align: justify !important;
               }
               .editor-revista :global(strong),
               .editor-revista :global(b) {
@@ -2190,6 +2245,23 @@ export default function MiManuscritoPage() {
               .editor-revista :global(figure) {
                 margin-top: 1.5rem !important;
                 margin-bottom: 1rem !important;
+              }
+              .editor-revista :global(a) {
+                overflow-wrap: anywhere;
+                word-break: break-word;
+              }
+              .editor-revista :global(img) {
+                max-width: 100% !important;
+                height: auto !important;
+              }
+              @media (max-width: 600px) {
+                .editor-revista,
+                .editor-revista :global(p),
+                .editor-revista > :global(div),
+                .editor-revista :global(li),
+                .editor-revista :global(blockquote) {
+                  text-align: justify !important;
+                }
               }
             `}</style>
 
@@ -2861,7 +2933,17 @@ function VistaPrevia({
 }) {
   if (esHtmlEnriquecido(contenido)) {
     return (
-      <article
+      <>
+        <style jsx>{`
+          .vista-manuscrito { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+          .vista-manuscrito :global(a) { overflow-wrap: anywhere; word-break: break-word; }
+          .vista-manuscrito :global(img) { max-width: 100% !important; height: auto !important; }
+          @media (max-width: 600px) {
+            .vista-manuscrito, .vista-manuscrito :global(p), .vista-manuscrito :global(li), .vista-manuscrito :global(blockquote) { text-align: justify !important; }
+          }
+        `}</style>
+        <article
+        className="vista-manuscrito"
         style={{
           background: "white",
           border: "1px solid #e2dbcf",
@@ -2877,6 +2959,7 @@ function VistaPrevia({
           __html: contenidoAHtml(contenido, imagenes),
         }}
       />
+      </>
     );
   }
 
@@ -3090,7 +3173,40 @@ function TextoInline({ texto }: { texto: string }) {
           return <em key={index}>{parte.slice(1, -1)}</em>;
         }
 
-        return <span key={index}>{parte}</span>;
+        const segmentos = parte.split(/((?:https?:\/\/|www\.)[^\s<]+)/gi);
+        return (
+          <span key={index}>
+            {segmentos.map((segmento, subindex) => {
+              if (!/^(?:https?:\/\/|www\.)/i.test(segmento)) {
+                return <span key={subindex}>{segmento}</span>;
+              }
+
+              let visible = segmento;
+              let final = "";
+              while (/[.,;:!?)]$/.test(visible)) {
+                final = visible.slice(-1) + final;
+                visible = visible.slice(0, -1);
+              }
+              const href = visible.toLowerCase().startsWith("www.")
+                ? `https://${visible}`
+                : visible;
+
+              return (
+                <span key={subindex}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ overflowWrap: "anywhere", wordBreak: "break-word" }}
+                  >
+                    {visible}
+                  </a>
+                  {final}
+                </span>
+              );
+            })}
+          </span>
+        );
       })}
     </>
   );

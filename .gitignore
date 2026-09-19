@@ -46,3 +46,6 @@ app/new.tsx
 components/new.tsx
 app/api/route-vacio.ts
 app/miembros/proceso_asp/introductorio/page - copia.tsx
+# Auditoria responsive local
+.playwright/
+auditoria-responsive/

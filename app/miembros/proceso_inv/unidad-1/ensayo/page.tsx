@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ClipboardEvent as ReactClipboardEvent, useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { TEMAS_TRABAJOS_INV } from "@/content/proceso_inv/temas_trabajos_inv";
 import { obtenerReglaTrabajoInv } from "@/content/proceso_inv/config";
@@ -8,6 +8,41 @@ import { nombreNivel, colorNivel } from "@/lib/niveles";
 
 const REGLA_UNIDAD = obtenerReglaTrabajoInv("unidad-1")!;
 const TEMAS_UNIDAD = TEMAS_TRABAJOS_INV["unidad-1"] || [];
+const PREFIJO_HTML_ENRIQUECIDO = "<!--AGENN_RICH_HTML_V1-->";
+
+function escaparHtml(texto: string) {
+  return texto.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function contenidoAHtml(contenido: string) {
+  if (contenido.trimStart().startsWith(PREFIJO_HTML_ENRIQUECIDO)) {
+    return contenido.trimStart().slice(PREFIJO_HTML_ENRIQUECIDO.length);
+  }
+  return contenido
+    .replace(/\r/g, "")
+    .split("\n")
+    .filter((linea) => linea.trim())
+    .map((linea) => `<p>${escaparHtml(linea).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/\*([^*]+)\*/g, "<em>$1</em>")}</p>`)
+    .join("");
+}
+
+function limpiarHtml(editor: HTMLElement) {
+  const copia = editor.cloneNode(true) as HTMLElement;
+  copia.querySelectorAll("script,style,link,meta,iframe,object,embed,form,input,button,textarea,select,img").forEach((nodo) => nodo.remove());
+  copia.querySelectorAll<HTMLElement>("*").forEach((elemento) => {
+    elemento.style.removeProperty("font-family");
+    elemento.style.removeProperty("line-height");
+    elemento.style.removeProperty("text-align");
+    Array.from(elemento.style).forEach((propiedad) => {
+      if (propiedad.toLowerCase().startsWith("mso-")) elemento.style.removeProperty(propiedad);
+    });
+    elemento.removeAttribute("class");
+    elemento.removeAttribute("face");
+    if (!elemento.getAttribute("style")?.trim()) elemento.removeAttribute("style");
+  });
+  return copia.innerHTML.trim();
+}
+
 
 type Miembro = {
   id: number;
@@ -36,10 +71,16 @@ export default function TrabajoUnidad1Page() {
   const [imagenUrlExistente, setImagenUrlExistente] = useState("");
   const [fuenteImagen, setFuenteImagen] = useState("");
   const [contenido, setContenido] = useState("");
+  const editorRef = useRef<HTMLDivElement | null>(null);
+  const rangoRef = useRef<Range | null>(null);
 
   const [miembro, setMiembro] = useState<Miembro | null>(null);
   const [loading, setLoading] = useState(true);
   const [guardando, setGuardando] = useState(false);
+  const [revisandoPreliminar, setRevisandoPreliminar] = useState(false);
+  const [revisionPreliminar, setRevisionPreliminar] = useState<any | null>(null);
+  const [firmaRevisionLista, setFirmaRevisionLista] = useState("");
+  const [errorRevisionPreliminar, setErrorRevisionPreliminar] = useState("");
 
   const [trabajoId, setTrabajoId] = useState<number | null>(null);
   const [slugTrabajo, setSlugTrabajo] = useState("");
@@ -216,10 +257,18 @@ export default function TrabajoUnidad1Page() {
     });
   };
 
-  const caracteres = contenido.length;
-  const palabras = contenido.trim()
-    ? contenido.trim().split(/\s+/).filter(Boolean).length
-    : 0;
+  const textoPlano = typeof document !== "undefined"
+    ? (() => {
+        const temporal = document.createElement("div");
+        temporal.innerHTML = contenidoAHtml(contenido);
+        return (temporal.textContent || "").replace(/\s+/g, " ").trim();
+      })()
+    : "";
+  const caracteres = textoPlano.length;
+  const palabras = textoPlano ? textoPlano.split(/\s+/).filter(Boolean).length : 0;
+  const revisionListaVigente =
+    revisionPreliminar?.estado === "LISTO_PARA_REMITIR" &&
+    firmaRevisionLista !== "";
 
   const generarSlug = (texto: string) =>
     texto
@@ -436,39 +485,127 @@ export default function TrabajoUnidad1Page() {
     }
   };
 
-  const insertarFormato = (
-    antes: string,
-    despues = ""
-  ) => {
-    const textarea = document.getElementById(
-      "contenido-ensayo"
-    ) as HTMLTextAreaElement | null;
+  const solicitarRevisionPreliminar = async () => {
+    if (revisandoPreliminar || guardando) return;
+    if (!validarContenido(true)) return;
 
-    if (!textarea) return;
+    await guardarTrabajo(false);
 
-    const inicio = textarea.selectionStart;
-    const fin = textarea.selectionEnd;
+    setRevisandoPreliminar(true);
+    setRevisionPreliminar(null);
+    setFirmaRevisionLista("");
+    setErrorRevisionPreliminar("");
 
-    const seleccionado =
-      contenido.substring(inicio, fin);
+    try {
+      const contenidoPlano = editorRef.current?.innerText?.trim() || textoPlano;
+      const firmaEnviada = JSON.stringify([tema.trim(), titulo.trim(), contenidoPlano.replace(/\s+/g, " " ).trim()]);
 
-    const nuevoTexto =
-      contenido.substring(0, inicio) +
-      antes +
-      seleccionado +
-      despues +
-      contenido.substring(fin);
+      const respuesta = await fetch("/api/inv/revision-preliminar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          unidad: "Unidad 1",
+          tipoTrabajo: REGLA_UNIDAD.tipo || "Análisis breve",
+          tema,
+          titulo: titulo.trim(),
+          consigna: `Elabore un análisis breve basado en uno de los temas propuestos de la Unidad 1. El trabajo debe desarrollar el tema con claridad, argumentación y sustento, y cumplir al menos ${REGLA_UNIDAD.palabrasMinimas.toLocaleString("es-GT")} palabras y ${REGLA_UNIDAD.caracteresMinimos.toLocaleString("es-GT")} caracteres.`,
+          criterios: "Valore el cumplimiento de la consigna, la estructura y argumentación, el uso de fuentes y evidencias, la precisión conceptual y las afirmaciones que requieran respaldo o verificación.",
+          contenido: contenidoPlano,
+        }),
+      });
 
-    setContenido(nuevoTexto);
+      const datos = await respuesta.json();
 
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(
-        inicio + antes.length,
-        fin + antes.length
+      if (!respuesta.ok || !datos?.ok || !datos?.revision) {
+        throw new Error(
+          datos?.error ||
+            "La revisión preliminar no está disponible en este momento. Su borrador permanece guardado. Inténtelo nuevamente en unos minutos."
+        );
+      }
+
+      setRevisionPreliminar(datos.revision);
+      if (datos.revision.estado === "LISTO_PARA_REMITIR") {
+        setFirmaRevisionLista(firmaEnviada);
+      }
+    } catch (error: any) {
+      setErrorRevisionPreliminar(
+        error?.message ||
+          "La revisión preliminar no está disponible en este momento. Su borrador permanece guardado. Inténtelo nuevamente en unos minutos."
       );
-    }, 0);
+    } finally {
+      setRevisandoPreliminar(false);
+    }
   };
+
+  const sincronizarEditor = () => {
+    if (!editorRef.current) return;
+    setContenido(`${PREFIJO_HTML_ENRIQUECIDO}${limpiarHtml(editorRef.current)}`);
+    if (firmaRevisionLista) setFirmaRevisionLista("");
+  };
+
+  const guardarRango = () => {
+    const editor = editorRef.current;
+    const seleccion = window.getSelection();
+    if (!editor || !seleccion || seleccion.rangeCount === 0) return;
+    const rango = seleccion.getRangeAt(0);
+    if (editor.contains(rango.commonAncestorContainer)) rangoRef.current = rango.cloneRange();
+  };
+
+  const ejecutarComando = (comando: string) => {
+    editorRef.current?.focus();
+    document.execCommand(comando, false);
+    sincronizarEditor();
+  };
+
+  const aplicarTamanoFuente = (tamano: string) => {
+    const editor = editorRef.current;
+    const rango = rangoRef.current;
+    if (!editor || !rango || rango.collapsed) return;
+    editor.focus();
+    const seleccion = window.getSelection();
+    if (!seleccion || !editor.contains(rango.commonAncestorContainer)) return;
+    seleccion.removeAllRanges();
+    seleccion.addRange(rango);
+    document.execCommand("fontSize", false, "7");
+    editor.querySelectorAll<HTMLElement>('font[size="7"]').forEach((elemento) => {
+      elemento.removeAttribute("size");
+      elemento.style.fontSize = tamano;
+    });
+    sincronizarEditor();
+  };
+
+  const manejarPegado = (event: ReactClipboardEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const html = event.clipboardData.getData("text/html");
+    const texto = event.clipboardData.getData("text/plain");
+    if (!html) {
+      document.execCommand("insertText", false, texto);
+      sincronizarEditor();
+      return;
+    }
+    const plantilla = document.createElement("template");
+    plantilla.innerHTML = html;
+    plantilla.content.querySelectorAll("script,style,link,meta,iframe,object,embed,form,input,button,textarea,select,img").forEach((nodo) => nodo.remove());
+    plantilla.content.querySelectorAll<HTMLElement>("*").forEach((elemento) => {
+      elemento.style.removeProperty("font-size");
+      elemento.style.removeProperty("font-family");
+      elemento.style.removeProperty("line-height");
+      elemento.style.removeProperty("text-align");
+      Array.from(elemento.style).forEach((propiedad) => {
+        if (propiedad.toLowerCase().startsWith("mso-")) elemento.style.removeProperty(propiedad);
+      });
+      elemento.removeAttribute("face");
+      elemento.removeAttribute("size");
+      elemento.removeAttribute("class");
+      if (!elemento.getAttribute("style")?.trim()) elemento.removeAttribute("style");
+    });
+    document.execCommand("insertHTML", false, plantilla.innerHTML);
+    sincronizarEditor();
+  };
+
+  useEffect(() => {
+    if (!loading && editorRef.current) editorRef.current.innerHTML = contenidoAHtml(contenido);
+  }, [loading, trabajoId]);
 
   const revisionPendiente =
     estadoRevision === "pendiente";
@@ -534,18 +671,16 @@ export default function TrabajoUnidad1Page() {
           lineHeight: 1.75,
         }}
       >
-        <strong>
-          Puede desarrollar su análisis breve en varias sesiones.
-        </strong>
-        <br />
-        Utilice <strong>Guardar borrador</strong> para
-        conservar su avance y regresar posteriormente.
-        Seleccione{" "}
-        <strong>Enviar análisis breve a revisión</strong>{" "}
-        únicamente cuando considere que el trabajo está
-        finalizado. Una vez enviado, quedará pendiente de
-        revisión por el Consejo Académico y no podrá
-        editarlo hasta que exista una resolución.
+        <strong>Recomendación para elaborar su análisis</strong>
+        <p style={{ marginBottom: "0.65rem" }}>
+          Se recomienda redactar inicialmente su trabajo en Microsoft Word o en otro procesador de textos. Así podrá trabajar con mayor comodidad y conservar una copia personal.
+        </p>
+        <p style={{ marginBottom: "0.65rem" }}>
+          Cuando considere que el texto está terminado, cópielo y péguelo en el editor de AGENN. El texto normal se mostrará a <strong>18 px</strong>, justificado y con el espaciado establecido. Utilice la barra de edición para aplicar negrita, cursiva, listas o tamaños especiales. Para un título dentro del texto, utilice <strong>24 px y negrita</strong>.
+        </p>
+        <p style={{ marginBottom: 0 }}>
+          Utilice <strong>Guardar borrador</strong> para conservar su avance. Envíe el análisis a revisión únicamente cuando esté finalizado; mientras se encuentre en revisión no podrá editarlo hasta que exista una resolución.
+        </p>
       </div>
 
       {trabajoId && (
@@ -697,7 +832,7 @@ export default function TrabajoUnidad1Page() {
           list="temas-sugeridos-inv"
           value={tema}
           disabled={!puedeEditar}
-          onChange={(e) => setTema(e.target.value)}
+          onChange={(e) => { setTema(e.target.value); if (firmaRevisionLista) setFirmaRevisionLista(""); }}
           placeholder="Seleccione una sugerencia o escriba un tema propio"
           style={{
             width: "100%",
@@ -733,9 +868,10 @@ export default function TrabajoUnidad1Page() {
           type="text"
           value={titulo}
           disabled={!puedeEditar}
-          onChange={(e) =>
-            setTitulo(e.target.value)
-          }
+          onChange={(e) => {
+            setTitulo(e.target.value);
+            if (firmaRevisionLista) setFirmaRevisionLista("");
+          }}
           placeholder="Ingrese el título de su análisis breve"
           style={{
             width: "100%",
@@ -860,68 +996,84 @@ export default function TrabajoUnidad1Page() {
           <strong>Contenido del análisis breve *</strong>
         </label>
 
-        {puedeEditar && (
-          <div
-            style={{
-              display: "flex",
-              gap: "0.5rem",
-              marginTop: "0.5rem",
-              flexWrap: "wrap",
-            }}
-          >
-            <button
-              type="button"
-              onClick={() =>
-                insertarFormato("**", "**")
-              }
+        <div
+          style={{
+            marginTop: "0.5rem",
+            border: "1px solid #aaa",
+            borderRadius: "8px",
+            overflow: "hidden",
+            background: "white",
+          }}
+        >
+          {puedeEditar && (
+            <div
+              style={{
+                display: "flex",
+                gap: "0.35rem",
+                flexWrap: "wrap",
+                padding: "0.5rem",
+                background: "#eee9df",
+                borderBottom: "1px solid #aaa",
+                position: "relative",
+                zIndex: 2,
+                boxShadow: "0 2px 5px rgba(0,0,0,0.06)",
+              }}
             >
-              Negrita
-            </button>
+              <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => ejecutarComando("bold")} style={{ fontWeight: 800 }}>B</button>
+              <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => ejecutarComando("italic")} style={{ fontStyle: "italic" }}>I</button>
+              <select
+                defaultValue=""
+                onMouseDown={() => guardarRango()}
+                onChange={(e) => { aplicarTamanoFuente(e.target.value); e.currentTarget.value = ""; }}
+                aria-label="Tamaño de fuente"
+              >
+                <option value="" disabled>Tamaño de fuente</option>
+                <option value="18px">18 px — texto normal</option>
+                <option value="24px">24 px — título</option>
+              </select>
+              <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => ejecutarComando("insertUnorderedList")}>• Lista</button>
+              <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => ejecutarComando("insertOrderedList")}>1. Lista</button>
+            </div>
+          )}
 
-            <button
-              type="button"
-              onClick={() =>
-                insertarFormato("*", "*")
-              }
-            >
-              Cursiva
-            </button>
+        <style jsx>{`
+          .editor-inv { text-align: justify; }
+          .editor-inv :global(p), .editor-inv :global(div), .editor-inv :global(li), .editor-inv :global(blockquote) { text-align: justify !important; }
+          .editor-inv :global(p) { margin: 0 0 1rem 0; }
+          .editor-inv :global(ul), .editor-inv :global(ol) { margin: 0 0 1rem 1.5rem; }
+          .editor-inv :global(strong), .editor-inv :global(b) { font-weight: 700; }
+        `}</style>
 
-            <button
-              type="button"
-              onClick={() =>
-                insertarFormato("- ")
-              }
-            >
-              Viñeta
-            </button>
-
-            <button
-              type="button"
-              onClick={() =>
-                insertarFormato("1. ")
-              }
-            >
-              Lista numerada
-            </button>
-          </div>
-        )}
-
-        <textarea
+        <div
           id="contenido-ensayo"
-          value={contenido}
-          disabled={!puedeEditar}
-          onChange={(e) =>
-            setContenido(e.target.value)
-          }
-          placeholder="Redacte aquí su análisis breve..."
-          rows={18}
+          ref={editorRef}
+          className="editor-inv"
+          contentEditable={puedeEditar}
+          suppressContentEditableWarning
+          onInput={sincronizarEditor}
+          onPaste={puedeEditar ? manejarPegado : undefined}
+          onMouseUp={guardarRango}
+          onKeyUp={guardarRango}
+          onBlur={sincronizarEditor}
           style={{
             width: "100%",
+            boxSizing: "border-box",
+            height: "62vh",
+            minHeight: "420px",
+            maxHeight: "720px",
+            overflowY: "auto",
             padding: "1rem",
-            marginTop: "0.5rem",
+            lineHeight: 1.85,
+            border: "none",
+            borderRadius: 0,
+            fontFamily: '"Times New Roman", Times, serif',
+            fontSize: "18px",
+            background: puedeEditar ? "white" : "#f7f7f7",
+            outline: "none",
+            textAlign: "justify",
           }}
         />
+        </div>
 
         <div
           style={{
@@ -938,6 +1090,56 @@ export default function TrabajoUnidad1Page() {
           {caracteres.toLocaleString()} /{" "}
           {REGLA_UNIDAD.caracteresMinimos.toLocaleString("es-GT")} caracteres mínimos
         </div>
+
+        {errorRevisionPreliminar && (
+          <div style={{ marginTop: "1rem", padding: "1rem", border: "1px solid #d8b4a0", borderRadius: "10px", background: "#fff5f0", lineHeight: 1.7 }}>
+            {errorRevisionPreliminar}
+          </div>
+        )}
+
+        {revisionPreliminar && (
+          <div style={{ marginTop: "1.25rem", padding: "1.25rem", border: "1px solid #b9cfc5", borderRadius: "10px", background: "#f4faf7", lineHeight: 1.75 }}>
+            <h3 style={{ marginTop: 0 }}>Revisión preliminar del trabajo</h3>
+            <p>{revisionPreliminar.sintesis}</p>
+            <p><strong>Cumplimiento de la consigna:</strong> {revisionPreliminar.cumplimientoConsigna}</p>
+            <p><strong>Estructura y argumentación:</strong> {revisionPreliminar.estructuraArgumentacion}</p>
+            <p><strong>Fuentes y evidencias:</strong> {revisionPreliminar.fuentesEvidencias}</p>
+            <p><strong>Precisión conceptual:</strong> {revisionPreliminar.precisionConceptual}</p>
+
+            {Array.isArray(revisionPreliminar.aspectosFortalecer) && revisionPreliminar.aspectosFortalecer.length > 0 && (
+              <>
+                <strong>Aspectos que conviene fortalecer:</strong>
+                <ul>{revisionPreliminar.aspectosFortalecer.map((item: string, i: number) => <li key={`fortalecer-${i}`}>{item}</li>)}</ul>
+              </>
+            )}
+
+            {Array.isArray(revisionPreliminar.afirmacionesRequierenRespaldo) && revisionPreliminar.afirmacionesRequierenRespaldo.length > 0 && (
+              <>
+                <strong>Afirmaciones que requieren respaldo o verificación:</strong>
+                <ul>{revisionPreliminar.afirmacionesRequierenRespaldo.map((item: string, i: number) => <li key={`respaldo-${i}`}>{item}</li>)}</ul>
+              </>
+            )}
+
+            <div style={{ marginTop: "1rem", padding: "0.9rem", borderRadius: "8px", background: revisionPreliminar.estado === "LISTO_PARA_REMITIR" ? "#e8f5e9" : "#fff8e5" }}>
+              <strong>Conclusión de la revisión:</strong> {revisionPreliminar.recomendacionFinal}
+            </div>
+
+            {revisionPreliminar.estado === "REQUIERE_AJUSTES" && (
+              <p style={{ marginBottom: 0, fontWeight: 600 }}>
+                Aplique los cambios sugeridos, guarde el borrador y vuelva a solicitar la revisión preliminar. Puede repetir este proceso tantas veces como sea necesario hasta que el trabajo reúna los elementos necesarios para ser remitido al Consejo Académico.
+              </p>
+            )}
+
+            {revisionListaVigente && (
+              <p style={{ marginBottom: 0, fontWeight: 700, color: "#355f52" }}>
+                Ya puede solicitar el aval del Consejo Académico.
+              </p>
+            )}
+            <p style={{ marginBottom: 0, marginTop: "0.8rem", fontSize: "0.92rem", color: "#555" }}>
+              Esta revisión tiene carácter orientativo. La valoración y resolución académica final corresponden exclusivamente al Consejo Académico.
+            </p>
+          </div>
+        )}
 
         {puedeEditar && (
           <div
@@ -962,27 +1164,41 @@ export default function TrabajoUnidad1Page() {
 
             <button
               type="button"
-              disabled={guardando}
-              onClick={() =>
-                guardarTrabajo(true)
-              }
+              disabled={guardando || revisandoPreliminar}
+              onClick={solicitarRevisionPreliminar}
               style={{
-                background: "#6b6f1a",
+                background: "#355f52",
                 color: "white",
                 border: 0,
                 padding: "0.75rem 1rem",
                 borderRadius: "8px",
-                cursor: guardando
-                  ? "wait"
-                  : "pointer",
+                cursor: guardando || revisandoPreliminar ? "wait" : "pointer",
               }}
             >
-              Enviar análisis breve a revisión
+              {revisandoPreliminar ? "Realizando revisión..." : "Solicitar revisión preliminar"}
             </button>
+
+            {revisionListaVigente && (
+              <button
+                type="button"
+                disabled={guardando || revisandoPreliminar}
+                onClick={() => guardarTrabajo(true)}
+                style={{
+                  background: "#6b6f1a",
+                  color: "white",
+                  border: 0,
+                  padding: "0.75rem 1rem",
+                  borderRadius: "8px",
+                  cursor: guardando || revisandoPreliminar ? "wait" : "pointer",
+                }}
+              >
+                Solicitar aval del Consejo Académico
+              </button>
+            )}
           </div>
         )}
 
       </div>
     </div>
   );
-} 
+}
