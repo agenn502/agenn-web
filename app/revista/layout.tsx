@@ -1,5 +1,4 @@
-import type { Metadata 
-} from "next";
+import type { Metadata } from "next";
 import RevistaHeader from "../../components/revista/RevistaHeader";
 import Footer from "../../components/Footer";
 
@@ -10,16 +9,6 @@ export const metadata: Metadata = {
   },
   description:
     "Publicación académica de la Academia Guatemalteca de Estudios Numismáticos y Notafílicos.",
-	
-	robots: {
-    index: false,
-    follow: false,
-    googleBot: {
-      index: false,
-      follow: false,
-      noimageindex: true,
-	 },  
-	 }, 
 };
 
 export default function RevistaLayout({

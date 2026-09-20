@@ -650,16 +650,37 @@ export async function PATCH(
 
         // Cada imagen copiada recibe un ID nuevo. Reemplazamos en el
         // contenido los marcadores antiguos por los IDs de la nueva versión.
-        const anteriores = imagenesPrevias || [];
-        const nuevas = imagenesNuevas || [];
+        // Relacionamos las imagenes por "orden" y actualizamos las DOS
+        // referencias que usa el contenido enriquecido.
+        const anteriores = [...(imagenesPrevias || [])].sort(
+          (a: any, b: any) => Number(a.orden || 0) - Number(b.orden || 0),
+        );
+        const nuevas = [...(imagenesNuevas || [])].sort(
+          (a: any, b: any) => Number(a.orden || 0) - Number(b.orden || 0),
+        );
 
-        anteriores.forEach((anterior: any, index: number) => {
-          const nueva = nuevas[index];
+        anteriores.forEach((anterior: any) => {
+          const nueva = nuevas.find(
+            (imagen: any) =>
+              Number(imagen.orden || 0) === Number(anterior.orden || 0),
+          );
+
           if (!nueva) return;
 
           contenidoRemapeado = contenidoRemapeado.replaceAll(
             `[[IMAGEN:${anterior.id}]]`,
             `[[IMAGEN:${nueva.id}]]`,
+          );
+
+          const patronDataId = new RegExp(
+            `data-agenn-imagen-id=(["'])${anterior.id}\\1`,
+            "g",
+          );
+
+          contenidoRemapeado = contenidoRemapeado.replace(
+            patronDataId,
+            (_coincidencia, comilla: string) =>
+              `data-agenn-imagen-id=${comilla}${nueva.id}${comilla}`,
           );
         });
 
