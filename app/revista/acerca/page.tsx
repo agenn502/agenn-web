@@ -113,6 +113,25 @@ export default function AcercaRevistaPage() {
             </p>
           </div>
         </section>
+		
+		        <section className={styles.bloque}>
+          <div className={styles.numero}>IV</div>
+          <div>
+            <h2>Consejo Editorial</h2>
+            <p>
+              El Consejo Editorial de Revista AGENN está integrado por miembros
+              de la Academia responsables de acompañar el proceso editorial,
+              valorar los trabajos y velar por la calidad e integridad de la
+              publicación.
+            </p>
+
+            <ul>
+              <li>Luis Alberto Rodríguez</li>
+              <li>Manfred Morales Osterberg</li>
+              <li>Gerónimo E. Pérez Irungaray</li>
+            </ul>
+          </div>
+        </section>
 
         <section className={styles.cierre}>
           <p className={styles.lema}>

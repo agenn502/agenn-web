@@ -290,22 +290,23 @@ p {
 /* ===== MÓVIL ===== */
 @media (max-width: 768px) {
   .site-header-custom {
-    padding: 1rem 0;
+    padding: 0.8rem 0;
   }
 
   .header-inner {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 0.6rem;
+    justify-content: space-between;
+    gap: 1rem;
   }
 
   .brand-link {
-    flex-direction: column;
-    gap: 0.2rem;
+    flex-direction: row;
+    gap: 0.6rem;
   }
 
   .brand-logo {
-    width: 100px;
+    width: 64px;
   }
 
   .brand-name {
@@ -314,45 +315,63 @@ p {
 
   .hamburger-button {
     display: flex;
+    flex: 0 0 auto;
   }
 
+  /* El menú normal de escritorio desaparece en móvil */
   .desktop-nav {
     display: none;
-    width: 100%;
   }
 
-  .desktop-nav.mobile-open {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    right: 0;
+  /*
+   * Panel móvil independiente.
+   * No depende del container ni del nav de escritorio.
+   */
+  .mobile-nav-panel {
+    position: fixed;
+    top: 90px;
+    left: 4%;
+    right: 4%;
+    bottom: 12px;
+
+    display: block;
+
     background-color: #4f5f2f;
     border: 1px solid #3e4b24;
     border-radius: 10px;
-    max-height: calc(100vh - 13rem);
-    max-height: calc(100dvh - 13rem);
-    padding-bottom: env(safe-area-inset-bottom, 0);
-    overflow-x: hidden;
+
     overflow-y: auto;
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    touch-action: pan-y;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
-    z-index: 1001;
+    overflow-x: hidden;
+
+    padding: 0;
+    margin: 0;
+
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+    z-index: 2000;
   }
 
-  .desktop-nav.mobile-open .header-link {
+  .mobile-nav-link {
     display: block;
-    flex: 0 0 auto;
+    width: 100%;
+
+    margin: 0;
+    padding: 1rem 1.2rem;
+
+    color: white;
     text-align: center;
-    padding: 0.9rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+    white-space: normal;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   }
 
-  .desktop-nav.mobile-open .header-link:last-child {
+  .mobile-nav-link:hover {
+    color: white;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .mobile-nav-link:last-child {
     border-bottom: none;
   }
 }

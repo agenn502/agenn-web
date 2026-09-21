@@ -78,7 +78,10 @@ export default async function NumerosPublicadosPage() {
     .order("numero", { ascending: false });
 
   if (error) {
-    console.error("Error al cargar números públicos:", error);
+    console.error(
+	  "Error al cargar números públicos:",
+	  JSON.stringify(error, null, 2),
+	);
 
     return (
       <div className={styles.pagina}>
