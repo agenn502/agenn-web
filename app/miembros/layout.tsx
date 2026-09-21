@@ -166,31 +166,37 @@ export default function MiembrosLayout({
         }
       }
 
-      // -------------------------------------------------------
+            // -------------------------------------------------------
       // CONTADOR DE PENDIENTES DEL CONSEJO EDITORIAL
       // -------------------------------------------------------
 
-      try {
-        const response = await fetch("/api/revista/editorial", {
-          headers: { "x-user-codigo": parsed.codigo },
-          cache: "no-store",
-        });
+      if (consejoNormalizado) {
+        try {
+          const response = await fetch("/api/revista/editorial", {
+            headers: { "x-user-codigo": parsed.codigo },
+            cache: "no-store",
+          });
 
-        if (response.ok) {
-          const result = await response.json();
-          if (result?.ok) {
-            const requierenAtencion = (result.manuscritos || []).filter(
-              (m: any) =>
-                ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(
-                  String(m.estado || "").trim().toUpperCase()
-                )
-            );
-            setPendientesEditoriales(requierenAtencion.length);
+          if (response.ok) {
+            const result = await response.json();
+
+            if (result?.ok) {
+              const requierenAtencion = (result.manuscritos || []).filter(
+                (m: any) =>
+                  ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(
+                    String(m.estado || "").trim().toUpperCase()
+                  )
+              );
+
+              setPendientesEditoriales(requierenAtencion.length);
+            }
+          } else {
+            setPendientesEditoriales(0);
           }
-        } else if (response.status !== 403) {
+        } catch {
           setPendientesEditoriales(0);
         }
-      } catch {
+      } else {
         setPendientesEditoriales(0);
       }
 

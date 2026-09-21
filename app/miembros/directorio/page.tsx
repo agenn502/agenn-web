@@ -327,21 +327,58 @@ export default function DirectorioPage() {
                     background: "#f3f3f3",
                   }}
                 >
-                  <img
-                    src={
-                      miembro.foto_url ||
-                      "/placeholder-miembro.jpg"
-                    }
-                    alt={miembro.nombre}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "contain",
-                    }}
-                  />
+                  {miembro.foto_url ? (
+                    <img
+                      src={miembro.foto_url}
+                      alt={miembro.nombre}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain",
+                      }}
+                    />
+                  ) : (
+                    <div
+                      aria-label={`Sin fotografía de ${miembro.nombre}`}
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        background: "#ece8df",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "46%",
+                          aspectRatio: "1 / 1",
+                          borderRadius: "50%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          background: "#6f8760",
+                          color: "#fff",
+                          fontSize: "clamp(1.4rem, 4vw, 2.5rem)",
+                          fontWeight: 700,
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+                        }}
+                      >
+                        {miembro.nombre
+                          .trim()
+                          .split(/\s+/)
+                          .filter(Boolean)
+                          .slice(0, 2)
+                          .map((parte) => parte.charAt(0))
+                          .join("")}
+                      </div>
+                    </div>
+                  )}
 
                   <img
                     src="/marcos/marco-miembro.png"

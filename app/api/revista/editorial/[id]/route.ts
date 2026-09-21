@@ -185,19 +185,49 @@ export async function GET(
       throw new Error(versionesError.message);
     }
 
-    // Imágenes del manuscrito. El contenido puede conservar marcadores con
-    // identificadores creados en versiones anteriores; la vista insertará
-    // únicamente las imágenes que realmente estén citadas en el texto actual.
+    // Imágenes de la versión vigente.
+    //
+    // No devolvemos indiscriminadamente todas las imágenes históricas del
+    // manuscrito porque varias versiones pueden apuntar al mismo archivo/URL.
+    // El editor identifica una figura por su URL; si recibe todas las copias,
+    // Array.find() puede elegir el ID más antiguo (por ejemplo, 10 en lugar de
+    // 76) y volver a grabarlo en el contenido de una nueva versión.
     const versionActual = (versiones || [])[0] || null;
 
     let imagenes: any[] = [];
 
     if (versionActual?.id) {
-      const { data, error } = await supabaseServer
+      const contenidoVersionActual = String(versionActual.contenido || "");
+      const idsImagenesActuales = new Set<number>();
+
+      for (const coincidencia of contenidoVersionActual.matchAll(
+        /\[\[IMAGEN:(\d+)\]\]/g,
+      )) {
+        idsImagenesActuales.add(Number(coincidencia[1]));
+      }
+
+      for (const coincidencia of contenidoVersionActual.matchAll(
+        /data-agenn-imagen-id=["'](\d+)["']/g,
+      )) {
+        idsImagenesActuales.add(Number(coincidencia[1]));
+      }
+
+      let consultaImagenes = supabaseServer
         .from("manuscrito_imagenes")
         .select("id,version_id,url,titulo,fuente,orden")
-        .eq("manuscrito_id", id)
-        .order("orden", { ascending: true });
+        .eq("manuscrito_id", id);
+
+      if (idsImagenesActuales.size > 0) {
+        // La fuente de verdad son los IDs realmente citados por la versión.
+        consultaImagenes = consultaImagenes.in("id", [...idsImagenesActuales]);
+      } else {
+        // Compatibilidad con versiones antiguas sin marcadores explícitos.
+        consultaImagenes = consultaImagenes.eq("version_id", versionActual.id);
+      }
+
+      const { data, error } = await consultaImagenes.order("orden", {
+        ascending: true,
+      });
 
       if (error) {
         throw new Error(error.message);
@@ -613,16 +643,53 @@ export async function PATCH(
         throw new Error(nuevaVersionError.message);
       }
 
-      // Copiar las imágenes de la versión anterior a la nueva versión.
-      const { data: imagenesPrevias, error: imagenesPreviasError } =
-        await supabaseServer
+      // Copiar a la nueva versión las imágenes que el contenido realmente cita.
+      // IMPORTANTE: no dependemos únicamente de version_id. Una edición anterior
+      // puede conservar en el HTML el ID de una imagen creada en una versión más
+      // antigua. En ese caso, buscar solo por versionActual.id deja la nueva
+      // versión sin imagen y produce el mensaje "Imagen editorial no disponible".
+      const idsImagenesCitadas = new Set<number>();
+
+      for (const coincidencia of contenido.matchAll(/\[\[IMAGEN:(\d+)\]\]/g)) {
+        idsImagenesCitadas.add(Number(coincidencia[1]));
+      }
+
+      for (const coincidencia of contenido.matchAll(
+        /data-agenn-imagen-id=["'](\d+)["']/g,
+      )) {
+        idsImagenesCitadas.add(Number(coincidencia[1]));
+      }
+
+      let imagenesPrevias: any[] = [];
+
+      if (idsImagenesCitadas.size > 0) {
+        const { data, error } = await supabaseServer
           .from("manuscrito_imagenes")
           .select("id,storage_path,url,titulo,fuente,orden")
+          .eq("manuscrito_id", id)
+          .in("id", [...idsImagenesCitadas])
+          .order("orden", { ascending: true });
+
+        if (error) {
+          throw new Error(error.message);
+        }
+
+        imagenesPrevias = data || [];
+      } else {
+        // Compatibilidad con manuscritos antiguos cuyo contenido no conserva
+        // todavía un marcador explícito, pero sí tiene imágenes en la versión.
+        const { data, error } = await supabaseServer
+          .from("manuscrito_imagenes")
+          .select("id,storage_path,url,titulo,fuente,orden")
+          .eq("manuscrito_id", id)
           .eq("version_id", versionActual.id)
           .order("orden", { ascending: true });
 
-      if (imagenesPreviasError) {
-        throw new Error(imagenesPreviasError.message);
+        if (error) {
+          throw new Error(error.message);
+        }
+
+        imagenesPrevias = data || [];
       }
 
       let contenidoRemapeado = contenido;

@@ -78,7 +78,7 @@ export default function RevistaHeader() {
 
         <div className={styles.globoContenedor} aria-hidden="true">
           <Image
-            src="/globe.svg"
+            src="/1q.webp"
             alt=""
             width={360}
             height={360}
