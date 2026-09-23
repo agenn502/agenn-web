@@ -33,6 +33,7 @@ type Revista = {
   portada_url: string | null;
   estado: string;
   fecha_publicacion: string | null;
+  slug: string | null;
 };
 
 export default function RevistaAgennPage() {
@@ -197,33 +198,40 @@ export default function RevistaAgennPage() {
 
       // =====================================================
       // NÚMEROS DE REVISTA
+      // Se consultan mediante la API del servidor para evitar RLS.
       // =====================================================
 
-      const { data: revistasData, error: revistasError } = await supabase
-        .from("revistas")
-        .select(
-          `
-            id,
-            numero,
-            anio,
-            titulo,
-            subtitulo,
-            portada_url,
-            estado,
-            fecha_publicacion
-            `,
-        )
-        .order("anio", { ascending: false })
-        .order("numero", { ascending: false });
+      try {
+        const numerosResponse = await fetch("/api/revista/numeros", {
+          headers: { "x-user-codigo": codigo },
+          cache: "no-store",
+        });
 
-      if (revistasError) {
-        console.error(
-          "Error cargando números de Revista AGENN:",
-          revistasError,
-        );
+        const numerosTexto = await numerosResponse.text();
+        let numerosResult: any = null;
+
+        try {
+          numerosResult = numerosTexto ? JSON.parse(numerosTexto) : null;
+        } catch {
+          console.error(
+            "La API de números de revista devolvió una respuesta no válida.",
+          );
+        }
+
+        if (numerosResponse.ok && numerosResult?.ok) {
+          setRevistas((numerosResult.numeros || []) as Revista[]);
+        } else {
+          console.error(
+            "Error cargando números de Revista AGENN:",
+            numerosResult?.error || `HTTP ${numerosResponse.status}`,
+          );
+          setRevistas([]);
+        }
+      } catch (error) {
+        console.error("Error consultando números de Revista AGENN:", error);
+        setRevistas([]);
       }
 
-      setRevistas((revistasData || []) as Revista[]);
       setLoading(false);
     };
 
@@ -252,11 +260,13 @@ export default function RevistaAgennPage() {
   const puedeAdministrarCE = ce?.rol === "DIRECTOR" || ce?.rol === "EDITOR";
 
   const revistasPublicadas = revistas.filter(
-    (revista) => revista.estado === "PUBLICADA",
+    (revista) =>
+      String(revista.estado || "").trim().toUpperCase() === "PUBLICADA",
   );
 
   const revistasEnPreparacion = revistas.filter(
-    (revista) => revista.estado !== "PUBLICADA",
+    (revista) =>
+      String(revista.estado || "").trim().toUpperCase() !== "PUBLICADA",
   );
 
   return (
@@ -354,7 +364,11 @@ export default function RevistaAgennPage() {
             {revistasPublicadas.map((revista) => (
               <Link
                 key={revista.id}
-                href={`/revista/${revista.anio}/${revista.numero}`}
+                href={
+                  revista.slug
+                    ? `/revista/numeros/${revista.slug}`
+                    : `/revista/${revista.anio}/${revista.numero}`
+                }
                 style={{
                   display: "block",
                   border: "1px solid #ddd4c7",

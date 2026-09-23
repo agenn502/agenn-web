@@ -46,16 +46,30 @@ async function obtenerMiembroCE(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    const solicitante =
-      await obtenerMiembroCE(request);
+    const codigo = String(request.headers.get("x-user-codigo") || "")
+      .trim()
+      .toUpperCase();
 
-    if (!solicitante) {
+    if (!codigo) {
       return NextResponse.json(
-        {
-          ok: false,
-          error:
-            "No tiene autorización para administrar Revista AGENN.",
-        },
+        { ok: false, error: "Usuario no identificado." },
+        { status: 401 }
+      );
+    }
+
+    const { data: miembro, error: miembroError } = await supabaseServer
+      .from("miembros")
+      .select("id,codigo,nombre,nivel")
+      .eq("codigo", codigo)
+      .maybeSingle();
+
+    if (miembroError) {
+      throw new Error(miembroError.message);
+    }
+
+    if (!miembro) {
+      return NextResponse.json(
+        { ok: false, error: "Miembro no encontrado." },
         { status: 403 }
       );
     }
@@ -93,13 +107,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       ok: true,
       numeros: numeros || [],
-      consejo_editorial: {
-        codigo:
-          solicitante.miembro.codigo,
-        nombre:
-          solicitante.miembro.nombre,
-        rol: solicitante.ce.rol,
-      },
     });
   } catch (error) {
     console.error(
