@@ -196,6 +196,25 @@ function fechaPublicacion(valor: string | null) {
   }
 }
 
+
+function resumenEditorial(html: string, maxCaracteres = 520) {
+  const texto = html
+    .replace(/<br\s*\/?>/gi, " ")
+    .replace(/<\/p>/gi, " ")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (texto.length <= maxCaracteres) return texto;
+
+  const corte = texto.lastIndexOf(" ", maxCaracteres);
+  return `${texto.slice(0, corte > 0 ? corte : maxCaracteres).trim()}…`;
+}
+
 function tipoContenidoTexto(tipo: string) {
   const etiquetas: Record<string, string> = {
     ENSAYO: "Ensayo",
@@ -283,14 +302,22 @@ export default async function NumeroPublicadoPage({
         <section className={styles.editorial}>
           <p className={styles.rotulo}>Presentación del número</p>
           <h2>Editorial</h2>
-          <div
-			  style={{
-				textAlign: "justify",
-				overflowWrap: "anywhere",
-				wordBreak: "break-word",
-			  }}
-			  dangerouslySetInnerHTML={{ __html: numero.editorial }}
-			/>
+
+          <p
+            style={{
+              textAlign: "justify",
+              overflowWrap: "anywhere",
+              wordBreak: "break-word",
+            }}
+          >
+            {resumenEditorial(numero.editorial)}
+          </p>
+
+          <p style={{ marginTop: "1rem" }}>
+            <Link href={`/revista/numeros/${numero.slug}/editorial`}>
+              Leer editorial completo →
+            </Link>
+          </p>
         </section>
       )}
 
