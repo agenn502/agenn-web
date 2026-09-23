@@ -178,10 +178,18 @@ function fechaPublicacion(valor: string | null) {
   if (!valor) return null;
 
   try {
+    const fechaSolo = valor.match(/^(\\d{4})-(\\d{2})-(\\d{2})/);
+
+    if (fechaSolo) {
+      const [, anio, mes, dia] = fechaSolo;
+      return `${Number(dia)} de ${MESES[Number(mes) - 1]} de ${anio}`;
+    }
+
     return new Intl.DateTimeFormat("es-GT", {
       day: "numeric",
       month: "long",
       year: "numeric",
+      timeZone: "America/Guatemala",
     }).format(new Date(valor));
   } catch {
     return null;
@@ -275,7 +283,14 @@ export default async function NumeroPublicadoPage({
         <section className={styles.editorial}>
           <p className={styles.rotulo}>Presentación del número</p>
           <h2>Editorial</h2>
-          <div>{numero.editorial}</div>
+          <div
+			  style={{
+				textAlign: "justify",
+				overflowWrap: "anywhere",
+				wordBreak: "break-word",
+			  }}
+			  dangerouslySetInnerHTML={{ __html: numero.editorial }}
+			/>
         </section>
       )}
 
