@@ -133,6 +133,46 @@ export default function AcercaRevistaPage() {
           </div>
         </section>
 
+        <section className={styles.bloque}>
+          <div className={styles.numero}>V</div>
+          <div>
+            <h2>Entidad editora</h2>
+            <p>
+              Revista AGENN es editada por la Academia Guatemalteca de Estudios
+              Numismáticos y Notafílicos (AGENN).
+            </p>
+            <p>
+              <strong>Domicilio editorial:</strong><br />
+              Calle Principal No. 8, Colonia Santiago de los Caballeros, zona 0<br />
+              Antigua Guatemala, Sacatepéquez, Guatemala<br />
+              C. P. 03001
+            </p>
+            <p><strong>Lugar de publicación:</strong> Antigua Guatemala, Guatemala.</p>
+          </div>
+        </section>
+
+        <section className={styles.bloque}>
+          <div className={styles.numero}>VI</div>
+          <div>
+            <h2>Acceso abierto y derechos de autor</h2>
+            <p>
+              Revista AGENN proporciona acceso abierto a sus contenidos. Los
+              autores conservan los derechos de autor de sus trabajos y conceden
+              a Revista AGENN el derecho de primera publicación.
+            </p>
+            <p>
+              Salvo indicación en contrario, los textos originales publicados
+              por la revista se distribuyen bajo la licencia Creative Commons
+              Atribución 4.0 Internacional (CC BY 4.0).
+            </p>
+            <p>
+              <Link href="/revista/normas">
+                Consultar la política de acceso abierto, derechos de autor y licencias
+              </Link>
+            </p>
+          </div>
+        </section>
+
         <section className={styles.cierre}>
           <p className={styles.lema}>
             Scientia · Traditio · Memoria

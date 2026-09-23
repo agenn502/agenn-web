@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { cache } from "react";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { supabaseServer } from "@/lib/supabaseServer";
 import styles from "./page.module.css";
 
@@ -39,6 +39,31 @@ type ArticuloPublico = {
   autor_corporativo: string | null;
   autor: Autor | null;
 };
+
+const obtenerNumeroPorId = cache(async (id: number): Promise<Numero | null> => {
+  const { data, error } = await supabaseServer
+    .from("revistas")
+    .select(
+      `
+      id,
+      volumen,
+      numero,
+      anio,
+      mes_publicacion,
+      titulo,
+      subtitulo,
+      editorial,
+      fecha_publicacion,
+      slug
+    `,
+    )
+    .eq("id", id)
+    .eq("estado", "PUBLICADA")
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  return data as Numero | null;
+});
 
 const obtenerNumero = cache(async (slug: string): Promise<Numero | null> => {
   const { data, error } = await supabaseServer
@@ -256,6 +281,18 @@ export default async function NumeroPublicadoPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+
+  // Compatibilidad con enlaces antiguos como /revista/numeros/1.
+  // Los segmentos exclusivamente numéricos se interpretan como el ID
+  // histórico del número y se redirigen a su URL canónica.
+  if (/^\\d+$/.test(slug)) {
+    const numeroPorId = await obtenerNumeroPorId(Number(slug));
+
+    if (!numeroPorId) notFound();
+
+    permanentRedirect(`/revista/numeros/${numeroPorId.slug}`);
+  }
+
   const numero = await obtenerNumero(slug);
 
   if (!numero) notFound();

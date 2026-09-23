@@ -619,6 +619,51 @@ export default async function ArticuloPublicoPage({
         )}
       </article>
 
+      <aside
+        style={{
+          marginTop: "2rem",
+          paddingTop: "1.25rem",
+          borderTop: "1px solid rgba(0,0,0,0.16)",
+          fontSize: "0.92rem",
+          lineHeight: 1.65,
+          textAlign: "justify",
+          overflowWrap: "anywhere",
+          wordBreak: "break-word",
+        }}
+        aria-label="Derechos de autor y licencia"
+      >
+        <p style={{ margin: "0 0 0.45rem" }}>
+          <strong>© {publicacion.numero.anio} {autorVisible}.</strong> El autor
+          conserva los derechos de autor de este trabajo.
+        </p>
+        <p style={{ margin: "0 0 0.45rem" }}>
+          Salvo indicación en contrario, el texto original de este trabajo se
+          distribuye bajo la licencia{" "}
+          <a
+            href="https://creativecommons.org/licenses/by/4.0/deed.es"
+            target="_blank"
+            rel="noopener noreferrer license"
+          >
+            Creative Commons Atribución 4.0 Internacional (CC BY 4.0)
+          </a>.
+        </p>
+        <p style={{ margin: "0 0 0.45rem" }}>
+          Esta licencia permite compartir y adaptar el contenido, incluso con
+          fines comerciales, siempre que se reconozca adecuadamente la autoría,
+          se cite la publicación original, se incluya un enlace a la licencia y
+          se indique si se realizaron cambios.
+        </p>
+        <p style={{ margin: 0 }}>
+          Las imágenes, reproducciones de piezas, documentos y demás materiales
+          de terceros conservan los derechos o condiciones de uso indicados en
+          sus respectivas fuentes y no quedan comprendidos automáticamente en
+          esta licencia.{" "}
+          <Link href="/revista/normas">
+            Política de acceso abierto y derechos de autor
+          </Link>.
+        </p>
+      </aside>
+
       {publicacion.manuscrito.mostrar_referencia && (
         <aside className={styles.cita}>
           <h2>Cómo citar este artículo (APA 7.ª ed.)</h2>
