@@ -289,7 +289,31 @@ function renderInline(texto: string): ReactNode[] {
       return <em key={indice}>{parte.slice(1, -1)}</em>;
     }
 
-    return <span key={indice}>{parte}</span>;
+    const segmentos = parte.split(/(https?:\/\/[^\s<]+|www\.[^\s<]+)/gi).filter(Boolean);
+
+    return (
+      <span key={indice}>
+        {segmentos.map((segmento, subindice) => {
+          if (!/^(https?:\/\/|www\.)/i.test(segmento)) {
+            return <span key={subindice}>{segmento}</span>;
+          }
+
+          const coincidencia = segmento.match(/^(.*?)([.,;:!?)]*)$/);
+          const url = coincidencia?.[1] || segmento;
+          const puntuacion = coincidencia?.[2] || "";
+          const href = url.toLowerCase().startsWith("www.") ? `https://${url}` : url;
+
+          return (
+            <span key={subindice}>
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                {url}
+              </a>
+              {puntuacion}
+            </span>
+          );
+        })}
+      </span>
+    );
   });
 }
 
@@ -372,7 +396,31 @@ function htmlEnriquecidoConImagenes(contenido: string, imagenes: Imagen[]) {
     },
   );
 
-  return eliminarBloquesVaciosTrasFiguras(htmlConImagenes);
+  const htmlConEnlaces = htmlConImagenes.replace(
+    /(^|>)([^<]+)(?=<|$)/g,
+    (fragmentoCompleto, prefijo: string, texto: string, offset: number, cadenaCompleta: string) => {
+      const antes = cadenaCompleta.slice(0, offset + prefijo.length);
+      const aperturaEnlace = antes.lastIndexOf("<a");
+      const cierreEnlace = antes.lastIndexOf("</a>");
+
+      if (aperturaEnlace > cierreEnlace) return fragmentoCompleto;
+
+      const convertido = texto.replace(
+        /(https?:\/\/[^\s<]+|www\.[^\s<]+)/gi,
+        (urlCompleta: string) => {
+          const coincidencia = urlCompleta.match(/^(.*?)([.,;:!?)]*)$/);
+          const url = coincidencia?.[1] || urlCompleta;
+          const puntuacion = coincidencia?.[2] || "";
+          const href = url.toLowerCase().startsWith("www.") ? `https://${url}` : url;
+          return `<a href="${escaparHtml(href)}" target="_blank" rel="noopener noreferrer">${url}</a>${puntuacion}`;
+        },
+      );
+
+      return `${prefijo}${convertido}`;
+    },
+  );
+
+  return eliminarBloquesVaciosTrasFiguras(htmlConEnlaces);
 }
 
 function contenidoConImagenes(contenido: string, imagenes: Imagen[]) {

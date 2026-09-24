@@ -322,3 +322,47 @@
     line-height: 1.25;
   }
 }
+
+/* Protección responsive para contenido editorial y URLs largas */
+.pagina,
+.encabezado,
+.contenido,
+.htmlEnriquecido,
+.cita {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.contenido *,
+.htmlEnriquecido *,
+.cita * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.contenido a,
+.htmlEnriquecido a,
+.cita a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.contenido img,
+.htmlEnriquecido img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 650px) {
+  .contenido,
+  .contenido p,
+  .contenido li,
+  .contenido blockquote,
+  .htmlEnriquecido,
+  .htmlEnriquecido p,
+  .htmlEnriquecido li,
+  .htmlEnriquecido blockquote {
+    text-align: justify !important;
+  }
+}
