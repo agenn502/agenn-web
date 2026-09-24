@@ -115,20 +115,37 @@ export default function InvestigadoresPanel({ user, onConteoChange }: Props) {
       } else {
         setTrabajos((actuales) => actuales.filter((item) => item.id !== trabajo.id));
       }
-      return true;
+      return result;
     } catch (err) {
       alert(err instanceof Error ? err.message : "No fue posible revisar el trabajo.");
-      return false;
+      return null;
     } finally {
       setProcesandoId(null);
     }
   };
 
   const aprobar = async (trabajo: TrabajoPendiente) => {
-    if (!confirm(`¿Aprobar el trabajo de ${trabajo.autor_nombre} y completar ${trabajo.unidad_slug} al 100 %?`)) return;
-    if (await ejecutar(trabajo, "aprobar")) {
-      alert("Trabajo aprobado. La unidad fue completada al 100 %.");
+    if (
+      !confirm(
+        `¿Emitir su aval académico al trabajo de ${trabajo.autor_nombre}? La unidad se completará únicamente cuando dos revisores hayan avalado la misma versión del trabajo.`
+      )
+    ) return;
+
+    const result = await ejecutar(trabajo, "aprobar");
+    if (!result) return;
+
+    if (result.aprobado === true) {
+      alert(
+        "Trabajo aprobado. Se han obtenido los 2 avales requeridos y la unidad ha sido completada al 100 %."
+      );
+      return;
     }
+
+    const avales = Number(result.avales || 1);
+    const requeridos = Number(result.requeridos || 2);
+    alert(
+      `Aval registrado correctamente. El trabajo cuenta con ${avales} de ${requeridos} avales requeridos y permanece pendiente de la resolución del otro revisor.`
+    );
   };
 
   const solicitarCorrecciones = async (trabajo: TrabajoPendiente) => {
