@@ -77,6 +77,24 @@ type AutorElegible = Autor & {
   estado_academico?: string | null;
 };
 
+type RevisionAsignada = {
+  id: number;
+  revisor_miembro_id: number;
+  estado: string;
+  ronda: number;
+  motivo_codigo: string | null;
+  observaciones: string | null;
+  fecha_decision: string | null;
+  revisor?: { id: number; codigo: string; nombre: string } | null;
+};
+
+type Revision = {
+  asignada: RevisionAsignada | null;
+  revisores: RevisionAsignada[];
+  avales: number;
+  requeridos: number;
+};
+
 function codigoLocal() {
   const stored = localStorage.getItem("user");
 
@@ -365,6 +383,7 @@ export default function RevisarManuscritoPage() {
   const [imagenes, setImagenes] = useState<ImagenManuscrito[]>([]);
 
   const [ce, setCe] = useState<CE | null>(null);
+  const [revision, setRevision] = useState<Revision | null>(null);
   const [autoresElegibles, setAutoresElegibles] = useState<AutorElegible[]>([]);
   const [nuevoAutorId, setNuevoAutorId] = useState("");
   const [motivoTransferencia, setMotivoTransferencia] = useState("");
@@ -425,6 +444,7 @@ export default function RevisarManuscritoPage() {
       setEventos(result.eventos || []);
       setImagenes(result.imagenes || []);
       setCe(result.consejo_editorial);
+      setRevision(result.revision || null);
       setAutoresElegibles(result.autores_elegibles || []);
       setNuevoAutorId(String(result.manuscrito?.autor_miembro_id || ""));
       setTituloEditorial(result.manuscrito?.titulo_actual || "");
@@ -444,7 +464,7 @@ export default function RevisarManuscritoPage() {
     cargar();
   }, [cargar]);
 
-  const ejecutar = async (accion: string, requiereMensaje = false) => {
+  const ejecutar = async (accion: string, requiereMensaje = false, motivoCodigo?: string) => {
     if (requiereMensaje && !mensaje.trim()) {
       setError("Debe escribir las observaciones o el motivo de la decisión.");
       return;
@@ -477,6 +497,7 @@ export default function RevisarManuscritoPage() {
         body: JSON.stringify({
           accion,
           mensaje: mensaje.trim(),
+          motivo_codigo: motivoCodigo || null,
         }),
       });
 
@@ -672,19 +693,10 @@ export default function RevisarManuscritoPage() {
     );
   }
 
-  const puedeSeleccionar = manuscrito.estado === "CANDIDATO";
-
-  const puedeDecidir =
-    manuscrito.estado === "EN_REVISION" || manuscrito.estado === "REENVIADO";
-
-  const puedeReabrir = manuscrito.estado === "AVALADO";
-
-  const puedeDescartar = ![
-    "AVALADO",
-    "ASIGNADO",
-    "PUBLICADO",
-    "DESCARTADO",
-  ].includes(manuscrito.estado);
+  const esAutorActual = Boolean(ce?.miembro_id) && Number(ce?.miembro_id) === Number(manuscrito.autor_miembro_id);
+  const esRevisorAsignado = Boolean(revision?.asignada) && !esAutorActual;
+  const puedeDecidir = manuscrito.estado === "EN_REVISION" && esRevisorAsignado;
+  const yaAvalo = revision?.asignada?.estado === "AVALADO";
 
   return (
     <div
@@ -1083,147 +1095,53 @@ export default function RevisarManuscritoPage() {
       </section>
 
       {/* DECISIÓN EDITORIAL */}
+      {manuscrito.estado !== "PUBLICADO" && manuscrito.estado !== "ASIGNADO" && manuscrito.estado !== "DESCARTADO" && (
+        <section style={{ background: "#eef6e9", border: "1px solid #cfe3c4", borderRadius: "14px", padding: "1.5rem", marginBottom: "1.5rem" }}>
+          <h2 style={{ color: "#356128", marginTop: 0 }}>Revisión editorial asignada</h2>
 
-      {manuscrito.estado !== "PUBLICADO" &&
-        manuscrito.estado !== "ASIGNADO" &&
-        manuscrito.estado !== "DESCARTADO" && (
-          <section
-            style={{
-              background: "#eef6e9",
-              border: "1px solid #cfe3c4",
-              borderRadius: "14px",
-              padding: "1.5rem",
-              marginBottom: "1.5rem",
-            }}
-          >
-            <h2
-              style={{
-                color: "#356128",
-                marginTop: 0,
-              }}
-            >
-              Decisión editorial
-            </h2>
+          <div style={{ background: "white", border: "1px solid #d7e6cf", borderRadius: "10px", padding: "0.9rem 1rem", marginBottom: "1rem", lineHeight: 1.65 }}>
+            <strong>Avales de la ronda actual: {revision?.avales || 0} de {revision?.requeridos || 2}.</strong>
+            {revision?.asignada && <div>Su estado: {revision.asignada.estado === "AVALADO" ? "Aval otorgado" : revision.asignada.estado === "PENDIENTE" ? "Pendiente de revisión" : revision.asignada.estado} · Ronda {revision.asignada.ronda}</div>}
+          </div>
 
-            {puedeSeleccionar && (
+          {esAutorActual && (
+            <p style={{ background: "#fff3cd", border: "1px solid #ffe69c", borderRadius: "8px", padding: "0.9rem", lineHeight: 1.6 }}>
+              <strong>Conflicto de interés editorial.</strong> Usted figura como autor de esta contribución y no puede intervenir en su evaluación ni otorgarle aval.
+            </p>
+          )}
+
+          {!esAutorActual && !revision?.asignada && manuscrito.estado === "EN_REVISION" && (
+            <p style={{ lineHeight: 1.7 }}>Este manuscrito está siendo revisado por otros dos integrantes del Consejo Editorial. No fue asignado a usted.</p>
+          )}
+
+          {puedeDecidir && !yaAvalo && (
+            <>
               <p style={{ lineHeight: 1.7 }}>
-                Este trabajo se encuentra en el Banco de candidatos. El Consejo
-                Editorial puede seleccionarlo para iniciar formalmente su
-                revisión.
+                Antes de valorar el contenido, verifique ortografía y gramática, citación y referencias bibliográficas. Si encuentra uno de estos incumplimientos puede devolver el trabajo inmediatamente.
               </p>
-            )}
-
-            {(puedeDecidir || puedeReabrir) && (
-              <>
-                <p style={{ lineHeight: 1.7 }}>
-                  {puedeReabrir
-                    ? "Este manuscrito ya fue avalado. Puede reabrirlo para que el autor prepare una nueva versión. El aval anterior quedará revocado, pero permanecerá documentado en el historial."
-                    : "Escriba observaciones cuando corresponda. Estas formarán parte del historial editorial y, en caso de solicitar correcciones, serán comunicadas al autor."}
-                </p>
-
-                <textarea
-                  value={mensaje}
-                  disabled={procesando}
-                  onChange={(e) => setMensaje(e.target.value)}
-                  rows={6}
-                  placeholder="Observaciones del Consejo Editorial..."
-                  style={{
-                    width: "100%",
-                    boxSizing: "border-box",
-                    padding: "0.8rem",
-                    border: "1px solid #aaa",
-                    borderRadius: "8px",
-                    fontFamily: "inherit",
-                    marginBottom: "1rem",
-                  }}
-                />
-              </>
-            )}
-
-            {puedeSeleccionar && (
-              <button
-                type="button"
-                disabled={procesando}
-                onClick={() => ejecutar("SELECCIONAR")}
-                style={botonVerde}
-              >
-                Seleccionar para revisión
-              </button>
-            )}
-
-            {puedeDecidir && (
-              <div
-                style={{
-                  display: "flex",
-                  gap: "0.8rem",
-                  flexWrap: "wrap",
-                }}
-              >
-                <button
-                  type="button"
-                  disabled={procesando}
-                  onClick={() => ejecutar("CORRECCIONES", true)}
-                  style={botonAmarillo}
-                >
-                  Solicitar correcciones
-                </button>
-
-                <button
-                  type="button"
-                  disabled={procesando}
-                  onClick={() => ejecutar("AVALAR")}
-                  style={botonVerde}
-                >
-                  Otorgar aval
-                </button>
+              <div style={{ display: "flex", gap: "0.65rem", flexWrap: "wrap", marginBottom: "1rem" }}>
+                <button type="button" disabled={procesando} onClick={() => ejecutar("CORRECCIONES", false, "ORTOGRAFIA_GRAMATICA")} style={botonAmarillo}>Devolver por ortografía o gramática</button>
+                <button type="button" disabled={procesando} onClick={() => ejecutar("CORRECCIONES", false, "CITACION_INADECUADA")} style={botonAmarillo}>Devolver por citación inadecuada</button>
+                <button type="button" disabled={procesando} onClick={() => ejecutar("CORRECCIONES", false, "REFERENCIAS_APA")} style={botonAmarillo}>Devolver por referencias bibliográficas/APA</button>
               </div>
-            )}
 
-            {puedeReabrir && (
-              <button
-                type="button"
-                disabled={procesando}
-                onClick={() => ejecutar("CORRECCIONES", true)}
-                style={botonAmarillo}
-              >
-                Reabrir para correcciones
-              </button>
-            )}
-
-            {puedeDescartar && (
-              <div
-                style={{
-                  marginTop: "1rem",
-                }}
-              >
-                {!puedeDecidir && (
-                  <textarea
-                    value={mensaje}
-                    disabled={procesando}
-                    onChange={(e) => setMensaje(e.target.value)}
-                    rows={4}
-                    placeholder="Motivo para no seleccionar el manuscrito..."
-                    style={{
-                      width: "100%",
-                      boxSizing: "border-box",
-                      padding: "0.8rem",
-                      marginBottom: "0.8rem",
-                    }}
-                  />
-                )}
-
-                <button
-                  type="button"
-                  disabled={procesando}
-                  onClick={() => ejecutar("DESCARTAR", true)}
-                  style={botonRojo}
-                >
-                  No seleccionar
-                </button>
+              <textarea value={mensaje} disabled={procesando} onChange={(e) => setMensaje(e.target.value)} rows={6} placeholder="Otras observaciones o correcciones académicas/editoriales..." style={{ width: "100%", boxSizing: "border-box", padding: "0.8rem", border: "1px solid #aaa", borderRadius: "8px", fontFamily: "inherit", marginBottom: "1rem" }} />
+              <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap" }}>
+                <button type="button" disabled={procesando} onClick={() => ejecutar("CORRECCIONES", true, "OTRAS_CORRECCIONES")} style={botonAmarillo}>Solicitar otras correcciones</button>
+                <button type="button" disabled={procesando} onClick={() => ejecutar("AVALAR")} style={botonVerde}>Otorgar aval</button>
               </div>
-            )}
-          </section>
-        )}
+            </>
+          )}
+
+          {puedeDecidir && yaAvalo && (
+            <p style={{ lineHeight: 1.7 }}>Usted ya otorgó su aval en esta ronda. El manuscrito quedará aprobado cuando el segundo revisor asignado también lo avale.</p>
+          )}
+
+          {manuscrito.estado === "CORRECCIONES" && (
+            <p style={{ lineHeight: 1.7 }}>El trabajo fue devuelto al autor. Los mismos dos revisores recibirán la nueva versión cuando sea reenviada.</p>
+          )}
+        </section>
+      )}
 
       {/* VERSIONES */}
 

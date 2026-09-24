@@ -120,6 +120,28 @@ export default function NormasRevistaPage() {
       </section>
 
       <section style={seccion}>
+        <h2>Conflictos de interés e independencia editorial</h2>
+        <p style={parrafo}>
+          Los autores, revisores y miembros del Consejo Editorial deberán declarar
+          cualquier circunstancia que pueda representar un conflicto de interés en
+          relación con un manuscrito presentado a Revista AGENN.
+        </p>
+        <p style={parrafo}>
+          Los integrantes del Consejo Editorial podrán presentar trabajos para su
+          publicación en la revista. Cuando un integrante del Consejo figure como
+          autor o coautor de una contribución, deberá abstenerse de participar en su
+          evaluación, deliberación y decisión editorial. La gestión del manuscrito
+          será realizada por los demás integrantes del Consejo Editorial, procurando
+          que la valoración del trabajo sea independiente de las funciones editoriales
+          desempeñadas por el autor.
+        </p>
+        <p style={parrafo}>
+          La condición de integrante del Consejo Editorial no otorgará preferencia,
+          trato diferenciado ni garantía de publicación.
+        </p>
+      </section>
+
+      <section style={seccion}>
         <h2>Consejo Editorial</h2>
         <ul style={{ lineHeight: 1.8 }}>
           <li>Luis Alberto Rodríguez</li>
@@ -131,7 +153,10 @@ export default function NormasRevistaPage() {
       <footer style={{ marginTop: "3rem", paddingTop: "1.25rem", borderTop: "1px solid rgba(0,0,0,0.16)" }}>
         <p style={parrafo}>
           Esta política se aplica a Revista AGENN a partir de su primer número,
-          Vol. 1, Núm. 1, septiembre de 2026.
+          Vol. 1, Núm. 1, septiembre de 2026. La política sobre conflictos de
+          interés e independencia editorial entra en vigor el 24 de septiembre
+          de 2026 y será aplicable a las decisiones editoriales adoptadas a partir
+          de esa fecha.
         </p>
         <p><Link href="/revista">Volver a Revista AGENN</Link></p>
       </footer>

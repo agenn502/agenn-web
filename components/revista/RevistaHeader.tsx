@@ -10,6 +10,7 @@ const enlaces = [
   { href: "/revista/numeros", texto: "Números", icono: "▤" },
   { href: "/revista/autores", texto: "Autores", icono: "♟" },
   { href: "/revista/acerca", texto: "Sobre la revista", icono: "✒" },
+  { href: "/revista/normas", texto: "Normas editoriales", icono: "§" },
   { href: "/revista/buscar", texto: "Buscar", icono: "⌕" },
 ];
 

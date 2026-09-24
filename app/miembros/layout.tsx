@@ -181,11 +181,19 @@ export default function MiembrosLayout({
             const result = await response.json();
 
             if (result?.ok) {
+              // La API editorial ya devuelve únicamente los manuscritos
+              // que corresponden al revisor actual. Contamos solo aquellos
+              // cuya asignación requiere una decisión suya en la ronda vigente.
               const requierenAtencion = (result.manuscritos || []).filter(
-                (m: any) =>
-                  ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(
-                    String(m.estado || "").trim().toUpperCase()
+                (m: any) => {
+                  const estadoAsignacion = String(
+                    m.estado_asignacion || m.asignacion_estado || ""
                   )
+                    .trim()
+                    .toUpperCase();
+
+                  return estadoAsignacion === "PENDIENTE";
+                }
               );
 
               setPendientesEditoriales(requierenAtencion.length);
@@ -586,8 +594,12 @@ export default function MiembrosLayout({
     }
   };
 
-  const pendientesRevista =
-    pendientesEditoriales + novedadesRevistaAutor;
+  // Para integrantes del Consejo, la insignia de Revista representa
+  // exclusivamente decisiones editoriales pendientes. Las novedades de sus
+  // propios manuscritos no se mezclan con las tareas de revisión.
+  const pendientesRevista = esConsejo
+    ? pendientesEditoriales
+    : novedadesRevistaAutor;
 
   const menu: MenuItem[] = [
     {

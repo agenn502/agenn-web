@@ -269,6 +269,11 @@ export default function TrabajoUnidad1Page() {
   const revisionListaVigente =
     revisionPreliminar?.estado === "LISTO_PARA_REMITIR" &&
     firmaRevisionLista !== "";
+  // Una vez que el trabajo ya fue remitido al Consejo Académico,
+  // las correcciones solicitadas por el CA se reenvían directamente al mismo
+  // proceso de revisión humana; no deben pasar nuevamente por la revisión preliminar.
+  const reenviandoCorreccionesCA = estadoRevision === "correcciones";
+  const puedeSolicitarAval = revisionListaVigente || reenviandoCorreccionesCA;
 
   const generarSlug = (texto: string) =>
     texto
@@ -409,7 +414,16 @@ export default function TrabajoUnidad1Page() {
           fecha_revision: null,
 
         });
+      
+        // La revisión preliminar es únicamente la puerta de entrada inicial al CA.
+        // Al reenviar correcciones solicitadas por el CA se conserva el dictamen
+        // preliminar original y no se sustituye por una nueva revisión automática.
+        if (!reenviandoCorreccionesCA && revisionPreliminar) {
+          payload.revision_preliminar = revisionPreliminar;
+          payload.fecha_revision_preliminar = ahora;
+        }
       }
+      
 
       let guardado;
 
@@ -510,6 +524,8 @@ export default function TrabajoUnidad1Page() {
           titulo: titulo.trim(),
           consigna: `Elabore un análisis breve basado en uno de los temas propuestos de la Unidad 1. El trabajo debe desarrollar el tema con claridad, argumentación y sustento, y cumplir al menos ${REGLA_UNIDAD.palabrasMinimas.toLocaleString("es-GT")} palabras y ${REGLA_UNIDAD.caracteresMinimos.toLocaleString("es-GT")} caracteres.`,
           criterios: "Valore el cumplimiento de la consigna, la estructura y argumentación, el uso de fuentes y evidencias, la precisión conceptual y las afirmaciones que requieran respaldo o verificación.",
+          requisitosCuantitativos: `Mínimo ${REGLA_UNIDAD.palabrasMinimas.toLocaleString("es-GT")} palabras y ${REGLA_UNIDAD.caracteresMinimos.toLocaleString("es-GT")} caracteres.`,
+          recuentoReal: { palabras, caracteres },
           contenido: contenidoPlano,
         }),
       });
@@ -1106,17 +1122,17 @@ export default function TrabajoUnidad1Page() {
             <p><strong>Fuentes y evidencias:</strong> {revisionPreliminar.fuentesEvidencias}</p>
             <p><strong>Precisión conceptual:</strong> {revisionPreliminar.precisionConceptual}</p>
 
-            {Array.isArray(revisionPreliminar.aspectosFortalecer) && revisionPreliminar.aspectosFortalecer.length > 0 && (
+            {Array.isArray(revisionPreliminar.correccionesObligatorias) && revisionPreliminar.correccionesObligatorias.length > 0 && (
               <>
-                <strong>Aspectos que conviene fortalecer:</strong>
-                <ul>{revisionPreliminar.aspectosFortalecer.map((item: string, i: number) => <li key={`fortalecer-${i}`}>{item}</li>)}</ul>
+                <strong>Correcciones obligatorias antes de solicitar aval:</strong>
+                <ul>{revisionPreliminar.correccionesObligatorias.map((item: string, i: number) => <li key={`obligatoria-${i}`}>{item}</li>)}</ul>
               </>
             )}
 
-            {Array.isArray(revisionPreliminar.afirmacionesRequierenRespaldo) && revisionPreliminar.afirmacionesRequierenRespaldo.length > 0 && (
+            {Array.isArray(revisionPreliminar.recomendacionesOpcionales) && revisionPreliminar.recomendacionesOpcionales.length > 0 && (
               <>
-                <strong>Afirmaciones que requieren respaldo o verificación:</strong>
-                <ul>{revisionPreliminar.afirmacionesRequierenRespaldo.map((item: string, i: number) => <li key={`respaldo-${i}`}>{item}</li>)}</ul>
+                <strong>Recomendaciones opcionales:</strong>
+                <ul>{revisionPreliminar.recomendacionesOpcionales.map((item: string, i: number) => <li key={`opcional-${i}`}>{item}</li>)}</ul>
               </>
             )}
 
@@ -1126,7 +1142,7 @@ export default function TrabajoUnidad1Page() {
 
             {revisionPreliminar.estado === "REQUIERE_AJUSTES" && (
               <p style={{ marginBottom: 0, fontWeight: 600 }}>
-                Aplique los cambios sugeridos, guarde el borrador y vuelva a solicitar la revisión preliminar. Puede repetir este proceso tantas veces como sea necesario hasta que el trabajo reúna los elementos necesarios para ser remitido al Consejo Académico.
+                Solvente las correcciones obligatorias señaladas, guarde el borrador y vuelva a solicitar la revisión preliminar. Puede repetir este proceso tantas veces como sea necesario hasta que el trabajo reúna las condiciones necesarias para solicitar el aval del Consejo Académico.
               </p>
             )}
 
@@ -1136,7 +1152,7 @@ export default function TrabajoUnidad1Page() {
               </p>
             )}
             <p style={{ marginBottom: 0, marginTop: "0.8rem", fontSize: "0.92rem", color: "#555" }}>
-              Esta revisión tiene carácter orientativo. La valoración y resolución académica final corresponden exclusivamente al Consejo Académico.
+              Esta revisión tiene carácter orientativo. La valoración y resolución académica final corresponden exclusivamente al Consejo Académico. Sin embargo, durante esta fase de revisión preliminar deberá solventar las correcciones obligatorias señaladas hasta que el trabajo reúna las condiciones necesarias para solicitar el aval del Consejo Académico.
             </p>
           </div>
         )}
@@ -1162,6 +1178,7 @@ export default function TrabajoUnidad1Page() {
                 : "Guardar borrador"}
             </button>
 
+            {!reenviandoCorreccionesCA && (
             <button
               type="button"
               disabled={guardando || revisandoPreliminar}
@@ -1177,8 +1194,9 @@ export default function TrabajoUnidad1Page() {
             >
               {revisandoPreliminar ? "Realizando revisión..." : "Solicitar revisión preliminar"}
             </button>
+            )}
 
-            {revisionListaVigente && (
+            {puedeSolicitarAval && (
               <button
                 type="button"
                 disabled={guardando || revisandoPreliminar}
@@ -1192,7 +1210,9 @@ export default function TrabajoUnidad1Page() {
                   cursor: guardando || revisandoPreliminar ? "wait" : "pointer",
                 }}
               >
-                Solicitar aval del Consejo Académico
+                {reenviandoCorreccionesCA
+                  ? "Reenviar correcciones al Consejo Académico"
+                  : "Solicitar aval del Consejo Académico"}
               </button>
             )}
           </div>

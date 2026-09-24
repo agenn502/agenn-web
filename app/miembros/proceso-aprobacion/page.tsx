@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AspirantesPanel from "@/components/aprobacion/AspirantesPanel";
 import CandidatosPanel from "@/components/aprobacion/CandidatosPanel";
 import InvestigadoresPanel from "@/components/aprobacion/InvestigadoresPanel";
@@ -46,6 +46,30 @@ export default function ProcesoAprobacionPage() {
     asimilaciones: 0,
     biblioteca: 0,
   });
+
+  const actualizarCandidatos = useCallback((numero: number) => {
+    setConteos((actual) =>
+      actual.candidatos === numero
+        ? actual
+        : { ...actual, candidatos: numero },
+    );
+  }, []);
+
+  const actualizarInvestigadores = useCallback((numero: number) => {
+    setConteos((actual) =>
+      actual.investigadores === numero
+        ? actual
+        : { ...actual, investigadores: numero },
+    );
+  }, []);
+
+  const actualizarBiblioteca = useCallback((numero: number) => {
+    setConteos((actual) =>
+      actual.biblioteca === numero
+        ? actual
+        : { ...actual, biblioteca: numero },
+    );
+  }, []);
 
   useEffect(() => {
     const cargar = async () => {
@@ -206,12 +230,7 @@ export default function ProcesoAprobacionPage() {
       {activa === "candidatos" && (
         <CandidatosPanel
           userCodigo={user.codigo}
-          onConteoChange={(numero) =>
-            setConteos((actual) => ({
-              ...actual,
-              candidatos: numero,
-            }))
-          }
+          onConteoChange={actualizarCandidatos}
         />
       )}
 
@@ -222,12 +241,7 @@ export default function ProcesoAprobacionPage() {
       {activa === "investigadores" && (
         <InvestigadoresPanel
           user={user}
-          onConteoChange={(numero) =>
-            setConteos((actual) => ({
-              ...actual,
-              investigadores: numero,
-            }))
-          }
+          onConteoChange={actualizarInvestigadores}
         />
       )}
 
@@ -236,12 +250,7 @@ export default function ProcesoAprobacionPage() {
       {activa === "biblioteca" && (
         <BibliotecaPanel
           user={user}
-          onConteoChange={(numero) =>
-            setConteos((actual) => ({
-              ...actual,
-              biblioteca: numero,
-            }))
-          }
+          onConteoChange={actualizarBiblioteca}
         />
       )}
     </div>

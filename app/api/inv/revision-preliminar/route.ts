@@ -7,6 +7,8 @@ type SolicitudRevision = {
   titulo: string;
   consigna: string;
   criterios?: string;
+  requisitosCuantitativos?: string;
+  recuentoReal?: { palabras?: number; caracteres?: number };
   contenido: string;
 };
 
@@ -29,11 +31,11 @@ const esquemaRevision = {
     estructuraArgumentacion: { type: "string" },
     fuentesEvidencias: { type: "string" },
     precisionConceptual: { type: "string" },
-    aspectosFortalecer: {
+    correccionesObligatorias: {
       type: "array",
       items: { type: "string" },
     },
-    afirmacionesRequierenRespaldo: {
+    recomendacionesOpcionales: {
       type: "array",
       items: { type: "string" },
     },
@@ -46,34 +48,47 @@ const esquemaRevision = {
     "estructuraArgumentacion",
     "fuentesEvidencias",
     "precisionConceptual",
-    "aspectosFortalecer",
-    "afirmacionesRequierenRespaldo",
+    "correccionesObligatorias",
+    "recomendacionesOpcionales",
     "recomendacionFinal",
   ],
   additionalProperties: false,
 };
 
 function construirPrompt(trabajo: SolicitudRevision) {
+  const palabrasReales = Number(trabajo.recuentoReal?.palabras);
+  const caracteresReales = Number(trabajo.recuentoReal?.caracteres);
+  const recuento = [
+    Number.isFinite(palabrasReales) ? `${palabrasReales} palabras` : null,
+    Number.isFinite(caracteresReales) ? `${caracteresReales} caracteres` : null,
+  ].filter(Boolean).join("; ");
+
   return `
 Usted actúa como revisor académico preliminar de la Academia Guatemalteca de Estudios Numismáticos y Notafílicos (AGENN).
 
-Su función es orientar al estudiante antes de que el trabajo sea remitido al Consejo Académico.
+Su función NO es llevar el trabajo a la perfección ni sustituir al Consejo Académico. Debe comprobar si reúne las condiciones mínimas académicas y metodológicas para ser sometido a evaluación humana.
 
 REGLAS OBLIGATORIAS:
 - Esta NO es una aprobación académica.
 - No otorgue calificaciones numéricas.
 - No utilice las palabras "aprobado" o "reprobado".
+- Evalúe contra la CONSIGNA y los CRITERIOS ESPECÍFICOS proporcionados. No invente requisitos adicionales.
+- Si el estudiante cumple los elementos expresamente solicitados y alcanza un nivel metodológico suficiente, marque LISTO_PARA_REMITIR aunque existan mejoras posibles.
+- Separe estrictamente CORRECCIONES OBLIGATORIAS de RECOMENDACIONES OPCIONALES.
+- Son correcciones obligatorias únicamente: incumplimientos de la consigna; ausencia de elementos expresamente requeridos; problemas metodológicos sustanciales; afirmaciones fundamentales sin evidencia; contradicciones relevantes; criterios que no pueden reproducirse; o deficiencias que impiden evaluar razonablemente el trabajo.
+- Son recomendaciones opcionales las mejoras que enriquecerían el trabajo pero que la actividad no exige. Las recomendaciones opcionales NUNCA deben impedir LISTO_PARA_REMITIR.
+- No exija imágenes, diagramas, análisis físico de piezas, ampliación del corpus, mayor número de fuentes, páginas específicas, secciones o URL salvo que la consigna los exija expresamente o que sean indispensables para verificar una afirmación concreta.
+- En las referencias compruebe que las fuentes sean suficientemente identificables. No exija automáticamente página, sección o URL. Solicite localización específica solo cuando una afirmación concreta dependa de ella o sea realmente necesaria para verificar la evidencia.
 - No invente hechos, referencias bibliográficas ni errores.
-- No exija elementos que no formen parte de la consigna.
-- Distinga entre una afirmación incorrecta y una afirmación que simplemente necesita respaldo documental.
-- Si detecta posibles problemas históricos, numismáticos o conceptuales que no pueda comprobar a partir del material proporcionado, indíquelo como aspecto que conviene verificar.
-- Evalúe principalmente el cumplimiento de la consigna, claridad argumentativa, evidencia, fuentes y precisión conceptual.
-- Las observaciones deben ser concretas, formativas y útiles para corregir el trabajo.
-- Mantenga un tono académico y respetuoso.
-- Diríjase al estudiante de "usted".
-- Solo marque LISTO_PARA_REMITIR cuando el trabajo reúna razonablemente los elementos solicitados y no presente deficiencias importantes que deban corregirse antes de la revisión humana.
-- Si está listo, la recomendación final debe expresar: "El trabajo reúne los elementos necesarios para ser remitido al Consejo Académico."
-- Si requiere correcciones, explique cuáles son prioritarias.
+- Distinga entre una afirmación incorrecta y una afirmación que necesita respaldo documental.
+- Si detecta un posible problema histórico, numismático o conceptual que no pueda comprobar con el material proporcionado, formúlelo como recomendación de verificación; solo será obligatorio si afecta un elemento fundamental del argumento.
+- Para requisitos cuantitativos use EXCLUSIVAMENTE los límites específicos indicados abajo y el RECUENTO REAL calculado por el sistema. No estime la extensión visualmente, no diga "parece acercarse al mínimo" y no pida ampliar un texto que ya está dentro del rango exigido.
+- Las observaciones deben ser concretas, formativas y útiles.
+- Mantenga un tono académico y respetuoso y diríjase al estudiante de "usted".
+- Si correccionesObligatorias queda vacío, el estado DEBE ser LISTO_PARA_REMITIR.
+- Si correccionesObligatorias contiene al menos un elemento, el estado DEBE ser REQUIERE_AJUSTES.
+- Si está listo, recomendacionFinal debe expresar: "El trabajo reúne los elementos necesarios para ser remitido al Consejo Académico."
+- Si requiere ajustes, recomendacionFinal debe indicar que debe solventar únicamente las correcciones obligatorias antes de solicitar aval.
 
 DATOS DEL TRABAJO
 Unidad: ${trabajo.unidad}
@@ -84,14 +99,19 @@ Título: ${trabajo.titulo}
 CONSIGNA:
 ${trabajo.consigna}
 
-CRITERIOS ADICIONALES:
+CRITERIOS ESPECÍFICOS:
 ${trabajo.criterios || "No se proporcionaron criterios adicionales."}
+
+REQUISITOS CUANTITATIVOS DE ESTA ACTIVIDAD:
+${trabajo.requisitosCuantitativos || "No se proporcionaron requisitos cuantitativos adicionales."}
+
+RECUENTO REAL CALCULADO POR EL SISTEMA:
+${recuento || "No disponible."}
 
 TRABAJO PRESENTADO:
 ${trabajo.contenido}
 `.trim();
 }
-
 function extraerTextoGemini(datos: any): string | null {
   if (!Array.isArray(datos?.steps)) return null;
   for (let i = datos.steps.length - 1; i >= 0; i--) {

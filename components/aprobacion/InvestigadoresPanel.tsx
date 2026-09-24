@@ -23,6 +23,18 @@ type TrabajoPendiente = {
   tipo_trabajo: string | null;
   numero_palabras: number | null;
   numero_caracteres: number | null;
+  revision_preliminar: {
+    estado?: string;
+    sintesis?: string;
+    cumplimientoConsigna?: string;
+    estructuraArgumentacion?: string;
+    fuentesEvidencias?: string;
+    precisionConceptual?: string;
+    correccionesObligatorias?: string[];
+    recomendacionesOpcionales?: string[];
+    recomendacionFinal?: string;
+  } | null;
+  fecha_revision_preliminar: string | null;
 };
 
 type Props = {
@@ -170,6 +182,81 @@ export default function InvestigadoresPanel({ user, onConteoChange }: Props) {
                 <ReactMarkdown>{trabajo.contenido}</ReactMarkdown>
               </div>
             </details>
+
+            <div
+              style={{
+                margin: "1rem 0",
+                padding: "1rem",
+                background: "#f4faf7",
+                border: "1px solid #b9cfc5",
+                borderRadius: 10,
+                lineHeight: 1.7,
+              }}
+            >
+              <h4 style={{ marginTop: 0, marginBottom: "0.75rem" }}>
+                Resultado de la revisión preliminar
+              </h4>
+
+              {trabajo.revision_preliminar ? (
+                <>
+                  {trabajo.revision_preliminar.estado === "LISTO_PARA_REMITIR" && (
+                    <p style={{ fontWeight: 700, color: "#355f52" }}>
+                      El trabajo reúne los elementos necesarios para ser remitido al Consejo Académico.
+                    </p>
+                  )}
+
+                  {trabajo.revision_preliminar.sintesis && (
+                    <p>{trabajo.revision_preliminar.sintesis}</p>
+                  )}
+
+                  {trabajo.revision_preliminar.cumplimientoConsigna && (
+                    <p><strong>Cumplimiento de la consigna:</strong> {trabajo.revision_preliminar.cumplimientoConsigna}</p>
+                  )}
+
+                  {trabajo.revision_preliminar.estructuraArgumentacion && (
+                    <p><strong>Estructura y argumentación:</strong> {trabajo.revision_preliminar.estructuraArgumentacion}</p>
+                  )}
+
+                  {trabajo.revision_preliminar.fuentesEvidencias && (
+                    <p><strong>Fuentes y evidencias:</strong> {trabajo.revision_preliminar.fuentesEvidencias}</p>
+                  )}
+
+                  {trabajo.revision_preliminar.precisionConceptual && (
+                    <p><strong>Precisión conceptual:</strong> {trabajo.revision_preliminar.precisionConceptual}</p>
+                  )}
+
+                  {Array.isArray(trabajo.revision_preliminar.recomendacionesOpcionales) &&
+                    trabajo.revision_preliminar.recomendacionesOpcionales.length > 0 && (
+                    <>
+                      <strong>Recomendaciones opcionales de la revisión preliminar:</strong>
+                      <ul>
+                        {trabajo.revision_preliminar.recomendacionesOpcionales.map((item, i) => (
+                          <li key={`opcional-${trabajo.id}-${i}`}>{item}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+
+                  {trabajo.revision_preliminar.recomendacionFinal && (
+                    <p style={{ marginBottom: 0 }}>
+                      <strong>Conclusión:</strong> {trabajo.revision_preliminar.recomendacionFinal}
+                    </p>
+                  )}
+                </>
+              ) : (
+                <p style={{ marginBottom: 0, color: "#665c50" }}>
+                  El trabajo superó la revisión preliminar requerida para ser remitido al Consejo Académico.
+                  El dictamen detallado no se encuentra disponible porque la remisión se realizó antes de
+                  incorporarse su registro histórico.
+                </p>
+              )}
+
+              <p style={{ marginBottom: 0, marginTop: "0.8rem", fontSize: "0.9rem", color: "#555" }}>
+                Esta revisión tiene carácter orientativo y no constituye un aval académico.
+                El Consejo Académico conserva la facultad de solicitar las correcciones que considere
+                pertinentes antes de emitir su resolución.
+              </p>
+            </div>
 
             <div style={{ margin: "1rem 0", padding: "0.85rem", background: "#f4f1e8", borderRadius: 8 }}>
               <label style={{ display: "flex", gap: "0.6rem", alignItems: "center", cursor: procesando ? "wait" : "pointer" }}>

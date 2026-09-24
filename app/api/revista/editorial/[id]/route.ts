@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
-const esperar = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
-
 function normalizarCodigo(valor: unknown) {
   return String(valor || "")
     .trim()
@@ -146,6 +143,34 @@ export async function GET(
         },
         { status: 404 },
       );
+    }
+
+    // Al reenviar una nueva versión, los mismos dos revisores vuelven a
+    // recibirla. Se abre una nueva ronda y los avales de la ronda anterior
+    // permanecen únicamente en el historial.
+    if (manuscrito.estado === "REENVIADO") {
+      const { data: previas, error: previasError } = await supabaseServer
+        .from("revision_asignaciones")
+        .select("ronda")
+        .eq("ambito", "REVISTA")
+        .eq("objeto_id", id);
+      if (previasError) throw new Error(previasError.message);
+      if ((previas || []).length > 0) {
+        const nuevaRonda = Math.max(...(previas || []).map((x: any) => Number(x.ronda || 1))) + 1;
+        const ahora = new Date().toISOString();
+        const { error: resetError } = await supabaseServer
+          .from("revision_asignaciones")
+          .update({ estado: "PENDIENTE", ronda: nuevaRonda, motivo_codigo: null, observaciones: null, fecha_decision: null, updated_at: ahora })
+          .eq("ambito", "REVISTA")
+          .eq("objeto_id", id);
+        if (resetError) throw new Error(resetError.message);
+        const { error: estadoError } = await supabaseServer
+          .from("manuscritos_editoriales")
+          .update({ estado: "EN_REVISION", updated_at: ahora })
+          .eq("id", id);
+        if (estadoError) throw new Error(estadoError.message);
+        manuscrito.estado = "EN_REVISION";
+      }
     }
 
     // Autor
@@ -311,6 +336,24 @@ export async function GET(
         (persona.nivel === "INV" && persona.estado_academico === "ACREDITADO"),
     );
 
+    const { data: asignacionesRevision, error: asignacionesError } = await supabaseServer
+      .from("revision_asignaciones")
+      .select("id,revisor_miembro_id,estado,ronda,motivo_codigo,observaciones,fecha_decision")
+      .eq("ambito", "REVISTA")
+      .eq("objeto_id", id);
+    if (asignacionesError) throw new Error(asignacionesError.message);
+
+    const idsRevisores = [...new Set((asignacionesRevision || []).map((a: any) => Number(a.revisor_miembro_id)).filter(Boolean))];
+    let nombresRevisores: any[] = [];
+    if (idsRevisores.length > 0) {
+      const { data, error } = await supabaseServer.from("miembros").select("id,codigo,nombre").in("id", idsRevisores);
+      if (error) throw new Error(error.message);
+      nombresRevisores = data || [];
+    }
+    const revisoresPorId = new Map(nombresRevisores.map((r: any) => [Number(r.id), r]));
+    const revisores = (asignacionesRevision || []).map((a: any) => ({ ...a, revisor: revisoresPorId.get(Number(a.revisor_miembro_id)) || null }));
+    const miRevision = revisores.find((a: any) => Number(a.revisor_miembro_id) === Number(solicitante.miembro.id)) || null;
+
     return NextResponse.json({
       ok: true,
 
@@ -330,6 +373,12 @@ export async function GET(
       imagenes,
       eventos: eventosConActor,
       autores_elegibles: autoresElegibles,
+      revision: {
+        asignada: miRevision,
+        revisores,
+        avales: revisores.filter((r: any) => r.estado === "AVALADO").length,
+        requeridos: 2,
+      },
     });
   } catch (error) {
     console.error("Error GET /api/revista/editorial/[id]:", error);
@@ -424,120 +473,101 @@ export async function PATCH(
       throw new Error(versionError.message);
     }
 
-    const accionesTransaccionales = new Set([
-      "SELECCIONAR",
-      "CORRECCIONES",
-      "AVALAR",
-      "DESCARTAR",
-    ]);
+    const accionesRevision = new Set(["CORRECCIONES", "AVALAR"]);
 
-    if (accion === "TRANSFERIR_AUTORIA") {
-      if (["PUBLICADO", "DESCARTADO"].includes(manuscrito.estado)) {
-        return NextResponse.json(
-          { ok: false, error: "Un manuscrito publicado o descartado no puede cambiar de autoría desde esta acción." },
-          { status: 409 },
-        );
-      }
-
-      const nuevoAutorId = Number(body.nuevo_autor_miembro_id);
-      const motivo = String(body.motivo || "").trim();
-      if (!Number.isInteger(nuevoAutorId) || nuevoAutorId <= 0 || motivo.length < 10) {
-        return NextResponse.json(
-          { ok: false, error: "Seleccione un autor válido e indique el motivo de la transferencia." },
-          { status: 400 },
-        );
-      }
-      if (nuevoAutorId === Number(manuscrito.autor_miembro_id)) {
-        return NextResponse.json({ ok: false, error: "El autor seleccionado ya es el autor editorial." }, { status: 409 });
-      }
-
-      const { data: nuevoAutor, error: nuevoAutorError } = await supabaseServer
-        .from("miembros")
-        .select("id,codigo,nombre,nivel,estado_academico")
-        .eq("id", nuevoAutorId)
-        .maybeSingle();
-      if (nuevoAutorError) throw new Error(nuevoAutorError.message);
-      const elegible =
-        nuevoAutor?.nivel === "NUM" ||
-        (nuevoAutor?.nivel === "INV" && nuevoAutor?.estado_academico === "ACREDITADO");
-      if (!nuevoAutor || !elegible) {
-        return NextResponse.json({ ok: false, error: "El miembro seleccionado no es elegible para publicar." }, { status: 400 });
-      }
-
-      const { data: autorAnterior } = await supabaseServer
-        .from("miembros")
-        .select("codigo,nombre")
-        .eq("id", manuscrito.autor_miembro_id)
-        .maybeSingle();
-
-      const { error: transferenciaError } = await supabaseServer
-        .from("manuscritos_editoriales")
-        .update({ autor_miembro_id: nuevoAutorId, updated_at: new Date().toISOString() })
-        .eq("id", id);
-      if (transferenciaError) throw new Error(transferenciaError.message);
-
-      const { error: eventoTransferenciaError } = await supabaseServer
-        .from("manuscrito_eventos")
-        .insert({
-          manuscrito_id: id,
-          version_id: versionActual?.id || null,
-          // Se utiliza un tipo ya admitido por el historial; el mensaje deja
-          // explícito que se trata de una transferencia de autoría.
-          tipo: "EDICION_EDITORIAL",
-          mensaje: `Autoría editorial transferida de ${autorAnterior?.nombre || "autor anterior"} (${autorAnterior?.codigo || "—"}) a ${nuevoAutor.nombre} (${nuevoAutor.codigo}). Motivo: ${motivo}`,
-          actor_miembro_id: solicitante.miembro.id,
-        });
-      if (eventoTransferenciaError) throw new Error(eventoTransferenciaError.message);
-
-      return NextResponse.json({ ok: true, autor: nuevoAutor });
+    if (accion === "SELECCIONAR") {
+      return NextResponse.json(
+        { ok: false, error: "La asignación de revisores ahora es automática." },
+        { status: 409 },
+      );
     }
 
-    if (accionesTransaccionales.has(accion)) {
-      let decisionData: any = null;
-      let decisionError: { message: string } | null = null;
+    if (accion === "DESCARTAR") {
+      return NextResponse.json(
+        { ok: false, error: "Un solo revisor no puede descartar definitivamente el manuscrito. Utilice una devolución para correcciones." },
+        { status: 409 },
+      );
+    }
 
-      // La función es atómica e idempotente. Si Supabase ejecuta la decisión
-      // pero pierde la respuesta, puede repetirse sin duplicar el evento.
-      for (let intento = 0; intento < 3; intento += 1) {
-        const resultado = await supabaseServer.rpc(
-          "revista_decision_editorial",
-          {
-            p_manuscrito_id: id,
-            p_actor_miembro_id: solicitante.miembro.id,
-            p_accion: accion,
-            p_mensaje: mensaje || null,
-          },
-        );
-
-        decisionData = resultado.data;
-        decisionError = resultado.error;
-
-        if (!decisionError) break;
-
-        if (
-          !/fetch failed|network|timeout|timed out/i.test(decisionError.message)
-        ) {
-          break;
-        }
-
-        if (intento < 2) await esperar(400 * 2 ** intento);
+    if (accionesRevision.has(accion)) {
+      if (Number(manuscrito.autor_miembro_id) === Number(solicitante.miembro.id)) {
+        return NextResponse.json({ ok: false, error: "No puede revisar ni avalar una contribución de su propia autoría." }, { status: 403 });
       }
 
-      if (decisionError) throw new Error(decisionError.message);
-
-      const decision = Array.isArray(decisionData)
-        ? decisionData[0]
-        : decisionData;
-
-      if (!decision?.estado_nuevo || !decision?.evento_id) {
-        throw new Error("Supabase no confirmó la decisión editorial.");
+      const { data: asignacion, error: asignacionError } = await supabaseServer
+        .from("revision_asignaciones")
+        .select("id,estado,ronda")
+        .eq("ambito", "REVISTA")
+        .eq("objeto_id", id)
+        .eq("revisor_miembro_id", solicitante.miembro.id)
+        .maybeSingle();
+      if (asignacionError) throw new Error(asignacionError.message);
+      if (!asignacion) {
+        return NextResponse.json({ ok: false, error: "Este manuscrito no fue asignado a usted para revisión." }, { status: 403 });
+      }
+      if (manuscrito.estado !== "EN_REVISION") {
+        return NextResponse.json({ ok: false, error: "El manuscrito no se encuentra actualmente en revisión." }, { status: 409 });
       }
 
-      return NextResponse.json({
-        ok: true,
-        estado: decision.estado_nuevo,
-        evento_id: Number(decision.evento_id),
+      const ahora = new Date().toISOString();
+
+      if (accion === "CORRECCIONES") {
+        const motivoCodigo = String(body.motivo_codigo || "OTRAS_CORRECCIONES").trim().toUpperCase();
+        const textosRapidos: Record<string, string> = {
+          ORTOGRAFIA_GRAMATICA: "El trabajo se devuelve para corregir aspectos de ortografía o gramática antes de continuar con la revisión editorial.",
+          CITACION_INADECUADA: "El trabajo se devuelve porque la citación de las fuentes requiere corrección antes de continuar con la revisión editorial.",
+          REFERENCIAS_APA: "El trabajo se devuelve porque las referencias bibliográficas no cumplen las normas APA requeridas.",
+        };
+        const observaciones = textosRapidos[motivoCodigo] || mensaje;
+        if (!observaciones) return NextResponse.json({ ok: false, error: "Debe indicar las correcciones solicitadas." }, { status: 400 });
+
+        const { error: esperaError } = await supabaseServer.from("revision_asignaciones")
+          .update({ estado: "ESPERANDO_REENVIO", updated_at: ahora })
+          .eq("ambito", "REVISTA").eq("objeto_id", id);
+        if (esperaError) throw new Error(esperaError.message);
+        const { error: devError } = await supabaseServer.from("revision_asignaciones")
+          .update({ estado: "DEVUELTO", motivo_codigo: motivoCodigo, observaciones, fecha_decision: ahora, updated_at: ahora })
+          .eq("id", asignacion.id);
+        if (devError) throw new Error(devError.message);
+
+        const { error: histError } = await supabaseServer.from("revision_historial").insert({
+          ambito: "REVISTA", objeto_id: id, revisor_miembro_id: solicitante.miembro.id, ronda: Number(asignacion.ronda || 1), accion: "DEVOLUCION", motivo_codigo: motivoCodigo, observaciones,
+        });
+        if (histError) throw new Error(histError.message);
+
+        const { error: estadoError } = await supabaseServer.from("manuscritos_editoriales")
+          .update({ estado: "CORRECCIONES", updated_at: ahora }).eq("id", id);
+        if (estadoError) throw new Error(estadoError.message);
+        const { error: eventoError } = await supabaseServer.from("manuscrito_eventos").insert({
+          manuscrito_id: id, version_id: versionActual?.id || null, tipo: "CORRECCIONES_SOLICITADAS", mensaje: observaciones, actor_miembro_id: solicitante.miembro.id,
+        });
+        if (eventoError) throw new Error(eventoError.message);
+        return NextResponse.json({ ok: true, estado: "CORRECCIONES", avales: 0, requeridos: 2 });
+      }
+
+      const { error: avalError } = await supabaseServer.from("revision_asignaciones")
+        .update({ estado: "AVALADO", motivo_codigo: null, observaciones: null, fecha_decision: ahora, updated_at: ahora })
+        .eq("id", asignacion.id);
+      if (avalError) throw new Error(avalError.message);
+      const { error: histError } = await supabaseServer.from("revision_historial").insert({
+        ambito: "REVISTA", objeto_id: id, revisor_miembro_id: solicitante.miembro.id, ronda: Number(asignacion.ronda || 1), accion: "AVAL", motivo_codigo: null, observaciones: mensaje || null,
       });
+      if (histError) throw new Error(histError.message);
+      const { error: eventoError } = await supabaseServer.from("manuscrito_eventos").insert({
+        manuscrito_id: id, version_id: versionActual?.id || null, tipo: "AVAL", mensaje: mensaje || "Aval editorial otorgado por uno de los revisores asignados.", actor_miembro_id: solicitante.miembro.id,
+      });
+      if (eventoError) throw new Error(eventoError.message);
+
+      const { data: avales, error: contarError } = await supabaseServer.from("revision_asignaciones")
+        .select("id").eq("ambito", "REVISTA").eq("objeto_id", id).eq("estado", "AVALADO");
+      if (contarError) throw new Error(contarError.message);
+      const totalAvales = (avales || []).length;
+      if (totalAvales < 2) return NextResponse.json({ ok: true, estado: "EN_REVISION", avales: totalAvales, requeridos: 2 });
+
+      const { error: finalError } = await supabaseServer.from("manuscritos_editoriales")
+        .update({ estado: "AVALADO", fecha_aval: ahora, avalado_por: solicitante.miembro.id, updated_at: ahora }).eq("id", id);
+      if (finalError) throw new Error(finalError.message);
+      return NextResponse.json({ ok: true, estado: "AVALADO", avales: 2, requeridos: 2 });
     }
 
     // --------------------------------------------------------
