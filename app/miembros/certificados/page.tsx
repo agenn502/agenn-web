@@ -9,7 +9,7 @@ type Certificado = {
   codigo_miembro: string;
   nombre: string;
   nivel: "NOV" | "INV" | "NUM";
-  origen_acreditacion: "FORMACION" | "RECONOCIMIENTO";
+  origen_acreditacion: "FORMACION" | "RECONOCIMIENTO" | "PROMOCION_EXTRAORDINARIA";
   fecha_emision: string;
   estado: string;
   created_at: string;
@@ -120,6 +120,10 @@ export default function CertificadosPage() {
       return "Acreditación otorgada por trayectoria reconocida";
     }
 
+    if (origen === "PROMOCION_EXTRAORDINARIA") {
+      return "Acreditación conferida por Promoción Extraordinaria";
+    }
+
     return origen;
   };
 
@@ -152,7 +156,9 @@ export default function CertificadosPage() {
 
     try {
       const origen =
-        user.origen_acreditacion === "RECONOCIMIENTO"
+        user.origen_acreditacion === "PROMOCION_EXTRAORDINARIA"
+          ? "PROMOCION_EXTRAORDINARIA"
+          : user.origen_acreditacion === "RECONOCIMIENTO"
           ? "RECONOCIMIENTO"
           : "FORMACION";
 

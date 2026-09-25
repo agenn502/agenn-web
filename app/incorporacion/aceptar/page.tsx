@@ -20,11 +20,13 @@ type Datos = {
     correo?: string | null;
     telefono?: string | null;
 
-    nivel: "INV" | "NUM";
+    nivel: "NOV" | "INV" | "NUM";
     nivelNombre: string;
 
     modalidad:
-      | "INV_FORMACION"
+      | "NOV"
+      | "NOV"
+    | "INV_FORMACION"
       | "INV_ACREDITADO"
       | "NUM"
       | null;
@@ -293,6 +295,12 @@ function AceptarIncorporacionContenido() {
                 {incorporacion.modalidadNombre}
               </strong>
             </div>
+
+            {incorporacion.modalidad === "NOV" && (
+              <p style={{ lineHeight: 1.8 }}>
+                Su incorporación será directa al <strong>Nivel Novicio</strong>. Esta modalidad omite el Nivel Aspirante, pero no certifica todavía el Nivel Novicio: deberá cursar normalmente sus unidades formativas.
+              </p>
+            )}
 
             {incorporacion.modalidad ===
               "INV_FORMACION" && (

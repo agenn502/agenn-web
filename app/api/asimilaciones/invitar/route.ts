@@ -1,15 +1,17 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 import { enviarCorreo, plantillaCorreo } from "@/lib/email";
 import { randomUUID } from "crypto";
 
 function nombreNivel(nivel: string) {
+  if (nivel === "NOV") return "Académico Novicio";
   if (nivel === "INV") return "Académico Investigador";
   if (nivel === "NUM") return "Académico Numerario";
   return nivel;
 }
 
 function nombreModalidad(modalidad: string | null) {
+  if (modalidad === "NOV") return "Académico Novicio";
   if (modalidad === "INV_FORMACION") {
     return "Académico Investigador — en formación";
   }
@@ -26,6 +28,12 @@ function nombreModalidad(modalidad: string | null) {
 }
 
 function textoModalidad(modalidad: string | null) {
+  if (modalidad === "NOV") {
+    return `
+      <p>Su incorporación será realizada directamente al <strong>Nivel Novicio</strong>, omitiendo el Nivel Aspirante.</p>
+      <p>Esta incorporación no constituye la certificación del Nivel Novicio. Deberá cursar normalmente sus unidades formativas para continuar su trayectoria académica.</p>
+    `;
+  }
   if (modalidad === "INV_FORMACION") {
     return `
       <p>
@@ -159,6 +167,7 @@ export async function POST(request: NextRequest) {
         .select(
           `
           id,
+          tipo_propuesta,
           nombre,
           sexo,
           correo,
@@ -182,6 +191,10 @@ export async function POST(request: NextRequest) {
         },
         { status: 404 }
       );
+    }
+
+    if (propuesta.tipo_propuesta === "PROMOCION_EXTRAORDINARIA") {
+      return NextResponse.json({ ok: false, error: "La Promoción extraordinaria se ejecuta automáticamente al alcanzarse la unanimidad y no genera una invitación de incorporación." }, { status: 409 });
     }
 
     if (propuesta.estado !== "aprobada") {

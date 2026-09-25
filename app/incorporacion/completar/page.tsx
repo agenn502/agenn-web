@@ -20,11 +20,13 @@ type Datos = {
     correo?: string | null;
     telefono?: string | null;
 
-    nivel: "INV" | "NUM";
+    nivel: "NOV" | "INV" | "NUM";
     nivelNombre: string;
 
     modalidad:
-      | "INV_FORMACION"
+      | "NOV"
+      | "NOV"
+    | "INV_FORMACION"
       | "INV_ACREDITADO"
       | "NUM"
       | null;
@@ -39,9 +41,10 @@ type Datos = {
 type ResultadoIncorporacion = {
   codigo: string;
 
-  nivel: "INV" | "NUM";
+  nivel: "NOV" | "INV" | "NUM";
 
   modalidad:
+    | "NOV"
     | "INV_FORMACION"
     | "INV_ACREDITADO"
     | "NUM";
@@ -532,6 +535,12 @@ function CompletarIncorporacionContenido() {
               24 horas.
             </p>
           </div>
+
+          {resultado.modalidad === "NOV" && (
+            <div style={{ marginTop: "1rem", lineHeight: 1.8 }}>
+              Su incorporación quedó registrada en el <strong>Nivel Novicio</strong>. Podrá iniciar las unidades formativas de este nivel con su nuevo código institucional.
+            </div>
+          )}
 
           {resultado.modalidad ===
             "INV_FORMACION" && (

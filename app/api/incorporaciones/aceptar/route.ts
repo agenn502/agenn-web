@@ -2,12 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
 function nombreNivel(nivel: string) {
+  if (nivel === "NOV") return "Académico Novicio";
   if (nivel === "INV") return "Académico Investigador";
   if (nivel === "NUM") return "Académico Numerario";
   return nivel;
 }
 
 function nombreModalidad(modalidad: string | null) {
+  if (modalidad === "NOV") return "Académico Novicio";
   if (modalidad === "INV_FORMACION") {
     return "Académico Investigador — en formación";
   }

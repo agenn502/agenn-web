@@ -159,7 +159,7 @@ export default function ProcesoAprobacionPage() {
     { id: "aspirantes", label: "Aspirantes" },
     { id: "novicios", label: "Novicios" },
     { id: "investigadores", label: "Investigadores" },
-    { id: "asimilaciones", label: "Asimilaciones" },
+    { id: "asimilaciones", label: "Incorporaciones y promociones" },
     { id: "biblioteca", label: "Biblioteca" },
   ];
 
@@ -173,7 +173,7 @@ export default function ProcesoAprobacionPage() {
       <p style={{ lineHeight: 1.7 }}>
         Centro de revisión del Consejo Académico para solicitudes de ingreso,
         actividades formativas, procesos de acreditación y propuestas de
-        incorporación por asimilación.
+        incorporación y Promoción extraordinaria.
       </p>
 
       <div

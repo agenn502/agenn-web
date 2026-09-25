@@ -10,6 +10,22 @@ import {
   prefijoRegistroCertificado,
 } from "@/lib/certificados";
 
+
+function textoPromocionExtraordinaria(nivel: string) {
+  const nombreNivel = nivel === "NUM" ? "Académico Numerario" : "Académico Investigador";
+  return {
+    nivel,
+    origen: "PROMOCION_EXTRAORDINARIA",
+    nombreNivel,
+    institucion: ["Academia Guatemalteca de Estudios Numismáticos y Notafílicos", "AGENN"],
+    autoridad: "El Consejo Académico, reunido en pleno",
+    otorgamiento: "resuelve conferir a",
+    textoAntesNivel: "mediante Promoción Extraordinaria el nivel de",
+    justificacion: ["por considerar que cumple con los requisitos académicos y de trayectoria", "necesarios para ascender a este nivel dentro de la Academia"],
+    leyendaOrigen: "Acreditación conferida por Promoción Extraordinaria",
+  };
+}
+
 export async function POST(
   request: NextRequest
 ) {
@@ -56,7 +72,7 @@ export async function POST(
       );
     }
 
-    if (!esOrigenCertificable(origen)) {
+    if (origen !== "PROMOCION_EXTRAORDINARIA" && !esOrigenCertificable(origen)) {
       return NextResponse.json(
         {
           ok: false,
@@ -220,7 +236,8 @@ export async function POST(
         nivel,
         origen_acreditacion,
         fecha_emision,
-        estado
+        estado,
+        plantilla_id
         `
       )
       .eq("codigo_miembro", codigo)
@@ -242,11 +259,34 @@ export async function POST(
      * esa acreditación.
      */
     if (certificadoExistente) {
+      const { data: plantillaExistente, error: plantillaExistenteError } =
+        await supabaseServer
+          .from("certificado_plantillas")
+          .select("id,nombre,archivo")
+          .eq("id", certificadoExistente.plantilla_id)
+          .single();
+
+      if (plantillaExistenteError || !plantillaExistente) {
+        throw new Error(
+          plantillaExistenteError?.message ||
+            "No se encontró la plantilla histórica asociada al certificado."
+        );
+      }
+
+      const textoExistente =
+        origen === "PROMOCION_EXTRAORDINARIA"
+          ? textoPromocionExtraordinaria(nivel)
+          : obtenerTextoCertificado(nivel, origen);
+
       return NextResponse.json({
         ok: true,
         yaExistia: true,
-        certificado:
-          certificadoExistente,
+        certificado: {
+          ...certificadoExistente,
+          texto: textoExistente,
+          plantilla: plantillaExistente.archivo,
+          plantillaNombre: plantillaExistente.nombre,
+        },
       });
     }
 
@@ -326,7 +366,38 @@ export async function POST(
       )}`;
 
     // -------------------------------------------------------
-    // 5. Crear certificado
+    // 5. Fijar la plantilla histórica vigente
+    // -------------------------------------------------------
+
+    const { data: plantillaVigente, error: plantillaError } =
+      await supabaseServer
+        .from("certificado_plantillas")
+        .select("id,nombre,archivo")
+        .eq("activa", true)
+        .order("vigente_desde", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+    if (plantillaError) {
+      throw new Error(plantillaError.message);
+    }
+
+    if (!plantillaVigente) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "No existe una plantilla de certificados activa. Active una plantilla antes de emitir el certificado.",
+        },
+        { status: 409 }
+      );
+    }
+
+    // Desde este momento el certificado queda casado permanentemente
+    // con esta versión de la plantilla, aunque cambie el Consejo Académico.
+
+    // -------------------------------------------------------
+    // 6. Crear certificado
     // -------------------------------------------------------
 
     const {
@@ -358,6 +429,8 @@ export async function POST(
           fechaEmision.toISOString(),
 
         estado: "vigente",
+
+        plantilla_id: plantillaVigente.id,
       })
       .select(
         `
@@ -400,17 +473,16 @@ export async function POST(
     }
 
     // -------------------------------------------------------
-    // 6. Obtener texto institucional
+    // 7. Obtener texto institucional
     // -------------------------------------------------------
 
     const texto =
-      obtenerTextoCertificado(
-        nivel,
-        origen
-      );
+      origen === "PROMOCION_EXTRAORDINARIA"
+        ? textoPromocionExtraordinaria(nivel)
+        : obtenerTextoCertificado(nivel, origen);
 
     // -------------------------------------------------------
-    // 7. Respuesta
+    // 8. Respuesta
     // -------------------------------------------------------
 
     return NextResponse.json({
@@ -422,8 +494,8 @@ export async function POST(
 
         texto,
 
-        plantilla:
-          "/plantillas/certificado.png",
+        plantilla: plantillaVigente.archivo,
+        plantillaNombre: plantillaVigente.nombre,
       },
     });
   } catch (error) {

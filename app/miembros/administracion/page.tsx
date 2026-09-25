@@ -245,6 +245,27 @@ export default function AdministracionPage() {
           quedan registrados en el historial administrativo.
         </p>
 
+        <div
+          style={{
+            marginBottom: "1.5rem",
+            padding: "1rem",
+            border: "1px solid #ddd4c7",
+            borderRadius: "10px",
+            background: "#f7f5ef",
+          }}
+        >
+          <strong>Certificados</strong>
+          <p style={{ margin: "0.35rem 0 0.75rem", color: "#666" }}>
+            Administre las versiones históricas de las plantillas y defina cuál se utilizará para nuevas emisiones.
+          </p>
+          <a
+            href="/miembros/administracion/plantillas-certificados"
+            style={{ color: "#526b5c", fontWeight: 700 }}
+          >
+            Administrar plantillas de certificados →
+          </a>
+        </div>
+
         {error && (
           <div
             style={{

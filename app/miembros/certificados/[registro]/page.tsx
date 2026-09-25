@@ -41,7 +41,8 @@ type Certificado = {
 
   origenAcreditacion:
     | "FORMACION"
-    | "RECONOCIMIENTO";
+    | "RECONOCIMIENTO"
+    | "PROMOCION_EXTRAORDINARIA";
 
   fechaEmision: string;
   estado: string;

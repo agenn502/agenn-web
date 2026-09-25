@@ -7,6 +7,22 @@ import {
   obtenerTextoCertificado,
 } from "@/lib/certificados";
 
+
+function textoPromocionExtraordinaria(nivel: string) {
+  const nombreNivel = nivel === "NUM" ? "Académico Numerario" : "Académico Investigador";
+  return {
+    nivel,
+    origen: "PROMOCION_EXTRAORDINARIA",
+    nombreNivel,
+    institucion: ["Academia Guatemalteca de Estudios Numismáticos y Notafílicos", "AGENN"],
+    autoridad: "El Consejo Académico, reunido en pleno",
+    otorgamiento: "resuelve conferir a",
+    textoAntesNivel: "mediante Promoción Extraordinaria el nivel de",
+    justificacion: ["por considerar que cumple con los requisitos académicos y de trayectoria", "necesarios para ascender a este nivel dentro de la Academia"],
+    leyendaOrigen: "Acreditación conferida por Promoción Extraordinaria",
+  };
+}
+
 export async function GET(
   request: NextRequest,
   context: {
@@ -55,7 +71,8 @@ export async function GET(
         origen_acreditacion,
         fecha_emision,
         estado,
-        created_at
+        created_at,
+        plantilla_id
         `
       )
       .eq("registro", registro)
@@ -105,7 +122,7 @@ export async function GET(
       );
     }
 
-    if (!esOrigenCertificable(origen)) {
+    if (origen !== "PROMOCION_EXTRAORDINARIA" && !esOrigenCertificable(origen)) {
       return NextResponse.json(
         {
           ok: false,
@@ -121,10 +138,9 @@ export async function GET(
     // -------------------------------------------------------
 
     const texto =
-      obtenerTextoCertificado(
-        nivel,
-        origen
-      );
+      origen === "PROMOCION_EXTRAORDINARIA"
+        ? textoPromocionExtraordinaria(nivel)
+        : obtenerTextoCertificado(nivel, origen);
 
     // -------------------------------------------------------
     // 4. Determinar si el solicitante es el propietario
@@ -267,7 +283,25 @@ export async function GET(
     }
 
     // -------------------------------------------------------
-    // 5. Respuesta
+    // 5. Recuperar la plantilla histórica del certificado
+    // -------------------------------------------------------
+
+    const { data: plantillaHistorica, error: plantillaHistoricaError } =
+      await supabaseServer
+        .from("certificado_plantillas")
+        .select("id,nombre,archivo")
+        .eq("id", certificado.plantilla_id)
+        .single();
+
+    if (plantillaHistoricaError || !plantillaHistorica) {
+      throw new Error(
+        plantillaHistoricaError?.message ||
+          "No se encontró la plantilla histórica asociada al certificado."
+      );
+    }
+
+    // -------------------------------------------------------
+    // 6. Respuesta
     // -------------------------------------------------------
 
     return NextResponse.json({
@@ -301,15 +335,10 @@ export async function GET(
 
         texto,
 
-        /*
-         * La página visual siempre buscará esta ruta.
-         *
-         * Si certificado.png todavía no existe,
-         * la página simplemente dibujará el documento
-         * sobre fondo blanco.
-         */
-        plantilla:
-          "/plantillas/certificado.png",
+        // La plantilla queda fijada al momento de la emisión y no cambia
+        // aunque posteriormente cambie la integración del Consejo Académico.
+        plantilla: plantillaHistorica.archivo,
+        plantillaNombre: plantillaHistorica.nombre,
 
         esPropietario,
       },

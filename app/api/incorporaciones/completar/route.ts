@@ -21,6 +21,10 @@ function hashToken(token: string) {
 }
 
 function nombreNivel(nivel: string) {
+  if (nivel === "NOV") {
+    return "Académico Novicio";
+  }
+
   if (nivel === "INV") {
     return "Académico Investigador";
   }
@@ -35,6 +39,10 @@ function nombreNivel(nivel: string) {
 function nombreModalidad(
   modalidad: string | null
 ) {
+  if (modalidad === "NOV") {
+    return "Académico Novicio";
+  }
+
   if (modalidad === "INV_FORMACION") {
     return "Académico Investigador — en formación";
   }
@@ -51,7 +59,7 @@ function nombreModalidad(
 }
 
 async function siguienteCodigo(
-  prefijo: "INV" | "NUM"
+  prefijo: "NOV" | "INV" | "NUM"
 ) {
   const [
     {
@@ -487,6 +495,7 @@ export async function POST(
 
     if (
       ![
+        "NOV",
         "INV_FORMACION",
         "INV_ACREDITADO",
         "NUM",
@@ -504,10 +513,10 @@ export async function POST(
       );
     }
 
-    const nivel:
-      | "INV"
-      | "NUM" =
-      modalidad === "NUM"
+    const nivel: "NOV" | "INV" | "NUM" =
+      modalidad === "NOV"
+        ? "NOV"
+        : modalidad === "NUM"
         ? "NUM"
         : "INV";
 
@@ -666,8 +675,22 @@ export async function POST(
       true;
 
     // -------------------------------------------------------
-    // 10. Si es INV en formación, iniciar Unidad 1
+    // 10. Iniciar el proceso formativo que corresponda
     // -------------------------------------------------------
+
+    if (modalidad === "NOV") {
+      const { error: progresoNovError } = await supabaseServer
+        .from("progreso_novicio")
+        .upsert({
+          user_codigo: codigoNuevo,
+          unidad_slug: "unidad-1",
+          completada: false,
+          porcentaje: 0,
+          respuestas: null,
+          fecha_actualizacion: new Date().toISOString(),
+        }, { onConflict: "user_codigo,unidad_slug" });
+      if (progresoNovError) throw new Error(progresoNovError.message);
+    }
 
     if (
       modalidad ===

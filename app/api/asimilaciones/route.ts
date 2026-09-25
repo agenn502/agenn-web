@@ -65,6 +65,9 @@ export async function GET(request: NextRequest) {
         .select(
           `
           id,
+          tipo_propuesta,
+          miembro_codigo,
+          modalidad_incorporacion,
           fecha_propuesta,
           estado,
           nivel_propuesto,

@@ -21,7 +21,8 @@ type Certificado = {
   codigoMiembro: string;
   nombre: string;
   nivel: "NOV" | "INV" | "NUM";
-  origenAcreditacion: "FORMACION" | "RECONOCIMIENTO";
+  origenAcreditacion: "FORMACION" | "RECONOCIMIENTO"
+    | "PROMOCION_EXTRAORDINARIA";
   fechaEmision: string;
   estado: string;
   createdAt: string;
@@ -129,6 +130,10 @@ export default function VerificarCertificadoPage() {
       origen === "RECONOCIMIENTO"
     ) {
       return "Acreditación por méritos reconocidos";
+    }
+
+    if (origen === "PROMOCION_EXTRAORDINARIA") {
+      return "Acreditación conferida por Promoción Extraordinaria";
     }
 
     return origen;
