@@ -22,6 +22,38 @@ type MenuItem = {
   href: string;
 };
 
+function MenuIcon({ href }: { href: string }) {
+  const common = {
+    width: 18,
+    height: 18,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+
+  if (href === "/miembros") return <svg {...common}><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-6h5v6"/></svg>;
+  if (href.includes("directorio")) return <svg {...common}><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><path d="M16 7h5M16 11h5M17 15h4"/></svg>;
+  if (href.includes("biografia")) return <svg {...common}><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.7-4.5 3-7 7-7s6.3 2.5 7 7"/></svg>;
+  if (href.includes("logo")) return <svg {...common}><path d="M12 3 19 7v10l-7 4-7-4V7z"/><path d="m9 12 2 2 4-5"/></svg>;
+  if (href.includes("niveles")) return <svg {...common}><path d="M4 18h5v-4H4zM9.5 18h5v-8h-5zM15 18h5V6h-5z"/></svg>;
+  if (href.includes("certificados")) return <svg {...common}><path d="M6 3h12v12H6z"/><path d="m9 15-1 6 4-2 4 2-1-6"/><path d="m9.5 9 1.5 1.5L14.5 7"/></svg>;
+  if (href.includes("eventos")) return <svg {...common}><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>;
+  if (href.includes("biblioteca")) return <svg {...common}><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H11v17H7.5A3.5 3.5 0 0 0 4 22z"/><path d="M20 5.5A3.5 3.5 0 0 0 16.5 2H13v17h3.5A3.5 3.5 0 0 1 20 22z"/></svg>;
+  if (href.includes("ensayos")) return <svg {...common}><path d="M5 3h10l4 4v14H5z"/><path d="M15 3v5h5M8 12h8M8 16h8"/></svg>;
+  if (href.includes("revista")) return <svg {...common}><path d="M4 5h7v15H4zM13 5h7v15h-7z"/><path d="M6.5 9h2M6.5 13h2M15.5 9h2M15.5 13h2"/></svg>;
+  if (href.includes("documentos")) return <svg {...common}><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg>;
+  if (href.includes("procesos") || href.includes("proceso_asp") || href.includes("proceso_nov") || href.includes("proceso_inv") || href.includes("proceso_num")) return <svg {...common}><path d="M4 19h16M6 16l4-4 3 2 5-7"/><path d="M15 7h3v3"/></svg>;
+  if (href.includes("asimilaciones")) return <svg {...common}><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6 1.4 0 2.6.4 3.5 1.1"/><path d="M18 13v7M14.5 16.5h7"/></svg>;
+  if (href.includes("proceso-aprobacion")) return <svg {...common}><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16.5 8"/></svg>;
+  if (href.includes("bitacora")) return <svg {...common}><path d="M5 4h14v17H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>;
+  if (href.includes("administracion")) return <svg {...common}><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.4-2.4 1A7 7 0 0 0 15 6.2L14.7 3h-4L10.4 6.2A7 7 0 0 0 8.8 7L6.5 6.1l-2 3.4 2 1.5a7 7 0 0 0 0 2l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 1.6.8l.3 3.2h4l.3-3.2a7 7 0 0 0 1.6-.8l2.3.9 2-3.4-2-1.5c.1-.3.1-.7.1-1z"/></svg>;
+  return <svg {...common}><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg>;
+}
+
 export default function MiembrosLayout({
   children,
 }: {
@@ -681,8 +713,26 @@ export default function MiembrosLayout({
                       gap: "0.75rem",
                     }}
                   >
-                    <span>
-                      {item.label}
+                    <span
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.65rem",
+                        minWidth: 0,
+                      }}
+                    >
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          flex: "0 0 20px",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          opacity: 0.92,
+                        }}
+                      >
+                        <MenuIcon href={item.href} />
+                      </span>
+                      <span>{item.label}</span>
                     </span>
 
                     {item.href ===
@@ -766,7 +816,14 @@ export default function MiembrosLayout({
             cursor: "pointer",
           }}
         >
-          Cerrar sesión
+          <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.55rem" }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M10 4H5v16h5" />
+              <path d="M14 8l4 4-4 4" />
+              <path d="M18 12H9" />
+            </svg>
+            Cerrar sesión
+          </span>
         </button>
       </aside>
 
