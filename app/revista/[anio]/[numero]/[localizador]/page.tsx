@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { cache, ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { supabaseServer } from "@/lib/supabaseServer";
 import CompartirArticulo from "@/components/revista/CompartirArticulo";
+import GenerarPdfArticulo from "@/app/components/revista/GenerarPdfArticulo";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -536,11 +538,27 @@ export default async function ArticuloPublicoPage({
 
   return (
     <div className={styles.pagina}>
-      <nav className={styles.regreso}>
+      <nav className={`${styles.regreso} ${styles.soloPantalla}`}>
         <Link href={`/revista/numeros/${publicacion.numero.slug}`}>
           ← Volver al número
         </Link>
       </nav>
+
+      <div className={styles.soloImpresion} aria-hidden="true">
+        <div className={styles.mastheadPdf}>
+          <img
+            src="/logo-agenn.png"
+            alt="Academia Guatemalteca de Estudios Numismáticos y Notafílicos"
+            className={styles.logoPdf}
+          />
+          <div className={styles.identidadPdf}>
+            <p className={styles.publicacionPdf}>PUBLICACIÓN ACADÉMICA</p>
+            <p className={styles.nombreRevistaPdf}>REVISTA <strong>AGENN</strong></p>
+            <div className={styles.lineaPdf}><span /></div>
+            <p className={styles.lemaPdf}>CONOCIMIENTO QUE TRASCIENDE, IMPACTO QUE TRANSFORMA</p>
+          </div>
+        </div>
+      </div>
 
       <header className={styles.encabezado}>
         <p className={styles.referenciaNumero}>
@@ -573,7 +591,10 @@ export default async function ArticuloPublicoPage({
             : ""}
         </p>
 
-        <CompartirArticulo titulo={titulo} />
+        <div className={styles.soloPantalla}>
+          <CompartirArticulo titulo={titulo} />
+          <GenerarPdfArticulo />
+        </div>
       </header>
 
       {publicacion.manuscrito.tipo_contenido === "RESENA" &&

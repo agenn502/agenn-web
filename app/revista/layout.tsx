@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import RevistaHeader from "../../components/revista/RevistaHeader";
 import Footer from "../../components/Footer";
+import styles from "./layout.module.css";
 
 export const metadata: Metadata = {
   title: {
@@ -18,9 +19,13 @@ export default function RevistaLayout({
 }) {
   return (
     <>
-      <RevistaHeader />
+      <div className={styles.soloPantallaImpresion}>
+        <RevistaHeader />
+      </div>
       <main>{children}</main>
-      <Footer />
+      <div className={styles.soloPantallaImpresion}>
+        <Footer />
+      </div>
     </>
   );
 }

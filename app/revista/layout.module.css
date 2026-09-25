@@ -1,0 +1,9 @@
+.soloPantallaImpresion {
+  display: contents;
+}
+
+@media print {
+  .soloPantallaImpresion {
+    display: none !important;
+  }
+}

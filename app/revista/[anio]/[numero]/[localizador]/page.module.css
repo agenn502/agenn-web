@@ -366,3 +366,286 @@
     text-align: justify !important;
   }
 }
+/* =========================================================
+   Versión impresa / PDF de Revista AGENN
+   Se genera con el motor de impresión del navegador y no se
+   almacena ningún PDF en Vercel.
+   ========================================================= */
+.soloPantalla {
+  display: block;
+}
+
+.soloImpresion {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: Letter;
+    margin: 18mm 15mm 18mm 15mm;
+
+    @top-center {
+      content: "REVISTA AGENN";
+      font-family: "Times New Roman", Times, serif;
+      font-size: 9pt;
+      letter-spacing: 0.08em;
+      color: #555;
+    }
+
+    @bottom-center {
+      content: "Página " counter(page);
+      font-family: "Times New Roman", Times, serif;
+      font-size: 9pt;
+      color: #555;
+    }
+  }
+
+  .soloPantalla,
+  .regreso {
+    display: none !important;
+  }
+
+  .soloImpresion {
+    display: block !important;
+  }
+
+  .mastheadPdf {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5mm;
+    padding: 0 0 7mm;
+    margin: 0 0 7mm;
+    border-bottom: 1.2pt solid #354526;
+    break-inside: avoid;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .logoPdf {
+    display: block !important;
+    width: 34mm !important;
+    height: auto !important;
+    max-height: 34mm !important;
+    margin: 0 auto 1mm !important;
+    object-fit: contain;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .identidadPdf {
+    flex: 1;
+    text-align: center;
+    font-family: "Times New Roman", Times, serif;
+  }
+
+  .publicacionPdf {
+    margin: 0 0 1mm !important;
+    font-size: 8.5pt !important;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+
+  .nombreRevistaPdf {
+    margin: 0 !important;
+    font-size: 24pt !important;
+    line-height: 1 !important;
+    letter-spacing: 0.05em;
+    color: #354526;
+  }
+
+  .nombreRevistaPdf strong {
+    color: #9a7423;
+    font-weight: 700;
+  }
+
+  .lineaPdf {
+    display: flex;
+    align-items: center;
+    margin: 2.5mm 0 2mm;
+  }
+
+  .lineaPdf span {
+    display: block;
+    width: 100%;
+    border-top: 0.8pt solid #c8a24b;
+  }
+
+  .lemaPdf {
+    margin: 0 !important;
+    font-size: 7.5pt !important;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .pagina {
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #000 !important;
+    background: #fff !important;
+  }
+
+  .encabezado {
+    padding: 0 0 8mm !important;
+    margin: 0 0 7mm !important;
+    border-bottom: 0.6pt solid #777;
+    break-after: avoid !important;
+    break-after: avoid-page !important;
+    break-after: avoid-column !important;
+    page-break-after: avoid !important;
+  }
+
+  .contenido h1 + p,
+  .contenido h2 + p,
+  .contenido h3 + p,
+  .contenido h4 + p,
+  .htmlEnriquecido h1 + p,
+  .htmlEnriquecido h2 + p,
+  .htmlEnriquecido h3 + p,
+  .htmlEnriquecido h4 + p {
+    break-before: avoid !important;
+    break-before: avoid-page !important;
+    break-before: avoid-column !important;
+    page-break-before: avoid !important;
+  }
+
+  .referenciaNumero {
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 9.5pt !important;
+    color: #333 !important;
+  }
+
+  .encabezado h1 {
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 18pt !important;
+    line-height: 1.15 !important;
+    color: #000 !important;
+  }
+
+  .autor,
+  .clasificacion {
+    font-family: "Times New Roman", Times, serif !important;
+    color: #000 !important;
+  }
+
+  .contenido,
+  .htmlEnriquecido {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 12pt !important;
+    line-height: 1.3 !important;
+    text-align: justify !important;
+    orphans: 3;
+    widows: 3;
+  }
+
+  .contenido {
+    column-count: 2;
+    column-gap: 9mm;
+    column-fill: auto;
+  }
+
+  .htmlEnriquecido {
+    column-count: auto !important;
+  }
+
+  .contenido p,
+  .htmlEnriquecido p {
+    margin: 0 0 3.5mm !important;
+  }
+
+  .contenido h1,
+  .contenido h2,
+  .contenido h3,
+  .contenido h4,
+  .htmlEnriquecido h1,
+  .htmlEnriquecido h2,
+  .htmlEnriquecido h3,
+  .htmlEnriquecido h4 {
+    font-family: "Times New Roman", Times, serif !important;
+    color: #000 !important;
+    break-after: avoid-page;
+    page-break-after: avoid;
+  }
+
+  .contenido h2,
+  .htmlEnriquecido h2 {
+    font-size: 13pt !important;
+    margin: 5mm 0 2.5mm !important;
+  }
+
+  .contenido h3,
+  .htmlEnriquecido h3 {
+    font-size: 12pt !important;
+    margin: 4mm 0 2mm !important;
+  }
+
+  .figura,
+  .imagenPrincipal,
+  .figuraPortada {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .figura img,
+  .imagenPrincipal img,
+  .htmlEnriquecido img,
+  .figuraPortada img {
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+
+  .figura figcaption,
+  .imagenPrincipal figcaption,
+  .htmlEnriquecido figcaption,
+  .piePortada {
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 8.5pt !important;
+    line-height: 1.2 !important;
+    color: #333 !important;
+  }
+
+  .imagenPrincipal,
+  .fichaResena {
+    max-width: none !important;
+    margin: 0 0 7mm !important;
+  }
+
+  .fichaResena {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 0.6pt solid #aaa !important;
+    background: #fff !important;
+  }
+
+  .cita {
+    max-width: none !important;
+    margin: 7mm 0 0 !important;
+    padding: 4mm !important;
+    background: #fff !important;
+    border: 0.6pt solid #aaa !important;
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 9.5pt !important;
+    break-inside: avoid;
+  }
+
+  .pagina aside[aria-label="Derechos de autor y licencia"] {
+    margin-top: 7mm !important;
+    padding-top: 4mm !important;
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 8.5pt !important;
+    line-height: 1.3 !important;
+    break-inside: avoid;
+  }
+
+  .pagina a {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+}
