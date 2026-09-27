@@ -165,8 +165,10 @@ export async function POST(request: NextRequest) {
         estado = "aprobada";
         if (propuesta.tipo_propuesta === "PROMOCION_EXTRAORDINARIA") {
           resultado = `El Consejo Académico, reunido en pleno, resuelve por unanimidad la Promoción extraordinaria de ${propuesta.nombre} al nivel de ${nivelTexto}.`;
-          promocion = await aplicarPromocion(propuesta);
-          estado = "promocion_ejecutada";
+          // La resolución se persiste primero. La ejecución administrativa de la
+          // promoción se realiza después, para no perder el cierre de la votación
+          // si esa segunda etapa presenta un error técnico.
+          estado = "aprobada";
         } else {
           resultado = `El Consejo Académico, por unanimidad, resuelve aprobar la incorporación por asimilación de ${propuesta.nombre} al nivel de ${nivelTexto}.`;
         }
@@ -178,8 +180,71 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const { error: ua } = await supabaseServer.from("asimilaciones").update({ votos_favor: votosFavor, votos_contra: votosContra, votos_emitidos: votosEmitidos, estado, resultado, fecha_resolucion: fechaResolucion }).eq("id", asimilacionId); if (ua) throw new Error(ua.message);
-    return NextResponse.json({ ok: true, votosFavor, votosContra, votosEmitidos, totalConsejo, estado, resultado, promocion });
+    // Primero persistimos SIEMPRE el recuento real y, cuando corresponda, la
+    // resolución. Así un error posterior al ejecutar una promoción no puede
+    // dejar 3 votos reales con el resumen congelado en 2/3 y estado pendiente.
+    const { error: ua } = await supabaseServer
+      .from("asimilaciones")
+      .update({
+        votos_favor: votosFavor,
+        votos_contra: votosContra,
+        votos_emitidos: votosEmitidos,
+        estado,
+        resultado,
+        fecha_resolucion: fechaResolucion,
+      })
+      .eq("id", asimilacionId);
+    if (ua) throw new Error(ua.message);
+
+    // La ejecución administrativa de una Promoción extraordinaria ocurre
+    // DESPUÉS de haber dejado registrada la resolución del Consejo.
+    // Si esta etapa falla, la votación no vuelve artificialmente a "pendiente".
+    if (
+      estado === "aprobada" &&
+      propuesta.tipo_propuesta === "PROMOCION_EXTRAORDINARIA"
+    ) {
+      try {
+        promocion = await aplicarPromocion(propuesta);
+      } catch (errorPromocion) {
+        const detalle =
+          errorPromocion instanceof Error
+            ? errorPromocion.message
+            : "No fue posible completar automáticamente la promoción.";
+
+        await supabaseServer
+          .from("asimilaciones")
+          .update({
+            estado: "aprobada_ejecucion_pendiente",
+            observaciones:
+              "La resolución fue aprobada por unanimidad, pero la ejecución administrativa automática quedó pendiente por un error técnico.",
+          })
+          .eq("id", asimilacionId);
+
+        return NextResponse.json(
+          {
+            ok: false,
+            votoRegistrado: true,
+            resolucionEmitida: true,
+            estado: "aprobada_ejecucion_pendiente",
+            error:
+              "El voto fue registrado y la propuesta quedó aprobada por unanimidad, pero la ejecución administrativa de la promoción no pudo completarse. No vuelva a votar; revise el expediente.",
+            detalle,
+          },
+          { status: 500 }
+        );
+      }
+    }
+
+    return NextResponse.json({
+      ok: true,
+      votosFavor,
+      votosContra,
+      votosEmitidos,
+      totalConsejo,
+      estado,
+      resultado,
+      promocion,
+    });
   } catch (error) {
     console.error("Error en /api/asimilaciones/votar:", error);
     return NextResponse.json({ ok: false, error: error instanceof Error ? error.message : "No fue posible registrar el voto." }, { status: 500 });

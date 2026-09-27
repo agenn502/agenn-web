@@ -57,7 +57,8 @@ export async function GET(req: NextRequest) {
     supabaseServer
       .from("asimilaciones")
       .select("*", { count: "exact", head: true })
-      .eq("estado", "pendiente"),
+      .eq("estado", "pendiente")
+      .is("fecha_incorporacion", null),
 
     supabaseServer
       .from("biblioteca_solicitudes")

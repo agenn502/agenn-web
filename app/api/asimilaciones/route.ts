@@ -288,8 +288,21 @@ export async function GET(request: NextRequest) {
         const votosEmitidos =
           votosPropuesta.length;
 
+        // Si una Promoción extraordinaria ya fue aplicada (fecha_incorporacion),
+        // esa es la fuente de verdad aunque una ejecución anterior haya dejado
+        // accidentalmente el campo estado como "pendiente". No reejecutamos
+        // la promoción: únicamente normalizamos lo que recibe la interfaz.
+        // Una fecha de incorporación significa que el proceso ya concluyó.
+        // La interfaz histórica reconoce "aprobada" como estado resuelto; usar
+        // "promocion_ejecutada" hacía que el panel cayera en su etiqueta por
+        // defecto: "Pendiente de votación", aunque la promoción sí se hubiera aplicado.
+        const estadoEfectivo = Boolean(propuesta.fecha_incorporacion)
+          ? "aprobada"
+          : propuesta.estado;
+
         return {
           ...propuesta,
+          estado: estadoEfectivo,
 
           proponente_nombre:
             datosProponente?.nombre ||
@@ -314,7 +327,7 @@ export async function GET(request: NextRequest) {
           mi_voto: miVoto,
 
           puede_votar:
-            propuesta.estado === "pendiente" &&
+            estadoEfectivo === "pendiente" &&
             miVoto === null,
         };
       }

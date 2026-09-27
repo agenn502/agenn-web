@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import {
   useCallback,
@@ -21,6 +21,7 @@ type Voto = {
 
 type Asimilacion = {
   id: number;
+  tipo_propuesta?: "INCORPORACION" | "PROMOCION_EXTRAORDINARIA";
   fecha_propuesta: string;
   estado: string;
 
@@ -427,6 +428,8 @@ export default function AsimilacionesPanel() {
 
       aprobada:
         "Aprobada",
+      aprobada_ejecucion_pendiente:
+        "Aprobada — ejecución administrativa pendiente",
 
       rechazada:
         "No aprobada",

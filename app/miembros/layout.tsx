@@ -36,6 +36,7 @@ function MenuIcon({ href }: { href: string }) {
   };
 
   if (href === "/miembros") return <svg {...common}><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-6h5v6"/></svg>;
+  if (href.includes("mensajes")) return <svg {...common}><path d="M4 5h16v12H8l-4 4z"/><path d="m7 9 5 4 5-4"/></svg>;
   if (href.includes("directorio")) return <svg {...common}><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6"/><path d="M16 7h5M16 11h5M17 15h4"/></svg>;
   if (href.includes("biografia")) return <svg {...common}><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.7-4.5 3-7 7-7s6.3 2.5 7 7"/></svg>;
   if (href.includes("logo")) return <svg {...common}><path d="M12 3 19 7v10l-7 4-7-4V7z"/><path d="m9 12 2 2 4-5"/></svg>;
@@ -69,6 +70,7 @@ export default function MiembrosLayout({
     useState(0);
   const [novedadesRevistaAutor, setNovedadesRevistaAutor] =
     useState(0);
+  const [mensajesNoLeidos, setMensajesNoLeidos] = useState(0);
 
   const [alertaAscenso, setAlertaAscenso] = useState("");
   const [verificandoPerfil, setVerificandoPerfil] = useState(true);
@@ -169,6 +171,21 @@ export default function MiembrosLayout({
       }
 
       setVerificandoPerfil(false);
+
+      // -------------------------------------------------------
+      // MENSAJES INTERNOS NO LEÍDOS
+      // -------------------------------------------------------
+
+      try {
+        const response = await fetch("/api/mensajes/pendientes", {
+          headers: { "x-user-codigo": parsed.codigo },
+          cache: "no-store",
+        });
+        const result = await response.json();
+        setMensajesNoLeidos(response.ok && result?.ok ? Number(result.total) || 0 : 0);
+      } catch {
+        setMensajesNoLeidos(0);
+      }
 
       // -------------------------------------------------------
       // CONTADOR DE PROCESOS PENDIENTES DEL CONSEJO
@@ -362,6 +379,26 @@ export default function MiembrosLayout({
 
     cargar();
   }, [pathname]);
+
+  useEffect(() => {
+    const actualizarMensajes = async () => {
+      const stored = localStorage.getItem("user");
+      if (!stored) return;
+      try {
+        const parsed = JSON.parse(stored);
+        const codigo = String(parsed.codigo || "").trim().toUpperCase();
+        if (!codigo) return;
+        const response = await fetch("/api/mensajes/pendientes", {
+          headers: { "x-user-codigo": codigo },
+          cache: "no-store",
+        });
+        const result = await response.json();
+        if (response.ok && result?.ok) setMensajesNoLeidos(Number(result.total) || 0);
+      } catch { /* No bloquea la navegación. */ }
+    };
+    window.addEventListener("agenn-mensajes-actualizados", actualizarMensajes);
+    return () => window.removeEventListener("agenn-mensajes-actualizados", actualizarMensajes);
+  }, []);
 
   if (!user || verificandoPerfil) {
     return (
@@ -638,6 +675,10 @@ export default function MiembrosLayout({
       label: "Inicio",
       href: "/miembros",
     },
+    {
+      label: "Mensajería",
+      href: "/miembros/mensajes",
+    },
     ...getMenu(),
     ...(esConsejo
       ? [{ label: "Bitácora interna", href: "/miembros/bitacora" }]
@@ -734,6 +775,27 @@ export default function MiembrosLayout({
                       </span>
                       <span>{item.label}</span>
                     </span>
+
+                    {item.href ===
+                      "/miembros/mensajes" &&
+                      mensajesNoLeidos > 0 && (
+                        <span
+                          style={{
+                            display: "inline-grid",
+                            placeItems: "center",
+                            minWidth: "24px",
+                            height: "24px",
+                            padding: "0 6px",
+                            borderRadius: "999px",
+                            background: "#6b6f1a",
+                            color: "white",
+                            fontSize: "0.78rem",
+                            fontWeight: 700,
+                          }}
+                        >
+                          {mensajesNoLeidos}
+                        </span>
+                      )}
 
                     {item.href ===
                       "/miembros/revista" &&
