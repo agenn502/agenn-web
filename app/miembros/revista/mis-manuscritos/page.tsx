@@ -86,6 +86,9 @@ export default function MisManuscritosPage() {
   const [error, setError] =
     useState("");
 
+  const [eliminandoId, setEliminandoId] =
+    useState<number | null>(null);
+
   const cargar =
     useCallback(async () => {
       const codigo =
@@ -151,6 +154,58 @@ export default function MisManuscritosPage() {
         setLoading(false);
       }
     }, []);
+
+  const eliminarManuscrito = async (manuscrito: Manuscrito) => {
+    if (manuscrito.estado !== "BORRADOR") return;
+
+    const confirmar = window.confirm(
+      `¿Eliminar definitivamente el manuscrito “${manuscrito.titulo_actual}”?\n\nEsta acción no se puede deshacer.`,
+    );
+
+    if (!confirmar) return;
+
+    const codigo = codigoLocal();
+    if (!codigo) {
+      window.location.href = "/login";
+      return;
+    }
+
+    setEliminandoId(manuscrito.id);
+    setError("");
+
+    try {
+      const response = await fetch(
+        `/api/revista/mis-manuscritos/${manuscrito.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "x-user-codigo": codigo,
+          },
+        },
+      );
+
+      const texto = await response.text();
+      const result = texto ? JSON.parse(texto) : null;
+
+      if (!response.ok || !result?.ok) {
+        throw new Error(
+          result?.error || "No fue posible eliminar el manuscrito.",
+        );
+      }
+
+      setManuscritos((actuales) =>
+        actuales.filter((item) => item.id !== manuscrito.id),
+      );
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "No fue posible eliminar el manuscrito.",
+      );
+    } finally {
+      setEliminandoId(null);
+    }
+  };
 
   useEffect(() => {
     cargar();
@@ -370,42 +425,65 @@ export default function MisManuscritosPage() {
                   </div>
                 </div>
 
-                <Link
-                  href={`/miembros/revista/mis-manuscritos/${manuscrito.id}`}
+                <div
                   style={{
-                    background:
-                      ["BORRADOR", "CORRECCIONES"].includes(
-                        manuscrito.estado
+                    display: "flex",
+                    gap: "0.65rem",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <Link
+                    href={`/miembros/revista/mis-manuscritos/${manuscrito.id}`}
+                    style={{
+                      background: ["BORRADOR", "CORRECCIONES"].includes(
+                        manuscrito.estado,
                       )
                         ? "#d9a928"
                         : "#6b6f1a",
-
-                    color:
-                      ["BORRADOR", "CORRECCIONES"].includes(
-                        manuscrito.estado
+                      color: ["BORRADOR", "CORRECCIONES"].includes(
+                        manuscrito.estado,
                       )
                         ? "#332600"
                         : "white",
+                      textDecoration: "none",
+                      padding: "0.75rem 1rem",
+                      borderRadius: "8px",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {manuscrito.estado === "BORRADOR"
+                      ? "Continuar escribiendo"
+                      : manuscrito.estado === "CORRECCIONES"
+                      ? "Realizar correcciones"
+                      : "Ver manuscrito"}
+                  </Link>
 
-                    textDecoration:
-                      "none",
-
-                    padding:
-                      "0.75rem 1rem",
-
-                    borderRadius:
-                      "8px",
-
-                    fontWeight:
-                      700,
-                  }}
-                >
-                  {manuscrito.estado === "BORRADOR"
-                    ? "Continuar escribiendo"
-                    : manuscrito.estado === "CORRECCIONES"
-                    ? "Realizar correcciones"
-                    : "Ver manuscrito"}
-                </Link>
+                  {manuscrito.estado === "BORRADOR" && (
+                    <button
+                      type="button"
+                      onClick={() => eliminarManuscrito(manuscrito)}
+                      disabled={eliminandoId === manuscrito.id}
+                      style={{
+                        background: "white",
+                        color: "#8a2f2f",
+                        border: "1px solid #b85c5c",
+                        padding: "0.72rem 1rem",
+                        borderRadius: "8px",
+                        fontWeight: 700,
+                        cursor:
+                          eliminandoId === manuscrito.id
+                            ? "not-allowed"
+                            : "pointer",
+                        opacity: eliminandoId === manuscrito.id ? 0.65 : 1,
+                      }}
+                    >
+                      {eliminandoId === manuscrito.id
+                        ? "Eliminando…"
+                        : "Eliminar"}
+                    </button>
+                  )}
+                </div>
               </div>
             )
           )}

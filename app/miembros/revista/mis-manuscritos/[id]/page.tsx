@@ -30,6 +30,23 @@ type Manuscrito = {
   tema: string | null;
   fecha_ingreso: string;
   fecha_aval: string | null;
+  revision_preliminar_editorial?: RevisionEditorial | null;
+  fecha_revision_preliminar_editorial?: string | null;
+  firma_revision_preliminar_editorial?: string | null;
+};
+
+type RevisionEditorial = {
+  estado: "REQUIERE_AJUSTES" | "LISTO_PARA_REMITIR";
+  sintesis: string;
+  ortografia: string;
+  gramatica: string;
+  comprension: string;
+  citacion: string;
+  congruenciaBibliografica: string;
+  bibliografiaAPA: string;
+  correccionesObligatorias: string[];
+  recomendacionesOpcionales: string[];
+  recomendacionFinal: string;
 };
 
 type ResenaBibliografica = {
@@ -563,6 +580,8 @@ export default function MiManuscritoPage() {
   >("SIN_CAMBIOS");
 
   const [error, setError] = useState("");
+  const [revisionEditorial, setRevisionEditorial] = useState<RevisionEditorial | null>(null);
+  const [revisandoEditorial, setRevisandoEditorial] = useState(false);
 
   const cambiarDatoResena = (
     campo: keyof ResenaBibliografica,
@@ -619,6 +638,7 @@ export default function MiManuscritoPage() {
       }
 
       setManuscrito(result.manuscrito);
+      setRevisionEditorial(result.manuscrito.revision_preliminar_editorial || null);
 
       setResena(result.resena || null);
 
@@ -827,6 +847,31 @@ export default function MiManuscritoPage() {
     if (mostrarAlerta) {
       alert("Cambios guardados.");
     }
+  };
+
+  const realizarRevisionEditorial = async () => {
+    if (!manuscrito) return;
+    const contenidoActual = editorRef.current ? editorAContenido(editorRef.current) : contenido;
+    if (!titulo.trim() || !contenidoActual.trim()) { setError("El manuscrito debe conservar título y contenido."); return; }
+    setRevisandoEditorial(true); setError("");
+    try {
+      // Da oportunidad a React de pintar el indicador antes de iniciar las solicitudes de red.
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      });
+
+      // Primero guarda la versión actual para no revisar un texto distinto del borrador persistido.
+      await guardarContenido(contenidoActual.trim());
+      const response = await fetch("/api/revista/revision-preliminar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-user-codigo": codigoLocal() },
+        body: JSON.stringify({ manuscritoId: manuscrito.id, titulo: titulo.trim(), contenido: contenidoActual.trim() }),
+      });
+      const texto = await response.text(); const result = texto ? JSON.parse(texto) : null;
+      if (!response.ok || !result?.ok) throw new Error(result?.error || "No fue posible realizar la revisión preliminar.");
+      setRevisionEditorial(result.revision); await cargar();
+    } catch (err) { setError(err instanceof Error ? err.message : "No fue posible realizar la revisión preliminar."); }
+    finally { setRevisandoEditorial(false); }
   };
 
   const guardar = async (accion: "GUARDAR" | "ENVIAR" | "REENVIAR") => {
@@ -2409,7 +2454,7 @@ export default function MiManuscritoPage() {
       )}
 
       {/* ===================================================
-          REENVÍO
+          REVISIÓN PRELIMINAR / ENVÍO EDITORIAL
       =================================================== */}
 
       {editable && (
@@ -2422,78 +2467,283 @@ export default function MiManuscritoPage() {
             marginBottom: "1.5rem",
           }}
         >
-          <h2
-            style={{
-              marginTop: 0,
-              color: "#356128",
-            }}
-          >
-            {manuscrito.estado === "BORRADOR"
-              ? manuscrito.flujo_editorial === "SIMPLIFICADO"
-                ? "Enviar al Banco de publicables"
-                : "Enviar al Consejo Editorial"
-              : "Reenviar al Consejo Editorial"}
-          </h2>
+          {manuscrito.estado === "BORRADOR" ? (
+            <>
+              <h2 style={{ marginTop: 0, color: "#356128" }}>
+                Revisión preliminar editorial
+              </h2>
 
-          <p
-            style={{
-              lineHeight: 1.7,
-              color: "#4d5f44",
-            }}
-          >
-            {manuscrito.estado === "BORRADOR"
-              ? manuscrito.flujo_editorial === "SIMPLIFICADO"
-                ? "Cuando la publicación esté completa, envíela al Banco de publicables. El texto, la portada y las imágenes quedarán congelados como versión 1."
-                : "Cuando la publicación esté completa, envíela para iniciar su revisión. El texto y las imágenes quedarán congelados como versión 1."
-              : "Cuando haya atendido las observaciones, envíe la nueva versión. El texto y las imágenes quedarán registrados de forma independiente de la versión anterior."}
-          </p>
+              <p style={{ lineHeight: 1.7, color: "#4d5f44" }}>
+                Antes del primer envío se revisarán ortografía, gramática, comprensión, citación, congruencia entre citas y bibliografía y consistencia bibliográfica en formato APA. Esta revisión no evalúa el mérito académico ni sustituye al Consejo Editorial.
+              </p>
 
-          <label>
-            <strong>Nota para el Consejo Editorial</strong>
-          </label>
+              <button
+                type="button"
+                disabled={procesando || revisandoEditorial}
+                onClick={realizarRevisionEditorial}
+                style={{
+                  background: "#356128",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "8px",
+                  padding: "0.7rem 1rem",
+                  fontWeight: 700,
+                }}
+              >
+                {revisandoEditorial
+                  ? "Revisando…"
+                  : revisionEditorial
+                    ? "Realizar nueva revisión preliminar"
+                    : "Realizar revisión preliminar"}
+              </button>
 
-          <textarea
-            value={nota}
-            disabled={procesando}
-            onChange={(e) => setNota(e.target.value)}
-            rows={4}
-            placeholder={
-              manuscrito.estado === "BORRADOR"
-                ? manuscrito.flujo_editorial === "SIMPLIFICADO"
-                  ? "Nota opcional para el equipo editorial..."
-                  : "Nota opcional para el Consejo Editorial..."
-                : "Explique brevemente los ajustes realizados..."
-            }
-            style={{
-              width: "100%",
-              boxSizing: "border-box",
-              padding: "0.8rem",
-              marginTop: "0.5rem",
-            }}
-          />
+              {revisandoEditorial && (
+                <div
+                  role="status"
+                  aria-live="assertive"
+                  aria-busy="true"
+                  style={{
+                    position: "fixed",
+                    inset: 0,
+                    zIndex: 99999,
+                    background: "rgba(20, 32, 17, 0.38)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "1rem",
+                  }}
+                >
+                  <style>{`
+                    @keyframes agennRevisionBarra {
+                      0% { left: -38%; }
+                      100% { left: 100%; }
+                    }
+                    @keyframes agennRevisionGiro {
+                      to { transform: rotate(360deg); }
+                    }
+                  `}</style>
 
-          <button
-            type="button"
-            disabled={procesando}
-            onClick={() =>
-              guardar(manuscrito.estado === "BORRADOR" ? "ENVIAR" : "REENVIAR")
-            }
-            style={{
-              marginTop: "1rem",
-              background: "#356128",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              padding: "0.8rem 1rem",
-              fontWeight: 700,
-            }}
-          >
-            {manuscrito.estado === "BORRADOR"
-              ? manuscrito.flujo_editorial === "SIMPLIFICADO"
-                ? "Enviar al Banco de publicables"
-                : "Enviar publicación"
-              : "Reenviar nueva versión"}
-          </button>
+                  <div
+                    style={{
+                      width: "min(520px, 92vw)",
+                      background: "#ffffff",
+                      border: "1px solid #cfe3c4",
+                      borderRadius: "14px",
+                      boxShadow: "0 18px 55px rgba(0,0,0,0.22)",
+                      padding: "1.35rem 1.4rem",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.8rem",
+                        marginBottom: "1rem",
+                        color: "#356128",
+                        fontWeight: 800,
+                        fontSize: "1.05rem",
+                      }}
+                    >
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          width: "22px",
+                          height: "22px",
+                          flex: "0 0 22px",
+                          border: "3px solid #dce9d6",
+                          borderTopColor: "#356128",
+                          borderRadius: "50%",
+                          animation: "agennRevisionGiro 0.8s linear infinite",
+                        }}
+                      />
+                      Realizando revisión preliminar editorial…
+                    </div>
+
+                    <div
+                      aria-hidden="true"
+                      style={{
+                        position: "relative",
+                        height: "10px",
+                        overflow: "hidden",
+                        borderRadius: "999px",
+                        background: "#e2eddc",
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          bottom: 0,
+                          width: "38%",
+                          borderRadius: "999px",
+                          background: "#4f7d3d",
+                          animation: "agennRevisionBarra 1.35s linear infinite",
+                        }}
+                      />
+                    </div>
+
+                    <p
+                      style={{
+                        margin: "0.9rem 0 0",
+                        color: "#5f6d59",
+                        fontSize: "0.94rem",
+                        lineHeight: 1.55,
+                      }}
+                    >
+                      Se están revisando ortografía, gramática, comprensión, citas y bibliografía. Este proceso puede tardar algunos segundos.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {revisionEditorial && (
+                <div style={{ marginTop: "1rem", lineHeight: 1.6 }}>
+                  <p>
+                    <strong>
+                      {revisionEditorial.estado === "LISTO_PARA_REMITIR"
+                        ? "Revisión satisfactoria"
+                        : "Requiere ajustes"}
+                    </strong>
+                  </p>
+                  <p>{revisionEditorial.sintesis}</p>
+                  <p><strong>Ortografía:</strong> {revisionEditorial.ortografia}</p>
+                  <p><strong>Gramática:</strong> {revisionEditorial.gramatica}</p>
+                  <p><strong>Comprensión:</strong> {revisionEditorial.comprension}</p>
+                  <p><strong>Citación:</strong> {revisionEditorial.citacion}</p>
+                  <p><strong>Congruencia bibliográfica:</strong> {revisionEditorial.congruenciaBibliografica}</p>
+                  <p><strong>Bibliografía APA:</strong> {revisionEditorial.bibliografiaAPA}</p>
+
+                  {revisionEditorial.correccionesObligatorias.length > 0 && (
+                    <>
+                      <strong>Correcciones necesarias</strong>
+                      <ul>
+                        {revisionEditorial.correccionesObligatorias.map((x, i) => (
+                          <li key={`c-${i}`}>{x}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+
+                  {revisionEditorial.recomendacionesOpcionales.length > 0 && (
+                    <>
+                      <strong>Recomendaciones opcionales</strong>
+                      <ul>
+                        {revisionEditorial.recomendacionesOpcionales.map((x, i) => (
+                          <li key={`r-${i}`}>{x}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+
+                  <p><strong>{revisionEditorial.recomendacionFinal}</strong></p>
+
+                  {revisionEditorial.estado === "REQUIERE_AJUSTES" && (
+                    <p style={{ marginBottom: 0, fontWeight: 600, color: "#7a4d00" }}>
+                      Atienda las correcciones necesarias señaladas y vuelva a realizar la revisión preliminar. El envío al Consejo Editorial se habilitará cuando el manuscrito reúna las condiciones formales requeridas.
+                    </p>
+                  )}
+
+                  <p style={{ fontSize: "0.9rem", color: "#667" }}>
+                    Esta revisión tiene carácter orientativo y formal. El Consejo Editorial conserva íntegramente su facultad de solicitar correcciones y emitir la resolución editorial correspondiente.
+                  </p>
+                </div>
+              )}
+
+              {revisionEditorial?.estado === "LISTO_PARA_REMITIR" && (
+                <div
+                  style={{
+                    marginTop: "1.5rem",
+                    paddingTop: "1.5rem",
+                    borderTop: "1px solid #cfe3c4",
+                  }}
+                >
+                  <h2 style={{ marginTop: 0, color: "#356128" }}>
+                    Enviar al Consejo Editorial
+                  </h2>
+                  <p style={{ lineHeight: 1.7, color: "#4d5f44" }}>
+                    La revisión preliminar editorial ha concluido satisfactoriamente. Cuando esté listo, envíe el manuscrito para iniciar la revisión del Consejo Editorial. El texto y las imágenes quedarán congelados como versión 1.
+                  </p>
+
+                  <label>
+                    <strong>Nota para el Consejo Editorial</strong>
+                  </label>
+                  <textarea
+                    value={nota}
+                    disabled={procesando}
+                    onChange={(e) => setNota(e.target.value)}
+                    rows={4}
+                    placeholder="Nota opcional para el Consejo Editorial..."
+                    style={{
+                      width: "100%",
+                      boxSizing: "border-box",
+                      padding: "0.8rem",
+                      marginTop: "0.5rem",
+                    }}
+                  />
+
+                  <button
+                    type="button"
+                    disabled={procesando}
+                    onClick={() => guardar("ENVIAR")}
+                    style={{
+                      marginTop: "1rem",
+                      background: "#356128",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "8px",
+                      padding: "0.8rem 1rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Enviar al Consejo Editorial
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <h2 style={{ marginTop: 0, color: "#356128" }}>
+                Reenviar al Consejo Editorial
+              </h2>
+              <p style={{ lineHeight: 1.7, color: "#4d5f44" }}>
+                Cuando haya atendido las observaciones, envíe la nueva versión. El texto y las imágenes quedarán registrados de forma independiente de la versión anterior.
+              </p>
+
+              <label>
+                <strong>Nota para el Consejo Editorial</strong>
+              </label>
+              <textarea
+                value={nota}
+                disabled={procesando}
+                onChange={(e) => setNota(e.target.value)}
+                rows={4}
+                placeholder="Explique brevemente los ajustes realizados..."
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  padding: "0.8rem",
+                  marginTop: "0.5rem",
+                }}
+              />
+
+              <button
+                type="button"
+                disabled={procesando}
+                onClick={() => guardar("REENVIAR")}
+                style={{
+                  marginTop: "1rem",
+                  background: "#356128",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "8px",
+                  padding: "0.8rem 1rem",
+                  fontWeight: 700,
+                }}
+              >
+                Reenviar nueva versión
+              </button>
+            </>
+          )}
         </section>
       )}
 

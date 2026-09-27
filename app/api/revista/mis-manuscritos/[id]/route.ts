@@ -115,6 +115,9 @@ export async function GET(
         tema,
         fecha_ingreso,
         fecha_aval,
+        revision_preliminar_editorial,
+        fecha_revision_preliminar_editorial,
+        firma_revision_preliminar_editorial,
         created_at,
         updated_at
       `,
@@ -312,7 +315,10 @@ export async function PATCH(
         titulo_actual,
         contenido_actual,
         imagen_url_actual,
-        fuente_imagen_actual
+        fuente_imagen_actual,
+        revision_preliminar_editorial,
+        fecha_revision_preliminar_editorial,
+        firma_revision_preliminar_editorial
       `,
       )
       .eq("id", id)
@@ -533,6 +539,20 @@ export async function PATCH(
       accion === "REENVIAR" && manuscrito.estado === "CORRECCIONES";
 
     if (esEnvioInicial || esReenvio) {
+      if (esEnvioInicial) {
+        const { createHash } = await import("crypto");
+        const firmaActual = createHash("sha256")
+          .update(`${titulo}\n${contenido}`, "utf8")
+          .digest("hex");
+        const revision = manuscrito.revision_preliminar_editorial as any;
+        if (revision?.estado !== "LISTO_PARA_REMITIR" || manuscrito.firma_revision_preliminar_editorial !== firmaActual) {
+          return NextResponse.json(
+            { ok: false, error: "Antes del primer envío debe realizar la revisión preliminar editorial sobre la versión actual del manuscrito." },
+            { status: 409 },
+          );
+        }
+      }
+
       let envioData: any = null;
       let envioError: { message: string } | null = null;
 
@@ -738,6 +758,125 @@ export async function PATCH(
           error instanceof Error
             ? error.message
             : "No fue posible actualizar el manuscrito.",
+      },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> },
+) {
+  try {
+    const id = await obtenerId(context);
+    if (!id) {
+      return NextResponse.json(
+        { ok: false, error: "El manuscrito solicitado no es válido." },
+        { status: 400 },
+      );
+    }
+
+    const miembro = await obtenerMiembro(req);
+    if (!miembro) {
+      return NextResponse.json(
+        { ok: false, error: "No se encontró el miembro." },
+        { status: 401 },
+      );
+    }
+
+    const { data: manuscrito, error: manuscritoError } = await supabaseServer
+      .from("manuscritos_editoriales")
+      .select("id,ensayo_id,autor_miembro_id,estado,tipo_contenido")
+      .eq("id", id)
+      .eq("autor_miembro_id", miembro.id)
+      .maybeSingle();
+
+    if (manuscritoError) throw new Error(manuscritoError.message);
+
+    if (!manuscrito) {
+      return NextResponse.json(
+        { ok: false, error: "No se encontró un manuscrito de su autoría con ese identificador." },
+        { status: 404 },
+      );
+    }
+
+    if (manuscrito.estado !== "BORRADOR") {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Solo pueden eliminarse manuscritos que todavía sean borradores.",
+        },
+        { status: 409 },
+      );
+    }
+
+    const { count: versiones, error: versionesError } = await supabaseServer
+      .from("manuscrito_versiones")
+      .select("id", { count: "exact", head: true })
+      .eq("manuscrito_id", id);
+
+    if (versionesError) throw new Error(versionesError.message);
+
+    if ((versiones || 0) > 0) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "Este manuscrito ya ingresó al proceso editorial y debe conservarse como parte del historial.",
+        },
+        { status: 409 },
+      );
+    }
+
+    // Solo se eliminan registros de trabajo que pertenecen al borrador.
+    // No se toca ningún manuscrito que haya generado una versión editorial.
+    const tablasHijas = [
+      "resenas_bibliograficas",
+      "manuscrito_imagenes",
+      "manuscrito_eventos",
+    ];
+
+    for (const tabla of tablasHijas) {
+      const { error } = await supabaseServer
+        .from(tabla)
+        .delete()
+        .eq("manuscrito_id", id);
+
+      if (error) throw new Error(error.message);
+    }
+
+    const { error: eliminarManuscritoError } = await supabaseServer
+      .from("manuscritos_editoriales")
+      .delete()
+      .eq("id", id)
+      .eq("autor_miembro_id", miembro.id)
+      .eq("estado", "BORRADOR");
+
+    if (eliminarManuscritoError) {
+      throw new Error(eliminarManuscritoError.message);
+    }
+
+    if (manuscrito.ensayo_id) {
+      const { error: ensayoError } = await supabaseServer
+        .from("ensayos")
+        .delete()
+        .eq("id", manuscrito.ensayo_id);
+
+      if (ensayoError) throw new Error(ensayoError.message);
+    }
+
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error("Error DELETE /api/revista/mis-manuscritos/[id]:", error);
+
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "No fue posible eliminar el manuscrito.",
       },
       { status: 500 },
     );
