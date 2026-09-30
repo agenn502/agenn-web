@@ -548,6 +548,10 @@ export default function MiembrosLayout({
         if (esInvAcreditado) {
           baseMenu.push(
             {
+              label: "Repasar nivel Investigador",
+              href: "/miembros/proceso_inv",
+            },
+            {
               label: alertaAscenso
                 ? `Proceso para Numerario ${alertaAscenso}`
                 : "Proceso para Numerario",

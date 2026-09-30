@@ -14,7 +14,7 @@ function textoPromocionExtraordinaria(nivel: string) {
     nivel,
     origen: "PROMOCION_EXTRAORDINARIA",
     nombreNivel,
-    institucion: ["Academia Guatemalteca de Estudios Numismáticos y Notafílicos", "AGENN"],
+    institucion: ["La Academia Guatemalteca de Estudios", "Numismáticos y Notafílicos"],
     autoridad: "El Consejo Académico, reunido en pleno",
     otorgamiento: "resuelve conferir a",
     textoAntesNivel: "mediante Promoción Extraordinaria el nivel de",
