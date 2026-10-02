@@ -46,6 +46,7 @@ function MenuIcon({ href }: { href: string }) {
   if (href.includes("biblioteca")) return <svg {...common}><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H11v17H7.5A3.5 3.5 0 0 0 4 22z"/><path d="M20 5.5A3.5 3.5 0 0 0 16.5 2H13v17h3.5A3.5 3.5 0 0 1 20 22z"/></svg>;
   if (href.includes("ensayos")) return <svg {...common}><path d="M5 3h10l4 4v14H5z"/><path d="M15 3v5h5M8 12h8M8 16h8"/></svg>;
   if (href.includes("revista")) return <svg {...common}><path d="M4 5h7v15H4zM13 5h7v15h-7z"/><path d="M6.5 9h2M6.5 13h2M15.5 9h2M15.5 13h2"/></svg>;
+  if (href.includes("foro")) return <svg {...common}><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg>;
   if (href.includes("documentos")) return <svg {...common}><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg>;
   if (href.includes("procesos") || href.includes("proceso_asp") || href.includes("proceso_nov") || href.includes("proceso_inv") || href.includes("proceso_num")) return <svg {...common}><path d="M4 19h16M6 16l4-4 3 2 5-7"/><path d="M15 7h3v3"/></svg>;
   if (href.includes("asimilaciones")) return <svg {...common}><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6 1.4 0 2.6.4 3.5 1.1"/><path d="M18 13v7M14.5 16.5h7"/></svg>;
@@ -71,11 +72,34 @@ export default function MiembrosLayout({
   const [novedadesRevistaAutor, setNovedadesRevistaAutor] =
     useState(0);
   const [mensajesNoLeidos, setMensajesNoLeidos] = useState(0);
+  const [foroNoLeidos, setForoNoLeidos] = useState(0);
 
   const [alertaAscenso, setAlertaAscenso] = useState("");
   const [verificandoPerfil, setVerificandoPerfil] = useState(true);
 
   const pathname = usePathname();
+
+  useEffect(() => {
+    const actualizarForo = async () => {
+      try {
+        const stored = localStorage.getItem("user");
+        if (!stored) return;
+        const parsed = JSON.parse(stored);
+        if (!parsed?.codigo) return;
+        const response = await fetch("/api/foro/pendientes", {
+          headers: { "x-user-codigo": parsed.codigo },
+          cache: "no-store",
+        });
+        const result = await response.json();
+        setForoNoLeidos(response.ok && result?.ok ? Number(result.total) || 0 : 0);
+      } catch {
+        setForoNoLeidos(0);
+      }
+    };
+
+    window.addEventListener("agenn-foro-actualizado", actualizarForo);
+    return () => window.removeEventListener("agenn-foro-actualizado", actualizarForo);
+  }, []);
 
   useEffect(() => {
     const cargar = async () => {
@@ -185,6 +209,21 @@ export default function MiembrosLayout({
         setMensajesNoLeidos(response.ok && result?.ok ? Number(result.total) || 0 : 0);
       } catch {
         setMensajesNoLeidos(0);
+      }
+
+      // -------------------------------------------------------
+      // FORO: DISCUSIONES CON NOVEDADES
+      // -------------------------------------------------------
+
+      try {
+        const response = await fetch("/api/foro/pendientes", {
+          headers: { "x-user-codigo": parsed.codigo },
+          cache: "no-store",
+        });
+        const result = await response.json();
+        setForoNoLeidos(response.ok && result?.ok ? Number(result.total) || 0 : 0);
+      } catch {
+        setForoNoLeidos(0);
       }
 
       // -------------------------------------------------------
@@ -548,10 +587,6 @@ export default function MiembrosLayout({
         if (esInvAcreditado) {
           baseMenu.push(
             {
-              label: "Repasar nivel Investigador",
-              href: "/miembros/proceso_inv",
-            },
-            {
               label: alertaAscenso
                 ? `Proceso para Numerario ${alertaAscenso}`
                 : "Proceso para Numerario",
@@ -683,6 +718,10 @@ export default function MiembrosLayout({
       label: "Mensajería",
       href: "/miembros/mensajes",
     },
+    {
+      label: "Foro de discusión",
+      href: "/miembros/foro",
+    },
     ...getMenu(),
     ...(esConsejo
       ? [{ label: "Bitácora interna", href: "/miembros/bitacora" }]
@@ -798,6 +837,28 @@ export default function MiembrosLayout({
                           }}
                         >
                           {mensajesNoLeidos}
+                        </span>
+                      )}
+
+                    {item.href ===
+                      "/miembros/foro" &&
+                      foroNoLeidos > 0 && (
+                        <span
+                          style={{
+                            display: "inline-grid",
+                            placeItems: "center",
+                            minWidth: "24px",
+                            height: "24px",
+                            padding: "0 6px",
+                            borderRadius: "999px",
+                            background: "#6b6f1a",
+                            color: "white",
+                            fontSize: "0.78rem",
+                            fontWeight: 700,
+                          }}
+                          title={`${foroNoLeidos} novedad${foroNoLeidos === 1 ? "" : "es"} en el foro`}
+                        >
+                          {foroNoLeidos}
                         </span>
                       )}
 
