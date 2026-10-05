@@ -14,6 +14,7 @@ type Voto = {
 
 type Asimilacion = {
   id: number;
+  tipo_propuesta?: "INCORPORACION" | "PROMOCION_EXTRAORDINARIA";
   fecha_propuesta: string;
   estado: string;
 
@@ -56,6 +57,11 @@ export default function HistorialIncorporacionesPage() {
 
   const [asimilaciones, setAsimilaciones] = useState<Asimilacion[]>([]);
 
+  const [filtroTipo, setFiltroTipo] = useState("TODOS");
+  const [filtroResultado, setFiltroResultado] = useState("TODOS");
+  const [filtroNivel, setFiltroNivel] = useState("TODOS");
+  const [busqueda, setBusqueda] = useState("");
+
   const [error, setError] = useState("");
 
   const [expedienteAbierto, setExpedienteAbierto] =
@@ -94,17 +100,16 @@ export default function HistorialIncorporacionesPage() {
       const todas: Asimilacion[] = result.asimilaciones || [];
 
       /*
-       * El historial contiene únicamente expedientes
-       * cuyo proceso ya concluyó:
-       *
-       * - incorporación completada
-       * - propuesta rechazada
-       * - propuesta cancelada
+       * El historial conserva toda propuesta que ya produjo una resolución
+       * del Consejo Académico, además de los procesos terminales heredados.
+       * Esto incluye las promociones extraordinarias aprobadas, que no generan
+       * fecha_incorporacion ni invitación institucional.
        */
 
       const historial = todas
         .filter(
           (item) =>
+            Boolean(item.fecha_resolucion) ||
             Boolean(item.fecha_incorporacion) ||
             item.estado === "rechazada" ||
             item.estado === "cancelada"
@@ -168,21 +173,55 @@ export default function HistorialIncorporacionesPage() {
     return "Académico Investigador";
   };
 
+  const esPromocion = (item: Asimilacion) =>
+    item.tipo_propuesta === "PROMOCION_EXTRAORDINARIA";
+
+  const nombreTipo = (item: Asimilacion) =>
+    esPromocion(item)
+      ? "Promoción académica extraordinaria"
+      : "Incorporación por reconocimiento académico";
+
   const nombreResultado = (item: Asimilacion) => {
-    if (item.fecha_incorporacion) {
-      return "Incorporación completada";
-    }
-
-    if (item.estado === "rechazada") {
-      return "No aprobada";
-    }
-
-    if (item.estado === "cancelada") {
-      return "Cancelada";
-    }
-
-    return "Proceso concluido";
+    if (item.estado === "rechazada") return "No aprobada";
+    if (item.estado === "cancelada") return "Cancelada";
+    if (esPromocion(item) && item.estado === "aprobada")
+      return "Promoción aprobada";
+    if (item.fecha_incorporacion) return "Incorporación completada";
+    if (item.estado === "aprobada") return "Aprobada";
+    if (item.estado === "invitacion_enviada") return "Invitación enviada";
+    if (item.estado === "aceptada") return "Invitación aceptada";
+    return "Resolución emitida";
   };
+
+  const asimilacionesFiltradas = asimilaciones.filter((item) => {
+    const tipo = esPromocion(item) ? "PROMOCION" : "INCORPORACION";
+    const resultado =
+      item.estado === "rechazada"
+        ? "NO_APROBADA"
+        : item.estado === "cancelada"
+        ? "CANCELADA"
+        : "APROBADA";
+
+    if (filtroTipo !== "TODOS" && filtroTipo !== tipo) return false;
+    if (filtroResultado !== "TODOS" && filtroResultado !== resultado)
+      return false;
+    if (filtroNivel !== "TODOS" && filtroNivel !== item.nivel_propuesto)
+      return false;
+
+    const q = busqueda.trim().toLowerCase();
+    if (!q) return true;
+
+    return [
+      item.nombre,
+      item.codigo_asignado,
+      item.proponente_nombre,
+      item.proponente_codigo,
+      item.resultado,
+      item.justificacion,
+    ]
+      .filter(Boolean)
+      .some((valor) => String(valor).toLowerCase().includes(q));
+  });
 
   if (loading) {
     return (
@@ -193,7 +232,7 @@ export default function HistorialIncorporacionesPage() {
           padding: "2rem",
         }}
       >
-        Cargando historial de incorporaciones...
+        Cargando historial de resoluciones...
       </div>
     );
   }
@@ -285,7 +324,7 @@ export default function HistorialIncorporacionesPage() {
             color: "#4d371c",
           }}
         >
-          Historial de incorporaciones
+          Historial de resoluciones académicas
         </h1>
 
         <p
@@ -296,9 +335,10 @@ export default function HistorialIncorporacionesPage() {
             color: "#555",
           }}
         >
-          Archivo de las propuestas de incorporación por reconocimiento
-          académico cuyo proceso ya ha concluido. Puede consultar la
-          resolución y el expediente completo de cada propuesta.
+          Archivo de las resoluciones emitidas por el Consejo Académico en
+          procesos de incorporación por reconocimiento académico y promoción
+          extraordinaria. Puede filtrar los expedientes y consultar su
+          votación, resolución y trazabilidad.
         </p>
       </div>
 
@@ -323,10 +363,96 @@ export default function HistorialIncorporacionesPage() {
       </div>
 
       {/* =====================================================
+          FILTROS
+          ===================================================== */}
+
+      <div
+        style={{
+          background: "white",
+          border: "1px solid #ddd4c7",
+          borderRadius: "12px",
+          padding: "1.25rem",
+          marginBottom: "1.5rem",
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+            gap: "0.9rem",
+          }}
+        >
+          <label>
+            <strong style={{ display: "block", marginBottom: "0.35rem" }}>
+              Proceso
+            </strong>
+            <select
+              value={filtroTipo}
+              onChange={(e) => setFiltroTipo(e.target.value)}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: 8, border: "1px solid #cfc6b8" }}
+            >
+              <option value="TODOS">Todos</option>
+              <option value="INCORPORACION">Incorporaciones</option>
+              <option value="PROMOCION">Promociones extraordinarias</option>
+            </select>
+          </label>
+
+          <label>
+            <strong style={{ display: "block", marginBottom: "0.35rem" }}>
+              Resolución
+            </strong>
+            <select
+              value={filtroResultado}
+              onChange={(e) => setFiltroResultado(e.target.value)}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: 8, border: "1px solid #cfc6b8" }}
+            >
+              <option value="TODOS">Todas</option>
+              <option value="APROBADA">Aprobadas</option>
+              <option value="NO_APROBADA">No aprobadas</option>
+              <option value="CANCELADA">Canceladas</option>
+            </select>
+          </label>
+
+          <label>
+            <strong style={{ display: "block", marginBottom: "0.35rem" }}>
+              Nivel
+            </strong>
+            <select
+              value={filtroNivel}
+              onChange={(e) => setFiltroNivel(e.target.value)}
+              style={{ width: "100%", padding: "0.7rem", borderRadius: 8, border: "1px solid #cfc6b8" }}
+            >
+              <option value="TODOS">Todos</option>
+              <option value="INV">Académico Investigador</option>
+              <option value="NUM">Académico Numerario</option>
+            </select>
+          </label>
+
+          <label>
+            <strong style={{ display: "block", marginBottom: "0.35rem" }}>
+              Buscar
+            </strong>
+            <input
+              type="search"
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              placeholder="Nombre, código, proponente..."
+              style={{ width: "100%", padding: "0.7rem", borderRadius: 8, border: "1px solid #cfc6b8", boxSizing: "border-box" }}
+            />
+          </label>
+        </div>
+
+        <div style={{ marginTop: "0.9rem", color: "#666", fontSize: "0.92rem" }}>
+          Mostrando <strong>{asimilacionesFiltradas.length}</strong> de{" "}
+          <strong>{asimilaciones.length}</strong> expedientes.
+        </div>
+      </div>
+
+      {/* =====================================================
           HISTORIAL VACÍO
           ===================================================== */}
 
-      {asimilaciones.length === 0 && (
+      {asimilacionesFiltradas.length === 0 && (
         <div
           style={{
             background: "white",
@@ -361,8 +487,7 @@ export default function HistorialIncorporacionesPage() {
               marginBottom: 0,
             }}
           >
-            Las propuestas aparecerán aquí cuando su proceso haya
-            concluido.
+            No hay resoluciones que coincidan con los filtros seleccionados.
           </p>
         </div>
       )}
@@ -377,7 +502,7 @@ export default function HistorialIncorporacionesPage() {
           gap: "1rem",
         }}
       >
-        {asimilaciones.map((item) => {
+        {asimilacionesFiltradas.map((item) => {
           const abierto = expedienteAbierto === item.id;
 
           const incorporado = Boolean(item.fecha_incorporacion);
@@ -468,7 +593,7 @@ export default function HistorialIncorporacionesPage() {
                       {formatearFecha(item.fecha_propuesta)}
                     </p>
 
-                    {item.fecha_incorporacion && (
+                    {!esPromocion(item) && item.fecha_incorporacion && (
                       <p
                         style={{
                           margin: "0.2rem 0",
@@ -800,7 +925,7 @@ export default function HistorialIncorporacionesPage() {
                       </div>
                     )}
 
-                    {item.fecha_envio_invitacion && (
+                    {!esPromocion(item) && item.fecha_envio_invitacion && (
                       <div>
                         <strong>Invitación enviada:</strong>{" "}
                         {formatearFecha(
@@ -812,14 +937,14 @@ export default function HistorialIncorporacionesPage() {
                       </div>
                     )}
 
-                    {item.fecha_aceptacion && (
+                    {!esPromocion(item) && item.fecha_aceptacion && (
                       <div>
                         <strong>Invitación aceptada:</strong>{" "}
                         {formatearFecha(item.fecha_aceptacion)}
                       </div>
                     )}
 
-                    {item.fecha_incorporacion && (
+                    {!esPromocion(item) && item.fecha_incorporacion && (
                       <div>
                         <strong>Incorporación completada:</strong>{" "}
                         {formatearFecha(item.fecha_incorporacion)}

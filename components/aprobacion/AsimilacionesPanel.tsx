@@ -468,23 +468,24 @@ export default function AsimilacionesPanel() {
   const asimilacionesActivas =
     asimilaciones.filter(
       (item) =>
-        !item.fecha_incorporacion &&
-        item.estado !==
-          "rechazada" &&
-        item.estado !==
-          "cancelada"
+        item.tipo_propuesta === "PROMOCION_EXTRAORDINARIA"
+          ? item.estado === "pendiente" ||
+            item.estado === "aprobada_ejecucion_pendiente"
+          : !item.fecha_incorporacion &&
+            item.estado !== "rechazada" &&
+            item.estado !== "cancelada"
     );
 
   const totalHistorial =
     asimilaciones.filter(
       (item) =>
-        Boolean(
-          item.fecha_incorporacion
-        ) ||
-        item.estado ===
-          "rechazada" ||
-        item.estado ===
-          "cancelada"
+        item.tipo_propuesta === "PROMOCION_EXTRAORDINARIA"
+          ? item.estado === "aprobada" ||
+            item.estado === "rechazada" ||
+            item.estado === "cancelada"
+          : Boolean(item.fecha_incorporacion) ||
+            item.estado === "rechazada" ||
+            item.estado === "cancelada"
     ).length;
 
   if (loading) {
@@ -560,7 +561,7 @@ export default function AsimilacionesPanel() {
                 "#6b4f2a",
             }}
           >
-            Incorporaciones por reconocimiento académico
+            Incorporaciones y promociones académicas
           </h2>
 
           <p
@@ -612,7 +613,7 @@ export default function AsimilacionesPanel() {
                   0,
               }}
             >
-              No hay procesos de incorporación activos
+              No hay procesos académicos activos
             </h3>
 
             <p
@@ -631,8 +632,8 @@ export default function AsimilacionesPanel() {
               }}
             >
               Cuando se presente una nueva propuesta de incorporación
-              por reconocimiento académico, aparecerá aquí para su
-              análisis, votación y seguimiento.
+              por reconocimiento académico o de promoción extraordinaria,
+              aparecerá aquí para su análisis, votación y seguimiento.
             </p>
           </div>
         </div>
@@ -702,7 +703,9 @@ export default function AsimilacionesPanel() {
                       "0.8rem",
                   }}
                 >
-                  Propuesta de incorporación por reconocimiento académico
+                  {item.tipo_propuesta === "PROMOCION_EXTRAORDINARIA"
+                    ? "Propuesta de promoción extraordinaria"
+                    : "Propuesta de incorporación por reconocimiento académico"}
                 </p>
 
                 <h3
@@ -1127,12 +1130,13 @@ export default function AsimilacionesPanel() {
                 SEGUIMIENTO
                 ================================================= */}
 
-            {(item.estado ===
-              "aprobada" ||
-              item.estado ===
-                "invitacion_enviada" ||
-              item.estado ===
-                "aceptada") && (
+            {item.tipo_propuesta !== "PROMOCION_EXTRAORDINARIA" &&
+              (item.estado ===
+                "aprobada" ||
+                item.estado ===
+                  "invitacion_enviada" ||
+                item.estado ===
+                  "aceptada") && (
               <div
                 style={{
                   marginTop:
@@ -1594,7 +1598,7 @@ export default function AsimilacionesPanel() {
                 "0.25rem",
             }}
           >
-            Historial de incorporaciones
+            Historial de incorporaciones y promociones
           </strong>
 
           <span
@@ -1609,7 +1613,7 @@ export default function AsimilacionesPanel() {
                 "0.92rem",
             }}
           >
-            Consulte las propuestas cuyo proceso ya ha concluido
+            Consulte las propuestas de incorporación y promoción cuyo proceso ya ha concluido
             {totalHistorial > 0
               ? ` (${totalHistorial} ${
                   totalHistorial === 1
