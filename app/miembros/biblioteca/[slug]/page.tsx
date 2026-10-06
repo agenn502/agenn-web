@@ -180,9 +180,18 @@ export default function BibliotecaDetalle({
                 lineHeight: 1.8,
               }}
             >
-              Uso exclusivo de miembros. Este material puede estar protegido por
-              derechos de autor y no debe ser redistribuido fuera del ámbito interno
-              de la Academia.
+              <strong>Condiciones de consulta.</strong> La Academia Guatemalteca de
+              Estudios Numismáticos y Notafílicos reconoce y respeta los derechos de
+              propiedad intelectual de los autores, editores y demás titulares de las
+              obras incluidas en su catálogo. La Academia no aloja este documento ni
+              asume responsabilidad por su reproducción, distribución, disponibilidad
+              o por el contenido de los sitios externos a los que conduce el enlace.
+              El enlace de consulta ha sido aportado por un miembro bajo su propia
+              responsabilidad. Su inclusión en la Biblioteca no implica que la Academia
+              posea derechos sobre la obra ni constituye autorización para reproducirla,
+              publicarla, transmitirla o redistribuirla. Cada usuario es responsable de
+              utilizar el material conforme a las condiciones establecidas por sus
+              respectivos titulares de derechos y a la legislación aplicable.
             </div>
 
             <div style={{ marginTop: "1.5rem" }}>

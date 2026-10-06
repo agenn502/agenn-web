@@ -1,123 +1,30 @@
 "use client";
-
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 
-const LIMITE_BYTES = 100 * 1024;
-const MAX_LADO_INICIAL = 1400;
-
-type ImagenForo = { id: string; url?: string | null };
-type TemaForo = { id: string; titulo: string; contenido: string; categoria: string; autor_nombre: string; created_at: string; cerrado: boolean; foro_imagenes?: ImagenForo[] };
-type RespuestaForo = { id: string; autor_nombre: string; contenido: string; created_at: string; foro_imagenes?: ImagenForo[] };
-
-async function comprimirImagen(file: File): Promise<File> {
-  if (!file.type.startsWith("image/")) throw new Error("Seleccione un archivo de imagen.");
-  const bitmap = await createImageBitmap(file);
-  let ancho = bitmap.width;
-  let alto = bitmap.height;
-  if (Math.max(ancho, alto) > MAX_LADO_INICIAL) {
-    const escala = MAX_LADO_INICIAL / Math.max(ancho, alto);
-    ancho = Math.round(ancho * escala);
-    alto = Math.round(alto * escala);
-  }
-  let calidad = 0.82;
-  let blob: Blob | null = null;
-  for (let intento = 0; intento < 14; intento += 1) {
-    const canvas = document.createElement("canvas");
-    canvas.width = Math.max(1, ancho); canvas.height = Math.max(1, alto);
-    const ctx = canvas.getContext("2d");
-    if (!ctx) { bitmap.close(); throw new Error("No fue posible procesar la imagen."); }
-    ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-    blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", calidad));
-    if (!blob) { bitmap.close(); throw new Error("No fue posible comprimir la imagen."); }
-    if (blob.size <= LIMITE_BYTES) break;
-    if (calidad > 0.5) calidad -= 0.08;
-    else { ancho = Math.round(ancho * 0.84); alto = Math.round(alto * 0.84); calidad = 0.72; }
-  }
-  bitmap.close();
-  if (!blob || blob.size > LIMITE_BYTES) throw new Error("No fue posible reducir la imagen a menos de 100 KB.");
-  const nombreBase = file.name.replace(/\.[^.]+$/, "") || "imagen";
-  return new File([blob], `${nombreBase}.jpg`, { type: "image/jpeg" });
-}
-
-export default function Hilo() {
-  const { id } = useParams<{ id: string }>();
-  const [tema, setTema] = useState<TemaForo | null>(null);
-  const [respuestas, setRespuestas] = useState<RespuestaForo[]>([]);
-  const [texto, setTexto] = useState("");
-  const [imagen, setImagen] = useState<File | null>(null);
-  const [vistaPrevia, setVistaPrevia] = useState("");
-  const [procesandoImagen, setProcesandoImagen] = useState(false);
-  const [publicando, setPublicando] = useState(false);
-  const [error, setError] = useState("");
-
-  const codigo = () => { try { return JSON.parse(localStorage.getItem("user") || "{}").codigo || ""; } catch { return ""; } };
-
-  const cargar = async () => {
-    try {
-      const response = await fetch(`/api/foro/${id}`, { headers: { "x-user-codigo": codigo() }, cache: "no-store" });
-      const data = await response.json();
-      if (!response.ok || !data.ok) { setError(data.error || "No fue posible cargar la discusión."); return; }
-      setTema(data.tema); setRespuestas(data.respuestas || []);
-      window.dispatchEvent(new Event("agenn-foro-actualizado"));
-    } catch { setError("No fue posible cargar la discusión."); }
-  };
-
-  useEffect(() => { cargar(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [id]);
-  useEffect(() => () => { if (vistaPrevia) URL.revokeObjectURL(vistaPrevia); }, [vistaPrevia]);
-
-  const seleccionarImagen = async (file: File | null) => {
-    setError("");
-    if (!file) { if (vistaPrevia) URL.revokeObjectURL(vistaPrevia); setImagen(null); setVistaPrevia(""); return; }
-    setProcesandoImagen(true);
-    try {
-      const comprimida = await comprimirImagen(file);
-      if (vistaPrevia) URL.revokeObjectURL(vistaPrevia);
-      setImagen(comprimida); setVistaPrevia(URL.createObjectURL(comprimida));
-    } catch (e) { setImagen(null); setVistaPrevia(""); setError(e instanceof Error ? e.message : "No fue posible procesar la imagen."); }
-    finally { setProcesandoImagen(false); }
-  };
-
-  const enviar = async (e: React.FormEvent) => {
-    e.preventDefault(); setError(""); setPublicando(true);
-    try {
-      const userCodigo = codigo();
-      const response = await fetch(`/api/foro/${id}/respuestas`, { method: "POST", headers: { "Content-Type": "application/json", "x-user-codigo": userCodigo }, body: JSON.stringify({ contenido: texto }) });
-      const data = await response.json();
-      if (!response.ok || !data.ok) throw new Error(data.error || "No fue posible publicar la respuesta.");
-      if (imagen) {
-        const formData = new FormData(); formData.append("file", imagen); formData.append("tema_id", id); formData.append("respuesta_id", data.respuesta.id);
-        const subida = await fetch("/api/foro/imagenes", { method: "POST", headers: { "x-user-codigo": userCodigo }, body: formData });
-        const subidaData = await subida.json();
-        if (!subida.ok || !subidaData.ok) throw new Error(subidaData.error || "La respuesta se publicó, pero no fue posible adjuntar la imagen.");
-      }
-      setTexto(""); setImagen(null); if (vistaPrevia) URL.revokeObjectURL(vistaPrevia); setVistaPrevia(""); await cargar();
-    } catch (e) { setError(e instanceof Error ? e.message : "No fue posible publicar la respuesta."); }
-    finally { setPublicando(false); }
-  };
-
-  if (!tema) return <p>{error || "Cargando discusión..."}</p>;
-
-  return <div style={{ maxWidth: 950, margin: "0 auto" }}>
-    <div style={{ padding: 20, background: "white", borderRadius: 10, border: "1px solid #ddd" }}>
-      <small>{tema.categoria}</small><h1>{tema.titulo}</h1><p style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}>{tema.contenido}</p>
-      {(tema.foro_imagenes || []).map((img) => img.url && <div key={img.id} style={{ margin: "18px 0" }}><img src={img.url} alt={`Imagen de apoyo: ${tema.titulo}`} style={{ display: "block", maxWidth: "100%", maxHeight: 650, objectFit: "contain", borderRadius: 8, border: "1px solid #e1e1e1" }} /></div>)}
-      <small>{tema.autor_nombre} · {new Date(tema.created_at).toLocaleString()}</small>
-    </div>
-    <h2 style={{ marginTop: 28 }}>Respuestas</h2>
-    <div style={{ display: "grid", gap: 10 }}>
-      {respuestas.map((r) => <div key={r.id} style={{ padding: 16, background: "white", border: "1px solid #ddd", borderRadius: 8 }}>
-        <strong>{r.autor_nombre}</strong><p style={{ whiteSpace: "pre-wrap", lineHeight: 1.55 }}>{r.contenido}</p>
-        {(r.foro_imagenes || []).map((img) => img.url && <div key={img.id} style={{ margin: "12px 0" }}><img src={img.url} alt="Imagen aportada en la respuesta" style={{ display: "block", maxWidth: "100%", maxHeight: 520, objectFit: "contain", borderRadius: 8, border: "1px solid #e1e1e1" }} /></div>)}
-        <small>{new Date(r.created_at).toLocaleString()}</small>
-      </div>)}
-    </div>
-    {!tema.cerrado && <form onSubmit={enviar} style={{ marginTop: 22, padding: 16, background: "white", border: "1px solid #ddd", borderRadius: 8 }}>
-      <textarea value={texto} onChange={(e) => setTexto(e.target.value)} rows={5} placeholder="Aporte información, evidencia o una respuesta..." style={{ width: "100%", padding: 12 }} />
-      <div style={{ marginTop: 12 }}><label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>Imagen de apoyo (opcional)</label><input type="file" accept="image/jpeg,image/png,image/webp" disabled={procesandoImagen || publicando} onChange={(e) => seleccionarImagen(e.target.files?.[0] || null)} /><div style={{ fontSize: ".82rem", marginTop: 5, color: "#666" }}>{procesandoImagen ? "Comprimiendo imagen..." : imagen ? `Imagen lista: ${(imagen.size / 1024).toFixed(1)} KB` : "AGENN la reducirá automáticamente a un máximo de 100 KB."}</div></div>
-      {vistaPrevia && <div style={{ marginTop: 10 }}><img src={vistaPrevia} alt="Vista previa" style={{ maxWidth: 320, maxHeight: 240, objectFit: "contain", border: "1px solid #ddd", borderRadius: 7 }} /><div><button type="button" onClick={() => seleccionarImagen(null)} style={{ marginTop: 6 }}>Quitar imagen</button></div></div>}
-      <button disabled={publicando || procesandoImagen || texto.trim().length < 2} style={{ marginTop: 12, padding: "10px 16px", background: "#6f8760", color: "white", border: 0, borderRadius: 8, opacity: publicando ? .7 : 1 }}>{publicando ? "Publicando..." : "Responder"}</button>
-    </form>}
-    {error && <p style={{ color: "#9b1c1c" }}>{error}</p>}
-  </div>;
+const LIMITE_BYTES=100*1024, MAX_LADO_INICIAL=1400;
+type ImagenForo={id:string;url?:string|null};
+type TemaForo={id:string;titulo:string;contenido:string;categoria:string;autor_nombre:string;created_at:string;cerrado:boolean;fijado:boolean;foro_imagenes?:ImagenForo[]};
+type RespuestaForo={id:string;autor_nombre:string;contenido:string;created_at:string;respuesta_a?:string|null;foro_imagenes?:ImagenForo[]};
+type Derivacion={id:string;manuscrito_id:number;solicitante_codigo:string;created_at:string};
+async function comprimirImagen(file:File):Promise<File>{if(!file.type.startsWith("image/"))throw new Error("Seleccione un archivo de imagen.");const bitmap=await createImageBitmap(file);let ancho=bitmap.width,alto=bitmap.height;if(Math.max(ancho,alto)>MAX_LADO_INICIAL){const e=MAX_LADO_INICIAL/Math.max(ancho,alto);ancho=Math.round(ancho*e);alto=Math.round(alto*e)}let calidad=.82,blob:Blob|null=null;for(let i=0;i<14;i++){const canvas=document.createElement("canvas");canvas.width=Math.max(1,ancho);canvas.height=Math.max(1,alto);const ctx=canvas.getContext("2d");if(!ctx){bitmap.close();throw new Error("No fue posible procesar la imagen.")}ctx.fillStyle="#fff";ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);blob=await new Promise<Blob|null>(r=>canvas.toBlob(r,"image/jpeg",calidad));if(!blob){bitmap.close();throw new Error("No fue posible comprimir la imagen.")}if(blob.size<=LIMITE_BYTES)break;if(calidad>.5)calidad-=.08;else{ancho=Math.round(ancho*.84);alto=Math.round(alto*.84);calidad=.72}}bitmap.close();if(!blob||blob.size>LIMITE_BYTES)throw new Error("No fue posible reducir la imagen a menos de 100 KB.");return new File([blob],`${file.name.replace(/\.[^.]+$/,'')||'imagen'}.jpg`,{type:"image/jpeg"})}
+export default function Hilo(){
+ const {id}=useParams<{id:string}>(); const [tema,setTema]=useState<TemaForo|null>(null),[respuestas,setRespuestas]=useState<RespuestaForo[]>([]),[texto,setTexto]=useState(""),[imagen,setImagen]=useState<File|null>(null),[vistaPrevia,setVistaPrevia]=useState(""),[procesandoImagen,setProcesandoImagen]=useState(false),[publicando,setPublicando]=useState(false),[error,setError]=useState(""),[siguiendo,setSiguiendo]=useState(false),[esConsejo,setEsConsejo]=useState(false),[respuestaA,setRespuestaA]=useState<RespuestaForo|null>(null),[generando,setGenerando]=useState(false),[derivaciones,setDerivaciones]=useState<Derivacion[]>([]);
+ const codigo=()=>{try{return JSON.parse(localStorage.getItem("user")||"{}").codigo||""}catch{return""}};
+ const porId=useMemo(()=>new Map(respuestas.map(r=>[String(r.id),r])),[respuestas]);
+ const cargar=async()=>{try{const r=await fetch(`/api/foro/${id}`,{headers:{"x-user-codigo":codigo()},cache:"no-store"});const d=await r.json();if(!r.ok||!d.ok){setError(d.error||"No fue posible cargar la discusión.");return}setTema(d.tema);setRespuestas(d.respuestas||[]);setSiguiendo(Boolean(d.siguiendo));setEsConsejo(Boolean(d.es_consejo));setDerivaciones(d.derivaciones||[]);window.dispatchEvent(new Event("agenn-foro-actualizado"))}catch{setError("No fue posible cargar la discusión.")}};
+ useEffect(()=>{cargar()},[id]); useEffect(()=>()=>{if(vistaPrevia)URL.revokeObjectURL(vistaPrevia)},[vistaPrevia]);
+ const seleccionarImagen=async(file:File|null)=>{setError("");if(!file){if(vistaPrevia)URL.revokeObjectURL(vistaPrevia);setImagen(null);setVistaPrevia("");return}setProcesandoImagen(true);try{const c=await comprimirImagen(file);if(vistaPrevia)URL.revokeObjectURL(vistaPrevia);setImagen(c);setVistaPrevia(URL.createObjectURL(c))}catch(e){setImagen(null);setVistaPrevia("");setError(e instanceof Error?e.message:"No fue posible procesar la imagen.")}finally{setProcesandoImagen(false)}};
+ const enviar=async(e:React.FormEvent)=>{e.preventDefault();setError("");setPublicando(true);try{const c=codigo();const r=await fetch(`/api/foro/${id}/respuestas`,{method:"POST",headers:{"Content-Type":"application/json","x-user-codigo":c},body:JSON.stringify({contenido:texto,respuesta_a:respuestaA?.id||null})});const d=await r.json();if(!r.ok||!d.ok)throw new Error(d.error||"No fue posible publicar la respuesta.");if(imagen){const f=new FormData();f.append("file",imagen);f.append("tema_id",id);f.append("respuesta_id",d.respuesta.id);const u=await fetch("/api/foro/imagenes",{method:"POST",headers:{"x-user-codigo":c},body:f});const j=await u.json();if(!u.ok||!j.ok)throw new Error(j.error||"La respuesta se publicó, pero no fue posible adjuntar la imagen.")}setTexto("");setRespuestaA(null);setImagen(null);if(vistaPrevia)URL.revokeObjectURL(vistaPrevia);setVistaPrevia("");await cargar()}catch(e){setError(e instanceof Error?e.message:"No fue posible publicar la respuesta.")}finally{setPublicando(false)}};
+ const alternarSeguimiento=async()=>{const r=await fetch(`/api/foro/${id}/seguimiento`,{method:"POST",headers:{"Content-Type":"application/json","x-user-codigo":codigo()},body:JSON.stringify({seguir:!siguiendo})});const d=await r.json();if(d.ok)setSiguiendo(d.siguiendo);else setError(d.error)};
+ const alternarFijado=async()=>{if(!tema)return;const r=await fetch(`/api/foro/${id}/moderacion`,{method:"PATCH",headers:{"Content-Type":"application/json","x-user-codigo":codigo()},body:JSON.stringify({fijado:!tema.fijado})});const d=await r.json();if(d.ok)setTema({...tema,fijado:d.tema.fijado});else setError(d.error)};
+ const generarNota=async()=>{if(!confirm("Se generará un primer borrador de Nota breve a partir del contenido actual de esta discusión. El hilo permanecerá abierto y el borrador aparecerá en Mis manuscritos. ¿Continuar?"))return;setGenerando(true);setError("");try{const r=await fetch(`/api/foro/${id}/generar-nota`,{method:"POST",headers:{"x-user-codigo":codigo()}});const d=await r.json();if(!r.ok||!d.ok)throw new Error(d.error||"No fue posible generar el borrador.");window.location.href=`/miembros/revista/mis-manuscritos/${d.manuscrito_id}`}catch(e){setError(e instanceof Error?e.message:"No fue posible generar el borrador.")}finally{setGenerando(false)}};
+ if(!tema)return <p>{error||"Cargando discusión..."}</p>;
+ return <div style={{maxWidth:950,margin:"0 auto"}}>
+  <div style={{padding:20,background:"white",borderRadius:10,border:"1px solid #ddd"}}><div style={{display:"flex",justifyContent:"space-between",gap:10,flexWrap:"wrap"}}><small>{tema.categoria}{tema.fijado?" · Fijado":""}</small><div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button onClick={alternarSeguimiento}>{siguiendo?"Dejar de seguir":"Seguir discusión"}</button>{esConsejo&&<button onClick={alternarFijado}>{tema.fijado?"Desfijar":"Fijar"}</button>}{esConsejo&&<button onClick={generarNota} disabled={generando} style={{background:"#6f8760",color:"white",border:0,borderRadius:7,padding:"7px 11px"}}>{generando?"Generando borrador...":"Generar Nota breve"}</button>}</div></div><h1>{tema.titulo}</h1><p style={{whiteSpace:"pre-wrap",lineHeight:1.6}}>{tema.contenido}</p>{(tema.foro_imagenes||[]).map(img=>img.url&&<div key={img.id} style={{margin:"18px 0"}}><img src={img.url} alt={`Imagen de apoyo: ${tema.titulo}`} style={{display:"block",maxWidth:"100%",maxHeight:650,objectFit:"contain",borderRadius:8,border:"1px solid #e1e1e1"}}/></div>)}<small>{tema.autor_nombre} · {new Date(tema.created_at).toLocaleString()}</small></div>
+  {derivaciones.length>0&&<div style={{marginTop:14,padding:14,background:"#f7f3ea",border:"1px solid #ddd4c7",borderRadius:9}}><strong>Derivación editorial</strong><div style={{marginTop:5}}>Esta discusión ha dado origen a {derivaciones.length===1?"un borrador":"borradores"} de Nota breve para consideración editorial. La discusión permanece abierta a nuevos aportes.</div></div>}
+  <h2 style={{marginTop:28}}>Respuestas</h2><div style={{display:"grid",gap:10}}>{respuestas.map(r=>{const padre=r.respuesta_a?porId.get(String(r.respuesta_a)):null;return <div key={r.id} style={{padding:16,background:"white",border:"1px solid #ddd",borderRadius:8,marginLeft:r.respuesta_a?24:0}}>{padre&&<div style={{fontSize:13,padding:"7px 9px",background:"#f6f6f6",borderLeft:"3px solid #aaa",marginBottom:8}}>En respuesta a <strong>{padre.autor_nombre}</strong>: {padre.contenido.slice(0,120)}{padre.contenido.length>120?"…":""}</div>}<strong>{r.autor_nombre}</strong><p style={{whiteSpace:"pre-wrap",lineHeight:1.55}}>{r.contenido}</p>{(r.foro_imagenes||[]).map(img=>img.url&&<div key={img.id} style={{margin:"12px 0"}}><img src={img.url} alt="Imagen aportada en la respuesta" style={{display:"block",maxWidth:"100%",maxHeight:520,objectFit:"contain",borderRadius:8,border:"1px solid #e1e1e1"}}/></div>)}<div style={{display:"flex",gap:10,alignItems:"center"}}><small>{new Date(r.created_at).toLocaleString()}</small><button type="button" onClick={()=>{setRespuestaA(r);document.getElementById("respuesta-foro")?.scrollIntoView({behavior:"smooth"})}} style={{border:0,background:"transparent",textDecoration:"underline",cursor:"pointer"}}>Responder a este aporte</button></div></div>})}</div>
+  <form id="respuesta-foro" onSubmit={enviar} style={{marginTop:22,padding:16,background:"white",border:"1px solid #ddd",borderRadius:8}}>{respuestaA&&<div style={{padding:9,background:"#f7f3ea",borderRadius:7,marginBottom:9}}>Respondiendo a <strong>{respuestaA.autor_nombre}</strong> <button type="button" onClick={()=>setRespuestaA(null)} style={{marginLeft:8}}>Cancelar</button></div>}<textarea value={texto} onChange={e=>setTexto(e.target.value)} rows={5} placeholder="Aporte información, evidencia o una respuesta..." style={{width:"100%",padding:12}}/><div style={{marginTop:12}}><label style={{display:"block",fontWeight:600,marginBottom:6}}>Imagen de apoyo (opcional)</label><input type="file" accept="image/jpeg,image/png,image/webp" disabled={procesandoImagen||publicando} onChange={e=>seleccionarImagen(e.target.files?.[0]||null)}/><div style={{fontSize:".82rem",marginTop:5,color:"#666"}}>{procesandoImagen?"Comprimiendo imagen...":imagen?`Imagen lista: ${(imagen.size/1024).toFixed(1)} KB`:"AGENN la reducirá automáticamente a un máximo de 100 KB."}</div></div>{vistaPrevia&&<div style={{marginTop:10}}><img src={vistaPrevia} alt="Vista previa" style={{maxWidth:320,maxHeight:240,objectFit:"contain",border:"1px solid #ddd",borderRadius:7}}/><div><button type="button" onClick={()=>seleccionarImagen(null)} style={{marginTop:6}}>Quitar imagen</button></div></div>}<button disabled={publicando||procesandoImagen||texto.trim().length<2} style={{marginTop:12,padding:"10px 16px",background:"#6f8760",color:"white",border:0,borderRadius:8,opacity:publicando?.7:1}}>{publicando?"Publicando...":"Responder"}</button></form>
+  {error&&<p style={{color:"#9b1c1c"}}>{error}</p>}
+ </div>;
 }

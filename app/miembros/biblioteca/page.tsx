@@ -89,6 +89,9 @@ export default function BibliotecaPage() {
   const [portadaPropuesta, setPortadaPropuesta] = useState<File | null>(null);
   const [portadaExistente, setPortadaExistente] = useState<string | null>(null);
 
+  const puedeProponer =
+    !!user && ["NOV", "INV", "NUM"].includes(String(user.nivel || "").toUpperCase());
+
   useEffect(() => {
     const stored = localStorage.getItem("user");
 
@@ -264,7 +267,7 @@ export default function BibliotecaPage() {
     }
 
     if (!propuesta.declaracionCompartir) {
-      alert("Debe confirmar que el enlace puede compartirse con la Academia.");
+      alert("Debe confirmar que comprende las condiciones de la propuesta.");
       return;
     }
 
@@ -468,13 +471,32 @@ export default function BibliotecaPage() {
           </p>
         )}
 
-        <p style={{ fontStyle: "italic", marginBottom: "1rem", lineHeight: 1.7 }}>
-          Uso exclusivo de miembros. Parte del material disponible en esta sección
-          puede estar protegido por derechos de autor, por lo que no debe ser
-          compartido, redistribuido ni difundido fuera del ámbito interno de la Academia.
-        </p>
+        <div
+          style={{
+            background: "#f8f6f1",
+            border: "1px solid #ddd4c7",
+            borderRadius: 12,
+            padding: "1rem 1.15rem",
+            marginBottom: "1.25rem",
+          }}
+        >
+          <h2 style={{ margin: "0 0 0.55rem 0", fontSize: "1.05rem" }}>
+            Sobre el acceso a los materiales
+          </h2>
+          <p style={{ margin: 0, lineHeight: 1.7 }}>
+            La Biblioteca Virtual AGENN tiene fines académicos, de investigación y
+            consulta. La Academia reconoce los derechos de propiedad intelectual de
+            los autores, editores y demás titulares de las obras incluidas en su
+            catálogo. La inclusión de una obra no implica que la Academia posea
+            derechos sobre ella. Los enlaces disponibles remiten a recursos externos
+            y pueden estar sujetos a sus propias condiciones de acceso y uso. El
+            acceso a un material desde esta Biblioteca no autoriza su reproducción,
+            publicación o redistribución a terceros cuando tales actos se encuentren
+            restringidos por los derechos correspondientes.
+          </p>
+        </div>
 
-        {!esConsejo && (
+        {puedeProponer && !esConsejo && (
           <div
             style={{
               background: "#f4f1e8",
@@ -484,14 +506,21 @@ export default function BibliotecaPage() {
               margin: "1.5rem 0",
             }}
           >
-            <h2 style={{ marginTop: 0 }}>Comparta una recomendación</h2>
+            <h2 style={{ marginTop: 0 }}>Proponga material para la Biblioteca</h2>
             <p style={{ lineHeight: 1.7 }}>
-              Si usted posee material bibliográfico que considere valioso para
-              la Academia, puede proponer su incorporación a la Biblioteca. El
-              documento deberá encontrarse alojado en una dirección de acceso
-              público o compartido mediante un enlace que permita su consulta.
-              Todas las propuestas serán revisadas por el Consejo Académico
-              antes de publicarse.
+              Los Académicos Novicios, Investigadores y Numerarios pueden proponer
+              obras que consideren valiosas para la formación, la investigación o
+              la consulta de los miembros de la Academia. La propuesta deberá incluir
+              un enlace externo que permita consultar el material. Su presentación
+              no implica incorporación automática: todas las propuestas serán
+              revisadas por el Consejo Académico antes de formar parte de la Biblioteca.
+            </p>
+            <p style={{ lineHeight: 1.7, marginBottom: 0 }}>
+              Se recomienda utilizar enlaces razonablemente estables —por ejemplo,
+              repositorios, sitios institucionales, servicios de almacenamiento en
+              línea u otras fuentes de consulta—. Si posteriormente el enlace deja
+              de funcionar, la ficha bibliográfica podrá conservarse mientras se
+              localiza una nueva fuente de acceso.
             </p>
 
             {!mostrarPropuesta && (
@@ -633,7 +662,7 @@ export default function BibliotecaPage() {
 
                 <input
                   type="url"
-                  placeholder="Enlace público de consulta"
+                  placeholder="Enlace externo de consulta"
                   value={propuesta.enlaceUrl}
                   onChange={(e) =>
                     setPropuesta((actual) => ({
@@ -684,8 +713,10 @@ export default function BibliotecaPage() {
                       }))
                     }
                   />
-                  Confirmo que el enlace permite consultar el material y que
-                  puede compartirse dentro de la Biblioteca de la Academia.
+                  Entiendo que proponer una obra no implica su incorporación
+                  automática. La Academia podrá incorporar su ficha al catálogo,
+                  habilitar o retirar el enlace de consulta y solicitar información
+                  adicional cuando sea necesario.
                 </label>
 
                 <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap" }}>

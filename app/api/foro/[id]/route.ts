@@ -40,7 +40,7 @@ export async function GET(
 
     const { data: miembro, error: miembroError } = await supabaseServer
       .from("miembros")
-      .select("codigo")
+      .select("id,codigo")
       .eq("codigo", codigo)
       .maybeSingle();
 
@@ -87,10 +87,20 @@ export async function GET(
       { onConflict: "tema_id,codigo_miembro" }
     );
 
+    const [{ data: seguimiento }, { data: usuario }, { data: derivaciones }] = await Promise.all([
+      supabaseServer.from("foro_seguimientos").select("tema_id").eq("tema_id", id).eq("codigo_miembro", codigo).maybeSingle(),
+      supabaseServer.from("users").select("consejo,estado_miembro").eq("codigo", codigo).maybeSingle(),
+      supabaseServer.from("foro_derivaciones_editoriales").select("id,manuscrito_id,solicitante_codigo,created_at").eq("tema_id", id).order("created_at", { ascending: false }),
+    ]);
+    const esConsejo = usuario?.consejo === true && !["SUSPENDIDO","RETIRADO","EXPULSADO"].includes(String(usuario?.estado_miembro || "").toUpperCase());
+
     return NextResponse.json({
       ok: true,
       tema: temaConImagenes,
       respuestas: respuestasConImagenes,
+      siguiendo: Boolean(seguimiento),
+      es_consejo: esConsejo,
+      derivaciones: derivaciones || [],
     });
   } catch (e) {
     return NextResponse.json(
