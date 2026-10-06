@@ -1,3 +1,4 @@
+import { obtenerSitioPublico } from "@/lib/siteUrl";
 import { randomBytes, randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
@@ -149,7 +150,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const sitio = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const sitio = obtenerSitioPublico();
   const nombreCompleto = `${candidato.nombres} ${candidato.apellidos}`.trim();
 
   if (accion === "correcciones") {

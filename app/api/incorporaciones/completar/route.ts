@@ -1,3 +1,4 @@
+import { obtenerSitioPublico } from "@/lib/siteUrl";
 import {
   createHash,
   randomBytes,
@@ -816,15 +817,8 @@ export async function POST(
     tokenPasswordCreado =
       true;
 
-    const sitio = process.env.NEXT_PUBLIC_SITE_URL;
-
-		if (!sitio) {
-		  throw new Error(
-			"NEXT_PUBLIC_SITE_URL no está configurada."
-		  );
-		}
-
-    const enlaceCrearPassword =
+    const sitio = obtenerSitioPublico();
+const enlaceCrearPassword =
       `${sitio}/crear-password?token=${encodeURIComponent(
         tokenPasswordReal
       )}`;

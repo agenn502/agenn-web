@@ -1,3 +1,4 @@
+import { obtenerSitioPublico } from "@/lib/siteUrl";
 import {
   createHash,
   randomBytes,
@@ -214,9 +215,7 @@ export async function POST(
     // -------------------------------------------------------
 
     const sitio =
-      process.env
-        .NEXT_PUBLIC_SITE_URL ||
-      "http://localhost:3000";
+      obtenerSitioPublico();
 
     const enlace =
       `${sitio}/crear-password?token=${encodeURIComponent(

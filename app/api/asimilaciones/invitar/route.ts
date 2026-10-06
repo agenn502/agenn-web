@@ -1,3 +1,4 @@
+import { obtenerSitioPublico } from "@/lib/siteUrl";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 import { enviarCorreo, plantillaCorreo } from "@/lib/email";
@@ -298,15 +299,8 @@ export async function POST(request: NextRequest) {
     // 6. Preparar enlace y textos
     // ---------------------------------------------------------
 
-    const sitio = process.env.NEXT_PUBLIC_SITE_URL;
-
-		if (!sitio) {
-		  throw new Error(
-			"NEXT_PUBLIC_SITE_URL no está configurada."
-		  );
-		}
-
-    const enlaceAceptacion =
+    const sitio = obtenerSitioPublico();
+const enlaceAceptacion =
       `${sitio}/incorporacion/aceptar?token=${encodeURIComponent(
         token
       )}`;

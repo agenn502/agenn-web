@@ -1,3 +1,4 @@
+import { obtenerSitioPublico } from "@/lib/siteUrl";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 import { enviarCorreo, plantillaCorreo } from "@/lib/email";
@@ -109,7 +110,7 @@ async function aplicarPromocion(propuesta: any) {
   const correoDestino = String(miembro.correo || usuario.correo || propuesta.correo || "").trim();
   let correo = { enviado: false, error: "El miembro no tiene correo registrado." } as { enviado: boolean; error?: string };
   if (correoDestino) {
-    const sitio = process.env.NEXT_PUBLIC_SITE_URL || "";
+    const sitio = obtenerSitioPublico();
     correo = await enviarCorreo({
       para: correoDestino,
       asunto: `AGENN | Promoción extraordinaria a ${nombreNivel(destino)}`,

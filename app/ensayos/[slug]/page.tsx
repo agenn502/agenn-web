@@ -1,3 +1,4 @@
+import { obtenerSitioPublico } from "@/lib/siteUrl";
 
 
 import type { Metadata } from "next";
@@ -42,10 +43,7 @@ type PageProps = {
   }>;
 };
 
-const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  "https://agenn-web.vercel.app"
-).replace(/\/+$/, "");
+const SITE_URL = obtenerSitioPublico();
 
 function limpiarMarkdown(texto: string) {
   return texto

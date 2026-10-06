@@ -1,3 +1,4 @@
+import { obtenerSitioPublico } from "@/lib/siteUrl";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 import { enviarCorreo, plantillaCorreo } from "@/lib/email";
@@ -688,13 +689,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const sitio = process.env.NEXT_PUBLIC_SITE_URL;
-
-    if (!sitio) {
-      throw new Error("NEXT_PUBLIC_SITE_URL no está configurada.");
-    }
-
-    const { data: usuario, error: usuarioError } = await supabaseServer
+    const sitio = obtenerSitioPublico();
+const { data: usuario, error: usuarioError } = await supabaseServer
       .from("users")
       .select("codigo,password,nivel,nombre,consejo,correo")
       .eq("codigo", codigoAnterior)
