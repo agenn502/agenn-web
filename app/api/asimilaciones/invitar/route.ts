@@ -105,6 +105,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const asimilacionId = Number(body.asimilacionId);
+    const reenviar = body.reenviar === true;
 
     const enviadoPor = String(body.enviadoPor || "")
       .trim()
@@ -177,7 +178,9 @@ export async function POST(request: NextRequest) {
           estado,
           resultado,
           fecha_resolucion,
-          fecha_envio_invitacion
+          fecha_envio_invitacion,
+          fecha_aceptacion,
+          fecha_incorporacion
           `
         )
         .eq("id", asimilacionId)
@@ -198,14 +201,29 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: false, error: "La Promoción extraordinaria se ejecuta automáticamente al alcanzarse la unanimidad y no genera una invitación de incorporación." }, { status: 409 });
     }
 
-    if (propuesta.estado !== "aprobada") {
+    const estadoValido =
+      propuesta.estado === "aprobada" ||
+      (reenviar && propuesta.estado === "invitacion_enviada");
+
+    if (!estadoValido) {
       return NextResponse.json(
         {
           ok: false,
-          error:
-            "La invitación solo puede enviarse después de que la incorporación haya sido aprobada por unanimidad.",
+          error: reenviar
+            ? "La invitación solo puede reenviarse mientras se encuentre pendiente de aceptación."
+            : "La invitación solo puede enviarse después de que la incorporación haya sido aprobada por unanimidad.",
         },
         { status: 400 }
+      );
+    }
+
+    if (reenviar && (propuesta.fecha_aceptacion || propuesta.fecha_incorporacion)) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "La invitación ya fue aceptada y no puede reenviarse.",
+        },
+        { status: 409 }
       );
     }
 
@@ -221,7 +239,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (propuesta.fecha_envio_invitacion) {
+    if (propuesta.fecha_envio_invitacion && !reenviar) {
       return NextResponse.json(
         {
           ok: false,
@@ -241,7 +259,7 @@ export async function POST(request: NextRequest) {
       error: invitacionExistenteError,
     } = await supabaseServer
       .from("incorporaciones_invitaciones")
-      .select("id,estado")
+      .select("id,estado,token,fecha_vencimiento")
       .eq("asimilacion_id", asimilacionId)
       .maybeSingle();
 
@@ -249,7 +267,7 @@ export async function POST(request: NextRequest) {
       throw new Error(invitacionExistenteError.message);
     }
 
-    if (invitacionExistente) {
+    if (invitacionExistente && !reenviar) {
       return NextResponse.json(
         {
           ok: false,
@@ -257,6 +275,17 @@ export async function POST(request: NextRequest) {
             "Ya existe una invitación asociada a esta incorporación.",
         },
         { status: 409 }
+      );
+    }
+
+    if (reenviar && !invitacionExistente) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "No se encontró la invitación original que se desea reenviar.",
+        },
+        { status: 404 }
       );
     }
 
@@ -275,16 +304,28 @@ export async function POST(request: NextRequest) {
     // 5. Registrar invitación
     // ---------------------------------------------------------
 
+    const invitacionOperacion = reenviar
+      ? supabaseServer
+          .from("incorporaciones_invitaciones")
+          .update({
+            correo: propuesta.correo,
+            token,
+            estado: "pendiente",
+            fecha_vencimiento: vencimiento.toISOString(),
+          })
+          .eq("id", invitacionExistente!.id)
+      : supabaseServer
+          .from("incorporaciones_invitaciones")
+          .insert({
+            asimilacion_id: asimilacionId,
+            correo: propuesta.correo,
+            token,
+            estado: "pendiente",
+            fecha_vencimiento: vencimiento.toISOString(),
+          });
+
     const { data: invitacion, error: invitacionError } =
-      await supabaseServer
-        .from("incorporaciones_invitaciones")
-        .insert({
-          asimilacion_id: asimilacionId,
-          correo: propuesta.correo,
-          token,
-          estado: "pendiente",
-          fecha_vencimiento: vencimiento.toISOString(),
-        })
+      await invitacionOperacion
         .select("id")
         .single();
 
@@ -329,7 +370,9 @@ const enlaceAceptacion =
       para: propuesta.correo,
 
       asunto:
-        `AGENN | Invitación de incorporación como ${modalidadTexto}`,
+        reenviar
+          ? `AGENN | Reenvío de invitación de incorporación como ${modalidadTexto}`
+          : `AGENN | Invitación de incorporación como ${modalidadTexto}`,
 
       html: plantillaCorreo(`
         <p>
@@ -423,10 +466,21 @@ const enlaceAceptacion =
     // ---------------------------------------------------------
 
     if (!correo.enviado) {
-      await supabaseServer
-        .from("incorporaciones_invitaciones")
-        .delete()
-        .eq("id", invitacion.id);
+      if (reenviar && invitacionExistente) {
+        await supabaseServer
+          .from("incorporaciones_invitaciones")
+          .update({
+            token: invitacionExistente.token,
+            estado: invitacionExistente.estado,
+            fecha_vencimiento: invitacionExistente.fecha_vencimiento,
+          })
+          .eq("id", invitacion.id);
+      } else {
+        await supabaseServer
+          .from("incorporaciones_invitaciones")
+          .delete()
+          .eq("id", invitacion.id);
+      }
 
       return NextResponse.json(
         {

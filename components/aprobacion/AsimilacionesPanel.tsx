@@ -203,7 +203,8 @@ export default function AsimilacionesPanel() {
 
   const enviarInvitacion =
     async (
-      asimilacionId: number
+      asimilacionId: number,
+      reenviar = false
     ) => {
       setEnviandoInvitacion(
         asimilacionId
@@ -226,6 +227,7 @@ export default function AsimilacionesPanel() {
                 JSON.stringify(
                   {
                     asimilacionId,
+                    reenviar,
 
                     enviadoPor:
                       userCodigo,
@@ -271,7 +273,9 @@ export default function AsimilacionesPanel() {
         }
 
         alert(
-          "La invitación institucional fue enviada correctamente."
+          reenviar
+            ? "La invitación institucional fue reenviada correctamente."
+            : "La invitación institucional fue enviada correctamente."
         );
 
         setRequiereCorreo(
@@ -1503,9 +1507,64 @@ export default function AsimilacionesPanel() {
                         "#356128",
                     }}
                   >
-                    La invitación institucional ya fue enviada. El proceso
-                    queda ahora pendiente de aceptación por parte de la
-                    persona invitada.
+                    <div>
+                      La invitación institucional ya fue enviada. El proceso
+                      queda ahora pendiente de aceptación por parte de la
+                      persona invitada.
+                    </div>
+
+                    <button
+                      type="button"
+                      disabled={
+                        enviandoInvitacion ===
+                        item.id
+                      }
+                      onClick={() =>
+                        enviarInvitacion(
+                          item.id,
+                          true
+                        )
+                      }
+                      style={{
+                        marginTop:
+                          "1rem",
+
+                        background:
+                          "#6b6f1a",
+
+                        color:
+                          "white",
+
+                        border:
+                          "none",
+
+                        borderRadius:
+                          "8px",
+
+                        padding:
+                          "0.8rem 1.1rem",
+
+                        cursor:
+                          enviandoInvitacion ===
+                          item.id
+                            ? "not-allowed"
+                            : "pointer",
+
+                        fontWeight:
+                          700,
+
+                        opacity:
+                          enviandoInvitacion ===
+                          item.id
+                            ? 0.7
+                            : 1,
+                      }}
+                    >
+                      {enviandoInvitacion ===
+                      item.id
+                        ? "Reenviando invitación..."
+                        : "Reenviar invitación institucional"}
+                    </button>
                   </div>
                 )}
 
