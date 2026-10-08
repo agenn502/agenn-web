@@ -1,0 +1,23 @@
+import type { MetadataRoute } from "next";
+
+export default function robots(): MetadataRoute.Robots {
+  const baseUrl = "https://agenn-web.vercel.app";
+
+  return {
+    rules: {
+      userAgent: "*",
+      allow: "/",
+      disallow: [
+        "/api/",
+        "/miembros/",
+        "/login",
+        "/crear-password",
+        "/recuperar-password",
+        "/corregir-solicitud",
+        "/solicitud-recibida",
+        "/revista/vista-previa/",
+      ],
+    },
+    sitemap: `${baseUrl}/sitemap.xml`,
+  };
+}
