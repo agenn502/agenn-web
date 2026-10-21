@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -28,6 +29,9 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const rechazoSesion = await validarIdentidadCabecera(request);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const { id } = await params;
     const codigo = String(request.headers.get("x-user-codigo") || "")

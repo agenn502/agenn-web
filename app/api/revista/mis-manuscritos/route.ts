@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
@@ -32,6 +33,9 @@ const TIPOS_CONTENIDO = new Set([
 ]);
 
 export async function GET(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const codigo = normalizarCodigo(req.headers.get("x-user-codigo"));
 
@@ -164,6 +168,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   let ensayoId: number | null = null;
   let manuscritoId: number | null = null;
 

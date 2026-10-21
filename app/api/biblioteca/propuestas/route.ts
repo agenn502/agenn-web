@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -87,6 +88,9 @@ function validarUrl(valor: string) {
 }
 
 export async function GET(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   const miembro = await validarMiembro(req);
 
   if (!miembro) {
@@ -115,6 +119,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   const miembro = await validarMiembro(req);
 
   if (!miembro) {

@@ -1,20 +1,28 @@
+
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+import { obtenerSesion } from "@/lib/authSession";
 
-async function obtenerAdministrador(req: NextRequest) {
-  const codigo = (req.headers.get("x-user-codigo") || "")
-    .trim()
-    .toUpperCase();
+// ---------------------------------------------------------
+// Obtener administrador desde una sesión verificada
+// ---------------------------------------------------------
 
-  if (!codigo) return null;
+async function obtenerAdministrador(): Promise<string | null> {
+  const sesion = await obtenerSesion();
+
+  if (!sesion) {
+    return null;
+  }
 
   const { data, error } = await supabaseServer
     .from("users")
     .select("codigo,administrador,estado_miembro")
-    .eq("codigo", codigo)
+    .eq("codigo", sesion.codigo)
     .maybeSingle();
 
-  if (error || !data) return null;
+  if (error || !data) {
+    return null;
+  }
 
   const esAdministrador =
     data.administrador === true ||
@@ -37,6 +45,10 @@ async function obtenerAdministrador(req: NextRequest) {
     .toUpperCase();
 }
 
+// ---------------------------------------------------------
+// Cambiar estado institucional de un miembro
+// ---------------------------------------------------------
+
 export async function PATCH(
   req: NextRequest,
   context: {
@@ -44,7 +56,7 @@ export async function PATCH(
   }
 ) {
   try {
-    const administrador = await obtenerAdministrador(req);
+    const administrador = await obtenerAdministrador();
 
     if (!administrador) {
       return NextResponse.json(
@@ -118,6 +130,10 @@ export async function PATCH(
         { status: 400 }
       );
     }
+
+    // -------------------------------------------------------
+    // Ejecutar cambio de estado y registrar responsable
+    // -------------------------------------------------------
 
     const { error } = await supabaseServer.rpc(
       "cambiar_estado_miembro",

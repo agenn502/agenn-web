@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -62,6 +63,9 @@ async function asegurarAsignaciones(manuscrito: any) {
 }
 
 export async function GET(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const codigo = normalizarCodigo(req.headers.get("x-user-codigo"));
     if (!codigo) return NextResponse.json({ ok: false, error: "No se indicó el código del usuario." }, { status: 401 });

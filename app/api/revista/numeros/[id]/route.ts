@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -120,6 +121,9 @@ export async function GET(
   req: NextRequest,
   context: { params: Promise<{ id: string }> },
 ) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const id = await obtenerId(context);
     if (!id) {
@@ -379,6 +383,9 @@ export async function PATCH(
   req: NextRequest,
   context: { params: Promise<{ id: string }> },
 ) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const id = await obtenerId(context);
     if (!id) {

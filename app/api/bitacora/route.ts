@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -42,6 +43,9 @@ async function responsables() {
 }
 
 export async function GET(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   const miembro = await autorizar(req);
   if (!miembro) return NextResponse.json({ ok: false, error: "Acceso reservado al CA y CE." }, { status: 403 });
 
@@ -60,6 +64,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   const miembro = await autorizar(req);
   if (!miembro) return NextResponse.json({ ok: false, error: "Acceso reservado al CA y CE." }, { status: 403 });
 

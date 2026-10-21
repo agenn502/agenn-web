@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 import { obtenerPermisosBiblioteca } from "@/lib/bibliotecaPermisos";
@@ -63,6 +64,9 @@ async function subirPortada(file: File) {
 }
 
 export async function GET(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     if (!(await validarMiembro(req))) {
       return NextResponse.json(
@@ -98,6 +102,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     if (!(await validarConsejo(req))) {
       return NextResponse.json(

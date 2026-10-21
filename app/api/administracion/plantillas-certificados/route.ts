@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -15,6 +16,9 @@ async function validarAdministrador(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   if (!(await validarAdministrador(req))) return NextResponse.json({ ok:false, error:"Acceso no autorizado." }, { status:403 });
   const { data, error } = await supabaseServer
     .from("certificado_plantillas")
@@ -25,6 +29,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   if (!(await validarAdministrador(req))) return NextResponse.json({ ok:false, error:"Acceso no autorizado." }, { status:403 });
   try {
     const form = await req.formData();
@@ -61,6 +68,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   if (!(await validarAdministrador(req))) return NextResponse.json({ ok:false, error:"Acceso no autorizado." }, { status:403 });
   try {
     const body = await req.json();

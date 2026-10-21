@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -37,6 +38,9 @@ async function idValido(params: Promise<{ id: string }>) {
 }
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   if (!(await autorizar(req))) return NextResponse.json({ ok: false, error: "Acceso reservado al CA y CE." }, { status: 403 });
   const id = await idValido(params);
   if (!id) return NextResponse.json({ ok: false, error: "Registro no válido." }, { status: 400 });
@@ -51,6 +55,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 }
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   const miembro = await autorizar(req);
   const id = await idValido(params);
   if (!miembro) return NextResponse.json({ ok: false, error: "Acceso reservado al CA y CE." }, { status: 403 });
@@ -64,6 +71,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 }
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   const miembro = await autorizar(req);
   const id = await idValido(params);
   if (!miembro) return NextResponse.json({ ok: false, error: "Acceso reservado al CA y CE." }, { status: 403 });

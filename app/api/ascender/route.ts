@@ -1,6 +1,7 @@
 import { obtenerSitioPublico } from "@/lib/siteUrl";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+import { obtenerSesion } from "@/lib/authSession";
 import { enviarCorreo, plantillaCorreo } from "@/lib/email";
 import {
   formatearCorrelativoCertificado,
@@ -679,8 +680,11 @@ async function ascenderNovAInv(
 
 export async function POST(req: NextRequest) {
   try {
+    const sesion = await obtenerSesion();
+    if (!sesion) return NextResponse.json({ ok: false, error: "Sesión requerida." }, { status: 401 });
     const body = await req.json();
     const codigoAnterior = normalizarCodigo(body.codigo);
+    if (codigoAnterior !== sesion.codigo) return NextResponse.json({ ok: false, error: "No puede ascender a otro miembro." }, { status: 403 });
 
     if (!codigoAnterior) {
       return NextResponse.json(
@@ -692,7 +696,7 @@ export async function POST(req: NextRequest) {
     const sitio = obtenerSitioPublico();
 const { data: usuario, error: usuarioError } = await supabaseServer
       .from("users")
-      .select("codigo,password,nivel,nombre,consejo,correo")
+      .select("codigo,password,nivel,nombre,consejo,correo,estado_miembro")
       .eq("codigo", codigoAnterior)
       .maybeSingle();
 
@@ -703,6 +707,7 @@ const { data: usuario, error: usuarioError } = await supabaseServer
       );
     }
 
+    if (String(usuario.estado_miembro || "").toUpperCase() !== "ACTIVO") return NextResponse.json({ ok: false, error: "La membresía no está activa." }, { status: 403 });
     const nivelActual = String(usuario.nivel || "").toUpperCase();
 
     if (nivelActual === "ASP") {

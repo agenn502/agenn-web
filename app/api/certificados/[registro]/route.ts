@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -31,6 +32,9 @@ export async function GET(
     }>;
   }
 ) {
+  const rechazoSesion = await validarIdentidadCabecera(request, true);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const { registro: registroParam } =
       await context.params;

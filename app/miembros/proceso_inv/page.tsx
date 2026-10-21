@@ -157,11 +157,10 @@ export default function ProcesoInvPage() {
         return;
       }
 
-      const { data: progresoData, error: progresoError } =
-        await supabase
-          .from("progreso_inv")
-          .select("*")
-          .eq("user_codigo", parsed.codigo);
+      const respuestaProgreso = await fetch("/api/progreso/investigador", { cache: "no-store" });
+      const resultadoProgreso = respuestaProgreso.ok ? await respuestaProgreso.json() : null;
+      const progresoData = resultadoProgreso?.progreso || [];
+      const progresoError = respuestaProgreso.ok ? null : { message: "No se pudo cargar el progreso." };
 
       if (progresoError) {
         setError(progresoError.message);

@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -9,6 +10,9 @@ async function participanteActivo(codigo: string, id: string) {
 }
 
 export async function POST(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const codigo = String(req.headers.get("x-user-codigo") || "").trim().toUpperCase();
     const { id } = await context.params;

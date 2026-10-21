@@ -1,13 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
+import { obtenerSesion } from "@/lib/authSession";
 
 export async function POST(req: NextRequest) {
+  const denegado = await validarIdentidadCabecera(req);
+  if (denegado) return denegado;
+  const sesion = await obtenerSesion();
+  if (!sesion) return NextResponse.json({ ok: false, error: "Sesión vencida." }, { status: 401 });
   try {
     const body = await req.json();
 
     const codigo = String(body.codigo || "")
       .trim()
       .toUpperCase();
+
+    if (codigo !== sesion.codigo) {
+      return NextResponse.json({ ok: false, error: "No puede modificar otro perfil." }, { status: 403 });
+    }
 
     const nombre = String(body.nombre || "").trim();
 

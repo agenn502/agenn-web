@@ -1,5 +1,7 @@
+
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+import { crearSesion } from "@/lib/authSession";
 
 export async function POST(req: Request) {
   try {
@@ -70,8 +72,8 @@ export async function POST(req: Request) {
         { status: 401 }
       );
     }
-    
-	    // ---------------------------------------------------------
+
+    // ---------------------------------------------------------
     // 3. Validar estado institucional del miembro
     // ---------------------------------------------------------
 
@@ -101,7 +103,7 @@ export async function POST(req: Request) {
         { status: 403 }
       );
     }
-	
+
     // ---------------------------------------------------------
     // 4. Obtener expediente del miembro
     // ---------------------------------------------------------
@@ -112,7 +114,7 @@ export async function POST(req: Request) {
     } = await supabaseServer
       .from("miembros")
       .select(
-        "codigo,estado_academico,origen_acreditacion"
+        "codigo,estado_academico,origen_acreditacion,bio"
       )
       .eq("codigo", codigo)
       .maybeSingle();
@@ -216,12 +218,12 @@ export async function POST(req: Request) {
         valorConsejo === "true" ||
         valorConsejo === "TRUE" ||
         valorConsejo === 1,
-	
-	    administrador:
-          data.administrador === true ||
-          data.administrador === "true" ||
-          data.administrador === "TRUE" ||
-          data.administrador === 1,
+
+      administrador:
+        data.administrador === true ||
+        data.administrador === "true" ||
+        data.administrador === "TRUE" ||
+        data.administrador === 1,
 
       estado_miembro: estadoMiembro,
 
@@ -230,9 +232,20 @@ export async function POST(req: Request) {
       origen_acreditacion: origenAcreditacion,
     };
 
+    // ---------------------------------------------------------
+    // 8. Crear sesión segura
+    // ---------------------------------------------------------
+
+    await crearSesion(userToStore.codigo);
+
+    // ---------------------------------------------------------
+    // 9. Responder ingreso exitoso
+    // ---------------------------------------------------------
+
     return NextResponse.json({
       ok: true,
       user: userToStore,
+      biografiaCompleta: Boolean(String(miembro?.bio || "").trim()),
     });
   } catch (err) {
     console.error(

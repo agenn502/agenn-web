@@ -153,7 +153,7 @@ export default function MiembrosLayout({
         parsed.consejo === "true" ||
         parsed.consejo === "TRUE" ||
         parsed.consejo === 1;
-	  
+
 	  const administradorNormalizado =
 		  parsed.administrador === true ||
 		  parsed.administrador === "true" ||
@@ -924,13 +924,24 @@ export default function MiembrosLayout({
         </ul>
 
         <button
-          onClick={() => {
-            localStorage.removeItem(
-              "user"
-            );
+          onClick={async () => {
+            try {
+              const respuesta = await fetch("/api/logout", {
+                method: "POST",
+                credentials: "same-origin",
+                cache: "no-store",
+              });
 
-            window.location.href =
-              "/login";
+              if (!respuesta.ok) {
+                throw new Error("No se pudo cerrar la sesión en el servidor");
+              }
+
+              localStorage.removeItem("user");
+              window.location.replace("/login");
+            } catch (error) {
+              console.error("Error al cerrar sesión:", error);
+              alert("No se pudo cerrar la sesión correctamente. Inténtalo nuevamente.");
+            }
           }}
           style={{
             marginTop: "2rem",
@@ -965,15 +976,67 @@ export default function MiembrosLayout({
 
       <main className="contenido-miembros">
         <div className="barra-movil-miembros">
-          <button
-            onClick={() =>
-              setMenuAbierto(true)
-            }
-            className="menu-toggle-btn"
-            aria-label="Abrir menú de miembros"
-          >
-            ☰
-          </button>
+
+		<button
+		  onClick={async () => {
+			try {
+			  const respuesta = await fetch("/api/logout", {
+				method: "POST",
+				credentials: "same-origin",
+				cache: "no-store",
+			  });
+
+			  if (!respuesta.ok) {
+				throw new Error("No se pudo cerrar la sesión en el servidor");
+			  }
+
+			  localStorage.removeItem("user");
+			  window.location.replace("/login");
+			} catch (error) {
+			  console.error("Error al cerrar sesión:", error);
+			  alert(
+				"No se pudo cerrar la sesión correctamente. Inténtalo nuevamente."
+			  );
+			}
+		  }}
+		  style={{
+			marginTop: "2rem",
+			padding: "0.7rem",
+			width: "100%",
+			border: "none",
+			background: "#6b6f1a",
+			color: "white",
+			borderRadius: "6px",
+			cursor: "pointer",
+		  }}
+		>
+		  <span
+			style={{
+			  display: "inline-flex",
+			  alignItems: "center",
+			  justifyContent: "center",
+			  gap: "0.55rem",
+			}}
+		  >
+			<svg
+			  width="18"
+			  height="18"
+			  viewBox="0 0 24 24"
+			  fill="none"
+			  stroke="currentColor"
+			  strokeWidth="1.8"
+			  strokeLinecap="round"
+			  strokeLinejoin="round"
+			  aria-hidden="true"
+			>
+			  <path d="M10 4H5v16h5" />
+			  <path d="M14 8l4 4-4 4" />
+			  <path d="M18 12H9" />
+			</svg>
+			Cerrar sesión
+		  </span>
+		</button>
+
         </div>
 
         {children}

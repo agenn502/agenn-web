@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -15,6 +16,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(request);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const autorCodigo=codigo(request); if(!autorCodigo) return NextResponse.json({ok:false,error:"Sesión no válida."},{status:401});
     const body=await request.json(); const titulo=String(body.titulo||"").trim(); const contenido=String(body.contenido||"").trim(); const categoria=String(body.categoria||"General").trim();

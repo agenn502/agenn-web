@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -15,6 +16,9 @@ async function usuarioActivo(codigoRaw: string) {
 }
 
 export async function GET(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const usuario = await usuarioActivo(req.headers.get("x-user-codigo") || "");
     if (!usuario) return NextResponse.json({ ok: false, error: "Acceso no autorizado." }, { status: 403 });
@@ -80,6 +84,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const remitente = await usuarioActivo(req.headers.get("x-user-codigo") || "");
     if (!remitente) return NextResponse.json({ ok: false, error: "Acceso no autorizado." }, { status: 403 });

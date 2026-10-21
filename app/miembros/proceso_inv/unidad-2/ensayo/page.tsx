@@ -141,12 +141,8 @@ export default function TrabajoUnidad1Page() {
         setObservacionesRevision(ensayo.observaciones_revision || "");
       }
 
-      const { data: progresoUnidad } = await supabase
-        .from("progreso_inv")
-        .select("completada")
-        .eq("user_codigo", miembroData.codigo)
-        .eq("unidad_slug", "unidad-2")
-        .maybeSingle();
+      const respuestaProgreso = await fetch("/api/progreso/investigador?unidad=unidad-2", { cache: "no-store" });
+      const { progreso: progresoUnidad } = respuestaProgreso.ok ? await respuestaProgreso.json() : { progreso: null };
 
       setUnidadCompletada(Boolean(progresoUnidad?.completada));
       setLoading(false);
@@ -469,15 +465,7 @@ export default function TrabajoUnidad1Page() {
         setEstadoRevision("pendiente");
         setObservacionesRevision("");
 
-        await supabase
-          .from("progreso_inv")
-          .update({
-            porcentaje: 50,
-            completada: false,
-            fecha_actualizacion: ahora,
-          })
-          .eq("user_codigo", miembro.codigo)
-          .eq("unidad_slug", "unidad-2");
+        await fetch("/api/progreso/investigador", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ unidad: "unidad-2", accion: "envio_trabajo" }) });
 
         alert(
           "Análisis breve enviado al Consejo Académico para revisión."

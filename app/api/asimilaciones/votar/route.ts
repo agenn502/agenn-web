@@ -1,6 +1,7 @@
 import { obtenerSitioPublico } from "@/lib/siteUrl";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+import { obtenerSesion } from "@/lib/authSession";
 import { enviarCorreo, plantillaCorreo } from "@/lib/email";
 import { formatearCorrelativoCertificado, prefijoRegistroCertificado } from "@/lib/certificados";
 
@@ -132,11 +133,14 @@ async function aplicarPromocion(propuesta: any) {
 
 export async function POST(request: NextRequest) {
   try {
+    const sesion = await obtenerSesion();
+    if (!sesion) return NextResponse.json({ ok: false, error: "Sesión requerida." }, { status: 401 });
     const body = await request.json();
     const asimilacionId = Number(body.asimilacionId);
     const consejeroCodigo = String(body.consejeroCodigo || "").trim().toUpperCase();
     const voto = String(body.voto || "").trim().toLowerCase();
     const comentario = String(body.comentario || "").trim();
+    if (consejeroCodigo !== sesion.codigo) return NextResponse.json({ ok: false, error: "No puede votar en nombre de otro miembro." }, { status: 403 });
     if (!asimilacionId || !consejeroCodigo) return NextResponse.json({ ok: false, error: "Faltan datos para registrar el voto." }, { status: 400 });
     if (!["favor", "contra"].includes(voto)) return NextResponse.json({ ok: false, error: "El voto indicado no es válido." }, { status: 400 });
     if (voto === "contra" && !comentario) return NextResponse.json({ ok: false, error: "Debe indicar la razón del voto en contra." }, { status: 400 });

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+import { obtenerSesion } from "@/lib/authSession";
 
 const UNIDAD = "introductorio";
 
@@ -30,6 +31,8 @@ async function validarAspirante(codigo: string) {
 
 export async function GET(req: NextRequest) {
   try {
+    const sesion = await obtenerSesion();
+    if (!sesion) return NextResponse.json({ ok: false, error: "Sesión requerida." }, { status: 401 });
     const codigo = normalizarCodigo(
       req.nextUrl.searchParams.get("codigo")
     );
@@ -41,6 +44,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
+    if (codigo !== sesion.codigo) return NextResponse.json({ ok: false, error: "No puede consultar avances ajenos." }, { status: 403 });
     const usuario = await validarAspirante(codigo);
 
     if (!usuario) {
@@ -86,10 +90,13 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const sesion = await obtenerSesion();
+    if (!sesion) return NextResponse.json({ ok: false, error: "Sesión requerida." }, { status: 401 });
     const body = await req.json();
 
     const codigo = normalizarCodigo(body.codigo);
     const payload = body.payload;
+    if (codigo !== sesion.codigo) return NextResponse.json({ ok: false, error: "No puede registrar avances ajenos." }, { status: 403 });
 
     if (!codigo) {
       return NextResponse.json(

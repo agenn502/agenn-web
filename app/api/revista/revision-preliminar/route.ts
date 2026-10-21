@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -175,6 +176,9 @@ async function revisarConGroq(prompt: string): Promise<ResultadoProveedor> {
 }
 
 export async function POST(request: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(request);
+  if (rechazoSesion) return rechazoSesion;
+
   let trabajo: SolicitudRevision;
   try { trabajo = await request.json(); } catch {
     return NextResponse.json({ ok: false, error: "Solicitud inválida." }, { status: 400 });

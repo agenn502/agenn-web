@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
@@ -28,6 +29,9 @@ async function groq(prompt:string):Promise<Resultado>{
   const d=await r.json().catch(()=>({})); if(!r.ok) throw new Error(`GROQ_${r.status}`); const t=d?.choices?.[0]?.message?.content; if(!t) throw new Error("GROQ_SIN_CONTENIDO"); return {borrador:JSON.parse(t),proveedor:"groq",modelo};
 }
 export async function POST(request:NextRequest,{params}:{params:Promise<{id:string}>}){
+  const rechazoSesion = await validarIdentidadCabecera(request);
+  if (rechazoSesion) return rechazoSesion;
+
   try{
     const {id}=await params; const codigo=String(request.headers.get("x-user-codigo")||"").trim().toUpperCase(); const miembro=await miembroCA(codigo);
     if(!miembro) return NextResponse.json({ok:false,error:"Solo el Consejo Académico puede solicitar un borrador editorial a partir de una discusión."},{status:403});

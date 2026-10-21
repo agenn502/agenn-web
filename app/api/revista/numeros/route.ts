@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -45,6 +46,9 @@ async function obtenerMiembroCE(request: NextRequest) {
 ========================================================= */
 
 export async function GET(request: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(request);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const codigo = String(request.headers.get("x-user-codigo") || "")
       .trim()
@@ -133,6 +137,9 @@ export async function GET(request: NextRequest) {
 ========================================================= */
 
 export async function POST(request: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(request);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const solicitante =
       await obtenerMiembroCE(request);

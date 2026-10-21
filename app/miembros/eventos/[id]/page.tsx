@@ -112,7 +112,12 @@ export default function EventoDetallePage() {
 
     setEliminando(true);
 
-    const { error } = await supabase.from("eventos").delete().eq("id", evento.id);
+    const respuesta = await fetch("/api/eventos", {
+      method: "DELETE", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: evento.id }),
+    });
+    const resultado = await respuesta.json();
+    const error = respuesta.ok ? null : { message: resultado.error || "No se pudo eliminar." };
 
     if (error) {
       alert("No se pudo eliminar el evento: " + error.message);

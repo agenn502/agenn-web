@@ -99,57 +99,62 @@ export default function Unidad3InvestigadorPage() {
   const [cuestionarioBloqueado, setCuestionarioBloqueado] = useState(false);
   const [modoRepaso, setModoRepaso] = useState(false);
 
+  // El avance parcial es independiente del progreso academico certificado.
+  const claveCuestionario = () => {
+    try {
+      const usuario = JSON.parse(localStorage.getItem("user") || "null");
+      const codigo = String(usuario?.codigo || "").trim();
+      return codigo ? `agenn:inv:cuestionario:unidad-3:${codigo}` : null;
+    } catch { return null; }
+  };
+
+  const guardarPreguntaPendiente = (siguiente: number) => {
+    if (modoRepaso) return;
+    const clave = claveCuestionario();
+    if (clave) localStorage.setItem(clave, String(siguiente));
+  };
+
   const pregunta = QUESTIONS[preguntaActual];
 
   const responder = async (index: number) => {
+    if (respuestaSeleccionada !== null && !mostrarRetroalimentacion) return;
     setRespuestaSeleccionada(index);
-
-    if (index === pregunta.correcta) {
-      setMostrarRetroalimentacion(false);
-
-      setTimeout(() => {
-        setRespuestaSeleccionada(null);
-
-        if (preguntaActual === QUESTIONS.length - 1) {
-          if (!modoRepaso) void guardarProgresoCuestionario();
-
-          setCompletado(true);
-          setMostrarCuestionario(false);
-        } else {
-          setPreguntaActual((prev) => prev + 1);
+    if (!modoRepaso) {
+      try {
+        const r = await fetch("/api/progreso/investigador", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ unidad: "unidad-3", accion: "responder", posicion: preguntaActual, opcion: index }),
+        });
+        const resultado = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(resultado.error || "No se pudo registrar la respuesta.");
+        if (!resultado.correcta) {
+          setMostrarRetroalimentacion(true);
+          return;
         }
-      }, 600);
-    } else {
+      } catch (e) {
+        alert(e instanceof Error ? e.message : "No se pudo guardar la respuesta.");
+        setRespuestaSeleccionada(null);
+        return;
+      }
+    } else if (index !== pregunta.correcta) {
       setMostrarRetroalimentacion(true);
+      return;
     }
-  };
-
-  const guardarProgresoCuestionario = async () => {
-    const stored = localStorage.getItem("user");
-
-    if (!stored) return;
-
-    const user = JSON.parse(stored);
-
-    await supabase.from("progreso_inv").upsert(
-      [
-        {
-          user_codigo: user.codigo,
-          unidad_slug: "unidad-3",
-          completada: false,
-          porcentaje: 50,
-          respuestas: {
-            cuestionario_completado: true,
-            total_preguntas: QUESTIONS.length,
-            fecha: new Date().toISOString(),
-          },
-          fecha_actualizacion: new Date().toISOString(),
-        },
-      ],
-      {
-        onConflict: "user_codigo,unidad_slug",
-      },
-    );
+    setMostrarRetroalimentacion(false);
+    setTimeout(() => {
+      setRespuestaSeleccionada(null);
+      if (preguntaActual === QUESTIONS.length - 1) {
+        if (!modoRepaso) {
+          const clave = claveCuestionario();
+          if (clave) localStorage.removeItem(clave);
+        }
+        setCompletado(true);
+        setMostrarCuestionario(false);
+      } else {
+        guardarPreguntaPendiente(preguntaActual + 1);
+        setPreguntaActual((prev) => prev + 1);
+      }
+    }, 600);
   };
 
   const iniciarRepaso = () => {
@@ -175,12 +180,8 @@ export default function Unidad3InvestigadorPage() {
 
       const user = JSON.parse(stored);
 
-      const { data } = await supabase
-        .from("progreso_inv")
-        .select("respuestas, completada")
-        .eq("user_codigo", user.codigo)
-        .eq("unidad_slug", "unidad-3")
-        .maybeSingle();
+      const respuestaProgreso = await fetch("/api/progreso/investigador?unidad=unidad-3", { cache: "no-store" });
+      const { progreso: data } = respuestaProgreso.ok ? await respuestaProgreso.json() : { progreso: null };
 
       if (!data && !CUESTIONARIOS_INV_DISPONIBLES_PARA_NUEVOS) {
         setCuestionarioBloqueado(true);
@@ -194,6 +195,26 @@ export default function Unidad3InvestigadorPage() {
         setMostrarCuestionario(false);
         setProgresoCargado(true);
         return;
+      }
+
+      if (!esRepaso) {
+        const clave = claveCuestionario();
+        let remoto = Number(data?.respuestas?.pregunta_pendiente_inv || 0);
+        const remotoValido = Number.isInteger(remoto) && remoto >= 0 && remoto <= QUESTIONS.length;
+        if (!remotoValido) {
+          alert("El progreso registrado en el servidor no es válido. No se modificó tu avance.");
+          setCuestionarioBloqueado(true);
+          setProgresoCargado(true);
+          return;
+        }
+        // La posición válida proviene del servidor. No se aceptan avances
+        // declarados por localStorage porque permitirían simular aciertos.
+        // El servidor es la fuente de verdad una vez sincronizado.
+        if (clave) localStorage.setItem(clave, String(remoto));
+        if (remoto > 0 && remoto < QUESTIONS.length) {
+          setPreguntaActual(remoto);
+          setMostrarCuestionario(true);
+        }
       }
 
       if (data?.respuestas?.cuestionario_completado) {
@@ -440,7 +461,7 @@ export default function Unidad3InvestigadorPage() {
                   letterSpacing: "0.04em",
                 }}
               >
-                Pregunta {preguntaActual + 1} de {QUESTIONS.length}
+                Pregunta {preguntaActual + 1} de {QUESTIONS.length} · Avance del cuestionario: {Math.round((preguntaActual / QUESTIONS.length) * 100)} %
               </p>
 
               <div

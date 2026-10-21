@@ -1,7 +1,11 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
 export async function GET(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const codigo = String(req.headers.get("x-user-codigo") || "").trim().toUpperCase();
     if (!codigo) return NextResponse.json({ ok: false, total: 0 }, { status: 401 });

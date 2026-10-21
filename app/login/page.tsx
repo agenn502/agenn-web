@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
 
 type LoginResponse =
   | {
       ok: true;
+      biografiaCompleta: boolean;
       user: {
         codigo: string;
         nivel: string;
@@ -69,26 +69,7 @@ export default function LoginPage() {
         JSON.stringify(result.user)
       );
 
-      const { data: miembro, error: perfilError } = await supabase
-        .from("miembros")
-        .select("bio")
-        .eq("codigo", result.user.codigo)
-        .maybeSingle();
-
-      if (perfilError) {
-        console.error(
-          "No fue posible verificar si el perfil inicial está completo:",
-          perfilError
-        );
-
-        router.push("/miembros");
-        return;
-      }
-
-      const biografiaCompleta =
-        Boolean(String(miembro?.bio || "").trim());
-
-      if (!biografiaCompleta) {
+      if (!result.biografiaCompleta) {
         router.push("/miembros/biografia?inicial=1");
         return;
       }

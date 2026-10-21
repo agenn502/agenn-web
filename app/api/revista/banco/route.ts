@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -63,6 +64,9 @@ async function obtenerEditor(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(request);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const solicitante = await obtenerEditor(request);
 

@@ -146,28 +146,17 @@ export default function BiografiaPage() {
             .trim()
             .toUpperCase();
 
-        const {
-          data,
-          error,
-        } = await supabase
-          .from("miembros")
-          .select("*")
-          .eq(
-            "codigo",
-            codigoUsuario
-          )
-          .maybeSingle();
-
-        if (error) {
-          alert(
-            "Error al cargar la biografía: " +
-              error.message
-          );
-
+        const respuesta = await fetch("/api/miembros/biografia", {
+          headers: { "x-user-codigo": codigoUsuario },
+          cache: "no-store",
+        });
+        const resultado = await respuesta.json();
+        if (!respuesta.ok || !resultado.ok) {
+          alert("Error al cargar la biografía: " + (resultado.error || "Error desconocido"));
           setLoading(false);
-
           return;
         }
+        const data = resultado.miembro;
 
         if (data) {
           setCodigo(
@@ -208,97 +197,9 @@ export default function BiografiaPage() {
               ""
           );
         } else {
-          const nuevoRegistro = {
-            codigo:
-              codigoUsuario,
-
-            nombre:
-              String(
-                usuario.nombre ||
-                  ""
-              ).trim(),
-
-            correo: "",
-
-            nivel:
-              String(
-                usuario.nivel ||
-                  ""
-              )
-                .trim()
-                .toUpperCase(),
-
-            profesion: "",
-            bio: "",
-            publicaciones: "",
-            foto_url: "",
-
-            fecha_nacimiento:
-              null,
-          };
-
-          const {
-            error:
-              upsertError,
-          } = await supabase
-            .from("miembros")
-            .upsert(
-              [
-                nuevoRegistro,
-              ],
-              {
-                onConflict:
-                  "codigo",
-              }
-            );
-
-          if (
-            upsertError
-          ) {
-            alert(
-              "No se pudo crear la ficha del miembro: " +
-                upsertError.message
-            );
-
-            setLoading(false);
-
-            return;
-          }
-
-          setCodigo(
-            codigoUsuario
-          );
-
-          setNombre(
-            String(
-              usuario.nombre ||
-                ""
-            ).trim()
-          );
-
-          setCorreo("");
-
-          setNivel(
-            String(
-              usuario.nivel ||
-                ""
-            )
-              .trim()
-              .toUpperCase()
-          );
-
-          setProfesion("");
-          setBio("");
-
-          setPublicaciones(
-            ""
-          );
-
-          setFotoUrl("");
-
-          setFechaNacimiento(
-            ""
-          );
+          alert("No se encontró la ficha del miembro. Comuníquese con el Consejo Académico.");
+          setLoading(false);
+          return;
         }
 
         setLoading(false);
@@ -427,42 +328,26 @@ export default function BiografiaPage() {
         // 1. Guardar ficha del miembro
         // ---------------------------------------------------
 
-        const {
-          error,
-        } = await supabase
-          .from("miembros")
-          .update({
-            nombre:
-              nombreLimpio,
-
-            correo:
-              correoLimpio,
-
+        const respuestaBio = await fetch("/api/miembros/biografia", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            "x-user-codigo": user.codigo,
+          },
+          body: JSON.stringify({
+            nombre: nombreLimpio,
+            correo: correoLimpio,
             profesion,
-
-            bio:
-              bioLimpia,
-
+            bio: bioLimpia,
             publicaciones,
-
-            foto_url:
-              fotoUrl,
-
-            fecha_nacimiento:
-              fechaNacimiento ||
-              null,
-          })
-          .eq(
-            "codigo",
-            user.codigo
-          );
-
-        if (error) {
-          throw new Error(
-            "Error al guardar la biografía: " +
-              error.message
-          );
+            fecha_nacimiento: fechaNacimiento || null,
+          }),
+        });
+        const resultadoBio = await respuestaBio.json();
+        if (!respuestaBio.ok || !resultadoBio.ok) {
+          throw new Error("Error al guardar la biografía: " + (resultadoBio.error || "Error desconocido"));
         }
+
 
         // ---------------------------------------------------
         // 2. Sincronizar users
@@ -478,6 +363,7 @@ export default function BiografiaPage() {
               headers: {
                 "Content-Type":
                   "application/json",
+                "x-user-codigo": user.codigo,
               },
 
               body:
@@ -681,19 +567,18 @@ export default function BiografiaPage() {
           publicUrl
         );
 
-        const {
-          error:
-            updateError,
-        } = await supabase
-          .from("miembros")
-          .update({
-            foto_url:
-              publicUrl,
-          })
-          .eq(
-            "codigo",
-            user.codigo
-          );
+        const respuestaFoto = await fetch("/api/miembros/biografia", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            "x-user-codigo": user.codigo,
+          },
+          body: JSON.stringify({ foto_url: publicUrl }),
+        });
+        const resultadoFoto = await respuestaFoto.json();
+        const updateError = respuestaFoto.ok && resultadoFoto.ok
+          ? null
+          : { message: resultadoFoto.error || "No se pudo guardar la fotografía." };
 
         if (
           updateError

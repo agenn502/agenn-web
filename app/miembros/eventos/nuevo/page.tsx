@@ -95,16 +95,13 @@ export default function NuevoEventoPage() {
 
     setGuardando(true);
 
-    const { error } = await supabase.from("eventos").insert([
-      {
-        titulo,
-        fecha_inicio: fechaInicio,
-        fecha_fin: fechaFin,
-        lugar,
-        descripcion,
-        imagen_url: imagenUrl || null,
-      },
-    ]);
+    const respuesta = await fetch("/api/eventos", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ titulo, fecha_inicio: fechaInicio, fecha_fin: fechaFin,
+        lugar, descripcion, imagen_url: imagenUrl || null }),
+    });
+    const resultado = await respuesta.json();
+    const error = respuesta.ok ? null : { message: resultado.error || "No se pudo guardar." };
 
     if (error) {
       alert("Error al guardar el evento: " + error.message);

@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+import { obtenerSesion } from "@/lib/authSession";
 
 type ValorConsejo = boolean | string | number | null | undefined;
 
@@ -18,15 +19,16 @@ export async function obtenerPermisosBiblioteca(req: NextRequest) {
     .trim()
     .toUpperCase();
 
-  if (!codigo) return null;
+  const sesion = await obtenerSesion();
+  if (!sesion || !codigo || sesion.codigo !== codigo) return null;
 
   const { data: usuario, error: usuarioError } = await supabaseServer
     .from("users")
-    .select("codigo,nivel,nombre,consejo")
+    .select("codigo,nivel,nombre,consejo,estado_miembro")
     .eq("codigo", codigo)
     .maybeSingle();
 
-  if (usuarioError || !usuario) return null;
+  if (usuarioError || !usuario || String(usuario.estado_miembro || "").toUpperCase() !== "ACTIVO") return null;
 
   const { data: miembro, error: miembroError } = await supabaseServer
     .from("miembros")

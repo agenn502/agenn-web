@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { obtenerSitioPublico } from "@/lib/siteUrl";
 import { randomBytes, randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
@@ -86,6 +87,9 @@ async function registrarHistorial(params: {
 }
 
 export async function GET(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   const codigo = (req.headers.get("x-user-codigo") || "").trim().toUpperCase();
   if (!codigo || !(await validarConsejo(codigo))) {
     return NextResponse.json(
@@ -123,6 +127,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   const body = await req.json();
   const actorCodigo = String(body.actorCodigo || "")
     .trim()

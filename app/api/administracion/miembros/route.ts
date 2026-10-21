@@ -1,20 +1,30 @@
-import { NextRequest, NextResponse } from "next/server";
+
+import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+import { obtenerSesion } from "@/lib/authSession";
 
-async function validarAdministrador(req: NextRequest) {
-  const codigo = (req.headers.get("x-user-codigo") || "")
-    .trim()
-    .toUpperCase();
+// ---------------------------------------------------------
+// Validar identidad y permisos del administrador
+// ---------------------------------------------------------
 
-  if (!codigo) return false;
+async function validarAdministrador(): Promise<boolean> {
+  // La identidad proviene de la cookie firmada,
+  // nunca de un código enviado por el navegador.
+  const sesion = await obtenerSesion();
+
+  if (!sesion) {
+    return false;
+  }
 
   const { data, error } = await supabaseServer
     .from("users")
     .select("administrador,estado_miembro")
-    .eq("codigo", codigo)
+    .eq("codigo", sesion.codigo)
     .maybeSingle();
 
-  if (error || !data) return false;
+  if (error || !data) {
+    return false;
+  }
 
   const administrador =
     data.administrador === true ||
@@ -31,9 +41,13 @@ async function validarAdministrador(req: NextRequest) {
   return administrador && estadoMiembro === "ACTIVO";
 }
 
-export async function GET(req: NextRequest) {
+// ---------------------------------------------------------
+// Obtener listado de miembros para administración
+// ---------------------------------------------------------
+
+export async function GET() {
   try {
-    if (!(await validarAdministrador(req))) {
+    if (!(await validarAdministrador())) {
       return NextResponse.json(
         {
           ok: false,

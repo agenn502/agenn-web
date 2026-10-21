@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -138,6 +139,9 @@ async function registrarHistorial(objetoId: number, actorId: number, ronda: numb
 }
 
 export async function GET(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const actor = await validarConsejo(req);
     if (!actor) return NextResponse.json({ ok: false, error: "Acceso no autorizado." }, { status: 403 });
@@ -166,6 +170,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
+  const rechazoSesion = await validarIdentidadCabecera(req);
+  if (rechazoSesion) return rechazoSesion;
+
   const actor = await validarConsejo(req);
   if (!actor) return NextResponse.json({ ok: false, error: "Acceso no autorizado." }, { status: 403 });
 

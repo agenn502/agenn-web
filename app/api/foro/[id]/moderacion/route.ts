@@ -1,3 +1,4 @@
+import { validarIdentidadCabecera } from "@/app/api/_seguridadSesion";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -7,6 +8,9 @@ async function esConsejo(codigo:string) {
   return data.consejo === true && !["SUSPENDIDO","RETIRADO","EXPULSADO"].includes(String(data.estado_miembro||"").toUpperCase());
 }
 export async function PATCH(request:NextRequest,{params}:{params:Promise<{id:string}>}) {
+  const rechazoSesion = await validarIdentidadCabecera(request);
+  if (rechazoSesion) return rechazoSesion;
+
   try {
     const {id}=await params; const codigo=String(request.headers.get("x-user-codigo")||"").trim().toUpperCase();
     if (!codigo || !(await esConsejo(codigo))) return NextResponse.json({ok:false,error:"Esta acción corresponde al Consejo Académico."},{status:403});
