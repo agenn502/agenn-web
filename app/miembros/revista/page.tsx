@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
 
 type User = {
   codigo: string;
@@ -88,56 +87,34 @@ export default function RevistaAgennPage() {
       // MIEMBRO
       // =====================================================
 
-      const { data: miembroData, error: miembroError } = await supabase
-        .from("miembros")
-        .select("id,codigo,nombre,nivel,estado_academico")
-        .eq("codigo", codigo)
-        .maybeSingle();
-
-      if (miembroError) {
-        console.error("Error cargando miembro:", miembroError);
-      }
-
-      if (miembroData) {
-        setMiembro(miembroData as Miembro);
-
-        // ===================================================
-        // CONSEJO EDITORIAL
-        // ===================================================
-
-        const { data: ceData, error: ceError } = await supabase
-          .from("consejo_editorial_miembros")
-          .select("rol,activo")
-          .eq("miembro_id", miembroData.id)
-          .eq("activo", true)
-          .maybeSingle();
-
-        if (ceError) {
-          console.error("Error verificando Consejo Editorial:", ceError);
+      const respuestaContexto = await fetch("/api/miembros/contexto", {
+        headers: { "x-user-codigo": codigo }, cache: "no-store",
+      });
+      const contexto = await respuestaContexto.json().catch(() => null);
+      if (!respuestaContexto.ok || !contexto?.ok) {
+        console.error("Error cargando miembro:", contexto?.error || respuestaContexto.status);
+        if (respuestaContexto.status === 401 || respuestaContexto.status === 403) {
+          localStorage.removeItem("user");
+          window.location.href = "/login";
+          return;
         }
-
+        setLoading(false);
+        return;
+      }
+      const miembroData = contexto.miembro as Miembro | null;
+      if (miembroData) {
+        setMiembro(miembroData);
+        const ceData = contexto.consejoEditorial as ConsejoEditorial | null;
         if (ceData) {
-          setCe(ceData as ConsejoEditorial);
-
+          setCe(ceData);
           try {
             const editorialResponse = await fetch("/api/revista/editorial", {
-              headers: { "x-user-codigo": codigo },
-              cache: "no-store",
+              headers: { "x-user-codigo": codigo }, cache: "no-store",
             });
-            const editorialTexto = await editorialResponse.text();
-            const editorialResult = editorialTexto
-              ? JSON.parse(editorialTexto)
-              : null;
-
+            const editorialResult = await editorialResponse.json();
             if (editorialResponse.ok && editorialResult?.ok) {
-              const requierenAtencion = (
-                editorialResult.manuscritos || []
-              ).filter((m: any) =>
-                ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(
-                  String(m.estado || "")
-                    .trim()
-                    .toUpperCase(),
-                ),
+              const requierenAtencion = (editorialResult.manuscritos || []).filter((m: any) =>
+                ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(String(m.estado || "").trim().toUpperCase())
               );
               setPendientesEditoriales(requierenAtencion.length);
             }

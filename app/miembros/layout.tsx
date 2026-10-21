@@ -168,17 +168,23 @@ export default function MiembrosLayout({
       // PERFIL INICIAL OBLIGATORIO
       // -------------------------------------------------------
 
-      const { data: miembroPerfil, error: perfilError } = await supabase
-        .from("miembros")
-        .select("bio")
-        .eq("codigo", parsed.codigo)
-        .maybeSingle();
+      const respuestaPerfil = await fetch("/api/miembros/contexto", {
+        headers: { "x-user-codigo": parsed.codigo },
+        cache: "no-store",
+      });
+      const resultadoPerfil = await respuestaPerfil.json().catch(() => null);
+      const miembroPerfil = respuestaPerfil.ok && resultadoPerfil?.ok ? resultadoPerfil.miembro : null;
+      const perfilError = respuestaPerfil.ok && resultadoPerfil?.ok ? null : resultadoPerfil?.error || "No se pudo verificar la sesión.";
+      if (respuestaPerfil.status === 401 || respuestaPerfil.status === 403) {
+        localStorage.removeItem("user");
+        window.location.href = "/login";
+        return;
+      }
 
       if (perfilError) {
-        console.error(
-          "No fue posible verificar el perfil inicial del miembro:",
-          perfilError
-        );
+        console.error("No fue posible verificar el perfil inicial del miembro:", perfilError);
+        setVerificandoPerfil(false);
+        return;
       } else {
         const biografiaCompleta = Boolean(
           String(miembroPerfil?.bio || "").trim()
@@ -976,67 +982,15 @@ export default function MiembrosLayout({
 
       <main className="contenido-miembros">
         <div className="barra-movil-miembros">
-
-		<button
-		  onClick={async () => {
-			try {
-			  const respuesta = await fetch("/api/logout", {
-				method: "POST",
-				credentials: "same-origin",
-				cache: "no-store",
-			  });
-
-			  if (!respuesta.ok) {
-				throw new Error("No se pudo cerrar la sesión en el servidor");
-			  }
-
-			  localStorage.removeItem("user");
-			  window.location.replace("/login");
-			} catch (error) {
-			  console.error("Error al cerrar sesión:", error);
-			  alert(
-				"No se pudo cerrar la sesión correctamente. Inténtalo nuevamente."
-			  );
-			}
-		  }}
-		  style={{
-			marginTop: "2rem",
-			padding: "0.7rem",
-			width: "100%",
-			border: "none",
-			background: "#6b6f1a",
-			color: "white",
-			borderRadius: "6px",
-			cursor: "pointer",
-		  }}
-		>
-		  <span
-			style={{
-			  display: "inline-flex",
-			  alignItems: "center",
-			  justifyContent: "center",
-			  gap: "0.55rem",
-			}}
-		  >
-			<svg
-			  width="18"
-			  height="18"
-			  viewBox="0 0 24 24"
-			  fill="none"
-			  stroke="currentColor"
-			  strokeWidth="1.8"
-			  strokeLinecap="round"
-			  strokeLinejoin="round"
-			  aria-hidden="true"
-			>
-			  <path d="M10 4H5v16h5" />
-			  <path d="M14 8l4 4-4 4" />
-			  <path d="M18 12H9" />
-			</svg>
-			Cerrar sesión
-		  </span>
-		</button>
-
+          <button
+            type="button"
+            className="menu-toggle-btn"
+            onClick={() => setMenuAbierto(true)}
+            aria-label="Abrir menú de navegación"
+            aria-expanded={menuAbierto}
+          >
+            ☰
+          </button>
         </div>
 
         {children}

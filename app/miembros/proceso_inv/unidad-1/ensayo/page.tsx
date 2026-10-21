@@ -99,11 +99,13 @@ export default function TrabajoUnidad1Page() {
 
       const user = JSON.parse(stored);
 
-      const { data: miembroData, error: miembroError } = await supabase
-        .from("miembros")
-        .select("id,codigo,nombre,nivel")
-        .eq("codigo", user.codigo)
-        .maybeSingle();
+      const respuestaMiembro = await fetch("/api/miembros/contexto", {
+        headers: { "x-user-codigo": String(user.codigo || "").trim().toUpperCase() },
+        cache: "no-store",
+      });
+      const contextoMiembro = await respuestaMiembro.json().catch(() => null);
+      const miembroData = respuestaMiembro.ok && contextoMiembro?.ok ? contextoMiembro.miembro : null;
+      const miembroError = respuestaMiembro.ok && contextoMiembro?.ok ? null : contextoMiembro?.error || "Sesión no autorizada";
 
       if (miembroError || !miembroData) {
         alert("No se pudo cargar la información del miembro.");
