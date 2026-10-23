@@ -49,6 +49,7 @@ export default function EnsayosPage() {
   const [loading, setLoading] = useState(true);
   const [busqueda, setBusqueda] = useState("");
   const [tipoFiltro, setTipoFiltro] = useState("");
+  const [autorFiltro, setAutorFiltro] = useState("");
 
   useEffect(() => {
     const cargar = async () => {
@@ -72,6 +73,18 @@ export default function EnsayosPage() {
     cargar();
   }, []);
 
+  const autores = useMemo(() => {
+    const mapa = new Map<string, string>();
+    ensayos.forEach((ensayo) => {
+      const codigo = ensayo.autor_codigo?.trim();
+      if (codigo && !mapa.has(codigo)) {
+        mapa.set(codigo, ensayo.autor_nombre?.trim() || codigo);
+      }
+    });
+    return Array.from(mapa, ([codigo, nombre]) => ({ codigo, nombre }))
+      .sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
+  }, [ensayos]);
+
   const resultados = useMemo(() => {
     const t = busqueda.toLowerCase().trim();
 
@@ -89,10 +102,11 @@ export default function EnsayosPage() {
 
       return (
         (!t || texto.includes(t)) &&
+        (!autorFiltro || ensayo.autor_codigo === autorFiltro) &&
         (!tipoFiltro || ensayo.tipo_trabajo === tipoFiltro)
       );
     });
-  }, [ensayos, busqueda, tipoFiltro]);
+  }, [ensayos, busqueda, autorFiltro, tipoFiltro]);
 
   if (loading) return <main style={{ padding: "2rem" }}>Cargando trabajos académicos...</main>;
 
@@ -130,6 +144,26 @@ export default function EnsayosPage() {
           />
 
           <select
+            value={autorFiltro}
+            onChange={(e) => setAutorFiltro(e.target.value)}
+            aria-label="Filtrar por autor"
+            style={{
+              padding: "0.85rem 1rem",
+              border: "1px solid #ddd4c7",
+              borderRadius: "8px",
+              background: "white",
+              maxWidth: "100%",
+            }}
+          >
+            <option value="">Todos los autores</option>
+            {autores.map((autor) => (
+              <option key={autor.codigo} value={autor.codigo}>
+                {autor.nombre}
+              </option>
+            ))}
+          </select>
+
+          <select
             value={tipoFiltro}
             onChange={(e) => setTipoFiltro(e.target.value)}
             aria-label="Filtrar por tipo de trabajo"
@@ -150,6 +184,7 @@ export default function EnsayosPage() {
             onClick={() => {
               setBusqueda("");
               setTipoFiltro("");
+              setAutorFiltro("");
             }}
             style={{
               padding: "0.85rem 1rem",

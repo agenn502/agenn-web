@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { obtenerSesion } from "@/lib/authSession";
 import { supabaseServer } from "@/lib/supabaseServer";
 
-const UNIDADES = new Set(["unidad-1", "unidad-2"]);
+const UNIDADES = new Set(["unidad-1", "unidad-2", "unidad-3", "unidad-4", "unidad-5", "unidad-6", "unidad-7", "unidad-8", "unidad-9", "unidad-10"]);
 const SIN_CACHE = { "Cache-Control": "no-store" };
 function respuesta(error: string, status: number) {
   return NextResponse.json({ ok: false, error }, { status, headers: SIN_CACHE });
@@ -69,12 +69,14 @@ export async function POST(req: NextRequest) {
   const imagenUrl = String(body.imagenUrl || "");
   const urlBase = `${process.env.SUPABASE_URL}/storage/v1/object/public/ensayos/${unidad}/${miembro.codigo}-${unidad.replace("unidad-", "u")}.jpg`;
   if (imagenUrl && !imagenUrl.startsWith(urlBase)) return respuesta("Imagen no autorizada.", 400);
+  const preliminar = enviar && previo?.estado !== "correcciones" && body.revisionPreliminar && typeof body.revisionPreliminar === "object" && !Array.isArray(body.revisionPreliminar) && JSON.stringify(body.revisionPreliminar).length <= 30000 ? body.revisionPreliminar : null;
   const base = {
     ...(imagenUrl ? { imagen_url: imagenUrl } : {}),
     titulo, contenido, tema, estado,
     fuente_imagen: String(body.fuenteImagen || "").trim().slice(0, 2000) || null,
     numero_palabras: palabras, numero_caracteres: contenido.length,
     updated_at: new Date().toISOString(),
+    ...(preliminar ? { revision_preliminar: preliminar, fecha_revision_preliminar: new Date().toISOString() } : {}),
   };
   let resultado;
   if (previo) {

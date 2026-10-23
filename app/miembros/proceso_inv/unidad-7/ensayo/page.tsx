@@ -1,7 +1,6 @@
 "use client";
 
 import { ClipboardEvent as ReactClipboardEvent, useEffect, useRef, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
 import { TEMAS_TRABAJOS_INV } from "@/content/proceso_inv/temas_trabajos_inv";
 import { obtenerReglaTrabajoInv } from "@/content/proceso_inv/config";
 import { nombreNivel, colorNivel } from "@/lib/niveles";
@@ -99,11 +98,13 @@ export default function TrabajoUnidad1Page() {
 
       const user = JSON.parse(stored);
 
-      const { data: miembroData, error: miembroError } = await supabase
-        .from("miembros")
-        .select("id,codigo,nombre,nivel")
-        .eq("codigo", user.codigo)
-        .maybeSingle();
+      const respuestaMiembro = await fetch("/api/miembros/contexto", {
+        headers: { "x-user-codigo": String(user.codigo || "").trim().toUpperCase() },
+        cache: "no-store",
+      });
+      const contextoMiembro = await respuestaMiembro.json().catch(() => null);
+      const miembroData = respuestaMiembro.ok && contextoMiembro?.ok ? contextoMiembro.miembro : null;
+      const miembroError = respuestaMiembro.ok && contextoMiembro?.ok ? null : contextoMiembro?.error || "Sesión no autorizada";
 
       if (miembroError || !miembroData) {
         alert("No se pudo cargar la información del miembro.");
@@ -113,15 +114,12 @@ export default function TrabajoUnidad1Page() {
 
       setMiembro(miembroData as Miembro);
 
-      const { data: ensayoData, error: ensayoError } = await supabase
-        .from("ensayos")
-        .select("*")
-        .eq("autor_codigo", miembroData.codigo)
-        .eq("unidad_slug", "unidad-7")
-        .in("estado", ["borrador", "en_revision", "correcciones", "publicado"])
-        .order("updated_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
+      const respuestaEnsayo = await fetch("/api/inv/trabajos?unidad=unidad-7", {
+        headers: { "x-user-codigo": miembroData.codigo }, cache: "no-store",
+      });
+      const datosEnsayo = await respuestaEnsayo.json().catch(() => null);
+      const ensayoData = respuestaEnsayo.ok ? datosEnsayo?.ensayo : null;
+      const ensayoError = respuestaEnsayo.ok ? null : new Error(datosEnsayo?.error || "No se pudo cargar el trabajo");
 
       if (ensayoError) {
         console.error("Error cargando ensayo:", ensayoError);
@@ -292,26 +290,15 @@ export default function TrabajoUnidad1Page() {
   const subirImagen = async () => {
     if (!imagen || !miembro) return null;
 
-    const nombreArchivo =
-      `unidad-7/${miembro.codigo}-u7.jpg`;
-
-    const { error } = await supabase.storage
-      .from("ensayos")
-      .upload(nombreArchivo, imagen, {
-        contentType: "image/jpeg",
-        upsert: true,
-        cacheControl: "3600",
-      });
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    const { data } = supabase.storage
-      .from("ensayos")
-      .getPublicUrl(nombreArchivo);
-
-    return `${data.publicUrl}?v=${Date.now()}`;
+    const form = new FormData();
+    form.append("unidad", "unidad-7");
+    form.append("imagen", imagen);
+    const respuesta = await fetch("/api/inv/trabajos/imagen", {
+      method: "POST", headers: { "x-user-codigo": miembro.codigo }, body: form,
+    });
+    const datos = await respuesta.json().catch(() => null);
+    if (!respuesta.ok || !datos?.url) throw new Error(datos?.error || "No se pudo subir la imagen.");
+    return datos.url;
   };
 
   const validarContenido = (paraRevision: boolean) => {
@@ -352,7 +339,7 @@ export default function TrabajoUnidad1Page() {
     if (
       enviarRevision &&
       !confirm(
-        "¿Está seguro de que desea enviar el ensayo académico al Consejo Académico? Mientras esté en revisión no podrá editarlo."
+        "¿Está seguro de que desea enviar el análisis breve al Consejo Académico? Mientras esté en revisión no podrá editarlo."
       )
     ) {
       return;
@@ -363,92 +350,20 @@ export default function TrabajoUnidad1Page() {
     try {
       const nuevaImagenUrl = await subirImagen();
 
-      const slug =
-        slugTrabajo ||
-        `${generarSlug(titulo)}-${miembro.codigo.toLowerCase()}-u7`;
-
-      const ahora = new Date().toISOString();
-
-      const payload: Record<string, unknown> = {
-        titulo: titulo.trim(),
-        slug,
-        autor_nombre: miembro.nombre,
-        autor_codigo: miembro.codigo,
-        nivel: miembro.nivel,
-        proceso: "INV",
-        unidad_slug: "unidad-7",
-        origen_ensayo: "FORMACION",
-        autor_miembro_id: miembro.id,
-        tipo_trabajo: REGLA_UNIDAD.tipo,
-        numero_palabras: palabras,
-        numero_caracteres: caracteres,
-        tema,
-        fuente_imagen: fuenteImagen.trim() || null,
-        contenido,
-        estado: enviarRevision
-          ? "en_revision"
-          : estadoRevision === "correcciones"
-          ? "correcciones"
-          : "borrador",
-        updated_at: ahora,
-      };
-
-      if (!trabajoId) {
-        payload.codigo_verificacion =
-          generarCodigoVerificacion();
-      }
-
-      if (nuevaImagenUrl) {
-        payload.imagen_url = nuevaImagenUrl;
-      }
-
-      if (enviarRevision) {
-        Object.assign(payload, {
-          estado_revision: "pendiente",
-          observaciones_revision: null,
-          revisado_por: null,
-          fecha_revision: null,
-
-        });
-      
-        // La revisión preliminar es únicamente la puerta de entrada inicial al CA.
-        // Al reenviar correcciones solicitadas por el CA se conserva el dictamen
-        // preliminar original y no se sustituye por una nueva revisión automática.
-        if (!reenviandoCorreccionesCA && revisionPreliminar) {
-          payload.revision_preliminar = revisionPreliminar;
-          payload.fecha_revision_preliminar = ahora;
-        }
-      }
-      
-
-      let guardado;
-
-      if (trabajoId) {
-        const { data, error } = await supabase
-          .from("ensayos")
-          .update(payload)
-          .eq("id", trabajoId)
-          .select(
-            "id,slug,imagen_url,estado,estado_revision"
-          )
-          .single();
-
-        if (error) throw new Error(error.message);
-
-        guardado = data;
-      } else {
-        const { data, error } = await supabase
-          .from("ensayos")
-          .insert(payload)
-          .select(
-            "id,slug,imagen_url,estado,estado_revision"
-          )
-          .single();
-
-        if (error) throw new Error(error.message);
-
-        guardado = data;
-      }
+      const respuesta = await fetch("/api/inv/trabajos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-user-codigo": miembro.codigo },
+        body: JSON.stringify({
+          unidad: "unidad-7", trabajoId, titulo: titulo.trim(), contenido,
+          tema, fuenteImagen, tipoTrabajo: REGLA_UNIDAD.tipo,
+          enviarRevision, imagenUrl: nuevaImagenUrl || imagenUrlExistente,
+          revisionPreliminar: enviarRevision && !reenviandoCorreccionesCA ? revisionPreliminar : null,
+        }),
+      });
+      const datos = await respuesta.json().catch(() => null);
+      if (!respuesta.ok || !datos?.ensayo) throw new Error(datos?.error || "No se pudo guardar el trabajo.");
+      const guardado = datos.ensayo;
+      const slug = guardado.slug;
 
       setTrabajoId(guardado.id);
       setSlugTrabajo(guardado.slug || slug);
@@ -468,7 +383,7 @@ export default function TrabajoUnidad1Page() {
         await fetch("/api/progreso/investigador", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ unidad: "unidad-7", accion: "envio_trabajo" }) });
 
         alert(
-          "Ensayo académico enviado al Consejo Académico para revisión."
+          "Análisis breve enviado al Consejo Académico para revisión."
         );
 
         window.location.href = "/miembros/proceso_inv";
@@ -482,6 +397,7 @@ export default function TrabajoUnidad1Page() {
       alert(
         "Error al guardar el trabajo: " + err.message
       );
+      throw err;
     } finally {
       setGuardando(false);
     }

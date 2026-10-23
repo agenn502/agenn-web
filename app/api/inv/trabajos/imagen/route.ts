@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   if (!miembro.data || miembro.error) return NextResponse.json({ error: "Miembro no encontrado." }, { status: 403 });
   const form = await req.formData();
   const unidad = String(form.get("unidad") || "");
-  if (!["unidad-1", "unidad-2"].includes(unidad)) return NextResponse.json({ error: "Unidad inválida." }, { status: 400 });
+  if (!["unidad-1", "unidad-2", "unidad-3", "unidad-4", "unidad-5", "unidad-6", "unidad-7", "unidad-8", "unidad-9", "unidad-10"].includes(unidad)) return NextResponse.json({ error: "Unidad inválida." }, { status: 400 });
   const archivo = form.get("imagen");
   if (!(archivo instanceof File) || archivo.size > 102400 || archivo.size < 1 || archivo.type !== "image/jpeg")
     return NextResponse.json({ error: "La imagen debe ser JPEG y no superar 100 KB." }, { status: 400 });
