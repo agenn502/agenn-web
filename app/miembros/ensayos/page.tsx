@@ -258,7 +258,7 @@ export default function EnsayosPage() {
                 </p>
 
                 <Link
-                  href={`/ensayos/${ensayo.slug}`}
+                  href={`/miembros/ensayos/${ensayo.slug}`}
                   style={{
                     marginTop: "0.8rem",
                     display: "inline-block",

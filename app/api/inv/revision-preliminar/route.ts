@@ -1,3 +1,5 @@
+import { obtenerSesion } from "@/lib/authSession";
+import { supabaseServer } from "@/lib/supabaseServer";
 import { NextRequest, NextResponse } from "next/server";
 
 type SolicitudRevision = {
@@ -222,6 +224,38 @@ async function revisarConGroq(prompt: string): Promise<ResultadoProveedor> {
 }
 
 export async function POST(request: NextRequest) {
+  const sesion = await obtenerSesion();
+
+  if (!sesion) {
+    return NextResponse.json(
+      { ok: false, error: "Sesión inexistente o vencida. Ingrese nuevamente." },
+      { status: 401 }
+    );
+  }
+
+  const { data: usuario, error: errorUsuario } = await supabaseServer
+    .from("users")
+    .select("estado_miembro")
+    .eq("codigo", sesion.codigo)
+    .maybeSingle();
+
+  if (errorUsuario) {
+    return NextResponse.json(
+      { ok: false, error: "No se pudo verificar la membresía." },
+      { status: 503 }
+    );
+  }
+
+  if (
+    !usuario ||
+    String(usuario.estado_miembro || "").trim().toUpperCase() !== "ACTIVO"
+  ) {
+    return NextResponse.json(
+      { ok: false, error: "Membresía inactiva o no autorizada." },
+      { status: 403 }
+    );
+  }
+
   let trabajo: SolicitudRevision;
 
   try {

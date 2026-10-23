@@ -28,6 +28,22 @@ const NOMBRES_TIPO: Record<string, string> = {
   ENSAYO_ACADEMICO: "Ensayo académico",
 };
 
+function textoPlano(contenido: string) {
+  return (contenido || "")
+    .replace(/<!--AGENN_RICH_HTML_V1-->/g, " ")
+    .replace(/<p\b[^>]*data-agenn-imagen-id=["']\d+["'][^>]*>[\s\S]*?<\/p>/gi, " ")
+    .replace(/\[\[(?:IMAGEN:\d+|ESPACIO)\]\]/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;|&#160;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '\"')
+    .replace(/&#039;|&apos;/gi, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 export default function EnsayosPage() {
   const [ensayos, setEnsayos] = useState<Ensayo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -69,7 +85,7 @@ export default function EnsayosPage() {
         ensayo.autor_nombre,
         ensayo.autor_codigo,
         ensayo.nivel,
-        ensayo.contenido,
+        textoPlano(ensayo.contenido),
       ]
         .join(" ")
         .toLowerCase();
@@ -240,9 +256,9 @@ export default function EnsayosPage() {
                     flex: 1,
                   }}
                 >
-                  {ensayo.contenido.length > 180
-                    ? ensayo.contenido.slice(0, 180) + "..."
-                    : ensayo.contenido}
+                  {textoPlano(ensayo.contenido).length > 180
+                    ? textoPlano(ensayo.contenido).slice(0, 180) + "..."
+                    : textoPlano(ensayo.contenido)}
                 </p>
 
                 <Link

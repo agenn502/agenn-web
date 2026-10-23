@@ -115,8 +115,9 @@ export default function CandidatosPanel({
       const response = await fetch("/api/aprobacion/candidatos", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-        },
+		  "Content-Type": "application/json",
+		  "x-user-codigo": userCodigo,
+		},
         body: JSON.stringify({
           accion,
           candidatoId: candidato.id,
