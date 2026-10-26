@@ -3,10 +3,12 @@
 import { ClipboardEvent as ReactClipboardEvent, useEffect, useRef, useState } from "react";
 import { TEMAS_TRABAJOS_INV } from "@/content/proceso_inv/temas_trabajos_inv";
 import { obtenerReglaTrabajoInv } from "@/content/proceso_inv/config";
+import { obtenerInstruccionesUnidad5, REQUISITOS_UNIDAD_5, INTRODUCCION_UNIDAD_5, CIERRE_UNIDAD_5 } from "@/content/proceso_inv/instrucciones_unidad_5";
 import { nombreNivel, colorNivel } from "@/lib/niveles";
 
 const REGLA_UNIDAD = obtenerReglaTrabajoInv("unidad-5")!;
 const TEMAS_UNIDAD = TEMAS_TRABAJOS_INV["unidad-5"] || [];
+const INSTRUCCIONES_UNIDAD = obtenerInstruccionesUnidad5();
 const PREFIJO_HTML_ENRIQUECIDO = "<!--AGENN_RICH_HTML_V1-->";
 
 function escaparHtml(texto: string) {
@@ -383,7 +385,7 @@ export default function TrabajoUnidad1Page() {
         await fetch("/api/progreso/investigador", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ unidad: "unidad-5", accion: "envio_trabajo" }) });
 
         alert(
-          "Análisis breve enviado al Consejo Académico para revisión."
+          "Nota de investigación enviada al Consejo Académico para revisión."
         );
 
         window.location.href = "/miembros/proceso_inv";
@@ -426,9 +428,9 @@ export default function TrabajoUnidad1Page() {
           tipoTrabajo: REGLA_UNIDAD.tipo || "Nota de investigación",
           tema,
           titulo: titulo.trim(),
-          consigna: `Elabore un nota de investigación basado en uno de los temas propuestos de la Unidad 5. El trabajo debe desarrollar el tema con claridad, argumentación y sustento, y cumplir al menos ${REGLA_UNIDAD.palabrasMinimas.toLocaleString("es-GT")} palabras y ${REGLA_UNIDAD.caracteresMinimos.toLocaleString("es-GT")} caracteres.`,
-          criterios: "Valore el cumplimiento de la consigna, la estructura y argumentación, el uso de fuentes y evidencias, la precisión conceptual y las afirmaciones que requieran respaldo o verificación.",
-          requisitosCuantitativos: `Mínimo ${REGLA_UNIDAD.palabrasMinimas.toLocaleString("es-GT")} palabras y ${REGLA_UNIDAD.caracteresMinimos.toLocaleString("es-GT")} caracteres.`,
+          consigna: INSTRUCCIONES_UNIDAD.consigna,
+          criterios: INSTRUCCIONES_UNIDAD.criterios,
+          requisitosCuantitativos: INSTRUCCIONES_UNIDAD.extension,
           recuentoReal: { palabras, caracteres },
           contenido: contenidoPlano,
         }),
@@ -603,6 +605,18 @@ export default function TrabajoUnidad1Page() {
         </p>
       </div>
 
+      <section style={{ border: "1px solid #c8d2c5", padding: "1rem", marginBottom: "1rem", lineHeight: 1.75 }}>
+        <h2 style={{ marginTop: 0, fontSize: "1.2rem" }}>Instrucciones y criterios de evaluación de la Unidad 5</h2>
+        <p>{INTRODUCCION_UNIDAD_5}</p>
+        <p><strong>Extensión:</strong> {INSTRUCCIONES_UNIDAD.extension}</p>
+        <p><strong>El trabajo deberá incluir, cuando corresponda al caso y las fuentes lo permitan:</strong></p>
+        <ol style={{ paddingLeft: "1.5rem" }}>
+          {REQUISITOS_UNIDAD_5.map((requisito, indice) => <li key={indice}>{requisito}</li>)}
+        </ol>
+        <p>{CIERRE_UNIDAD_5}</p>
+        <p style={{ marginBottom: 0 }}><strong>Revisión preliminar:</strong> La IA comprobará el cumplimiento de esta consigna, la argumentación, las fuentes y evidencias, la precisión conceptual y los mínimos de extensión. Distinguirá entre correcciones obligatorias y recomendaciones opcionales. La decisión académica corresponde al Consejo Académico.</p>
+      </section>
+
       {trabajoId && (
         <div
           style={{
@@ -701,7 +715,7 @@ export default function TrabajoUnidad1Page() {
 
       <p style={{ lineHeight: 1.8 }}>
         Para completar esta unidad deberá elaborar una nota de investigación
-        basado en uno de los temas propuestos y someterlo a revisión
+        basada en uno de los temas propuestos y someterla a revisión
         del Consejo Académico. La aprobación del trabajo completará
         la unidad al 100 %.
       </p>

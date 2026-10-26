@@ -3,9 +3,11 @@
 import { ClipboardEvent as ReactClipboardEvent, useEffect, useRef, useState } from "react";
 import { TEMAS_TRABAJOS_INV } from "@/content/proceso_inv/temas_trabajos_inv";
 import { obtenerReglaTrabajoInv } from "@/content/proceso_inv/config";
+import { obtenerInstruccionesUnidad4, TEXTO_ACADEMICO_UNIDAD_4 } from "@/content/proceso_inv/instrucciones_unidad_4";
 import { nombreNivel, colorNivel } from "@/lib/niveles";
 
 const REGLA_UNIDAD = obtenerReglaTrabajoInv("unidad-4")!;
+const INSTRUCCIONES_UNIDAD = obtenerInstruccionesUnidad4();
 const TEMAS_UNIDAD = TEMAS_TRABAJOS_INV["unidad-4"] || [];
 const PREFIJO_HTML_ENRIQUECIDO = "<!--AGENN_RICH_HTML_V1-->";
 
@@ -417,9 +419,9 @@ export default function TrabajoUnidad1Page() {
           tipoTrabajo: REGLA_UNIDAD.tipo || "Nota de investigación",
           tema,
           titulo: titulo.trim(),
-          consigna: `Elabore una nota de investigación basada en uno de los temas propuestos de la Unidad 4. Extensión requerida: entre 1,000 y 1,500 palabras.`,
-          criterios: "En trabajos de clasificación, valore especialmente: delimitación del corpus; identificación suficiente de los ejemplares; características observadas; criterios explícitos y consistentes; definición y aplicación de tipo, variante y subvariante; reproducibilidad; clasificación resultante; ficha catalográfica; casos dudosos; limitaciones; evidencia que podría modificar la propuesta; y referencias. Compruebe que las categorías estén sustentadas por características observables y que las fichas no contengan descripciones vacías o circulares.",
-          requisitosCuantitativos: "Entre 1,000 y 1,500 palabras.",
+          consigna: INSTRUCCIONES_UNIDAD.consigna,
+          criterios: INSTRUCCIONES_UNIDAD.criterios,
+          requisitosCuantitativos: INSTRUCCIONES_UNIDAD.extension,
           recuentoReal: { palabras, caracteres },
           contenido: contenidoPlano,
         }),
@@ -593,6 +595,13 @@ export default function TrabajoUnidad1Page() {
           Utilice <strong>Guardar borrador</strong> para conservar su avance. Envíe el análisis a revisión únicamente cuando esté finalizado; mientras se encuentre en revisión no podrá editarlo hasta que exista una resolución.
         </p>
       </div>
+
+      <section style={{ border: "1px solid #c8d2c5", padding: "1rem", marginBottom: "1rem", lineHeight: 1.75 }}>
+        <h2 style={{ marginTop: 0, fontSize: "1.2rem" }}>Instrucciones y criterios de evaluación de la Unidad 4</h2>
+        <p><strong>Extensión:</strong> {INSTRUCCIONES_UNIDAD.extension}</p>
+        <div style={{ whiteSpace: "pre-wrap" }}>{TEXTO_ACADEMICO_UNIDAD_4}</div>
+        <p style={{ marginBottom: 0 }}><strong>Revisión preliminar:</strong> La IA comprobará el cumplimiento de estas instrucciones, la argumentación, las fuentes y evidencias, la precisión conceptual y los mínimos de extensión. Distinguirá entre correcciones obligatorias y recomendaciones opcionales. La decisión académica corresponde al Consejo Académico.</p>
+      </section>
 
       {trabajoId && (
         <div

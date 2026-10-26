@@ -1,3 +1,13 @@
+import { obtenerInstruccionesUnidad10 } from "@/content/proceso_inv/instrucciones_unidad_10";
+import { obtenerInstruccionesUnidad9 } from "@/content/proceso_inv/instrucciones_unidad_9";
+import { obtenerInstruccionesUnidad8 } from "@/content/proceso_inv/instrucciones_unidad_8";
+import { obtenerInstruccionesUnidad7 } from "@/content/proceso_inv/instrucciones_unidad_7";
+import { obtenerInstruccionesUnidad6 } from "@/content/proceso_inv/instrucciones_unidad_6";
+import { obtenerInstruccionesUnidad4 } from "@/content/proceso_inv/instrucciones_unidad_4";
+import { obtenerInstruccionesUnidad3 } from "@/content/proceso_inv/instrucciones_unidad_3";
+import { obtenerInstruccionesUnidad2 } from "@/content/proceso_inv/instrucciones_unidad_2";
+import { obtenerInstruccionesUnidad1 } from "@/content/proceso_inv/instrucciones_unidad_1";
+import { obtenerInstruccionesUnidad5 } from "@/content/proceso_inv/instrucciones_unidad_5";
 import { obtenerSesion } from "@/lib/authSession";
 import { supabaseServer } from "@/lib/supabaseServer";
 import { NextRequest, NextResponse } from "next/server";
@@ -270,6 +280,33 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     );
   }
+
+  // La API recupera las consignas oficiales del servidor para las diez unidades.
+  // Nunca confía en instrucciones o criterios académicos proporcionados por el navegador.
+  const unidadNumero = /^unidad[\s-]*(10|[1-9])$/i.exec(String(trabajo.unidad).trim())?.[1];
+  const obtenerInstrucciones = unidadNumero ? ({
+    "1": obtenerInstruccionesUnidad1,
+    "2": obtenerInstruccionesUnidad2,
+    "3": obtenerInstruccionesUnidad3,
+    "4": obtenerInstruccionesUnidad4,
+    "5": obtenerInstruccionesUnidad5,
+    "6": obtenerInstruccionesUnidad6,
+    "7": obtenerInstruccionesUnidad7,
+    "8": obtenerInstruccionesUnidad8,
+    "9": obtenerInstruccionesUnidad9,
+    "10": obtenerInstruccionesUnidad10,
+  } as Record<string, () => { consigna: string; criterios: string; extension: string; regla: { nombre: string } }>)[unidadNumero] : undefined;
+  if (!obtenerInstrucciones) {
+    return NextResponse.json({ ok: false, error: "Unidad académica no reconocida." }, { status: 400 });
+  }
+  const instrucciones = obtenerInstrucciones();
+  trabajo = {
+    ...trabajo,
+    tipoTrabajo: instrucciones.regla.nombre,
+    consigna: instrucciones.consigna,
+    criterios: instrucciones.criterios,
+    requisitosCuantitativos: instrucciones.extension,
+  };
 
   const prompt = construirPrompt(trabajo);
   const errores: string[] = [];

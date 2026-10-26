@@ -1,8 +1,7 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
 
 type Ensayo = {
   id: number;
@@ -55,16 +54,16 @@ export default function EnsayosPage() {
     const cargar = async () => {
       setLoading(true);
 
-      const { data, error } = await supabase
-        .from("ensayos")
-        .select("*")
-        .eq("estado", "publicado")
-        .eq("estado_revision", "aprobado")
-        .eq("origen_ensayo", "FORMACION")
-        .order("created_at", { ascending: false });
-
-      if (!error) {
-        setEnsayos((data as Ensayo[]) || []);
+      try {
+        const respuesta = await fetch("/api/ensayos/publicados", {
+          cache: "no-store",
+        });
+        if (!respuesta.ok) throw new Error("No se pudieron cargar los trabajos.");
+        const data: Ensayo[] = await respuesta.json();
+        setEnsayos(data);
+      } catch (error) {
+        console.error("Error al cargar trabajos publicados:", error);
+        setEnsayos([]);
       }
 
       setLoading(false);

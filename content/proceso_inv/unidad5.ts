@@ -294,7 +294,7 @@ Finalice respondiendo:
 **¿Qué representa exactamente el sistema que usted reconstruyó: el legalmente autorizado, el materialmente documentado o el efectivamente circulante?**
 ` }] },
   { titulo: "Trabajo escrito de la unidad 5", bloques: [{ tipo: "texto", contenido: `
-Elabore un **análisis de una transformación del sistema monetario guatemalteco de 1,000 a 1,500 palabras**.
+Elabore una **nota de investigación sobre una transformación del sistema monetario guatemalteco**, con un mínimo obligatorio de **800 palabras y 5,000 caracteres**. La extensión recomendada es de hasta **1,200 palabras**, sin que superarla constituya por sí sola un incumplimiento.
 
 Seleccione un período o transformación concreta. Entre las posibilidades se encuentran los primeros intentos decimales, las configuraciones de finales del siglo XIX, la Reforma Monetaria de 1924–1927 o una transformación posterior del subcono.
 

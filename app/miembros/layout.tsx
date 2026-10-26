@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
 
 type User = {
   codigo: string;
@@ -370,37 +369,15 @@ export default function MiembrosLayout({
         parsed.nivel === "NOV" ||
         parsed.nivel === "ASP"
       ) {
-        const { data: revisionData } =
-          await supabase
-            .from("ensayos")
-            .select("estado_revision")
-            .eq(
-              "autor_codigo",
-              parsed.codigo
-            )
-            .eq("estado", "publicado")
-            .order("updated_at", {
-              ascending: false,
-            });
-
-        const tieneRechazado =
-          revisionData?.some(
-            (r) =>
-              r.estado_revision ===
-              "rechazado"
-          );
-
-        const tienePendiente =
-          revisionData?.some(
-            (r) =>
-              r.estado_revision ===
-              "pendiente"
-          );
-
-        if (tieneRechazado) {
-          setAlertaAscenso("⚠️");
-        } else if (tienePendiente) {
-          setAlertaAscenso("⏳");
+        try {
+          const response = await fetch("/api/ensayos/alertas", {
+            headers: { "x-user-codigo": parsed.codigo },
+            cache: "no-store",
+          });
+          const result = await response.json();
+          setAlertaAscenso(response.ok && result?.ok ? String(result.alerta || "") : "");
+        } catch {
+          setAlertaAscenso("");
         }
       }
 

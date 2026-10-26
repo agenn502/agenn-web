@@ -210,6 +210,7 @@ export async function GET(req: NextRequest) {
           fecha_nacimiento,
           profesion,
           bio,
+          publicaciones,
           estado_academico,
           origen_acreditacion
           `

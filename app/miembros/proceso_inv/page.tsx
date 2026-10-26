@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
 import { obtenerReglaTrabajoInv } from "@/content/proceso_inv/config";
 
 type User = {
@@ -170,28 +169,16 @@ export default function ProcesoInvPage() {
 
       setProgreso((progresoData as ProgresoRow[]) || []);
 
-      const { data: ensayosData, error: ensayosError } =
-        await supabase
-          .from("ensayos")
-          .select(`
-            id,
-            unidad_slug,
-            estado,
-            estado_revision,
-            observaciones_revision,
-            fecha_revision,
-            slug,
-            updated_at
-          `)
-          .eq("autor_codigo", parsed.codigo)
-          .eq("proceso", "INV")
-          .order("updated_at", { ascending: false });
-
-      if (ensayosError) {
-        setError(ensayosError.message);
-        setLoading(false);
-        return;
-      }
+       const respuestaEnsayos = await fetch("/api/inv/trabajos/estados", {
+         cache: "no-store",
+       });
+       const resultadoEnsayos = await respuestaEnsayos.json().catch(() => null);
+       if (!respuestaEnsayos.ok) {
+         setError(resultadoEnsayos?.error || "No se pudo cargar el estado de los trabajos.");
+         setLoading(false);
+         return;
+       }
+       const ensayosData = resultadoEnsayos?.ensayos || [];
 
       setEnsayosRevision(
         (ensayosData as EnsayoRevision[]) || []
