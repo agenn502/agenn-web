@@ -34,6 +34,44 @@ const esquemaRevision = {
   additionalProperties: false,
 };
 
+// Convierte el HTML del editor en texto para la IA, sin alterar lo guardado.
+function textoParaRevision(contenido: string): string {
+  const prefijo = "<!--AGENN_RICH_HTML_V1-->";
+  if (!contenido.trimStart().startsWith(prefijo)) return contenido;
+
+  const html = contenido.trimStart().slice(prefijo.length);
+  const texto = html
+    .replace(/<\s*(script|style|iframe|object|svg)\b[^>]*>[\s\S]*?<\/\s*\1\s*>/gi, " ")
+    .replace(/<\s*br\b[^>]*\/?>/gi, "\n")
+    .replace(/<\s*\/\s*(?:p|div|li|h[1-6]|blockquote|tr|section|article)\s*>/gi, "\n")
+    .replace(/<\s*li\b[^>]*>/gi, "- ")
+    .replace(/<[^>]*>/g, "")
+    .replace(/&(#x[0-9a-f]+|#\d+|amp|lt|gt|quot|apos|nbsp|ndash|mdash|hellip);/gi, (entidad, codigo: string) => {
+      const nombres: Record<string, string> = {
+        amp: "&", lt: "<", gt: ">", quot: '\"', apos: "'",
+        nbsp: " ", ndash: "–", mdash: "—", hellip: "…",
+      };
+      const clave = codigo.toLowerCase();
+      if (clave.startsWith("#")) {
+        const numero = clave.startsWith("#x")
+          ? parseInt(clave.slice(2), 16)
+          : parseInt(clave.slice(1), 10);
+        return Number.isInteger(numero) && numero > 0 && numero <= 0x10ffff
+          && !(numero >= 0xd800 && numero <= 0xdfff)
+          ? String.fromCodePoint(numero)
+          : entidad;
+      }
+      return nombres[clave] ?? entidad;
+    })
+    .replace(/\r/g, "")
+    .replace(/[^\S\n]+/g, " ")
+    .replace(/ *\n */g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  return texto || contenido;
+}
+
 function construirPrompt(trabajo: SolicitudRevision) {
   return `
 Usted actúa como corrector editorial preliminar de Revista AGENN.
@@ -202,7 +240,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, error: "La revisión preliminar corresponde únicamente al primer envío editorial." }, { status: 409 });
   }
 
-  const prompt = construirPrompt(trabajo);
+  const contenidoRevision = textoParaRevision(trabajo.contenido);
+  const prompt = construirPrompt({ ...trabajo, contenido: contenidoRevision });
+  const estimarTokens = (texto: string) => Math.ceil(texto.length / 3);
+  console.info("Revision editorial - diagnostico de volumen:", {
+    caracteresOriginales: trabajo.contenido.length,
+    caracteresTexto: contenidoRevision.length,
+    caracteresPrompt: prompt.length,
+    palabrasTexto: contenidoRevision.split(/\s+/).filter(Boolean).length,
+    tokensEstimadosPrompt: estimarTokens(prompt),
+    nota: "Estimacion aproximada; el proveedor calcula los tokens reales.",
+  });
   const errores: string[] = [];
   let resultado: ResultadoProveedor | null = null;
   let usoRespaldo = false;
