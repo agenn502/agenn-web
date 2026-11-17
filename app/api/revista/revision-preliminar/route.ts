@@ -165,6 +165,8 @@ async function revisarConGroq(prompt: string): Promise<ResultadoProveedor> {
   const modelo = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
   if (!apiKey) throw new Error("GROQ_NO_CONFIGURADO");
 
+  // El nivel bajo reduce tokens internos de razonamiento en GPT-OSS.
+  // Se reserva un presupuesto de salida moderado para no agotar la cuota gratuita.
   const respuesta = await fetch(
     "https://api.groq.com/openai/v1/chat/completions",
     {
@@ -175,11 +177,13 @@ async function revisarConGroq(prompt: string): Promise<ResultadoProveedor> {
       },
       body: JSON.stringify({
         model: modelo,
+        reasoning_effort: "low",
+        max_completion_tokens: 1600,
         messages: [
           {
             role: "system",
             content:
-              "Usted es el sistema de revisión preliminar editorial de Revista AGENN. Devuelva exclusivamente el JSON solicitado, sin texto adicional.",
+              "Usted es el sistema de revisión preliminar editorial de Revista AGENN. Devuelva exclusivamente el JSON solicitado, sin texto adicional. Sea conciso en los campos narrativos; cite errores concretos y su ubicación aproximada, sin repetir observaciones entre secciones. No omita ninguna propiedad del esquema. No invente errores para llenar campos: cuando no haya incidencias, indique brevemente que no se identificaron. Mantenga todas las comprobaciones editoriales solicitadas.",
           },
           { role: "user", content: prompt },
         ],
@@ -203,6 +207,13 @@ async function revisarConGroq(prompt: string): Promise<ResultadoProveedor> {
   }
 
   const texto = datos?.choices?.[0]?.message?.content;
+  if (datos?.choices?.[0]?.finish_reason === "length") {
+    console.error("Groq: salida incompleta por limite de tokens", {
+      usage: datos?.usage ?? null,
+      modelo,
+    });
+    throw new Error("GROQ_SALIDA_INCOMPLETA");
+  }
   if (!texto || typeof texto !== "string") throw new Error("GROQ_SIN_CONTENIDO");
 
   return {
