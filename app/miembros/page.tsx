@@ -44,7 +44,6 @@ export default function MiembrosPage() {
         if (!data?.ok || !data.consejo_editorial) return;
         setEsCE(true);
         setPendientesCE((data.manuscritos || []).filter((m: any) =>
-          String(m.revision_asignada?.estado || "").toUpperCase() === "PENDIENTE" &&
           ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(String(m.estado || "").toUpperCase())
         ).length);
       }).catch(() => {});
@@ -132,10 +131,10 @@ export default function MiembrosPage() {
           <strong>Consejo Editorial — Gestión editorial</strong>
           <p style={{ lineHeight: 1.7 }}>
             {(pendientesCE || 0) > 0
-              ? `Tiene ${pendientesCE} manuscrito(s) que requieren su revisión editorial.`
-              : "No tiene manuscritos asignados pendientes de decisión."}
+              ? `Hay ${pendientesCE} manuscrito(s) que requieren atención del Consejo Editorial.`
+              : "No hay manuscritos que requieran atención del Consejo Editorial en este momento."}
           </p>
-          <Link href="/miembros/revista/consejo-editorial" style={{ color: "#6b6f1a", fontWeight: 700 }}>
+          <Link href="/miembros/revista/editorial" style={{ color: "#6b6f1a", fontWeight: 700 }}>
             Ir a gestión editorial{pendientesCE ? ` (${pendientesCE})` : ""}
           </Link>
         </div>

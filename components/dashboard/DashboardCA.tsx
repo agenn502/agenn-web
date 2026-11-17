@@ -81,8 +81,7 @@ export default function DashboardCA() {
             if (datosCE?.ok && datosCE.consejo_editorial) {
               setEsEditorial(true);
               setPendientesEditoriales((datosCE.manuscritos || []).filter((m: any) =>
-                String(m.revision_asignada?.estado || "").toUpperCase() === "PENDIENTE" &&
-                ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(String(m.estado || "").toUpperCase())
+                      ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(String(m.estado || "").toUpperCase())
               ).length);
             }
           }
@@ -206,7 +205,7 @@ export default function DashboardCA() {
             }}
           >
             {totalPendientes > 0
-              ? `${pendientes} pendiente(s) académico(s) y ${pendientesEditoriales} editorial(es).`
+              ? `${pendientes} pendiente(s) académico(s) y ${pendientesEditoriales} manuscrito(s) en trámite editorial.`
               : "No existen pendientes de aprobación en este momento."}
           </p>
         </div>
@@ -248,10 +247,10 @@ export default function DashboardCA() {
           <h2 style={{ marginTop: 0, fontSize: "1.15rem" }}>Consejo Editorial</h2>
           <p style={{ lineHeight: 1.7 }}>
             {pendientesEditoriales > 0
-              ? `Tiene ${pendientesEditoriales} manuscrito(s) pendiente(s) de su revisión editorial.`
-              : "No tiene manuscritos asignados pendientes de decisión."}
+              ? `Hay ${pendientesEditoriales} manuscrito(s) que requieren atención del Consejo Editorial.`
+              : "No hay manuscritos que requieran atención del Consejo Editorial en este momento."}
           </p>
-          <Link href="/miembros/revista/consejo-editorial" style={{ color: "#6b6f1a", fontWeight: 700 }}>
+          <Link href="/miembros/revista/editorial" style={{ color: "#6b6f1a", fontWeight: 700 }}>
             Ir a gestión editorial{pendientesEditoriales ? ` (${pendientesEditoriales})` : ""}
           </Link>
         </div>

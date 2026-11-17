@@ -274,8 +274,7 @@ export default function MiembrosLayout({
           if (result?.ok && result.consejo_editorial) {
             setEsConsejoEditorial(true);
             setPendientesEditoriales((result.manuscritos || []).filter((m: any) =>
-              String(m.revision_asignada?.estado || "").toUpperCase() === "PENDIENTE" &&
-              ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(String(m.estado || "").toUpperCase())
+                  ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(String(m.estado || "").toUpperCase())
             ).length);
           } else {
             setEsConsejoEditorial(false);
