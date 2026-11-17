@@ -20,6 +20,8 @@ export default function DashboardCA() {
   const [miembros, setMiembros] = useState<Miembro[]>([]);
   const [pendientes, setPendientes] = useState(0);
   const [pendientesBitacora, setPendientesBitacora] = useState(0);
+  const [pendientesEditoriales, setPendientesEditoriales] = useState(0);
+  const [esEditorial, setEsEditorial] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -69,6 +71,23 @@ export default function DashboardCA() {
 
         setMiembros(directorioResult.miembros || []);
 
+        // El CE se verifica por su propia API, no por el campo "consejo" del CA.
+        try {
+          const respuestaCE = await fetch("/api/revista/editorial", {
+            headers: { "x-user-codigo": parsed.codigo }, cache: "no-store",
+          });
+          if (respuestaCE.ok) {
+            const datosCE = await respuestaCE.json();
+            if (datosCE?.ok && datosCE.consejo_editorial) {
+              setEsEditorial(true);
+              setPendientesEditoriales((datosCE.manuscritos || []).filter((m: any) =>
+                String(m.revision_asignada?.estado || "").toUpperCase() === "PENDIENTE" &&
+                ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(String(m.estado || "").toUpperCase())
+              ).length);
+            }
+          }
+        } catch { /* Un fallo editorial no debe bloquear el panel académico. */ }
+
         if (pendientesResponse.ok && pendientesResult.ok) {
           setPendientes(Number(pendientesResult.total || 0));
         }
@@ -102,6 +121,7 @@ export default function DashboardCA() {
   const investigadores = miembros.filter((m) => m.nivel === "INV").length;
   const numerarios = miembros.filter((m) => m.nivel === "NUM").length;
   const total = miembros.length;
+  const totalPendientes = pendientes + pendientesEditoriales;
 
   return (
     <div style={{ maxWidth: "980px" }}>
@@ -151,9 +171,9 @@ export default function DashboardCA() {
       >
         <div
           style={{
-            background: pendientes > 0 ? "#fff8e5" : "white",
+            background: totalPendientes > 0 ? "#fff8e5" : "white",
             border:
-              pendientes > 0
+              totalPendientes > 0
                 ? "1px solid #dfc46b"
                 : "1px solid #ddd4c7",
             borderRadius: "14px",
@@ -172,10 +192,10 @@ export default function DashboardCA() {
           <strong
             style={{
               fontSize: "2.5rem",
-              color: pendientes > 0 ? "#8a6800" : "#6b6f1a",
+              color: totalPendientes > 0 ? "#8a6800" : "#6b6f1a",
             }}
           >
-            {pendientes}
+            {totalPendientes}
           </strong>
 
           <p
@@ -185,8 +205,8 @@ export default function DashboardCA() {
               color: "#555",
             }}
           >
-            {pendientes > 0
-              ? "Existen solicitudes o procesos pendientes de atención."
+            {totalPendientes > 0
+              ? `${pendientes} pendiente(s) académico(s) y ${pendientesEditoriales} editorial(es).`
               : "No existen pendientes de aprobación en este momento."}
           </p>
         </div>
@@ -222,6 +242,20 @@ export default function DashboardCA() {
           <strong style={{ fontSize: "2.5rem", color: pendientesBitacora ? "#8a6800" : "#6b6f1a" }}>{pendientesBitacora}</strong>
         </div>
       </div>
+
+      {esEditorial && (
+        <div style={{ marginTop: "1.25rem", padding: "1.2rem", border: "1px solid #ddd4c7", borderRadius: "12px", background: pendientesEditoriales ? "#fff8e5" : "white" }}>
+          <h2 style={{ marginTop: 0, fontSize: "1.15rem" }}>Consejo Editorial</h2>
+          <p style={{ lineHeight: 1.7 }}>
+            {pendientesEditoriales > 0
+              ? `Tiene ${pendientesEditoriales} manuscrito(s) pendiente(s) de su revisión editorial.`
+              : "No tiene manuscritos asignados pendientes de decisión."}
+          </p>
+          <Link href="/miembros/revista/consejo-editorial" style={{ color: "#6b6f1a", fontWeight: 700 }}>
+            Ir a gestión editorial{pendientesEditoriales ? ` (${pendientesEditoriales})` : ""}
+          </Link>
+        </div>
+      )}
 
       <h2 style={{ marginTop: "2rem" }}>Composición de la Academia</h2>
 

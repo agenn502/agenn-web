@@ -62,6 +62,7 @@ export default function MiembrosLayout({
 }) {
   const [user, setUser] = useState<User | null>(null);
   const [esConsejo, setEsConsejo] = useState(false);
+  const [esConsejoEditorial, setEsConsejoEditorial] = useState(false);
   const [esAdministrador, setEsAdministrador] = useState(false);
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [pendientesAprobacion, setPendientesAprobacion] =
@@ -263,41 +264,29 @@ export default function MiembrosLayout({
       // CONTADOR DE PENDIENTES DEL CONSEJO EDITORIAL
       // -------------------------------------------------------
 
-      if (consejoNormalizado) {
-        try {
-          const response = await fetch("/api/revista/editorial", {
-            headers: { "x-user-codigo": parsed.codigo },
-            cache: "no-store",
-          });
-
-          if (response.ok) {
-            const result = await response.json();
-
-            if (result?.ok) {
-              // La API editorial ya devuelve únicamente los manuscritos
-              // que corresponden al revisor actual. Contamos solo aquellos
-              // cuya asignación requiere una decisión suya en la ronda vigente.
-              const requierenAtencion = (result.manuscritos || []).filter(
-                (m: any) => {
-                  const estadoAsignacion = String(
-                    m.estado_asignacion || m.asignacion_estado || ""
-                  )
-                    .trim()
-                    .toUpperCase();
-
-                  return estadoAsignacion === "PENDIENTE";
-                }
-              );
-
-              setPendientesEditoriales(requierenAtencion.length);
-            }
+      // Se consulta para todos los miembros: el servidor valida la pertenencia al CE.
+      try {
+        const response = await fetch("/api/revista/editorial", {
+          headers: { "x-user-codigo": parsed.codigo }, cache: "no-store",
+        });
+        if (response.ok) {
+          const result = await response.json();
+          if (result?.ok && result.consejo_editorial) {
+            setEsConsejoEditorial(true);
+            setPendientesEditoriales((result.manuscritos || []).filter((m: any) =>
+              String(m.revision_asignada?.estado || "").toUpperCase() === "PENDIENTE" &&
+              ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(String(m.estado || "").toUpperCase())
+            ).length);
           } else {
+            setEsConsejoEditorial(false);
             setPendientesEditoriales(0);
           }
-        } catch {
+        } else {
+          setEsConsejoEditorial(false);
           setPendientesEditoriales(0);
         }
-      } else {
+      } catch {
+        setEsConsejoEditorial(false);
         setPendientesEditoriales(0);
       }
 
@@ -688,7 +677,7 @@ export default function MiembrosLayout({
   // Para integrantes del Consejo, la insignia de Revista representa
   // exclusivamente decisiones editoriales pendientes. Las novedades de sus
   // propios manuscritos no se mezclan con las tareas de revisión.
-  const pendientesRevista = esConsejo
+  const pendientesRevista = esConsejoEditorial
     ? pendientesEditoriales
     : novedadesRevistaAutor;
 

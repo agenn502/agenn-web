@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 import DashboardASP from "@/components/dashboard/DashboardASP";
 import DashboardNOV from "@/components/dashboard/DashboardNOV";
@@ -19,6 +20,8 @@ type User = {
 
 export default function MiembrosPage() {
   const [user, setUser] = useState<User | null>(null);
+  const [pendientesCE, setPendientesCE] = useState<number | null>(null);
+  const [esCE, setEsCE] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("user");
@@ -30,6 +33,21 @@ export default function MiembrosPage() {
 
     try {
       const parsed = JSON.parse(stored);
+
+      const codigo = String(parsed.codigo || "").trim().toUpperCase();
+      // La API devuelve 403 si el miembro no pertenece al CE.
+      fetch("/api/revista/editorial", {
+        headers: { "x-user-codigo": codigo }, cache: "no-store",
+      }).then(async (res) => {
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!data?.ok || !data.consejo_editorial) return;
+        setEsCE(true);
+        setPendientesCE((data.manuscritos || []).filter((m: any) =>
+          String(m.revision_asignada?.estado || "").toUpperCase() === "PENDIENTE" &&
+          ["CANDIDATO", "EN_REVISION", "REENVIADO"].includes(String(m.estado || "").toUpperCase())
+        ).length);
+      }).catch(() => {});
 
       setUser({
         ...parsed,
@@ -72,12 +90,15 @@ export default function MiembrosPage() {
     return <DashboardCA />;
   }
 
+  // Los miembros exclusivos del CE conservan su panel de nivel,
+  // con el aviso editorial adicional en Inicio.
+  let panel: React.ReactNode;
   switch (user.nivel) {
     case "ASP":
-      return <DashboardASP />;
+      panel = <DashboardASP />; break;
 
     case "NOV":
-      return <DashboardNOV />;
+      panel = <DashboardNOV />; break;
 
     case "INV":
       /*
@@ -87,7 +108,7 @@ export default function MiembrosPage() {
       if (
         user.estado_academico === "ACREDITADO"
       ) {
-        return <DashboardINVACREDITADO />;
+        panel = <DashboardINVACREDITADO />; break;
       }
 
       /*
@@ -95,16 +116,31 @@ export default function MiembrosPage() {
        * estado_academico = null continúan usando
        * el dashboard normal de formación.
        */
-      return <DashboardINV />;
+      panel = <DashboardINV />; break;
 
     case "NUM":
-      return <DashboardNUM />;
+      panel = <DashboardNUM />; break;
 
     default:
-      return (
-        <div>
-          Nivel no reconocido.
-        </div>
-      );
+      panel = <div>Nivel no reconocido.</div>;
   }
+
+  return (
+    <>
+      {esCE && (
+        <div style={{ maxWidth: "980px", marginBottom: "1.5rem", padding: "1.25rem", background: (pendientesCE || 0) > 0 ? "#fff8e5" : "white", border: "1px solid #ddd4c7", borderRadius: "12px" }}>
+          <strong>Consejo Editorial — Gestión editorial</strong>
+          <p style={{ lineHeight: 1.7 }}>
+            {(pendientesCE || 0) > 0
+              ? `Tiene ${pendientesCE} manuscrito(s) que requieren su revisión editorial.`
+              : "No tiene manuscritos asignados pendientes de decisión."}
+          </p>
+          <Link href="/miembros/revista/consejo-editorial" style={{ color: "#6b6f1a", fontWeight: 700 }}>
+            Ir a gestión editorial{pendientesCE ? ` (${pendientesCE})` : ""}
+          </Link>
+        </div>
+      )}
+      {panel}
+    </>
+  );
 }
